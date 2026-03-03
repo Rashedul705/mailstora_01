@@ -1,0 +1,158 @@
+.navbar {
+    width: 100%;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--card-border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: 1rem 0;
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1E1B4B;
+    /* Darker indigo/navy from image reference */
+}
+
+.navbar-links {
+    display: none;
+    /* Hide on small screens by default */
+}
+
+@media (min-width: 768px) {
+    .navbar-links {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+}
+
+.nav-link {
+    color: #312E81;
+    /* Indigo color for links matching the image */
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-login {
+    display: none;
+    /* Might want to hide login on very small screens too */
+}
+
+@media (min-width: 480px) {
+    .nav-login {
+        display: block;
+    }
+}
+
+.nav-btn.btn-secondary {
+    /* Overriding global btn-secondary to match the pill-shape in the image */
+    border-radius: 9999px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    color: #1E1B4B;
+    border-color: #E0E7FF;
+}
+
+.nav-btn.btn-secondary:hover {
+    background-color: #EEF2FF;
+    border-color: #C7D2FE;
+}
+
+/* Hide Sign Up in navbar on mobile */
+.nav-signup-desktop {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .nav-signup-desktop {
+        display: inline-flex;
+    }
+}
+
+/* Hamburger Button */
+.nav-hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+@media (min-width: 768px) {
+    .nav-hamburger {
+        display: none;
+    }
+}
+
+.hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #1E1B4B;
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Mobile Dropdown */
+.mobile-menu {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card-bg);
+    border-top: 1px solid var(--card-border);
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .mobile-menu {
+        display: none;
+    }
+}
+
+.mobile-nav-link {
+    color: #312E81;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--card-border);
+    transition: color 0.2s ease;
+}
+
+.mobile-nav-link:last-child {
+    border-bottom: none;
+}
+
+.mobile-nav-link:hover {
+    color: var(--primary);
+}
+
+/* Sign Up button inside mobile menu */
+.mobile-signup-btn {
+    margin-top: 0.5rem;
+    text-align: center;
+    border-radius: 9999px;
+    padding: 0.65rem 1.5rem;
+    font-weight: 600;
+}
