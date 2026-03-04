@@ -9,8 +9,6 @@ import Stats from "./components/Stats";
 import Process from "./components/Process";
 import CTA from "./components/CTA";
 import Contact from "./components/Contact";
-import Terms from "./components/Terms";
-import Privacy from "./components/Privacy";
 import Footer from "./components/Footer";
 
 export default function Home() {
@@ -27,8 +25,6 @@ export default function Home() {
       <Process />
       <CTA />
       <Contact />
-      <Terms />
-      <Privacy />
       <Footer />
     </main>
   );

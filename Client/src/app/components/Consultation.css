@@ -146,6 +146,24 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
+.consultation-info {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.consultation-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+    color: #ffffff;
+}
+
+.consultation-pos {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+}
+
 .dot {
     width: 10px;
     height: 10px;

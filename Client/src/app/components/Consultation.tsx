@@ -38,7 +38,7 @@ export default function Consultation() {
                             <div className="image-wrapper">
                                 <Image
                                     src="/consultation-photo-v2.png"
-                                    alt="Consultation with Expert"
+                                    alt="Rashedul Islam - Founder & Lead Mailstora"
                                     width={400}
                                     height={400}
                                     className="profile-img"
@@ -47,6 +47,10 @@ export default function Consultation() {
                                     <span className="dot"></span>
                                     Available Now
                                 </div>
+                            </div>
+                            <div className="consultation-info">
+                                <h3 className="consultation-name">Rashedul Islam</h3>
+                                <p className="consultation-pos">Founder & Lead Mailstora</p>
                             </div>
                         </div>
                     </div>
