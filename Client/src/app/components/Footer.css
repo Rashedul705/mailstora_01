@@ -5,22 +5,33 @@
 }
 
 .footer-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 4rem;
     margin-bottom: 60px;
+    width: 100%;
+}
+
+.footer-brand {
+    flex: 1 1 250px;
+    max-width: 350px;
+}
+
+.footer-links-group {
+    flex: 1 1 150px;
 }
 
 @media (max-width: 992px) {
     .footer-content {
-        grid-template-columns: 1fr 1fr;
         gap: 3rem;
     }
 }
 
 @media (max-width: 576px) {
     .footer-content {
-        grid-template-columns: 1fr;
+        flex-direction: column;
     }
 }
 
