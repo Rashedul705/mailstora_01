@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import Link from 'next/link';
 import './Pricing.css';
 
 export default function Pricing() {
@@ -147,9 +148,11 @@ export default function Pricing() {
                                 ))}
                             </ul>
                             <div className="pricing-action">
-                                <button className={`btn ${pkg.highlighted ? 'btn-primary' : 'btn-secondary'} full-width`}>
-                                    {pkg.buttonText}
-                                </button>
+                                <Link href="/checkout" style={{ width: '100%', display: 'block' }}>
+                                    <button className={`btn ${pkg.highlighted ? 'btn-primary' : 'btn-secondary'} full-width`}>
+                                        {pkg.buttonText}
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     ))}
