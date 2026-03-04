@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import './CTA.css';
 
 export default function CTA() {
@@ -9,7 +10,9 @@ export default function CTA() {
                     <p className="cta-subtitle">
                         Get a custom quote within 24 hours and stop worrying about broken emails.
                     </p>
-                    <button className="btn btn-primary cta-button">Start Your Project Today</button>
+                    <Link href="/checkout">
+                        <button className="btn btn-primary cta-button">Start Your Project Today</button>
+                    </Link>
                 </div>
             </div>
         </section>

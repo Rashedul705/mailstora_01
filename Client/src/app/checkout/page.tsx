@@ -358,12 +358,11 @@ export default function CheckoutPage() {
                             )}
                         </section>
 
-                    </div>
-
-                    {/* Right Column: Sticky Summary */}
-                    <div className="checkout-sidebar">
-                        <div className="sticky-summary">
-                            <h3>Order Summary</h3>
+                        {/* SECTION 9: Order Summary (Horizontal Form Bottom) */}
+                        <section className="checkout-section order-summary-horizontal">
+                            <div className="summary-header">
+                                <h2>Order Summary</h2>
+                            </div>
 
                             <div className="summary-list">
                                 <div className="summary-item">
@@ -403,14 +402,15 @@ export default function CheckoutPage() {
 
                             <div className="summary-divider"></div>
 
-                            <div className="summary-total">
-                                <span>Total Due</span>
-                                <span className="total-amount">${total}</span>
+                            <div className="summary-total-container">
+                                <div className="summary-total">
+                                    <span>Total Due</span>
+                                    <span className="total-amount">${total}</span>
+                                </div>
+                                <button className="btn-checkout-submit horizontal-submit">Complete Secure Order</button>
                             </div>
 
-                            <button className="btn-checkout-submit">Complete Secure Order</button>
-
-                            <div className="trust-badges">
+                            <div className="trust-badges horizontal-badges">
                                 <div className="badge-item">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                                     <span>Secure 256-bit SSL Payment</span>
@@ -428,7 +428,7 @@ export default function CheckoutPage() {
                                     <span>Tested in 30+ Email Clients</span>
                                 </div>
                             </div>
-                        </div>
+                        </section>
                     </div>
                 </div>
             </div>

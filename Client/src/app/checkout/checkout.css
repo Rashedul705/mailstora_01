@@ -14,7 +14,7 @@
 .checkout-page-root {
     background-color: var(--checkout-bg);
     min-height: 100vh;
-    padding-top: 100px;
+    padding-top: 0;
     /* offset standard navbar */
     font-family: var(--font-inter), sans-serif;
     color: var(--checkout-text);
@@ -46,16 +46,16 @@
 
 /* Grid Layout */
 .checkout-grid {
-    display: grid;
-    grid-template-columns: 1fr 400px;
+    display: flex;
+    flex-direction: column;
     gap: 3rem;
-    align-items: start;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-@media (max-width: 992px) {
-    .checkout-grid {
-        grid-template-columns: 1fr;
-    }
+.checkout-form {
+    width: 100%;
 }
 
 /* Form Styling */
@@ -436,11 +436,8 @@
     border: 1px solid var(--checkout-border);
 }
 
-/* Sidebar & Summary */
 .checkout-sidebar {
-    position: sticky;
-    top: 100px;
-    /* Account for navbar */
+    display: none;
 }
 
 .sticky-summary {
@@ -524,7 +521,42 @@
     transform: translateY(0);
 }
 
-/* Trust Badges */
+/* Horizontal Order Summary */
+.order-summary-horizontal {
+    margin-top: 2rem;
+    background: #F8FAFC;
+    border: 2px solid var(--checkout-primary);
+}
+
+.summary-total-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.summary-total-container .summary-total {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+.horizontal-submit {
+    flex: 1;
+    margin-bottom: 0;
+    font-size: 1.25rem;
+    padding: 1.25rem;
+}
+
+.horizontal-badges {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--checkout-border);
+}
+
 .trust-badges {
     display: flex;
     flex-direction: column;
@@ -541,6 +573,10 @@
 }
 
 .badge-item svg {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    flex-shrink: 0;
     color: #10B981;
     /* Green success check color */
 }
