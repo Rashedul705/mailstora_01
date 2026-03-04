@@ -1,0 +1,178 @@
+.consultation-section {
+    background-color: #ffffff;
+    padding: 8rem 0;
+    overflow: hidden;
+}
+
+.consultation-card {
+    background: linear-gradient(135deg, #4338CA 0%, #312E81 100%);
+    border-radius: 2rem;
+    padding: 3rem;
+    color: #ffffff;
+    position: relative;
+    box-shadow: 0 30px 60px -12px rgba(67, 56, 202, 0.25);
+}
+
+@media (min-width: 992px) {
+    .consultation-card {
+        padding: 5rem;
+    }
+}
+
+.consultation-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    .consultation-content {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+    }
+}
+
+.consultation-text {
+    flex: 1;
+    max-width: 600px;
+}
+
+.consultation-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1.25rem;
+    border-radius: 99px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+}
+
+.consultation-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .consultation-title {
+        font-size: 3rem;
+    }
+}
+
+.consultation-description {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 3rem;
+}
+
+.consultation-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@media (min-width: 480px) {
+    .consultation-buttons {
+        flex-direction: row;
+    }
+}
+
+.btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background-color: #25D366;
+    color: #ffffff;
+    padding: 1rem 1.75rem;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-whatsapp:hover {
+    background-color: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(37, 211, 102, 0.3);
+}
+
+.consultation-image {
+    flex-shrink: 0;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 280px;
+    height: 280px;
+}
+
+@media (min-width: 768px) {
+    .image-wrapper {
+        width: 340px;
+        height: 340px;
+    }
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 6px solid #F97316;
+}
+
+.status-badge {
+    position: absolute;
+    bottom: 0rem;
+    right: 0rem;
+    background: #ffffff;
+    color: #1e293b;
+    padding: 0.75rem 1.25rem;
+    border-radius: 1rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: #22c55e;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+}
+
+.dot::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: inherit;
+    animation: ripple 2s infinite;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
