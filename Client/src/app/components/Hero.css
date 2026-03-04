@@ -110,16 +110,16 @@
 }
 
 .hero-image-inner {
-    transform: rotateY(-15deg) rotateX(10deg) rotateZ(-2deg);
+    transform: rotateY(-8deg) rotateX(4deg) rotateZ(-1deg);
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     border-radius: 1.5rem;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 1rem;
-    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5),
-        0 30px 60px -30px rgba(0, 0, 0, 0.5),
-        inset 0 -2px 20px 0 rgba(255, 255, 255, 0.1);
+    padding: 0.5rem;
+    box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.6),
+        0 20px 40px -20px rgba(0, 0, 0, 0.6),
+        inset 0 -2px 15px 0 rgba(255, 255, 255, 0.05);
 }
 
 .hero-image-inner::after {
@@ -132,7 +132,7 @@
 }
 
 .hero-image-wrapper:hover .hero-image-inner {
-    transform: rotateY(-5deg) rotateX(5deg) rotateZ(-1deg) translateY(-10px);
+    transform: rotateY(-3deg) rotateX(2deg) rotateZ(-0.5deg) translateY(-8px);
 }
 
 .hero-image {

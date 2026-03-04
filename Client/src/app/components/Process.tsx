@@ -2,7 +2,7 @@ import './Process.css';
 
 export default function Process() {
     const steps = [
-        { num: "01", title: "Share Your Design", desc: "Send your Figma, PSD, or idea with requirements." },
+        { num: "01", title: "Share Idea & Needs", desc: "Have a ready design? Great! If not, no problem—just share your idea and needs, and I'll handle the design for you." },
         { num: "02", title: "I Code & Test", desc: "Your email is hand-coded and tested across major clients." },
         { num: "03", title: "You Review", desc: "Request changes if needed." },
         { num: "04", title: "Final Delivery", desc: "Clean HTML files ready for immediate deployment." },

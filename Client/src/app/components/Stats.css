@@ -57,3 +57,39 @@
     letter-spacing: 0.1em;
     max-width: 180px;
 }
+
+.stats-footer {
+    margin-top: 4rem;
+    display: flex;
+    justify-content: center;
+}
+
+.upwork-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 99px;
+    color: #14a800;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    border: 2px solid #14a800;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(20, 168, 0, 0.1);
+}
+
+.upwork-link:hover {
+    background-color: #14a800;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(20, 168, 0, 0.2);
+}
+
+.upwork-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    flex-shrink: 0;
+}

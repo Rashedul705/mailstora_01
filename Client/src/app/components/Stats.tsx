@@ -22,6 +22,16 @@ export default function Stats() {
                         </div>
                     ))}
                 </div>
+                <div className="stats-footer">
+                    <a
+                        href="https://www.upwork.com/freelancers/~01e77f8c3283919883"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="upwork-link"
+                    >
+                        View Profile on Upwork
+                    </a>
+                </div>
             </div>
         </section>
     );

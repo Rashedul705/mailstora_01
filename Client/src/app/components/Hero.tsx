@@ -21,10 +21,10 @@ export default function Hero() {
                 <div className="hero-image-wrapper">
                     <div className="hero-image-inner">
                         <Image
-                            src="/mockup.png"
+                            src="/hero-mockup.png"
                             alt="Professional Email Template Mockup"
-                            width={600}
-                            height={500}
+                            width={720}
+                            height={620}
                             className="hero-image"
                             priority
                         />
