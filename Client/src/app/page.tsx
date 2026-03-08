@@ -1,7 +1,6 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Problem from "./components/Problem";
-import Consultation from "./components/Consultation";
 import Services from "./components/Services";
 import Pricing from "./components/Pricing";
 import Portfolio from "./components/Portfolio";
@@ -17,7 +16,6 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Problem />
-      <Consultation />
       <Services />
       <Pricing />
       <Portfolio />

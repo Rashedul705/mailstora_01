@@ -1,77 +1,146 @@
+/* ── Hero Section ──────────────────────────────────────────── */
 .hero {
     position: relative;
     overflow: hidden;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
     background: var(--hero-bg);
     color: #ffffff;
 }
 
 @media (min-width: 768px) {
     .hero {
-        padding-top: 6rem;
-        padding-bottom: 6rem;
+        padding-top: 7rem;
+        padding-bottom: 7rem;
     }
 }
 
+/* Decorative blobs */
+.hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    opacity: 0.35;
+}
+
+.hero-blob-1 {
+    width: 520px;
+    height: 520px;
+    background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+    top: -160px;
+    left: -160px;
+    animation: blobDrift 12s ease-in-out infinite alternate;
+}
+
+.hero-blob-2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #f97316 0%, transparent 70%);
+    bottom: -140px;
+    right: -100px;
+    animation: blobDrift 15s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes blobDrift {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(40px, 30px) scale(1.08);
+    }
+}
+
+/* ── Layout ── */
 .hero-container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 3rem;
     align-items: center;
+    position: relative;
+    z-index: 1;
 }
 
 @media (min-width: 992px) {
     .hero-container {
         grid-template-columns: 1fr 1fr;
-        gap: 4rem;
+        gap: 5rem;
     }
 }
 
+/* ── LEFT: Content ── */
 .hero-content {
-    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Badge pill */
+.hero-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.25rem;
 }
 
 .hero-title {
-    font-size: 1.75rem;
+    font-size: 2rem;
     font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 1rem;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
     color: #ffffff;
 }
 
 @media (min-width: 480px) {
     .hero-title {
-        font-size: 2rem;
+        font-size: 2.25rem;
     }
 }
 
 @media (min-width: 768px) {
     .hero-title {
-        font-size: 2.75rem;
+        font-size: 2.9rem;
         margin-bottom: 1.5rem;
     }
 }
 
+.hero-title-highlight {
+    background: linear-gradient(90deg, #f97316 0%, #fb923c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
 .hero-subtitle {
     font-size: 1rem;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 1.5rem;
-    max-width: 500px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 480px;
 }
 
 @media (min-width: 768px) {
     .hero-subtitle {
-        font-size: 1.125rem;
-        margin-bottom: 2rem;
+        font-size: 1.1rem;
     }
 }
 
+/* Buttons */
 .hero-buttons {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
 }
 
 @media (min-width: 480px) {
@@ -79,66 +148,217 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: 1rem;
-    }
-}
-
-.hero-buttons .btn {
-    width: 100%;
-    justify-content: center;
-}
-
-@media (min-width: 480px) {
-    .hero-buttons .btn {
         width: auto;
     }
 }
 
+.hero-buttons .btn {
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Match Get a Free Quote to Schedule a Consultation color */
+.hero-buttons .btn-primary {
+    background-color: #EA580C;
+    box-shadow: 0 10px 15px -3px rgba(234, 88, 12, 0.35);
+}
+
+.hero-buttons .btn-primary:hover {
+    background-color: #c94e0b;
+    box-shadow: 0 20px 25px -5px rgba(234, 88, 12, 0.45);
+}
+
+/* WhatsApp button */
+.btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    background-color: #25D366;
+    color: #ffffff;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    box-shadow: 0 10px 15px -3px rgba(37, 211, 102, 0.35);
+}
+
+.btn-whatsapp:hover {
+    background-color: #1ebe5c;
+    transform: translateY(-2px);
+    box-shadow: 0 15px 20px -5px rgba(37, 211, 102, 0.45);
+}
+
 .hero-trust {
-    font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.6);
-    margin-top: 1rem;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.07em;
 }
 
-.hero-image-wrapper {
+/* ── RIGHT: Profile Card ── */
+.hero-profile-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
     position: relative;
-    perspective: 2000px;
-    max-width: 600px;
-    margin: 0 auto;
-    width: 100%;
 }
 
-.hero-image-inner {
-    transform: rotateY(-8deg) rotateX(4deg) rotateZ(-1deg);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    border-radius: 1.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 0.5rem;
-    box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.6),
-        0 20px 40px -20px rgba(0, 0, 0, 0.6),
-        inset 0 -2px 15px 0 rgba(255, 255, 255, 0.05);
+/* Dotted orbit ring */
+.hero-ring-wrapper {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.hero-image-inner::after {
-    content: '';
+@media (min-width: 768px) {
+    .hero-ring-wrapper {
+        width: 360px;
+        height: 360px;
+    }
+}
+
+.hero-ring-dots {
     position: absolute;
     inset: 0;
-    border-radius: 1.5rem;
-    background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.2), transparent);
-    pointer-events: none;
+    border-radius: 50%;
+    border: 2px dashed rgba(99, 102, 241, 0.55);
+    animation: spinRing 20s linear infinite;
 }
 
-.hero-image-wrapper:hover .hero-image-inner {
-    transform: rotateY(-3deg) rotateX(2deg) rotateZ(-0.5deg) translateY(-8px);
+.hero-ring-dots::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px dashed rgba(249, 115, 22, 0.4);
+    animation: spinRing 28s linear infinite reverse;
 }
 
-.hero-image {
+@keyframes spinRing {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.hero-photo-frame {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--accent-orange);
+    box-shadow:
+        0 0 0 8px rgba(249, 115, 22, 0.15),
+        0 30px 60px -10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+@media (min-width: 768px) {
+    .hero-photo-frame {
+        width: 290px;
+        height: 290px;
+    }
+}
+
+.hero-photo-frame:hover {
+    transform: scale(1.03);
+    box-shadow:
+        0 0 0 10px rgba(249, 115, 22, 0.2),
+        0 40px 70px -15px rgba(0, 0, 0, 0.55);
+}
+
+.hero-photo {
     width: 100%;
-    height: auto;
-    border-radius: 0.75rem;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
     display: block;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Schedule button */
+.hero-schedule-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: #EA580C;
+    border: 1.5px solid #EA580C;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.6rem 1.25rem;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35);
+    font-family: inherit;
+}
+
+.hero-schedule-btn:hover {
+    background: #c94e0b;
+    border-color: #c94e0b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(234, 88, 12, 0.45);
+}
+
+/* Name & role */
+.hero-profile-info {
+    text-align: center;
+}
+
+.hero-profile-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.2rem;
+}
+
+.hero-profile-role {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* Floating pill */
+.hero-float-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(249, 115, 22, 0.4);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    animation: floatUp 3.5s ease-in-out infinite;
+}
+
+.hero-float-pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-orange);
+}
+
+@keyframes floatUp {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
 }
