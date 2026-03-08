@@ -15,22 +15,44 @@ export default function AdminLayout({
     const pathname = usePathname();
 
     useEffect(() => {
-        const isAuth = localStorage.getItem('adminAuth') === 'true';
+        const verifyAuth = async () => {
+            try {
+                const res = await fetch('http://localhost:5000/api/auth/verify', {
+                    credentials: 'include'
+                });
 
-        if (!isAuth && pathname !== '/admin/login') {
-            router.push('/admin/login');
-        } else {
-            setIsLoading(false);
-        }
+                if (res.ok) {
+                    setIsLoading(false);
+                } else {
+                    localStorage.removeItem('adminAuth');
+                    if (pathname !== '/admin/login') {
+                        router.push('/admin/login');
+                    } else {
+                        setIsLoading(false);
+                    }
+                }
+            } catch (err) {
+                if (pathname !== '/admin/login') {
+                    router.push('/admin/login');
+                } else {
+                    setIsLoading(false);
+                }
+            }
+        };
+
+        verifyAuth();
     }, [pathname, router]);
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        try {
+            await fetch('http://localhost:5000/api/auth/logout', { method: 'POST', credentials: 'include' });
+        } catch (e) { }
         localStorage.removeItem('adminAuth');
         router.push('/admin/login');
     };
 
-    if (isLoading && pathname !== '/admin/login') {
-        return <div className="admin-loading">Loading...</div>;
+    if (isLoading) {
+        return <div className="admin-loading">Loading Backend Connection...</div>;
     }
 
     if (pathname === '/admin/login') {
@@ -45,30 +67,18 @@ export default function AdminLayout({
                 </div>
 
                 <nav className="sidebar-nav">
-                    <Link
-                        href="/admin/dashboard"
-                        className={`sidebar-link ${pathname === '/admin/dashboard' ? 'active' : ''}`}
-                    >
-                        <span>Dashboard</span>
-                    </Link>
-                    <Link
-                        href="/admin/orders"
-                        className={`sidebar-link ${pathname === '/admin/orders' ? 'active' : ''}`}
-                    >
-                        <span>Orders</span>
-                    </Link>
-                    <Link
-                        href="/admin/portfolio"
-                        className={`sidebar-link ${pathname === '/admin/portfolio' ? 'active' : ''}`}
-                    >
-                        <span>Portfolio</span>
-                    </Link>
-                    <Link
-                        href="/admin/pricing"
-                        className={`sidebar-link ${pathname === '/admin/pricing' ? 'active' : ''}`}
-                    >
-                        <span>Pricing</span>
-                    </Link>
+                    <Link href="/admin/dashboard" className={`sidebar-link ${pathname === '/admin/dashboard' ? 'active' : ''}`}><span>Dashboard</span></Link>
+                    <Link href="/admin/customers" className={`sidebar-link ${pathname.startsWith('/admin/customers') ? 'active' : ''}`}><span>Customers</span></Link>
+                    <Link href="/admin/quotes" className={`sidebar-link ${pathname.startsWith('/admin/quotes') ? 'active' : ''}`}><span>Quotes</span></Link>
+                    <Link href="/admin/schedules" className={`sidebar-link ${pathname.startsWith('/admin/schedules') ? 'active' : ''}`}><span>Schedules</span></Link>
+                    <Link href="/admin/orders" className={`sidebar-link ${pathname.startsWith('/admin/orders') ? 'active' : ''}`}><span>Orders</span></Link>
+                    <Link href="/admin/portfolio" className={`sidebar-link ${pathname.startsWith('/admin/portfolio') ? 'active' : ''}`}><span>Portfolio</span></Link>
+                    <Link href="/admin/pricing" className={`sidebar-link ${pathname.startsWith('/admin/pricing') ? 'active' : ''}`}><span>Pricing</span></Link>
+                    <Link href="/admin/testimonials" className={`sidebar-link ${pathname.startsWith('/admin/testimonials') ? 'active' : ''}`}><span>Testimonials</span></Link>
+                    <Link href="/admin/faq" className={`sidebar-link ${pathname.startsWith('/admin/faq') ? 'active' : ''}`}><span>FAQ</span></Link>
+                    <Link href="/admin/inquiries" className={`sidebar-link ${pathname.startsWith('/admin/inquiries') ? 'active' : ''}`}><span>Inquiries</span></Link>
+                    <Link href="/admin/services" className={`sidebar-link ${pathname.startsWith('/admin/services') ? 'active' : ''}`}><span>Services</span></Link>
+                    <Link href="/admin/content" className={`sidebar-link ${pathname.startsWith('/admin/content') ? 'active' : ''}`}><span>Website Content</span></Link>
                 </nav>
 
                 <div className="sidebar-footer">

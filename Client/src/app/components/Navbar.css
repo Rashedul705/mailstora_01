@@ -17,8 +17,24 @@
 .navbar-brand {
     font-size: 1.5rem;
     font-weight: 800;
-    color: #1E1B4B;
-    /* Darker indigo/navy from image reference */
+    letter-spacing: -0.02em;
+}
+
+.navbar-brand a {
+    display: inline-flex;
+    align-items: baseline;
+    text-decoration: none;
+}
+
+.brand-mail {
+    color: #6366f1;
+}
+
+.brand-stora {
+    background: linear-gradient(90deg, #f97316 0%, #fb923c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .navbar-links {
@@ -110,9 +126,26 @@
     display: block;
     width: 24px;
     height: 2px;
-    background-color: #1E1B4B;
+    background-color: #312E81;
     border-radius: 2px;
     transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* CTA button in nav */
+.nav-cta {
+    font-size: 0.875rem;
+    padding: 0.6rem 1.25rem;
+    border-radius: 0.5rem;
+}
+
+.nav-cta-desktop {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .nav-cta-desktop {
+        display: inline-flex;
+    }
 }
 
 /* Mobile Dropdown */

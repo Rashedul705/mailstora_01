@@ -35,12 +35,25 @@
     }
 }
 
-.footer-brand h3 {
-    font-size: 1.75rem;
-    font-weight: 900;
-    color: #4338CA;
-    margin-bottom: 1rem;
+.footer-logo-link {
+    display: inline-flex;
+    align-items: baseline;
+    font-size: 1.5rem;
+    font-weight: 800;
     letter-spacing: -0.02em;
+    text-decoration: none;
+    margin-bottom: 1rem;
+}
+
+.brand-mail {
+    color: #6366f1;
+}
+
+.brand-stora {
+    background: linear-gradient(90deg, #f97316 0%, #fb923c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .footer-brand p {

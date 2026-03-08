@@ -2,10 +2,14 @@ const redis = require('redis');
 require('dotenv').config();
 
 const client = redis.createClient({
-    url: process.env.REDIS_URL
+    url: process.env.REDIS_URL,
+    socket: {
+        reconnectStrategy: false
+    }
 });
 
-client.on('error', (err) => console.log('Redis Client Error', err));
+// Supress redis connection log spam in local dev without a redis server
+client.on('error', () => { });
 
 const connectRedis = async () => {
     try {

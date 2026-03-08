@@ -17,15 +17,27 @@ export default function AdminLogin() {
         }
     }, [router]);
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError('');
 
-        // Hardcoded credentials from implementation plan
-        if (username === 'admin' && password === 'mailstora2024') {
-            localStorage.setItem('adminAuth', 'true');
-            router.push('/admin/dashboard');
-        } else {
-            setError('Invalid username or password');
+        try {
+            const res = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password }),
+                credentials: 'include'
+            });
+
+            if (res.ok) {
+                localStorage.setItem('adminAuth', 'true'); // Visual flag for instant UI routing
+                router.push('/admin/dashboard');
+            } else {
+                const data = await res.json();
+                setError(data.message || 'Invalid username or password');
+            }
+        } catch (err) {
+            setError('Server error connecting to backend.');
         }
     };
 

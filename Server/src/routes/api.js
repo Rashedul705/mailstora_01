@@ -94,4 +94,19 @@ router.get('/protected', verifyToken, (req, res) => {
     res.json({ message: 'Welcome to protected route', user: req.user });
 });
 
+// Admin Dashboard & CRM Routes
+router.use('/auth', require('./authRoutes'));
+router.use('/customers', require('./customerRoutes'));
+router.use('/quotes', require('./quoteRoutes'));
+router.use('/schedules', require('./scheduleRoutes'));
+router.use('/invoices', require('./invoiceRoutes'));
+router.use('/orders', require('./orderRoutes'));
+router.use('/content', require('./contentRoutes'));
+router.use('/pricing', require('./pricingRoutes'));
+router.use('/portfolio', require('./portfolioRoutes'));
+router.use('/testimonials', require('./testimonialRoutes'));
+router.use('/faq', require('./faqRoutes'));
+router.use('/inquiries', require('./inquiryRoutes'));
+router.use('/services', require('./serviceRoutes'));
+
 module.exports = router;

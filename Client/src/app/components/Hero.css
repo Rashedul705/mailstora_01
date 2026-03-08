@@ -2,16 +2,16 @@
 .hero {
     position: relative;
     overflow: hidden;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
     background: var(--hero-bg);
     color: #ffffff;
 }
 
 @media (min-width: 768px) {
     .hero {
-        padding-top: 7rem;
-        padding-bottom: 7rem;
+        padding-top: 5rem;
+        padding-bottom: 5rem;
     }
 }
 
@@ -120,6 +120,13 @@
     background-clip: text;
 }
 
+.hero-title-highlight-orange {
+    background: linear-gradient(90deg, #facc15 0%, #f97316 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
 .hero-subtitle {
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.8);
@@ -191,11 +198,99 @@
     box-shadow: 0 15px 20px -5px rgba(37, 211, 102, 0.45);
 }
 
-.hero-trust {
-    font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.5);
+/* ── Trust Stats Row ── */
+.hero-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+}
+
+.hero-stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+}
+
+.hero-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1.5rem;
+    min-width: 140px;
+}
+
+.hero-stat-number {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.hero-stat-label {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.35rem;
+    white-space: nowrap;
+}
+
+.hero-stat-divider {
+    width: 1px;
+    height: 2.25rem;
+    background: rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+/* ── Platform Logos Strip ── */
+.hero-platforms {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.hero-platforms-label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.45);
     text-transform: uppercase;
     letter-spacing: 0.07em;
+    white-space: nowrap;
+}
+
+.hero-platforms-logos {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.platform-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.platform-logo:hover {
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateY(-2px);
+}
+
+.platform-logo span {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+    letter-spacing: 0.03em;
 }
 
 /* ── RIGHT: Profile Card ── */

@@ -8,14 +8,11 @@ export default function Contact() {
             <div className="container">
                 <div className="contact-wrapper">
                     <div className="contact-info text-center">
-                        <h2 className="section-title">Contact Us</h2>
+                        <h2 className="section-title">Get in Touch</h2>
                         <p className="section-subtitle">
-                            Ready to start your project or have questions? We're here to help.
+                            Ready to start your project or have questions? Fill in the form and get a response within 24 hours.
                         </p>
                         <div className="contact-details">
-                            <a href="mailto:hello@mailstora.com" className="contact-email">
-                                hello@mailstora.com
-                            </a>
                             <p className="contact-response">We typically respond within 24 hours.</p>
                         </div>
 
@@ -29,8 +26,17 @@ export default function Contact() {
                                 <input type="email" id="email" name="email" placeholder="john@company.com" required />
                             </div>
                             <div className="form-group">
+                                <label htmlFor="service">Service Needed</label>
+                                <select id="service" name="service" required defaultValue="">
+                                    <option value="" disabled>Select a service…</option>
+                                    <option value="template">HTML Email Template</option>
+                                    <option value="signature">Email Signature</option>
+                                    <option value="both">Both (Template + Signature)</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
                                 <label htmlFor="message">Message</label>
-                                <textarea id="message" name="message" rows={4} placeholder="Tell us about your project..." required></textarea>
+                                <textarea id="message" name="message" rows={4} placeholder="Tell us about your project…" required></textarea>
                             </div>
                             <button type="submit" className="btn btn-primary full-width form-submit">
                                 Send Message

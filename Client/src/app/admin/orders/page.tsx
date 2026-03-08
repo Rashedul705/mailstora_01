@@ -1,98 +1,77 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import './orders.css';
+import '../admin.css';
 
-interface Order {
-    id: string;
-    client: string;
-    email: string;
-    service: string;
-    date: string;
-    status: 'pending' | 'progress' | 'completed';
-    amount: string;
-}
-
-export default function OrdersPage() {
-    const [orders, setOrders] = useState<Order[]>([
-        { id: '#ORD-1234', client: 'John Doe', email: 'john@example.com', service: 'Email Template', date: '2024-03-01', status: 'completed', amount: '$199' },
-        { id: '#ORD-1235', client: 'Jane Smith', email: 'jane@smith.io', service: 'Email Signature', date: '2024-03-02', status: 'pending', amount: '$49' },
-        { id: '#ORD-1236', client: 'Acme Corp', email: 'contact@acme.com', service: 'Newsletter Design', date: '2024-03-02', status: 'progress', amount: '$499' },
-        { id: '#ORD-1237', client: 'Tech Start', email: 'founders@techstart.com', service: 'Email Signature', date: '2024-03-03', status: 'pending', amount: '$49' },
-        { id: '#ORD-1238', client: 'Lifestyle Brand', email: 'hello@lifestyle.com', service: 'Email Template', date: '2024-03-03', status: 'completed', amount: '$199' },
-    ]);
+export default function OrdersAdmin() {
+    const [orders, setOrders] = useState([] as any[]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const stored = localStorage.getItem('adminOrders');
-        if (stored) {
-            setOrders(JSON.parse(stored));
-        } else {
-            localStorage.setItem('adminOrders', JSON.stringify(orders));
-        }
+        fetchOrders();
     }, []);
 
-    const updateStatus = (id: string, newStatus: Order['status']) => {
-        const updated = orders.map(o => o.id === id ? { ...o, status: newStatus } : o);
-        setOrders(updated);
-        localStorage.setItem('adminOrders', JSON.stringify(updated));
+    const fetchOrders = async () => {
+        try {
+            const res = await fetch('http://localhost:5000/api/orders', { credentials: 'include' });
+            if (res.ok) {
+                setOrders(await res.json());
+            }
+        } catch (error) {
+            console.error('Failed to fetch Orders', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
+    if (isLoading) return <div className="admin-loading">Loading Orders...</div>;
+
     return (
-        <div className="orders-page">
+        <div className="admin-page">
             <header className="admin-header">
-                <h1 className="admin-title">Orders Management</h1>
-                <div className="header-actions">
-                    <span className="order-count">{orders.length} total orders</span>
-                </div>
+                <h1 className="admin-title">Order Management</h1>
+                <button className="admin-btn admin-btn-primary">+ Create Manual Order</button>
             </header>
 
-            <div className="admin-table-container">
-                <table className="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Client Details</th>
-                            <th>Service</th>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {orders.map((order) => (
-                            <tr key={order.id}>
-                                <td><strong>{order.id}</strong></td>
-                                <td>
-                                    <div className="client-info">
-                                        <div className="client-name">{order.client}</div>
-                                        <div className="client-email">{order.email}</div>
-                                    </div>
-                                </td>
-                                <td>{order.service}</td>
-                                <td>{order.date}</td>
-                                <td>{order.amount}</td>
-                                <td>
-                                    <span className={`badge badge-${order.status}`}>
-                                        {order.status}
-                                    </span>
-                                </td>
-                                <td>
-                                    <select
-                                        className="status-select"
-                                        value={order.status}
-                                        onChange={(e) => updateStatus(order.id, e.target.value as Order['status'])}
-                                        style={{ padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid var(--admin-border)', fontSize: '0.875rem' }}
-                                    >
-                                        <option value="pending">Pending</option>
-                                        <option value="progress">In Progress</option>
-                                        <option value="completed">Completed</option>
-                                    </select>
-                                </td>
+            <div className="admin-card">
+                <div className="admin-table-container">
+                    <table className="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Client Name</th>
+                                <th>Package</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {orders.length === 0 ? (
+                                <tr>
+                                    <td colSpan={6} style={{ textAlign: 'center' }}>No orders found.</td>
+                                </tr>
+                            ) : (
+                                orders.map((o) => (
+                                    <tr key={o._id}>
+                                        <td><strong>{o.orderId}</strong></td>
+                                        <td>{o.clientName}</td>
+                                        <td>{o.orderPackage}</td>
+                                        <td>${o.price}</td>
+                                        <td>
+                                            <span className={`badge ${o.status === 'Completed' ? 'badge-completed' : o.status === 'Pending' ? 'badge-pending' : 'badge-progress'}`}>
+                                                {o.status}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button className="admin-btn" style={{ marginRight: '10px' }}>Manage</button>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

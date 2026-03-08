@@ -1,126 +1,74 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import './pricing.css';
+import '../admin.css';
 
-interface PricingTier {
-    id: number;
-    name: string;
-    price: string;
-    description: string;
-    features: string[];
-    isPopular?: boolean;
-}
-
-export default function PricingManagement() {
-    const [tiers, setTiers] = useState<PricingTier[]>([
-        {
-            id: 1,
-            name: 'Single Template',
-            price: '$199',
-            description: 'Perfect for a one-off newsletter or automated welcome email.',
-            features: ['1 Custom HTML Email Template', 'Tested in 90+ Email Clients']
-        },
-        {
-            id: 2,
-            name: 'Standard Package',
-            price: '$499',
-            description: 'The most popular choice for growing businesses and agencies.',
-            features: ['1 Custom HTML Email Templates', '1 Professional HTML Signature'],
-            isPopular: true
-        },
-        {
-            id: 3,
-            name: 'Enterprise Custom',
-            price: 'Custom',
-            description: 'Full service email architecture for complex design systems.',
-            features: ['Unlimited Custom Templates', 'Modular Email Design Systems']
-        },
-    ]);
+export default function PricingAdmin() {
+    const [packages, setPackages] = useState([] as any[]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const stored = localStorage.getItem('adminPricing');
-        if (stored) {
-            setTiers(JSON.parse(stored));
-        } else {
-            localStorage.setItem('adminPricing', JSON.stringify(tiers));
-        }
+        fetchPricing();
     }, []);
 
-    const handleUpdate = (id: number, field: keyof PricingTier, value: any) => {
-        const updated = tiers.map(t => t.id === id ? { ...t, [field]: value } : t);
-        setTiers(updated);
-        localStorage.setItem('adminPricing', JSON.stringify(updated));
+    const fetchPricing = async () => {
+        try {
+            const res = await fetch('http://localhost:5000/api/pricing');
+            if (res.ok) {
+                setPackages(await res.json());
+            }
+        } catch (error) {
+            console.error('Failed to fetch Pricing', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const togglePopular = (id: number) => {
-        const updated = tiers.map(t => {
-            if (t.id === id) return { ...t, isPopular: !t.isPopular };
-            return { ...t, isPopular: false }; // Only one can be popular
-        });
-        setTiers(updated);
-        localStorage.setItem('adminPricing', JSON.stringify(updated));
-    };
+    if (isLoading) return <div className="admin-loading">Loading Pricing Packages...</div>;
 
     return (
-        <div className="pricing-mgmt-page">
+        <div className="admin-page">
             <header className="admin-header">
-                <h1 className="admin-title">Pricing Management</h1>
+                <h1 className="admin-title">Manage Pricing Packages</h1>
+                <button className="admin-btn admin-btn-primary">+ Create Package</button>
             </header>
 
-            <div className="pricing-grid">
-                {tiers.map((tier) => (
-                    <div key={tier.id} className="admin-card pricing-edit-card">
-                        <div className="card-header-flex">
-                            <h2>{tier.name}</h2>
-                            {tier.isPopular && <span className="popular-tag">Popular Plan</span>}
-                        </div>
-
-                        <div className="admin-form">
-                            <div className="form-group">
-                                <label>Plan Name</label>
-                                <input
-                                    type="text"
-                                    value={tier.name}
-                                    onChange={(e) => handleUpdate(tier.id, 'name', e.target.value)}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Price</label>
-                                <input
-                                    type="text"
-                                    value={tier.price}
-                                    onChange={(e) => handleUpdate(tier.id, 'price', e.target.value)}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Description</label>
-                                <textarea
-                                    rows={2}
-                                    value={tier.description}
-                                    onChange={(e) => handleUpdate(tier.id, 'description', e.target.value)}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Features (bullet points)</label>
-                                <textarea
-                                    rows={4}
-                                    value={tier.features.join('\n')}
-                                    onChange={(e) => handleUpdate(tier.id, 'features', e.target.value.split('\n'))}
-                                    placeholder="Enter each feature on a new line"
-                                />
-                            </div>
-
-                            <div className="toggle-popular" onClick={() => togglePopular(tier.id)}>
-                                <input type="checkbox" checked={!!tier.isPopular} readOnly />
-                                <span>Mark as Most Popular</span>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+            <div className="admin-card">
+                <div className="admin-table-container">
+                    <table className="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Package Name</th>
+                                <th>Price</th>
+                                <th>Delivery Time</th>
+                                <th>Features Count</th>
+                                <th>Highlighted</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {packages.length === 0 ? (
+                                <tr>
+                                    <td colSpan={6} style={{ textAlign: 'center' }}>No pricing packages defined.</td>
+                                </tr>
+                            ) : (
+                                packages.map((p) => (
+                                    <tr key={p._id} style={{ backgroundColor: p.isPopular ? '#F8FAFC' : 'transparent' }}>
+                                        <td><strong>{p.name}</strong></td>
+                                        <td>${p.price}</td>
+                                        <td>{p.deliveryTime}</td>
+                                        <td>{p.features?.length || 0} inclusions</td>
+                                        <td>{p.isPopular ? <span className="badge badge-progress">Popular</span> : '-'}</td>
+                                        <td>
+                                            <button className="admin-btn" style={{ marginRight: '10px' }}>Edit</button>
+                                            <button className="admin-btn admin-btn-danger">Delete</button>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

@@ -1,25 +1,18 @@
-const admin = require('firebase-admin');
-require('dotenv').config();
+const jwt = require('jsonwebtoken');
 
-admin.initializeApp({
-    projectId: process.env.FIREBASE_PROJECT_ID
-});
-
-const verifyToken = async (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
-
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided' });
-    }
-
+const authMiddleware = (req, res, next) => {
     try {
-        const decodedToken = await admin.auth().verifyIdToken(token);
-        req.user = decodedToken;
+        const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ message: 'No token provided, authorization denied' });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
+        req.admin = decoded.admin;
         next();
     } catch (error) {
-        console.error('Firebase Auth Error:', error.message);
-        res.status(403).json({ message: 'Invalid token' });
+        res.status(401).json({ message: 'Token is not valid' });
     }
 };
 
-module.exports = verifyToken;
+module.exports = authMiddleware;

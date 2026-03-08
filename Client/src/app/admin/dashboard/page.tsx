@@ -5,10 +5,11 @@ import './dashboard.css';
 
 export default function AdminDashboard() {
     const [stats, setStats] = useState({
-        totalOrders: 124,
-        portfolioItems: 12,
-        pendingQuotes: 8,
-        revenue: '$24,500'
+        totalOrders: 0,
+        portfolioItems: 0,
+        totalCustomers: 0,
+        pendingQuotes: 0,
+        revenue: '$0'
     });
 
     const [recentOrders, setRecentOrders] = useState([
@@ -19,33 +20,55 @@ export default function AdminDashboard() {
     ]);
 
     useEffect(() => {
-        // Calculate dynamic stats from localStorage
-        const storedOrders = localStorage.getItem('adminOrders');
-        const storedPortfolio = localStorage.getItem('adminPortfolio');
+        const fetchDashboardData = async () => {
+            try {
+                // Fetch all raw data required for the dashboard overview in parallel
+                const [ordersRes, portfolioRes, customersRes, quotesRes] = await Promise.all([
+                    fetch('http://localhost:5000/api/orders', { credentials: 'include' }),
+                    fetch('http://localhost:5000/api/portfolio'),
+                    fetch('http://localhost:5000/api/customers', { credentials: 'include' }),
+                    fetch('http://localhost:5000/api/quotes', { credentials: 'include' })
+                ]);
 
-        if (storedOrders) {
-            const orders = JSON.parse(storedOrders);
-            const revenueCount = orders.reduce((acc: number, curr: any) => {
-                const amount = parseInt(curr.amount.replace('$', '')) || 0;
-                return acc + amount;
-            }, 0);
+                if (ordersRes.ok) {
+                    const orders = await ordersRes.json();
+                    const revenueCount = orders.reduce((acc: number, curr: any) => acc + (curr.price || 0), 0);
 
-            setStats(prev => ({
-                ...prev,
-                totalOrders: orders.length,
-                revenue: `$${revenueCount.toLocaleString()}`,
-                pendingQuotes: orders.filter((o: any) => o.status === 'pending').length
-            }));
-            setRecentOrders(orders.slice(0, 5));
-        }
+                    setStats(prev => ({
+                        ...prev,
+                        totalOrders: orders.length,
+                        revenue: `$${revenueCount.toLocaleString()}`
+                    }));
+                    setRecentOrders(orders.slice(0, 5).map((o: any) => ({
+                        id: o.order_number || o.orderId,
+                        client: o.customer_id?.name || o.clientName || 'Unknown',
+                        email: o.customer_id?.email || o.clientEmail || 'Unknown',
+                        service: o.package_name || o.orderPackage,
+                        date: new Date(o.created_at || o.orderDate).toLocaleDateString(),
+                        status: o.status.toLowerCase()
+                    })));
+                }
 
-        if (storedPortfolio) {
-            const portfolio = JSON.parse(storedPortfolio);
-            setStats(prev => ({
-                ...prev,
-                portfolioItems: portfolio.length
-            }));
-        }
+                if (portfolioRes.ok) {
+                    const portfolio = await portfolioRes.json();
+                    setStats(prev => ({ ...prev, portfolioItems: portfolio.length }));
+                }
+
+                if (customersRes.ok) {
+                    const customers = await customersRes.json();
+                    setStats(prev => ({ ...prev, totalCustomers: customers.length }));
+                }
+
+                if (quotesRes.ok) {
+                    const quotes = await quotesRes.json();
+                    setStats(prev => ({ ...prev, pendingQuotes: quotes.filter((q: any) => q.status === 'new').length }));
+                }
+            } catch (err) {
+                console.error("Failed to fetch dashboard metrics", err);
+            }
+        };
+
+        fetchDashboardData();
     }, []);
 
     return (
@@ -61,8 +84,8 @@ export default function AdminDashboard() {
                     <div className="stat-value">{stats.totalOrders}</div>
                 </div>
                 <div className="admin-card stat-card">
-                    <div className="stat-label">Portfolio Items</div>
-                    <div className="stat-value">{stats.portfolioItems}</div>
+                    <div className="stat-label">Total Customers</div>
+                    <div className="stat-value">{stats.totalCustomers}</div>
                 </div>
                 <div className="admin-card stat-card">
                     <div className="stat-label">Pending Quotes</div>

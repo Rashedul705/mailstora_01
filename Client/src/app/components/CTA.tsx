@@ -6,13 +6,19 @@ export default function CTA() {
         <section className="cta-section section text-center">
             <div className="container">
                 <div className="cta-content">
-                    <h2 className="cta-title">Let’s Build Emails That Actually Convert</h2>
+                    <div className="cta-badge">⚡ Ready When You Are</div>
+                    <h2 className="cta-title">Ready to Launch Your Next Email Campaign?</h2>
                     <p className="cta-subtitle">
-                        Get a custom quote within 24 hours and stop worrying about broken emails.
+                        Get a pixel-perfect, cross-client HTML email template delivered in 24–48 hours.
+                        No broken layouts. No Outlook surprises. Just results.
                     </p>
-                    <Link href="/checkout">
-                        <button className="btn btn-primary cta-button">Start Your Project Today</button>
-                    </Link>
+                    <div className="cta-buttons">
+                        <Link href="/checkout">
+                            <button className="btn btn-primary cta-button">Start Your Project</button>
+                        </Link>
+                        <a href="#contact" className="btn btn-secondary cta-button">Get a Free Quote</a>
+                    </div>
+                    <p className="cta-note">✦ No commitment required &nbsp;·&nbsp; Response within 24h</p>
                 </div>
             </div>
         </section>
