@@ -1,5 +1,7 @@
 .problem-section {
-    padding: 4rem 0;
+    padding: 6rem 0;
+    /* py-24 equivalent spacing */
+    background: linear-gradient(180deg, #1E1B4B 0%, #111029 100%);
 }
 
 .problem-header {
@@ -8,62 +10,86 @@
     text-align: center;
 }
 
+.problem-section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.problem-section-subtitle {
+    font-size: 1.125rem;
+    color: #94A3B8;
+    line-height: 1.6;
+}
+
 .problem-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.25rem;
+    gap: 1.5rem;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 768px) {
     .problem-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
     .problem-grid {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
 .problem-card {
-    background: #fff;
-    border: 1px solid var(--card-border);
+    background: rgba(30, 27, 75, 0.5);
+    /* Semi-transparent dark purple */
+    border: 1px solid #3730A3;
+    /* Solid muted indigo */
     border-radius: 1rem;
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    gap: 1rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    /* For Safari */
+    text-align: left;
+    transition: all 0.3s ease;
 }
 
 .problem-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-hover);
+    transform: translateY(-8px);
+    border-color: #6366F1;
+    /* Brighter border on hover */
+    /* Soft orange/purple outer glow */
+    box-shadow: 0 10px 40px -10px rgba(255, 138, 0, 0.2), 0 0 20px rgba(99, 102, 241, 0.2);
 }
 
 .problem-icon {
-    width: 2.5rem;
-    height: 2.5rem;
-    background: rgba(249, 115, 22, 0.1);
-    border-radius: 0.6rem;
+    width: 3rem;
+    height: 3rem;
+    background: rgba(255, 138, 0, 0.1);
+    border-radius: 0.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--accent-orange);
+    color: #FF8A00;
+    /* Brand Orange */
     flex-shrink: 0;
+    margin-bottom: 0.5rem;
 }
 
 .problem-title {
-    font-size: 0.95rem;
+    font-size: 1.125rem;
     font-weight: 700;
-    color: var(--foreground);
-    line-height: 1.35;
+    color: #FFFFFF;
+    line-height: 1.4;
 }
 
 .problem-desc {
-    font-size: 0.85rem;
-    color: var(--text-muted);
+    font-size: 0.875rem;
+    color: #94A3B8;
     line-height: 1.6;
 }

@@ -12,6 +12,11 @@
     grid-template-columns: 1fr;
     gap: 2rem;
     position: relative;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    background: #FAFBFF;
+    box-shadow: 0 2px 16px rgba(67, 56, 202, 0.05);
 }
 
 @media (min-width: 768px) {
