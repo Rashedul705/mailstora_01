@@ -1,13 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const faqController = require('../controllers/faqController');
-const authMiddleware = require('../middleware/auth');
-
-router.get('/', faqController.getAllFAQs);
-
-router.use(authMiddleware);
-router.post('/', faqController.createFAQ);
-router.put('/:id', faqController.updateFAQ);
-router.delete('/:id', faqController.deleteFAQ);
-
+const controller = require('../controllers/faqController');
+router.get('/', controller.getAll);
+router.post('/', controller.create);
+router.get('/:id', controller.getOne);
+router.put('/:id', controller.update);
+router.delete('/:id', controller.remove);
 module.exports = router;

@@ -13,8 +13,8 @@ export default function CTA() {
                         No broken layouts. No Outlook surprises. Just results.
                     </p>
                     <div className="cta-buttons">
-                        <Link href="/checkout">
-                            <button className="btn btn-primary cta-button">Start Your Project</button>
+                        <Link href="/checkout" className="btn btn-primary cta-button">
+                            Start Your Project
                         </Link>
                         <a href="#contact" className="btn btn-secondary cta-button">Get a Free Quote</a>
                     </div>

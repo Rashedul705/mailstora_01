@@ -1,57 +1,52 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import '../admin.css';
+import { useState } from 'react';
+import GenericCrudPage from '../components/GenericCrudPage';
 
-export default function ContentAdmin() {
-    const [contents, setContents] = useState([] as any[]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        // Will fetch content when the specific GET all content route is implemented
-        // For now, simulating structure
-        setContents([
-            { _id: '1', sectionId: 'hero', title: 'Custom HTML Email Templates', body: 'That Work Perfectly in Outlook, Gmail & 30+ Email Clients' },
-            { _id: '2', sectionId: 'about', title: 'Why Choose Us', body: 'We have 3+ years experience building pixel-perfect emails.' }
-        ]);
-        setIsLoading(false);
-    }, []);
-
-    if (isLoading) return <div className="admin-loading">Loading Content Sections...</div>;
+export default function ContentPage() {
+    const [tab, setTab] = useState<'hero' | 'website'>('hero');
 
     return (
-        <div className="admin-page">
-            <header className="admin-header">
-                <h1 className="admin-title">Manage Website Content</h1>
-                <p style={{ color: 'var(--admin-text-muted)', marginTop: '0.5rem' }}>Edit the text that appears across your public landing page.</p>
-            </header>
-
-            <div className="admin-card">
-                <div className="admin-table-container">
-                    <table className="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Section ID</th>
-                                <th>Main Title</th>
-                                <th>Body Text Extract</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {contents.map((c) => (
-                                <tr key={c._id}>
-                                    <td><span className="badge badge-progress">{c.sectionId}</span></td>
-                                    <td><strong>{c.title}</strong></td>
-                                    <td>{c.body.substring(0, 60)}...</td>
-                                    <td>
-                                        <button className="admin-btn admin-btn-primary">Edit Content</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+        <div>
+            <div style={{ marginBottom: '20px', borderBottom: '1px solid #ccc', paddingBottom: '10px' }}>
+                <button
+                    onClick={() => setTab('hero')}
+                    style={{ marginRight: '10px', padding: '10px 20px', background: tab === 'hero' ? '#f97316' : '#eee', color: tab === 'hero' ? '#fff' : '#333', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                >
+                    Hero Section
+                </button>
+                <button
+                    onClick={() => setTab('website')}
+                    style={{ padding: '10px 20px', background: tab === 'website' ? '#f97316' : '#eee', color: tab === 'website' ? '#fff' : '#333', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                >
+                    General Content
+                </button>
             </div>
+
+            {tab === 'hero' ? (
+                <GenericCrudPage
+                    title="Hero Content"
+                    endpoint="/api/content/hero"
+                    columns={[
+                        { key: 'title', label: 'Title', type: 'textarea' },
+                        { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
+                        { key: 'cta_text', label: 'CTA Text', type: 'text' },
+                        { key: 'cta_link', label: 'CTA Link', type: 'text' },
+                        { key: 'background_image', label: 'Image URL', type: 'text' },
+                        { key: 'is_active', label: 'Is Active', type: 'boolean' }
+                    ]}
+                />
+            ) : (
+                <GenericCrudPage
+                    title="Website Strings"
+                    endpoint="/api/content/website"
+                    columns={[
+                        { key: 'section', label: 'Section', type: 'text' },
+                        { key: 'content_key', label: 'Key', type: 'text' },
+                        { key: 'content_value', label: 'Value', type: 'textarea' }
+                    ]}
+                />
+            )}
         </div>
     );
 }

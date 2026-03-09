@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import './Pricing.css';
 
-export default function Pricing() {
+export default function Pricing({ data = [] }: { data?: any[] }) {
     const [activeTab, setActiveTab] = useState<'template' | 'signature'>('template');
 
     const templatePackages = [
@@ -98,7 +98,9 @@ export default function Pricing() {
         }
     ];
 
-    const activePackages = activeTab === 'template' ? templatePackages : signaturePackages;
+    const activePackages = activeTab === 'template'
+        ? (data.filter((p: any) => p.billing_cycle === 'project').length > 0 ? data.filter((p: any) => p.billing_cycle === 'project') : templatePackages)
+        : (data.filter((p: any) => p.billing_cycle === 'package').length > 0 ? data.filter((p: any) => p.billing_cycle === 'package') : signaturePackages);
 
     return (
         <section className="pricing-section section" id="prices">
@@ -138,7 +140,7 @@ export default function Pricing() {
                                 </div>
                             </div>
                             <ul className="package-features">
-                                {pkg.features.map((feature, fIdx) => (
+                                {pkg.features?.map((feature: string, fIdx: number) => (
                                     <li key={fIdx}>
                                         <svg className="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                                             <polyline points="20 6 9 17 4 12"></polyline>

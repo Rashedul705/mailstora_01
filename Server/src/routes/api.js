@@ -97,16 +97,16 @@ router.get('/protected', verifyToken, (req, res) => {
 // Admin Dashboard & CRM Routes
 router.use('/auth', require('./authRoutes'));
 router.use('/customers', require('./customerRoutes'));
-router.use('/quotes', require('./quoteRoutes'));
-router.use('/schedules', require('./scheduleRoutes'));
-router.use('/invoices', require('./invoiceRoutes'));
 router.use('/orders', require('./orderRoutes'));
-router.use('/content', require('./contentRoutes'));
-router.use('/pricing', require('./pricingRoutes'));
+router.use('/quotes', require('./quoteRoutes'));
+router.use('/inquiries', require('./inquiryRoutes'));
+router.use('/schedules', require('./scheduleRoutes'));
 router.use('/portfolio', require('./portfolioRoutes'));
+router.use('/pricing', require('./pricingRoutes'));
 router.use('/testimonials', require('./testimonialRoutes'));
 router.use('/faq', require('./faqRoutes'));
-router.use('/inquiries', require('./inquiryRoutes'));
 router.use('/services', require('./serviceRoutes'));
+router.use('/dashboard', require('./dashboardRoutes'));
+router.use('/content', require('./contentRoutes'));
 
 module.exports = router;

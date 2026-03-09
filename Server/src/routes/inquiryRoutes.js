@@ -1,15 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const inquiryController = require('../controllers/inquiryController');
-const authMiddleware = require('../middleware/auth');
-
-// Public route for form submission
-router.post('/', inquiryController.createInquiry);
-
-// Protected admin routes
-router.use(authMiddleware);
-router.get('/', inquiryController.getAllInquiries);
-router.put('/:id/read', inquiryController.markAsRead);
-router.delete('/:id', inquiryController.deleteInquiry);
-
+const controller = require('../controllers/inquiryController');
+router.get('/', controller.getAll);
+router.post('/', controller.create);
+router.get('/:id', controller.getOne);
+router.put('/:id', controller.update);
+router.delete('/:id', controller.remove);
 module.exports = router;

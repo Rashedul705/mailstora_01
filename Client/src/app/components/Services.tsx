@@ -40,7 +40,9 @@ const services = [
     },
 ];
 
-export default function Services() {
+export default function Services({ data = [] }: { data?: any[] }) {
+    const defaultServices = data.length > 0 ? data : services;
+
     return (
         <section className="services-section section" id="services">
             <div className="container">
@@ -50,14 +52,14 @@ export default function Services() {
                 </div>
 
                 <div className="services-grid">
-                    {services.map((service, idx) => (
+                    {defaultServices.map((service, idx) => (
                         <div key={idx} className="service-card">
                             <div className={`service-icon ${service.iconClass}`}>
                                 {service.icon}
                             </div>
                             <h3 className="service-title">{service.title}</h3>
                             <ul className="service-features">
-                                {service.features.map((feature, fIdx) => (
+                                {service.features?.map((feature: string, fIdx: number) => (
                                     <li key={fIdx}>
                                         <span className="check-icon">✓</span> {feature}
                                     </li>

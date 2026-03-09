@@ -1,53 +1,37 @@
-const QuoteRequest = require('../models/QuoteRequest');
+const Quote = require('../models/Quote');
+const baseController = require('./baseController');
+const CustomerService = require('../services/CustomerService');
 
-// Public: Submit a new quote request
-exports.submitQuote = async (req, res) => {
+exports.getAll = async (req, res) => {
     try {
-        const newQuote = new QuoteRequest({
-            customer_id: req.customer_id, // Attached by customerIntercept middleware
+        const quotes = await Quote.find().populate('customer').sort({ createdAt: -1 });
+        res.status(200).json(quotes);
+    } catch (err) { res.status(500).json({ error: err.message }); }
+};
+
+exports.getOne = async (req, res) => {
+    try {
+        const quote = await Quote.findById(req.params.id).populate('customer');
+        if (!quote) return res.status(404).json({ message: 'Not found' });
+        res.status(200).json(quote);
+    } catch (err) { res.status(500).json({ error: err.message }); }
+};
+
+exports.create = async (req, res) => {
+    try {
+        const customer = await CustomerService.handleCustomerActivity({
             name: req.body.name,
             email: req.body.email,
-            company: req.body.company || '',
-            project_description: req.body.project_description,
-            budget: req.body.budget || '',
-            timeline: req.body.timeline || ''
+            phone: req.body.phone,
+            company_name: req.body.company,
+            source: 'quote',
+            is_order: false
         });
-        await newQuote.save();
-        res.status(201).json({ message: 'Quote request submitted successfully', data: newQuote });
-    } catch (error) {
-        res.status(500).json({ message: 'Error submitting quote request', error: error.message });
-    }
+
+        const quote = await Quote.create({ ...req.body, customer: customer._id });
+        res.status(201).json(quote);
+    } catch (error) { res.status(400).json({ error: error.message }); }
 };
 
-// Admin: Get all quotes
-exports.getAllQuotes = async (req, res) => {
-    try {
-        const quotes = await QuoteRequest.find().populate('customer_id', 'name email').sort({ created_at: -1 });
-        res.json(quotes);
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching quotes', error: error.message });
-    }
-};
-
-// Admin: Update quote status
-exports.updateQuoteStatus = async (req, res) => {
-    try {
-        const { status } = req.body;
-        const quote = await QuoteRequest.findByIdAndUpdate(req.params.id, { status }, { new: true });
-        if (!quote) return res.status(404).json({ message: 'Quote not found' });
-        res.json({ message: 'Quote status updated', data: quote });
-    } catch (error) {
-        res.status(500).json({ message: 'Error updating quote status', error: error.message });
-    }
-};
-
-// Admin: Delete quote
-exports.deleteQuote = async (req, res) => {
-    try {
-        const quote = await QuoteRequest.findByIdAndDelete(req.params.id);
-        if (!quote) return res.status(404).json({ message: 'Quote not found' });
-        res.json({ message: 'Quote deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ message: 'Error deleting quote', error: error.message });
-    }
-};
+exports.update = baseController.update(Quote);
+exports.remove = baseController.remove(Quote);

@@ -1,15 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const pricingController = require('../controllers/pricingController');
-const authMiddleware = require('../middleware/auth');
-
-// Public route for landing page
-router.get('/', pricingController.getAllPackages);
-
-// Protected admin routes
-router.use(authMiddleware);
-router.post('/', pricingController.createPackage);
-router.put('/:id', pricingController.updatePackage);
-router.delete('/:id', pricingController.deletePackage);
-
+const controller = require('../controllers/pricingController');
+router.get('/', controller.getAll);
+router.post('/', controller.create);
+router.get('/:id', controller.getOne);
+router.put('/:id', controller.update);
+router.delete('/:id', controller.remove);
 module.exports = router;

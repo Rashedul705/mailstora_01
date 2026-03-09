@@ -1,44 +1,37 @@
 const Inquiry = require('../models/Inquiry');
+const baseController = require('./baseController');
+const CustomerService = require('../services/CustomerService');
 
-// Get all inquiries for admin
-exports.getAllInquiries = async (req, res) => {
+exports.getAll = async (req, res) => {
     try {
-        const inquiries = await Inquiry.find().sort({ createdAt: -1 });
-        res.json(inquiries);
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching inquiries' });
-    }
+        const inquiries = await Inquiry.find().populate('customer').sort({ createdAt: -1 });
+        res.status(200).json(inquiries);
+    } catch (err) { res.status(500).json({ error: err.message }); }
 };
 
-// Create new inquiry from public website contact form
-exports.createInquiry = async (req, res) => {
+exports.getOne = async (req, res) => {
     try {
-        const newInquiry = new Inquiry(req.body);
-        const savedInquiry = await newInquiry.save();
-        res.status(201).json({ message: 'Inquiry sent successfully', data: savedInquiry });
-    } catch (error) {
-        res.status(400).json({ message: 'Error sending inquiry', error });
-    }
+        const inquiry = await Inquiry.findById(req.params.id).populate('customer');
+        if (!inquiry) return res.status(404).json({ message: 'Not found' });
+        res.status(200).json(inquiry);
+    } catch (err) { res.status(500).json({ error: err.message }); }
 };
 
-// Mark inquiry as read
-exports.markAsRead = async (req, res) => {
+exports.create = async (req, res) => {
     try {
-        const updatedInquiry = await Inquiry.findByIdAndUpdate(req.params.id, { isRead: true }, { new: true });
-        if (!updatedInquiry) return res.status(404).json({ message: 'Inquiry not found' });
-        res.json(updatedInquiry);
-    } catch (error) {
-        res.status(400).json({ message: 'Error updating inquiry' });
-    }
+        const customer = await CustomerService.handleCustomerActivity({
+            name: req.body.name,
+            email: req.body.email,
+            phone: req.body.phone,
+            company_name: req.body.company,
+            source: 'inquiry',
+            is_order: false
+        });
+
+        const inquiry = await Inquiry.create({ ...req.body, customer: customer._id });
+        res.status(201).json(inquiry);
+    } catch (error) { res.status(400).json({ error: error.message }); }
 };
 
-// Delete inquiry
-exports.deleteInquiry = async (req, res) => {
-    try {
-        const deletedInquiry = await Inquiry.findByIdAndDelete(req.params.id);
-        if (!deletedInquiry) return res.status(404).json({ message: 'Inquiry not found' });
-        res.json({ message: 'Inquiry deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ message: 'Error deleting inquiry' });
-    }
-};
+exports.update = baseController.update(Inquiry);
+exports.remove = baseController.remove(Inquiry);

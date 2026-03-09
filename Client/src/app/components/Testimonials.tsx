@@ -27,7 +27,9 @@ const testimonials = [
     },
 ];
 
-export default function Testimonials() {
+export default function Testimonials({ data = [] }: { data?: any[] }) {
+    const displayItems = data.length > 0 ? data : testimonials;
+
     return (
         <section className="testimonials-section section">
             <div className="container">
@@ -37,7 +39,7 @@ export default function Testimonials() {
                 </div>
 
                 <div className="testimonials-grid">
-                    {testimonials.map((t, idx) => (
+                    {displayItems.map((t, idx) => (
                         <div key={idx} className="testimonial-card">
                             {/* Quote mark decoration */}
                             <div className="testimonial-quote-mark">"</div>

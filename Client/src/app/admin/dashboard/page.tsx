@@ -1,139 +1,83 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import './dashboard.css';
+import { useEffect, useState } from 'react';
 
-export default function AdminDashboard() {
-    const [stats, setStats] = useState({
-        totalOrders: 0,
-        portfolioItems: 0,
-        totalCustomers: 0,
-        pendingQuotes: 0,
-        revenue: '$0'
-    });
-
-    const [recentOrders, setRecentOrders] = useState([
-        { id: '#ORD-1234', client: 'John Doe', service: 'Email Template', date: '2024-03-01', status: 'completed' },
-        { id: '#ORD-1235', client: 'Jane Smith', service: 'Email Signature', date: '2024-03-02', status: 'pending' },
-        { id: '#ORD-1236', client: 'Acme Corp', service: 'Newsletter Design', date: '2024-03-02', status: 'progress' },
-        { id: '#ORD-1237', client: 'Tech Start', service: 'Email Signature', date: '2024-03-03', status: 'pending' },
-    ]);
+export default function Dashboard() {
+    const [stats, setStats] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchDashboardData = async () => {
+        const fetchStats = async () => {
             try {
-                // Fetch all raw data required for the dashboard overview in parallel
-                const [ordersRes, portfolioRes, customersRes, quotesRes] = await Promise.all([
-                    fetch('http://localhost:5000/api/orders', { credentials: 'include' }),
-                    fetch('http://localhost:5000/api/portfolio'),
-                    fetch('http://localhost:5000/api/customers', { credentials: 'include' }),
-                    fetch('http://localhost:5000/api/quotes', { credentials: 'include' })
-                ]);
-
-                if (ordersRes.ok) {
-                    const orders = await ordersRes.json();
-                    const revenueCount = orders.reduce((acc: number, curr: any) => acc + (curr.price || 0), 0);
-
-                    setStats(prev => ({
-                        ...prev,
-                        totalOrders: orders.length,
-                        revenue: `$${revenueCount.toLocaleString()}`
-                    }));
-                    setRecentOrders(orders.slice(0, 5).map((o: any) => ({
-                        id: o.order_number || o.orderId,
-                        client: o.customer_id?.name || o.clientName || 'Unknown',
-                        email: o.customer_id?.email || o.clientEmail || 'Unknown',
-                        service: o.package_name || o.orderPackage,
-                        date: new Date(o.created_at || o.orderDate).toLocaleDateString(),
-                        status: o.status.toLowerCase()
-                    })));
-                }
-
-                if (portfolioRes.ok) {
-                    const portfolio = await portfolioRes.json();
-                    setStats(prev => ({ ...prev, portfolioItems: portfolio.length }));
-                }
-
-                if (customersRes.ok) {
-                    const customers = await customersRes.json();
-                    setStats(prev => ({ ...prev, totalCustomers: customers.length }));
-                }
-
-                if (quotesRes.ok) {
-                    const quotes = await quotesRes.json();
-                    setStats(prev => ({ ...prev, pendingQuotes: quotes.filter((q: any) => q.status === 'new').length }));
-                }
+                const res = await fetch('http://127.0.0.1:5000/api/dashboard/stats', { credentials: 'omit' });
+                const data = await res.json();
+                setStats(data);
             } catch (err) {
-                console.error("Failed to fetch dashboard metrics", err);
+                console.error(err);
+            } finally {
+                setLoading(false);
             }
         };
-
-        fetchDashboardData();
+        fetchStats();
     }, []);
 
-    return (
-        <div className="dashboard-page">
-            <header className="admin-header">
-                <h1 className="admin-title">Dashboard Overview</h1>
-                <div className="admin-date">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
-            </header>
+    if (loading) return <div>Loading dashboard...</div>;
+    if (!stats) return <div>Failed to load stats.</div>;
 
-            <div className="stats-grid">
-                <div className="admin-card stat-card">
-                    <div className="stat-label">Total Orders</div>
-                    <div className="stat-value">{stats.totalOrders}</div>
+    return (
+        <div className="admin-page">
+            <h1 className="admin-page-title">Dashboard Overview</h1>
+            <div className="admin-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+                <div className="stat-card" style={{ background: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                    <h3>Total Customers</h3>
+                    <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#f97316' }}>{stats.totalCustomers}</p>
                 </div>
-                <div className="admin-card stat-card">
-                    <div className="stat-label">Total Customers</div>
-                    <div className="stat-value">{stats.totalCustomers}</div>
+                <div className="stat-card" style={{ background: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                    <h3>Total Orders</h3>
+                    <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#f97316' }}>{stats.totalOrders}</p>
                 </div>
-                <div className="admin-card stat-card">
-                    <div className="stat-label">Pending Quotes</div>
-                    <div className="stat-value">{stats.pendingQuotes}</div>
+                <div className="stat-card" style={{ background: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                    <h3>Pending Quotes</h3>
+                    <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#f97316' }}>{stats.pendingQuotes}</p>
                 </div>
-                <div className="admin-card stat-card">
-                    <div className="stat-label">Total Revenue</div>
-                    <div className="stat-value">{stats.revenue}</div>
+                <div className="stat-card" style={{ background: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                    <h3>Total Revenue</h3>
+                    <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#f97316' }}>${stats.totalRevenue}</p>
                 </div>
             </div>
 
-            <div className="recent-activity">
-                <div className="card-header">
-                    <h2>Recent Orders</h2>
-                </div>
-                <div className="admin-table-container">
-                    <table className="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Client</th>
-                                <th>Service</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {recentOrders.map((order) => (
-                                <tr key={order.id}>
-                                    <td><strong>{order.id}</strong></td>
-                                    <td>
-                                        <div className="client-info">
-                                            <span className="client-name">{(order as any).client}</span>
-                                            <span className="client-email">{(order as any).email || 'No email provided'}</span>
-                                        </div>
-                                    </td>
-                                    <td>{order.service}</td>
-                                    <td>{order.date}</td>
-                                    <td>
-                                        <span className={`badge badge-${order.status}`}>
+            <h2 className="admin-section-title">Recent Orders</h2>
+            <div className="admin-table-container">
+                <table className="admin-table" style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
+                    <thead>
+                        <tr style={{ borderBottom: '2px solid #eee' }}>
+                            <th style={{ padding: '12px' }}>Order ID</th>
+                            <th style={{ padding: '12px' }}>Customer</th>
+                            <th style={{ padding: '12px' }}>Amount</th>
+                            <th style={{ padding: '12px' }}>Status</th>
+                            <th style={{ padding: '12px' }}>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {stats.recentOrders.length === 0 ? (
+                            <tr><td colSpan={5} style={{ padding: '12px', textAlign: 'center' }}>No recent orders.</td></tr>
+                        ) : (
+                            stats.recentOrders.map((order: any) => (
+                                <tr key={order._id} style={{ borderBottom: '1px solid #eee' }}>
+                                    <td style={{ padding: '12px' }}>{order._id.substring(0, 8)}</td>
+                                    <td style={{ padding: '12px' }}>{order.customer?.name || 'Unknown'}</td>
+                                    <td style={{ padding: '12px' }}>${order.amount}</td>
+                                    <td style={{ padding: '12px' }}>
+                                        <span style={{ padding: '4px 8px', borderRadius: '4px', background: order.status === 'Pending' ? '#fff3cd' : '#d1e7dd', color: order.status === 'Pending' ? '#856404' : '#0f5132' }}>
                                             {order.status}
                                         </span>
                                     </td>
+                                    <td style={{ padding: '12px' }}>{new Date(order.createdAt).toLocaleDateString()}</td>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            ))
+                        )}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

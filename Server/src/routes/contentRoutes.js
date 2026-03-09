@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const contentController = require('../controllers/contentController');
-const authMiddleware = require('../middleware/auth');
+const controller = require('../controllers/contentController');
 
-// Public routes 
-router.get('/', contentController.getAllContent);
-router.get('/:sectionId', contentController.getContentById);
+router.get('/hero', controller.getHero);
+router.post('/hero', controller.createHero);
+router.put('/hero/:id', controller.updateHero);
+router.delete('/hero/:id', controller.deleteHero);
 
-// Protected admin routes
-router.put('/:sectionId', authMiddleware, contentController.updateContent);
+router.get('/website', controller.getContent);
+router.post('/website', controller.createContent);
+router.put('/website/:id', controller.updateContent);
+router.delete('/website/:id', controller.deleteContent);
 
 module.exports = router;

@@ -1,15 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const scheduleController = require('../controllers/scheduleController');
-const verifyAdmin = require('../middleware/auth');
-const customerIntercept = require('../middlewares/customerIntercept');
-
-// Public Route (Requires global interceptor to create/update CRM profile)
-router.post('/', customerIntercept, scheduleController.submitSchedule);
-
-// Admin Routes
-router.get('/', verifyAdmin, scheduleController.getAllSchedules);
-router.patch('/:id/status', verifyAdmin, scheduleController.updateScheduleStatus);
-router.delete('/:id', verifyAdmin, scheduleController.deleteSchedule);
-
+const controller = require('../controllers/scheduleController');
+router.get('/', controller.getAll);
+router.post('/', controller.create);
+router.get('/:id', controller.getOne);
+router.put('/:id', controller.update);
+router.delete('/:id', controller.remove);
 module.exports = router;

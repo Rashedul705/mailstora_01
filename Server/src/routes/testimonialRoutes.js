@@ -1,15 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const testimonialController = require('../controllers/testimonialController');
-const authMiddleware = require('../middleware/auth');
-
-// Public route 
-router.get('/', testimonialController.getAllTestimonials);
-
-// Protected admin routes
-router.use(authMiddleware);
-router.post('/', testimonialController.createTestimonial);
-router.put('/:id', testimonialController.updateTestimonial);
-router.delete('/:id', testimonialController.deleteTestimonial);
-
+const controller = require('../controllers/testimonialController');
+router.get('/', controller.getAll);
+router.post('/', controller.create);
+router.get('/:id', controller.getOne);
+router.put('/:id', controller.update);
+router.delete('/:id', controller.remove);
 module.exports = router;

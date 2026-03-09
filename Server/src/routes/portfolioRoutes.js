@@ -1,16 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const portfolioController = require('../controllers/portfolioController');
-const authMiddleware = require('../middleware/auth');
-
-// Public routes for landing page
-router.get('/', portfolioController.getAllProjects);
-router.get('/:id', portfolioController.getProjectById);
-
-// Protected admin routes
-router.use(authMiddleware);
-router.post('/', portfolioController.createProject);
-router.put('/:id', portfolioController.updateProject);
-router.delete('/:id', portfolioController.deleteProject);
-
+const controller = require('../controllers/portfolioController');
+router.get('/', controller.getAll);
+router.post('/', controller.create);
+router.get('/:id', controller.getOne);
+router.put('/:id', controller.update);
+router.delete('/:id', controller.remove);
 module.exports = router;

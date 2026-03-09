@@ -8,7 +8,9 @@ const items = [
     { type: "Email Template", title: "Event Invitation Template", tag: "Event" },
 ];
 
-export default function Portfolio() {
+export default function Portfolio({ data = [] }: { data?: any[] }) {
+    const displayItems = data.length > 0 ? data : items;
+
     return (
         <section className="portfolio-section section section-alt" id="portfolio">
             <div className="container">
@@ -18,7 +20,7 @@ export default function Portfolio() {
                 </div>
 
                 <div className="portfolio-grid">
-                    {items.map((item, idx) => (
+                    {displayItems.map((item, idx) => (
                         <div key={idx} className="portfolio-item">
                             <div className="portfolio-image-wrapper">
                                 <Image
