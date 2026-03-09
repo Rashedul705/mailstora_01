@@ -16,7 +16,7 @@ export default function CTA() {
                         <Link href="/checkout" className="btn btn-primary cta-button">
                             Start Your Project
                         </Link>
-                        <a href="#contact" className="btn btn-secondary cta-button">Get a Free Quote</a>
+                        <Link href="/quote" className="btn btn-secondary cta-button">Get a Free Quote</Link>
                     </div>
                     <p className="cta-note">✦ No commitment required &nbsp;·&nbsp; Response within 24h</p>
                 </div>

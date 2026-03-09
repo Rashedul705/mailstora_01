@@ -1,0 +1,205 @@
+.quotes-admin-container {
+    width: 100%;
+}
+
+.admin-toolbar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+}
+
+.admin-search-input {
+    flex-grow: 1;
+    padding: 0.875rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--admin-border);
+    font-size: 0.875rem;
+}
+
+.admin-filter-select {
+    padding: 0.875rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--admin-border);
+    font-size: 0.875rem;
+    background: white;
+    min-width: 150px;
+}
+
+.hover-row:hover td {
+    background-color: #F8FAFC;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.quote-modal-body {
+    padding: 2rem !important;
+}
+
+.quote-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.detail-section h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1E293B;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.detail-row {
+    font-size: 0.9375rem;
+    color: #334155;
+    margin-bottom: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.detail-row span {
+    color: #64748B;
+}
+
+.detail-row a {
+    color: var(--admin-primary);
+    text-decoration: none;
+}
+
+.attachment-box {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #F1F5F9;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+.attachment-link {
+    font-weight: 600;
+    color: var(--admin-primary);
+    text-decoration: none;
+}
+
+.detail-description h3,
+.conversation-section h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1E293B;
+    margin-bottom: 1rem;
+}
+
+.description-box {
+    background: #F8FAFC;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #E2E8F0;
+    font-size: 0.9375rem;
+    color: #334155;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.quote-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #F8FAFC;
+    padding: 1.5rem 2rem !important;
+}
+
+.status-updater {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-updater label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #334155;
+}
+
+.quote-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Chat History CSS */
+.chat-history {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.no-messages {
+    text-align: center;
+    color: #94A3B8;
+    font-style: italic;
+    padding: 2rem 0;
+}
+
+.chat-bubble {
+    max-width: 80%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+.chat-bubble-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.chat-date {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-left: 1rem;
+}
+
+.chat-admin {
+    align-self: flex-end;
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-bottom-right-radius: 0;
+}
+
+.chat-admin .chat-bubble-header {
+    color: #1E3A8A;
+}
+
+.chat-admin .chat-bubble-body {
+    color: #1E40AF;
+}
+
+.chat-client {
+    align-self: flex-start;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-bottom-left-radius: 0;
+}
+
+.chat-client .chat-bubble-header {
+    color: #334155;
+}
+
+.chat-client .chat-bubble-body {
+    color: #475569;
+}

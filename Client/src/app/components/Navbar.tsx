@@ -28,7 +28,7 @@ export default function Navbar() {
 
                 {/* Right Actions */}
                 <div className="navbar-actions">
-                    <Link href="#contact" className="btn btn-primary nav-cta nav-cta-desktop">Get a Free Quote</Link>
+                    <Link href="/quote" className="btn btn-primary nav-cta nav-cta-desktop">Get a Free Quote</Link>
                     {/* Hamburger */}
                     <button
                         className="nav-hamburger"
@@ -50,7 +50,7 @@ export default function Navbar() {
                     <Link href="#prices" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Pricing</Link>
                     <Link href="#process" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Process</Link>
                     <Link href="#contact" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Contact</Link>
-                    <Link href="#contact" className="btn btn-primary mobile-signup-btn" onClick={() => setMenuOpen(false)}>Get a Free Quote</Link>
+                    <Link href="/quote" className="btn btn-primary mobile-signup-btn" onClick={() => setMenuOpen(false)}>Get a Free Quote</Link>
                 </div>
             )}
         </nav>

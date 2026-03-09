@@ -128,36 +128,40 @@ export default function Pricing({ data = [] }: { data?: any[] }) {
                 </div>
 
                 <div className="pricing-grid">
-                    {activePackages.map((pkg, idx) => (
-                        <div key={idx} className={`pricing-card ${pkg.highlighted ? 'highlighted' : ''}`}>
-                            {pkg.highlighted && <div className="popular-badge">Most Popular</div>}
-                            <div className="pricing-info">
-                                <h3 className="package-name">{pkg.name}</h3>
-                                <p className="package-desc">{pkg.description}</p>
-                                <div className="package-price">
-                                    <span className="price-amount">{pkg.price}</span>
-                                    {pkg.price !== "Custom" && <span className="price-period">/{activeTab === 'template' ? 'project' : 'package'}</span>}
+                    {activePackages.map((pkg, idx) => {
+                        const isHighlighted = pkg.highlighted || pkg.is_popular;
+                        const btnText = pkg.buttonText || "Get Started";
+                        const displayPrice = typeof pkg.price === 'number' ? `$${pkg.price}` : pkg.price;
+
+                        return (
+                            <div key={idx} className={`pricing-card ${isHighlighted ? 'highlighted' : ''}`}>
+                                {isHighlighted && <div className="popular-badge">Most Popular</div>}
+                                <div className="pricing-info">
+                                    <h3 className="package-name">{pkg.name}</h3>
+                                    <p className="package-desc">{pkg.description}</p>
+                                    <div className="package-price">
+                                        <span className="price-amount">{displayPrice}</span>
+                                        {displayPrice !== "Custom" && displayPrice !== "Custom Pricing" && <span className="price-period">/{activeTab === 'template' ? 'project' : 'package'}</span>}
+                                    </div>
+                                </div>
+                                <ul className="package-features">
+                                    {pkg.features?.map((feature: string, fIdx: number) => (
+                                        <li key={fIdx}>
+                                            <svg className="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                            {feature}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <div className="pricing-action">
+                                    <Link href="/checkout" className={`btn ${isHighlighted ? 'btn-primary' : 'btn-secondary'} full-width`} style={{ display: 'block' }}>
+                                        {btnText}
+                                    </Link>
                                 </div>
                             </div>
-                            <ul className="package-features">
-                                {pkg.features?.map((feature: string, fIdx: number) => (
-                                    <li key={fIdx}>
-                                        <svg className="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                        {feature}
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className="pricing-action">
-                                <Link href="/checkout" style={{ width: '100%', display: 'block' }}>
-                                    <button className={`btn ${pkg.highlighted ? 'btn-primary' : 'btn-secondary'} full-width`}>
-                                        {pkg.buttonText}
-                                    </button>
-                                </Link>
-                            </div>
-                        </div>
-                    ))}
+                        )
+                    })}
                 </div>
             </div>
         </section>

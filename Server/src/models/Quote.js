@@ -6,9 +6,13 @@ const quoteSchema = new mongoose.Schema({
     email: { type: String, required: true },
     company: { type: String, default: '' },
     phone: { type: String, default: '' },
-    service_required: { type: String, required: true },
-    message: { type: String, required: true },
-    status: { type: String, enum: ['Pending', 'Replied', 'Converted'], default: 'Pending' }
+    service_type: { type: String, required: true },
+    template_count: { type: String, default: '' },
+    timeline: { type: String, default: '' },
+    budget: { type: String, default: '' },
+    project_description: { type: String, required: true },
+    attachment: { type: String, default: '' },
+    status: { type: String, enum: ['new', 'contacted', 'negotiation', 'converted', 'closed'], default: 'new' }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Quote', quoteSchema);

@@ -7,8 +7,10 @@ exports.getDashboardStats = async (req, res) => {
         const totalCustomers = await Customer.countDocuments();
         const totalOrders = await Order.countDocuments();
 
-        // Count Pending Quotes
-        const pendingQuotes = await Quote.countDocuments({ status: 'Pending' });
+        // Count Quotes
+        const totalQuotes = await Quote.countDocuments();
+        const pendingQuotes = await Quote.countDocuments({ status: { $in: ['new', 'contacted', 'negotiation'] } });
+        const newQuotes = await Quote.countDocuments({ status: 'new' });
 
         // Calculate Total Revenue from all orders (assuming they have amount field and are not Cancelled)
         const orders = await Order.find({ status: { $ne: 'Cancelled' } });
@@ -20,12 +22,21 @@ exports.getDashboardStats = async (req, res) => {
             .sort({ createdAt: -1 })
             .limit(5);
 
+        // Fetch 5 Recent Quotes
+        const recentQuotes = await Quote.find()
+            .populate('customer')
+            .sort({ createdAt: -1 })
+            .limit(5);
+
         res.status(200).json({
             totalCustomers,
             totalOrders,
+            totalQuotes,
+            newQuotes,
             pendingQuotes,
             totalRevenue,
-            recentOrders
+            recentOrders,
+            recentQuotes
         });
     } catch (error) {
         console.error('Dashboard Error:', error);
