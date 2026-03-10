@@ -1,8 +1,16 @@
 import Image from "next/image";
 import "./Hero.css";
 
+const DEFAULT_HERO = {
+    title: "Custom <span>HTML Email Templates</span> That Work Perfectly in Outlook, Gmail & 30+ Email Clients",
+    subtitle: "Stop losing engagement due to broken formatting. Get hand-coded, pixel-perfect email templates and professional signatures tested across all major email clients, delivered in 24-48 hours.",
+    cta_text: "Get a Free Quote",
+    cta_link: "#contact",
+    background_image: "/consultation-photo-v2.png"
+};
+
 export default function Hero({ data }: { data?: any }) {
-    if (!data) return null;
+    const heroData = data || DEFAULT_HERO;
 
     return (
         <section className="hero section">
@@ -15,14 +23,14 @@ export default function Hero({ data }: { data?: any }) {
                 <div className="hero-content">
                     <span className="hero-badge">✦ Professional Email Development</span>
 
-                    <h1 className="hero-title" dangerouslySetInnerHTML={{ __html: data.title }}></h1>
+                    <h1 className="hero-title" dangerouslySetInnerHTML={{ __html: heroData.title }}></h1>
 
                     <p className="hero-subtitle">
-                        {data.subtitle}
+                        {heroData.subtitle}
                     </p>
 
                     <div className="hero-buttons">
-                        <a href={data.cta_link} className="btn btn-primary">{data.cta_text}</a>
+                        <a href={heroData.cta_link} className="btn btn-primary">{heroData.cta_text}</a>
                         <a href="#portfolio" className="btn btn-secondary">View Portfolio</a>
                     </div>
 
@@ -90,7 +98,7 @@ export default function Hero({ data }: { data?: any }) {
                         <div className="hero-ring-dots" />
                         <div className="hero-photo-frame">
                             <Image
-                                src={data.background_image || "/consultation-photo-v2.png"}
+                                src={heroData.background_image || "/consultation-photo-v2.png"}
                                 alt="Rashedul Islam – Founder & Lead Mailstora"
                                 width={320}
                                 height={320}

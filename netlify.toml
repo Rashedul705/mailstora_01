@@ -11,6 +11,7 @@
 
 [[redirects]]
   from = "/api/*"
+  # Replace with your actual backend URL in the Netlify UI or here
   to = "https://your-backend.onrender.com/api/:splat"
   status = 200
   force = true

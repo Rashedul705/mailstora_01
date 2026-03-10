@@ -13,7 +13,12 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
 async function getLandingData() {
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+
+  if (!API_BASE && process.env.NODE_ENV === 'production') {
+    console.warn("NEXT_PUBLIC_API_URL is not set. API calls will likely fail in production.");
+  }
+
   try {
     const urls = [
       `${API_BASE}/api/content/hero`,
@@ -23,8 +28,14 @@ async function getLandingData() {
       `${API_BASE}/api/testimonials`,
       `${API_BASE}/api/faq`
     ];
+
     const responses = await Promise.all(
-      urls.map(url => fetch(url, { cache: 'no-store' }).catch(() => null))
+      urls.map(url => fetch(url, { cache: 'no-store' })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .catch(err => {
+          console.error(`Failed to fetch ${url}:`, err.status || err.message || err);
+          return null;
+        }))
     );
 
     return {
