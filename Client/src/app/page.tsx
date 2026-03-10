@@ -13,14 +13,15 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
 async function getLandingData() {
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
   try {
     const urls = [
-      'http://127.0.0.1:5000/api/content/hero',
-      'http://127.0.0.1:5000/api/services',
-      'http://127.0.0.1:5000/api/pricing',
-      'http://127.0.0.1:5000/api/portfolio',
-      'http://127.0.0.1:5000/api/testimonials',
-      'http://127.0.0.1:5000/api/faq'
+      `${API_BASE}/api/content/hero`,
+      `${API_BASE}/api/services`,
+      `${API_BASE}/api/pricing`,
+      `${API_BASE}/api/portfolio`,
+      `${API_BASE}/api/testimonials`,
+      `${API_BASE}/api/faq`
     ];
     const responses = await Promise.all(
       urls.map(url => fetch(url, { cache: 'no-store' }).catch(() => null))

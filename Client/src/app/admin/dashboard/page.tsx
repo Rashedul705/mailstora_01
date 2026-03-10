@@ -9,7 +9,8 @@ export default function Dashboard() {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const res = await fetch('http://127.0.0.1:5000/api/dashboard/stats', { credentials: 'omit' });
+                const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+                const res = await fetch(`${API_BASE}/api/dashboard/stats`, { credentials: 'omit' });
                 const data = await res.json();
                 setStats(data);
             } catch (err) {
