@@ -13,9 +13,9 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
 async function getLandingData() {
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
-  if (!API_BASE && process.env.NODE_ENV === 'production') {
+  if (!process.env.NEXT_PUBLIC_API_URL && process.env.NODE_ENV === 'production') {
     console.warn("NEXT_PUBLIC_API_URL is not set. API calls will likely fail in production.");
   }
 
