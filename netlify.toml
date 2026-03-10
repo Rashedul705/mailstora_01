@@ -9,10 +9,8 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# Redirect all API calls if you want to proxy through Netlify (optional)
-# To use, uncomment below and set NEXT_PUBLIC_API_URL to a relative /api path
-# [[redirects]]
-#   from = "/api/*"
-#   to = "https://your-backend.onrender.com/api/:splat"
-#   status = 200
-#   force = true
+[[redirects]]
+  from = "/api/*"
+  to = "https://your-backend.onrender.com/api/:splat"
+  status = 200
+  force = true
