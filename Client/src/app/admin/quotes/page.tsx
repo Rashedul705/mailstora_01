@@ -15,7 +15,7 @@ export default function QuotesAdmin() {
     const [actionLoading, setActionLoading] = useState(false);
     const [replyText, setReplyText] = useState('');
 
-    const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/quotes`;
+    const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/quotes`;
 
     const fetchQuotes = async () => {
         setLoading(true);
@@ -117,7 +117,7 @@ export default function QuotesAdmin() {
                 const data = await res.json();
                 setSelectedQuote({ ...selectedQuote, messages: [...(selectedQuote.messages || []), data.quoteMessage] });
                 setReplyText('');
-                fetchQuotes(); // refresh list in background
+                fetchQuotes();
             } else {
                 const err = await res.json();
                 alert(err.message || 'Failed to send reply');
@@ -142,6 +142,11 @@ export default function QuotesAdmin() {
         return new Date(dateString).toLocaleDateString('en-US', {
             year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
         });
+    };
+
+    const getEspDisplay = (quote: any) => {
+        if (quote.esp === 'Custom / Other') return quote.esp_custom || 'Custom';
+        return quote.esp || '—';
     };
 
     return (
@@ -184,7 +189,8 @@ export default function QuotesAdmin() {
                                 <th>Client Name</th>
                                 <th>Email</th>
                                 <th>Service Type</th>
-                                <th>Budget</th>
+                                <th>ESP</th>
+                                <th>Qty</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th>Actions</th>
@@ -193,7 +199,7 @@ export default function QuotesAdmin() {
                         <tbody>
                             {filteredQuotes.length === 0 ? (
                                 <tr>
-                                    <td colSpan={7} style={{ textAlign: 'center', padding: '3rem' }}>No quotes found.</td>
+                                    <td colSpan={8} style={{ textAlign: 'center', padding: '3rem' }}>No quotes found.</td>
                                 </tr>
                             ) : (
                                 filteredQuotes.map(quote => (
@@ -201,7 +207,8 @@ export default function QuotesAdmin() {
                                         <td style={{ fontWeight: 600 }}>{quote.name}</td>
                                         <td>{quote.email}</td>
                                         <td>{quote.service_type}</td>
-                                        <td>{quote.budget}</td>
+                                        <td>{getEspDisplay(quote)}</td>
+                                        <td>{quote.template_quantity || '—'}</td>
                                         <td><span className="text-sm">{new Date(quote.createdAt).toLocaleDateString()}</span></td>
                                         <td>
                                             <span className={`badge badge-${quote.status === 'new' ? 'pending' : quote.status === 'converted' ? 'completed' : 'progress'}`}>
@@ -224,7 +231,7 @@ export default function QuotesAdmin() {
             {/* Custom Quote Detail Modal */}
             {selectedQuote && (
                 <div className="admin-modal-overlay" onClick={() => setSelectedQuote(null)}>
-                    <div className="admin-modal" style={{ maxWidth: '800px', width: '90%' }} onClick={e => e.stopPropagation()}>
+                    <div className="admin-modal" style={{ maxWidth: '850px', width: '90%' }} onClick={e => e.stopPropagation()}>
                         <div className="modal-header">
                             <div>
                                 <h2 className="modal-title">Quote Request Details</h2>
@@ -239,8 +246,9 @@ export default function QuotesAdmin() {
                                     <h3>Client Information</h3>
                                     <div className="detail-row"><span>Name:</span> <strong>{selectedQuote.name}</strong></div>
                                     <div className="detail-row"><span>Email:</span> <a href={`mailto:${selectedQuote.email}`}>{selectedQuote.email}</a></div>
+                                    <div className="detail-row"><span>WhatsApp:</span> {selectedQuote.whatsapp || selectedQuote.phone || 'N/A'}</div>
                                     <div className="detail-row"><span>Company:</span> {selectedQuote.company || 'N/A'}</div>
-                                    <div className="detail-row"><span>Phone:</span> {selectedQuote.phone || 'N/A'}</div>
+                                    <div className="detail-row"><span>Website:</span> {selectedQuote.website ? <a href={selectedQuote.website} target="_blank" rel="noreferrer">{selectedQuote.website}</a> : 'N/A'}</div>
 
                                     <div style={{ marginTop: '1.5rem' }}>
                                         <a href={`mailto:${selectedQuote.email}?subject=Regarding your MailStora Quote - ${selectedQuote.service_type}`} className="admin-btn admin-btn-primary" style={{ width: '100%' }}>
@@ -252,18 +260,34 @@ export default function QuotesAdmin() {
                                 <div className="detail-section">
                                     <h3>Project Scope</h3>
                                     <div className="detail-row"><span>Service Type:</span> <strong>{selectedQuote.service_type}</strong></div>
-                                    <div className="detail-row"><span>Volume:</span> {selectedQuote.template_count}</div>
-                                    <div className="detail-row"><span>Timeline:</span> {selectedQuote.timeline}</div>
-                                    <div className="detail-row"><span>Budget:</span> <strong style={{ color: '#059669' }}>{selectedQuote.budget}</strong></div>
+                                    <div className="detail-row"><span>Templates:</span> {selectedQuote.template_quantity || selectedQuote.template_count || '—'}</div>
+                                    <div className="detail-row"><span>ESP:</span> {getEspDisplay(selectedQuote)}</div>
+                                    <div className="detail-row">
+                                        <span>Design Status:</span>
+                                        <strong style={{ color: selectedQuote.design_status === 'need_design' ? '#D97706' : '#059669' }}>
+                                            {selectedQuote.design_status === 'have_design' ? '✅ Has Design' : selectedQuote.design_status === 'need_design' ? '✏️ Needs Design' : '—'}
+                                        </strong>
+                                    </div>
 
-                                    {selectedQuote.attachment && (
-                                        <div className="attachment-box">
-                                            <span>📎 Attachment:</span>
-                                            <a href={selectedQuote.attachment} target="_blank" rel="noreferrer" className="attachment-link">View File</a>
+                                    {selectedQuote.email_types && selectedQuote.email_types.length > 0 && (
+                                        <div className="detail-row" style={{ flexDirection: 'column', gap: '0.5rem' }}>
+                                            <span>Email Types:</span>
+                                            <div className="tag-list">
+                                                {selectedQuote.email_types.map((type: string, i: number) => (
+                                                    <span key={i} className="detail-tag">{type}</span>
+                                                ))}
+                                            </div>
                                         </div>
                                     )}
                                 </div>
                             </div>
+
+                            {selectedQuote.design_status === 'need_design' && selectedQuote.design_brief && (
+                                <div className="detail-description" style={{ marginTop: '1.5rem' }}>
+                                    <h3>Design Brief</h3>
+                                    <div className="description-box">{selectedQuote.design_brief}</div>
+                                </div>
+                            )}
 
                             <div className="detail-description">
                                 <h3>Project Description</h3>
@@ -271,6 +295,25 @@ export default function QuotesAdmin() {
                                     {selectedQuote.project_description || 'No description provided.'}
                                 </div>
                             </div>
+
+                            {/* Attachments */}
+                            {((selectedQuote.attachments && selectedQuote.attachments.length > 0) || selectedQuote.attachment) && (
+                                <div className="detail-description" style={{ marginTop: '1rem' }}>
+                                    <h3>📎 Attachments</h3>
+                                    <div className="attachments-list">
+                                        {selectedQuote.attachments && selectedQuote.attachments.map((url: string, i: number) => (
+                                            <a key={i} href={url} target="_blank" rel="noreferrer" className="attachment-download-link">
+                                                📄 Attachment {i + 1} — Download
+                                            </a>
+                                        ))}
+                                        {selectedQuote.attachment && !selectedQuote.attachments?.length && (
+                                            <a href={selectedQuote.attachment} target="_blank" rel="noreferrer" className="attachment-download-link">
+                                                📄 View Attachment
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
 
                             <div className="conversation-section" style={{ marginTop: '2rem' }}>
                                 <h3>Conversation History</h3>

@@ -28,7 +28,7 @@ exports.create = async (req, res) => {
         const customer = await CustomerService.handleCustomerActivity({
             name: req.body.name,
             email: req.body.email,
-            phone: req.body.phone,
+            phone: req.body.whatsapp,
             company_name: req.body.company,
             source: 'quote',
             is_order: false
@@ -37,6 +37,9 @@ exports.create = async (req, res) => {
         const quote = await Quote.create({ ...req.body, customer: customer._id });
 
         // Send confirmation email to client
+        const emailTypesStr = (quote.email_types && quote.email_types.length > 0) ? quote.email_types.join(', ') : 'N/A';
+        const espStr = quote.esp === 'Custom / Other' ? (quote.esp_custom || 'Custom') : (quote.esp || 'N/A');
+
         const clientSubject = `Quote Request Received – MailStora`;
         const clientHtml = `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -47,36 +50,51 @@ exports.create = async (req, res) => {
                 <h3>Project Summary:</h3>
                 <ul>
                     <li><strong>Service:</strong> ${quote.service_type}</li>
-                    <li><strong>Budget:</strong> ${quote.budget}</li>
-                    <li><strong>Timeline:</strong> ${quote.timeline}</li>
+                    <li><strong>Email Types:</strong> ${emailTypesStr}</li>
+                    <li><strong>Templates:</strong> ${quote.template_quantity}</li>
+                    <li><strong>ESP:</strong> ${espStr}</li>
                 </ul>
                 <p>Best regards,<br/>MailStora Team</p>
             </div>
         `;
-        sendEmail(quote.email, clientSubject, 'Your quote request has been received.', clientHtml).catch(e => console.error('Failed to send client email via background task:', e));
+        sendEmail(quote.email, clientSubject, 'Your quote request has been received.', clientHtml).catch(e => console.error('Failed to send client email:', e));
 
         // Send notification email to admin
+        const attachmentLinks = (quote.attachments && quote.attachments.length > 0)
+            ? quote.attachments.map((url, i) => `<li><a href="${url}">Attachment ${i + 1}</a></li>`).join('')
+            : '<li>None</li>';
+
         const adminSubject = `New Quote Request Received`;
         const adminHtml = `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                 <p>A new quote request has been submitted.</p>
                 <br/>
+                <h3>Client Info</h3>
                 <ul>
-                    <li><strong>Client Name:</strong> ${quote.name}</li>
+                    <li><strong>Name:</strong> ${quote.name}</li>
                     <li><strong>Email:</strong> ${quote.email}</li>
+                    <li><strong>WhatsApp:</strong> ${quote.whatsapp}</li>
                     <li><strong>Company:</strong> ${quote.company || 'N/A'}</li>
-                    <li><strong>Service Type:</strong> ${quote.service_type}</li>
-                    <li><strong>Budget:</strong> ${quote.budget}</li>
-                    <li><strong>Timeline:</strong> ${quote.timeline}</li>
+                    <li><strong>Website:</strong> ${quote.website || 'N/A'}</li>
                 </ul>
-                <h3>Project Description:</h3>
+                <h3>Project Details</h3>
+                <ul>
+                    <li><strong>Service Type:</strong> ${quote.service_type}</li>
+                    <li><strong>Email Types:</strong> ${emailTypesStr}</li>
+                    <li><strong>Templates:</strong> ${quote.template_quantity}</li>
+                    <li><strong>ESP:</strong> ${espStr}</li>
+                    <li><strong>Design Status:</strong> ${quote.design_status === 'have_design' ? 'Has design' : 'Needs design support'}</li>
+                </ul>
+                ${quote.design_status === 'need_design' && quote.design_brief ? `<h3>Design Brief</h3><p>${quote.design_brief}</p>` : ''}
+                <h3>Project Description</h3>
                 <p>${quote.project_description}</p>
-                ${quote.attachment ? `<p><a href="${quote.attachment}">View Attachment</a></p>` : ''}
+                <h3>Attachments</h3>
+                <ul>${attachmentLinks}</ul>
                 <br/>
                 <p>Open the admin panel to review and respond.</p>
             </div>
         `;
-        sendEmail('rashedul.afl@gmail.com', adminSubject, 'A new quote request has been submitted.', adminHtml).catch(e => console.error('Failed to send admin email via background task:', e));
+        sendEmail('rashedul.afl@gmail.com', adminSubject, 'A new quote request has been submitted.', adminHtml).catch(e => console.error('Failed to send admin email:', e));
 
         res.status(201).json(quote);
     } catch (error) { res.status(400).json({ error: error.message }); }
@@ -138,7 +156,7 @@ exports.convertToOrder = async (req, res) => {
         const newOrder = await Order.create({
             customer: quote.customer,
             details: `Order converted from Quote: ${quote.service_type}. ${quote.project_description}`,
-            amount: 0, // Admin needs to manually set this later or based on budget
+            amount: 0, // Admin needs to manually set this later
             status: 'Pending'
         });
 
