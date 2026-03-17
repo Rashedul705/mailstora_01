@@ -214,6 +214,7 @@ export default function QuotesAdmin() {
                                             <span className={`badge badge-${quote.status === 'new' ? 'pending' : quote.status === 'converted' ? 'completed' : 'progress'}`}>
                                                 {quote.status}
                                             </span>
+                                            {quote.has_unread && <span className="unread-badge">New Message</span>}
                                         </td>
                                         <td>
                                             <button className="admin-btn admin-btn-icon" onClick={(e) => { e.stopPropagation(); openQuote(quote); }}>

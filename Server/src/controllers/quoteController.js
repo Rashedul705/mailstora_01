@@ -1,8 +1,10 @@
 const Quote = require('../models/Quote');
+const Counter = require('../models/Counter');
 const QuoteMessage = require('../models/QuoteMessage');
 const baseController = require('./baseController');
 const CustomerService = require('../services/CustomerService');
 const { sendEmail } = require('../services/email');
+const crypto = require('crypto');
 
 exports.getAll = async (req, res) => {
     try {
@@ -14,7 +16,13 @@ exports.getAll = async (req, res) => {
 exports.getOne = async (req, res) => {
     try {
         const quote = await Quote.findById(req.params.id).populate('customer');
-        if (!quote) return res.status(404).json({ message: 'Not found' });
+        if (!quote) return res.status(404).json({ message: 'Quote not found' });
+        
+        // Mark as read when admin opens it
+        if (quote.has_unread) {
+            quote.has_unread = false;
+            await quote.save();
+        }
 
         // Fetch message history
         const messages = await QuoteMessage.find({ quote: quote._id }).sort({ createdAt: 1 });
@@ -34,19 +42,39 @@ exports.create = async (req, res) => {
             is_order: false
         });
 
-        const quote = await Quote.create({ ...req.body, customer: customer._id });
+        // Generate quote number
+        const counter = await Counter.findOneAndUpdate(
+            { id: 'quote_number' },
+            { $inc: { seq: 1 } },
+            { new: true, upsert: true }
+        );
+
+        // Generate access token
+        const accessToken = crypto.randomBytes(32).toString('hex');
+
+        const quote = await Quote.create({
+            ...req.body,
+            customer: customer._id,
+            quote_number: counter.seq,
+            access_token: accessToken
+        });
 
         // Send confirmation email to client
         const emailTypesStr = (quote.email_types && quote.email_types.length > 0) ? quote.email_types.join(', ') : 'N/A';
         const espStr = quote.esp === 'Custom / Other' ? (quote.esp_custom || 'Custom') : (quote.esp || 'N/A');
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+        const projectStatusUrl = `${frontendUrl}/quote/view/${quote.access_token}`;
 
-        const clientSubject = `Quote Request Received – MailStora`;
+        const clientSubject = `Re: Quote Request #${quote.quote_number} - MailStora`;
         const clientHtml = `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                 <p>Hello ${quote.name},</p>
                 <p>Thank you for requesting a quote from MailStora.</p>
-                <p>We have received your request and our team will review your project details shortly. We will contact you soon with more information.</p>
+                <p>We have received your request (<strong>#${quote.quote_number}</strong>) and our team will review your project details shortly. We will contact you soon with more information.</p>
                 <br/>
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="${projectStatusUrl}" style="background-color: #4338CA; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">View Project Status & Message History</a>
+                </div>
                 <h3>Project Summary:</h3>
                 <ul>
                     <li><strong>Service:</strong> ${quote.service_type}</li>
@@ -64,10 +92,10 @@ exports.create = async (req, res) => {
             ? quote.attachments.map((url, i) => `<li><a href="${url}">Attachment ${i + 1}</a></li>`).join('')
             : '<li>None</li>';
 
-        const adminSubject = `New Quote Request Received`;
+        const adminSubject = `New Quote Request #${quote.quote_number} Received`;
         const adminHtml = `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-                <p>A new quote request has been submitted.</p>
+                <p>A new quote request (<strong>#${quote.quote_number}</strong>) has been submitted.</p>
                 <br/>
                 <h3>Client Info</h3>
                 <ul>
@@ -122,18 +150,24 @@ exports.reply = async (req, res) => {
         }
 
         // Send email to client
-        const subject = `Reply to Your Quote Request – MailStora`;
+        const subject = `Re: Quote Request #${quote.quote_number} - MailStora`;
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+        const projectStatusUrl = `${frontendUrl}/quote/view/${quote.access_token}`;
+
         const html = `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                 <p>Hello ${quote.name},</p>
-                <p>Our team has replied to your quote request.</p>
+                <p>Our team has replied to your quote request (<strong>#${quote.quote_number}</strong>).</p>
                 <br/>
                 <p><strong>Message from MailStora:</strong></p>
                 <div style="background: #f4f4f4; padding: 15px; border-radius: 5px;">
                     ${message.replace(/\\n/g, '<br/>')}
                 </div>
                 <br/>
-                <p>If you have more information to add, please reply to this email.</p>
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="${projectStatusUrl}" style="background-color: #4338CA; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Reply on Dashboard</a>
+                </div>
+                <p>If you have more information to add, please reply to this email or use the dashboard link above.</p>
                 <p>Best regards,<br/>MailStora Team</p>
             </div>
         `;
@@ -147,6 +181,62 @@ exports.reply = async (req, res) => {
     }
 };
 
+exports.replyClient = async (req, res) => {
+    try {
+        const { message } = req.body;
+        if (!message) return res.status(400).json({ message: 'Message is required' });
+
+        const quote = await Quote.findById(req.params.id);
+        if (!quote) return res.status(404).json({ message: 'Quote not found' });
+
+        // Save message to DB
+        const quoteMessage = await QuoteMessage.create({
+            quote: quote._id,
+            sender_type: 'client',
+            message: message
+        });
+
+        // Update quote status and flag
+        quote.has_unread = true;
+        if (quote.status === 'contacted' || quote.status === 'new') {
+            quote.status = 'negotiation';
+        }
+        await quote.save();
+
+        // Notify admin
+        const adminSubject = `New Client Reply - Quote #${quote.quote_number}`;
+        const adminHtml = `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                <p>Client <strong>${quote.name}</strong> has replied to Quote #${quote.quote_number}.</p>
+                <br/>
+                <p><strong>Message:</strong></p>
+                <div style="background: #f4f4f4; padding: 15px; border-radius: 5px;">
+                    ${message.replace(/\\n/g, '<br/>')}
+                </div>
+                <br/>
+                <p>Open the admin panel to review and respond.</p>
+            </div>
+        `;
+        sendEmail('rashedul.afl@gmail.com', adminSubject, `Client reply for #${quote.quote_number}`, adminHtml).catch(e => console.error('Failed to send admin email:', e));
+
+        res.status(200).json({ message: 'Reply sent successfully', quoteMessage, quote });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.getOneByToken = async (req, res) => {
+    try {
+        const quote = await Quote.findOne({ access_token: req.params.token }).populate('customer');
+        if (!quote) return res.status(404).json({ message: 'Quote not found' });
+
+        const messages = await QuoteMessage.find({ quote: quote._id }).sort({ createdAt: 1 });
+        res.status(200).json({ ...quote.toObject(), messages });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 exports.convertToOrder = async (req, res) => {
     try {
         const quote = await Quote.findById(req.params.id);
@@ -156,7 +246,7 @@ exports.convertToOrder = async (req, res) => {
         const newOrder = await Order.create({
             customer: quote.customer,
             details: `Order converted from Quote: ${quote.service_type}. ${quote.project_description}`,
-            amount: 0, // Admin needs to manually set this later
+            amount: 0,
             status: 'Pending'
         });
 

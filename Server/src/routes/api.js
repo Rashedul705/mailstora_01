@@ -108,5 +108,6 @@ router.use('/faq', require('./faqRoutes'));
 router.use('/services', require('./serviceRoutes'));
 router.use('/dashboard', require('./dashboardRoutes'));
 router.use('/content', require('./contentRoutes'));
+router.use('/webhooks', require('./webhooks'));
 
 module.exports = router;
