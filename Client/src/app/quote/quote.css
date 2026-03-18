@@ -200,6 +200,91 @@
     font-weight: 500;
 }
 
+/* ========== Custom Select Dropdown ========== */
+.custom-select {
+    position: relative;
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #CBD5E1;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 1rem;
+    color: #0F172A;
+    background: #FFFFFF;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+    transition: all 0.2s;
+}
+
+.custom-select:hover,
+.custom-select.open {
+    border-color: #4338CA;
+    box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.1);
+}
+
+.custom-select.select-error {
+    border-color: #EF4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.placeholder-text {
+    color: #94A3B8;
+}
+
+.selected-text {
+    color: #0F172A;
+    font-weight: 500;
+}
+
+.select-arrow {
+    font-size: 0.75rem;
+    color: #64748B;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.custom-select.open .select-arrow {
+    transform: rotate(180deg);
+}
+
+.custom-select-options {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    list-style: none;
+    padding: 0.25rem 0;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.custom-select-option {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #334155;
+    transition: background 0.15s;
+}
+
+.custom-select-option:hover {
+    background: #F1F5F9;
+    color: #1E293B;
+}
+
+.custom-select-option.active {
+    background: #EEF2FF;
+    color: #4338CA;
+    font-weight: 600;
+}
+
 /* ========== Checkbox Cards ========== */
 .checkbox-section {
     margin-top: 2rem;

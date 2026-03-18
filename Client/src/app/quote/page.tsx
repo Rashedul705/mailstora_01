@@ -1,9 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import './quote.css';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+);
+
 
 const STEPS = [
     { label: 'Client Info', icon: '👤' },
@@ -53,6 +60,18 @@ export default function QuotePage() {
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
     const [errorMessage, setErrorMessage] = useState('');
     const [stepErrors, setStepErrors] = useState<Record<string, string>>({});
+    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+                setOpenDropdown(null);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
 
@@ -132,17 +151,6 @@ export default function QuotePage() {
         setCurrentStep(prev => Math.max(prev - 1, 0));
     };
 
-    const uploadFile = async (file: File): Promise<string> => {
-        const fileData = new FormData();
-        fileData.append('file', file);
-        const res = await fetch(`${API_BASE}/api/upload-file`, { method: 'POST', body: fileData });
-        if (res.ok) {
-            const json = await res.json();
-            return `${API_BASE}/api/file/${json.fileId}`;
-        }
-        throw new Error('File upload failed');
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validateStep(currentStep)) return;
@@ -150,34 +158,47 @@ export default function QuotePage() {
         setErrorMessage('');
 
         try {
-            // Upload all files
-            const allFiles = [...attachments, ...designFiles];
-            const uploadedUrls: string[] = [];
-            for (const file of allFiles) {
-                try {
-                    const url = await uploadFile(file);
-                    uploadedUrls.push(url);
-                } catch {
-                    console.error('Failed to upload file:', file.name);
+            let attachmentUrl = null;
+            
+            // Upload the first attachment if available (to the 'mailstora' bucket)
+            if (attachments.length > 0) {
+                const file = attachments[0];
+                const fileName = `${Date.now()}_${file.name}`;
+                
+                const { error: uploadError } = await supabase.storage
+                    .from('mailstora')
+                    .upload(`quotes/${fileName}`, file);
+                    
+                if (uploadError) {
+                    throw new Error('Failed to upload file: ' + uploadError.message);
                 }
+                
+                const { data } = supabase.storage
+                    .from('mailstora')
+                    .getPublicUrl(`quotes/${fileName}`);
+                    
+                attachmentUrl = data.publicUrl;
             }
 
-            // Submit quote
-            const quoteRes = await fetch(`${API_BASE}/api/quotes`, {
+            // Insert Name, Email, Message, and Public URL via server API route (uses service role key to bypass RLS)
+            const res = await fetch('/api/quotes', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    ...formData,
-                    attachments: uploadedUrls
+                    name: formData.name,
+                    email: formData.email,
+                    message: formData.project_description,
+                    attachment_url: attachmentUrl
                 })
             });
 
-            if (quoteRes.ok) {
-                setStatus('success');
-            } else {
-                const errJson = await quoteRes.json();
-                throw new Error(errJson.error || errJson.message || 'Failed to submit quote');
+            if (!res.ok) {
+                const errJson = await res.json();
+                throw new Error('Failed to save quote: ' + (errJson.error || 'Unknown error'));
             }
+
+            alert('Your quote has been successfully submitted!');
+            setStatus('success');
         } catch (error: any) {
             console.error('Submission error:', error);
             setStatus('error');
@@ -245,25 +266,69 @@ export default function QuotePage() {
 
     const renderStep1 = () => (
         <div className="step-content">
-            <h2 className="quote-section-title">Service & Requirements</h2>
+            <h2 className="quote-section-title">Service &amp; Requirements</h2>
             <p className="quote-section-desc">What kind of email services do you need?</p>
-            <div className="quote-grid">
+            <div className="quote-grid" ref={dropdownRef}>
                 <div className={`quote-field ${stepErrors.service_type ? 'has-error' : ''}`}>
                     <label className="quote-label">Service Needed <span className="required">*</span></label>
-                    <select name="service_type" className="quote-select" required value={formData.service_type} onChange={handleChange}>
-                        <option value="" disabled>Select a service</option>
-                        <option value="Email Template">Email Template</option>
-                        <option value="Email Signature">Email Signature</option>
-                        <option value="Both">Both</option>
-                    </select>
+                    <div
+                        id="service-type-dropdown"
+                        className={`custom-select ${openDropdown === 'service_type' ? 'open' : ''} ${stepErrors.service_type ? 'select-error' : ''}`}
+                        onClick={() => setOpenDropdown(openDropdown === 'service_type' ? null : 'service_type')}
+                    >
+                        <span className={formData.service_type ? 'selected-text' : 'placeholder-text'}>
+                            {formData.service_type || 'Select a service'}
+                        </span>
+                        <span className="select-arrow">▾</span>
+                        {openDropdown === 'service_type' && (
+                            <ul className="custom-select-options">
+                                {['Email Template', 'Email Signature', 'Both'].map(opt => (
+                                    <li
+                                        key={opt}
+                                        id={`service-opt-${opt.replace(/\s+/g, '-').toLowerCase()}`}
+                                        className={`custom-select-option ${formData.service_type === opt ? 'active' : ''}`}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setFormData({ ...formData, service_type: opt });
+                                            if (stepErrors['service_type']) setStepErrors(prev => { const n = { ...prev }; delete n['service_type']; return n; });
+                                            setOpenDropdown(null);
+                                        }}
+                                    >{opt}</li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
                     {renderFieldError('service_type')}
                 </div>
                 <div className={`quote-field ${stepErrors.template_quantity ? 'has-error' : ''}`}>
                     <label className="quote-label">Number of Templates <span className="required">*</span></label>
-                    <select name="template_quantity" className="quote-select" required value={formData.template_quantity} onChange={handleChange}>
-                        <option value="" disabled>Select quantity</option>
-                        {QUANTITY_OPTIONS.map(q => <option key={q} value={q}>{q}</option>)}
-                    </select>
+                    <div
+                        id="template-quantity-dropdown"
+                        className={`custom-select ${openDropdown === 'template_quantity' ? 'open' : ''} ${stepErrors.template_quantity ? 'select-error' : ''}`}
+                        onClick={() => setOpenDropdown(openDropdown === 'template_quantity' ? null : 'template_quantity')}
+                    >
+                        <span className={formData.template_quantity ? 'selected-text' : 'placeholder-text'}>
+                            {formData.template_quantity || 'Select quantity'}
+                        </span>
+                        <span className="select-arrow">▾</span>
+                        {openDropdown === 'template_quantity' && (
+                            <ul className="custom-select-options">
+                                {QUANTITY_OPTIONS.map(q => (
+                                    <li
+                                        key={q}
+                                        id={`qty-opt-${q.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
+                                        className={`custom-select-option ${formData.template_quantity === q ? 'active' : ''}`}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setFormData({ ...formData, template_quantity: q });
+                                            if (stepErrors['template_quantity']) setStepErrors(prev => { const n = { ...prev }; delete n['template_quantity']; return n; });
+                                            setOpenDropdown(null);
+                                        }}
+                                    >{q}</li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
                     {renderFieldError('template_quantity')}
                 </div>
             </div>
@@ -508,7 +573,7 @@ export default function QuotePage() {
                                         </button>
                                     ) : (
                                         <button type="submit" className="quote-submit-btn" disabled={status === 'submitting'}>
-                                            {status === 'submitting' ? 'Submitting...' : '🚀 Request Quote'}
+                                            {status === 'submitting' ? 'Uploading...' : '🚀 Request Quote'}
                                         </button>
                                     )}
                                 </div>
