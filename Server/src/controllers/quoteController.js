@@ -144,10 +144,11 @@ exports.reply = async (req, res) => {
         });
 
         // Update quote status
-        if (quote.status === 'new') {
-            quote.status = 'contacted';
-            await quote.save();
+        if (['new', 'contacted', 'negotiation'].includes(quote.status)) {
+            quote.status = 'replied';
         }
+        quote.has_unread = false;
+        await quote.save();
 
         // Send email to client
         const subject = `Re: Quote Request #${quote.quote_number} - MailStora`;

@@ -98,6 +98,9 @@ export default function QuotesAdmin() {
             const res = await fetch(`${API_URL}/${quote._id}`, { credentials: 'omit' });
             const data = await res.json();
             setSelectedQuote(data);
+            
+            // Clear unread badge locally for immediate feedback
+            setQuotes(prev => prev.map(q => q._id === quote._id ? { ...q, has_unread: false } : q));
         } catch (error) {
             console.error('Failed to fetch full quote details:', error);
         }
@@ -169,6 +172,7 @@ export default function QuotesAdmin() {
                 <select className="admin-filter-select" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                     <option value="">All Statuses</option>
                     <option value="new">New</option>
+                    <option value="replied">Replied</option>
                     <option value="contacted">Contacted</option>
                     <option value="negotiation">Negotiation</option>
                     <option value="converted">Converted to Order</option>
@@ -211,7 +215,7 @@ export default function QuotesAdmin() {
                                         <td>{quote.template_quantity || '—'}</td>
                                         <td><span className="text-sm">{new Date(quote.createdAt).toLocaleDateString()}</span></td>
                                         <td>
-                                            <span className={`badge badge-${quote.status === 'new' ? 'pending' : quote.status === 'converted' ? 'completed' : 'progress'}`}>
+                                            <span className={`badge badge-${quote.status === 'new' ? 'pending' : quote.status === 'converted' ? 'completed' : quote.status === 'replied' ? 'info' : 'progress'}`}>
                                                 {quote.status}
                                             </span>
                                             {quote.has_unread && <span className="unread-badge">New Message</span>}
@@ -359,6 +363,7 @@ export default function QuotesAdmin() {
                                 <label>Status:</label>
                                 <select value={editingStatus} onChange={(e) => setEditingStatus(e.target.value)} className="admin-input-field" style={{ width: '150px' }}>
                                     <option value="new">New</option>
+                                    <option value="replied">Replied</option>
                                     <option value="contacted">Contacted</option>
                                     <option value="negotiation">Negotiation</option>
                                     <option value="converted">Converted to Order</option>

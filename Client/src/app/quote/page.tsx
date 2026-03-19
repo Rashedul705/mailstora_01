@@ -158,38 +158,34 @@ export default function QuotePage() {
         setErrorMessage('');
 
         try {
-            let attachmentUrl = null;
-            
-            // Upload the first attachment if available (to the 'mailstora' bucket)
-            if (attachments.length > 0) {
-                const file = attachments[0];
-                const fileName = `${Date.now()}_${file.name}`;
-                
-                const { error: uploadError } = await supabase.storage
-                    .from('mailstora')
-                    .upload(`quotes/${fileName}`, file);
-                    
-                if (uploadError) {
-                    throw new Error('Failed to upload file: ' + uploadError.message);
-                }
-                
-                const { data } = supabase.storage
-                    .from('mailstora')
-                    .getPublicUrl(`quotes/${fileName}`);
-                    
-                attachmentUrl = data.publicUrl;
-            }
+            const submitData = new FormData();
+            submitData.append('name', formData.name);
+            submitData.append('email', formData.email);
+            submitData.append('whatsapp', formData.whatsapp);
+            submitData.append('company', formData.company);
+            submitData.append('website', formData.website);
+            submitData.append('service_type', formData.service_type);
+            submitData.append('email_types', JSON.stringify(formData.email_types));
+            submitData.append('template_quantity', formData.template_quantity);
+            submitData.append('esp', formData.esp);
+            submitData.append('esp_custom', formData.esp_custom);
+            submitData.append('design_status', formData.design_status);
+            submitData.append('design_brief', formData.design_brief);
+            submitData.append('project_description', formData.project_description);
 
-            // Insert Name, Email, Message, and Public URL via server API route (uses service role key to bypass RLS)
+            // Append all attachments
+            attachments.forEach(file => {
+                submitData.append('attachments', file);
+            });
+
+            // Append all design files
+            designFiles.forEach(file => {
+                submitData.append('attachments', file);
+            });
+
             const res = await fetch('/api/quotes', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name: formData.name,
-                    email: formData.email,
-                    message: formData.project_description,
-                    attachment_url: attachmentUrl
-                })
+                body: submitData
             });
 
             if (!res.ok) {

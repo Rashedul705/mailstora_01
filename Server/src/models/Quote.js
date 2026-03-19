@@ -16,7 +16,7 @@ const quoteSchema = new mongoose.Schema({
     design_brief: { type: String, default: '' },
     attachments: [{ type: String }],
     project_description: { type: String, required: true },
-    status: { type: String, enum: ['new', 'contacted', 'negotiation', 'converted', 'closed'], default: 'new' },
+    status: { type: String, enum: ['new', 'replied', 'contacted', 'negotiation', 'converted', 'closed'], default: 'new' },
     quote_number: { type: Number, unique: true },
     access_token: { type: String, unique: true },
     has_unread: { type: Boolean, default: false }
