@@ -9,6 +9,13 @@ const supabaseAdmin = createClient(
 
 export async function POST(req: NextRequest) {
     try {
+        // Ensure bucket allows up to 50MB - doing this once or per request (safe)
+        await supabaseAdmin.storage.updateBucket('mailstora', {
+            public: true,
+            fileSizeLimit: 50 * 1024 * 1024, // 50MB
+            allowedMimeTypes: ['image/*', 'application/pdf', 'application/zip', 'application/x-zip-compressed', 'text/plain', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+        });
+
         const formData = await req.formData();
         
         const name = formData.get('name') as string;
@@ -26,32 +33,43 @@ export async function POST(req: NextRequest) {
         const design_brief = formData.get('design_brief') as string;
         const project_description = formData.get('project_description') as string;
 
-        const files = formData.getAll('attachments') as File[];
+        const generalFiles = formData.getAll('attachments') as File[];
+        const designFiles = formData.getAll('design_attachments') as File[];
 
         let attachment_urls: string[] = [];
 
-        if (files && files.length > 0) {
-            const uploadPromises = files.map(async (file) => {
-                const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-                
-                const { error: uploadError } = await supabaseAdmin.storage
-                    .from('mailstora')
-                    .upload(`quotes/${fileName}`, file, {
-                        contentType: file.type,
-                        upsert: false
-                    });
+        const uploadFile = async (file: File, prefix: string) => {
+            const fileName = `${prefix}_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+            
+            const { error: uploadError } = await supabaseAdmin.storage
+                .from('mailstora')
+                .upload(`quotes/${fileName}`, file, {
+                    contentType: file.type,
+                    upsert: false
+                });
 
-                if (uploadError) {
-                    throw new Error('Failed to upload file: ' + uploadError.message);
-                }
+            if (uploadError) {
+                throw new Error('Failed to upload file: ' + uploadError.message);
+            }
 
-                const { data: publicUrlData } = supabaseAdmin.storage
-                    .from('mailstora')
-                    .getPublicUrl(`quotes/${fileName}`);
+            const { data: publicUrlData } = supabaseAdmin.storage
+                .from('mailstora')
+                .getPublicUrl(`quotes/${fileName}`);
 
-                return publicUrlData.publicUrl;
-            });
+            return publicUrlData.publicUrl;
+        };
 
+        const uploadPromises: Promise<string>[] = [];
+        
+        generalFiles.forEach(file => {
+            uploadPromises.push(uploadFile(file, 'general'));
+        });
+
+        designFiles.forEach(file => {
+            uploadPromises.push(uploadFile(file, 'design'));
+        });
+
+        if (uploadPromises.length > 0) {
             try {
                 attachment_urls = await Promise.all(uploadPromises);
             } catch (error: any) {

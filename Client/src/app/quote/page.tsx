@@ -180,7 +180,7 @@ export default function QuotePage() {
 
             // Append all design files
             designFiles.forEach(file => {
-                submitData.append('attachments', file);
+                submitData.append('design_attachments', file);
             });
 
             const res = await fetch('/api/quotes', {

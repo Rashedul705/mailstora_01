@@ -306,11 +306,15 @@ export default function QuotesAdmin() {
                                 <div className="detail-description" style={{ marginTop: '1rem' }}>
                                     <h3>📎 Attachments</h3>
                                     <div className="attachments-list">
-                                        {selectedQuote.attachments && selectedQuote.attachments.map((url: string, i: number) => (
-                                            <a key={i} href={url} target="_blank" rel="noreferrer" className="attachment-download-link">
-                                                📄 Attachment {i + 1} — Download
-                                            </a>
-                                        ))}
+                                        {selectedQuote.attachments && selectedQuote.attachments.map((url: string, i: number) => {
+                                            const isDesign = url.includes('/design_');
+                                            const label = isDesign ? 'Clients Design' : 'General Attachment';
+                                            return (
+                                                <a key={i} href={url} target="_blank" rel="noreferrer" className="attachment-download-link">
+                                                    📄 {label} — Download
+                                                </a>
+                                            );
+                                        })}
                                         {selectedQuote.attachment && !selectedQuote.attachments?.length && (
                                             <a href={selectedQuote.attachment} target="_blank" rel="noreferrer" className="attachment-download-link">
                                                 📄 View Attachment
