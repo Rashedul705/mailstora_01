@@ -73,6 +73,7 @@ export default function AdminLayout({
                     <Link href="/admin/customers" className={`sidebar-link ${pathname.startsWith('/admin/customers') ? 'active' : ''}`}><span>Customers</span></Link>
                     <Link href="/admin/quotes" className={`sidebar-link ${pathname.startsWith('/admin/quotes') ? 'active' : ''}`}><span>Quotes</span></Link>
                     <Link href="/admin/schedules" className={`sidebar-link ${pathname.startsWith('/admin/schedules') ? 'active' : ''}`}><span>Schedules</span></Link>
+                    <Link href="/admin/availability" className={`sidebar-link ${pathname.startsWith('/admin/availability') ? 'active' : ''}`}><span>Availability Settings</span></Link>
                     <Link href="/admin/orders" className={`sidebar-link ${pathname.startsWith('/admin/orders') ? 'active' : ''}`}><span>Orders</span></Link>
                     <Link href="/admin/portfolio" className={`sidebar-link ${pathname.startsWith('/admin/portfolio') ? 'active' : ''}`}><span>Portfolio</span></Link>
                     <Link href="/admin/pricing" className={`sidebar-link ${pathname.startsWith('/admin/pricing') ? 'active' : ''}`}><span>Pricing</span></Link>

@@ -1,0 +1,173 @@
+.booking-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.booking-modal-content {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    border: 1px solid rgba(0,0,0,0.1);
+    color: #333;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.booking-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s;
+}
+
+.booking-modal-close:hover {
+    color: #333;
+}
+
+.booking-modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.step-info {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.scrollable-form {
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.scrollable-form::-webkit-scrollbar {
+    width: 6px;
+}
+.scrollable-form::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.half {
+    flex: 1;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #444;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    color: #333;
+    font-size: 15px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus, 
+.form-group select:focus, 
+.form-group textarea:focus {
+    outline: none;
+    border-color: #f97316; /* primary orange */
+}
+
+.form-group small {
+    color: #888;
+    font-size: 12px;
+}
+
+.full-width {
+    width: 100%;
+    justify-content: center;
+    padding: 14px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #888;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
+}
+
+.btn-link:hover {
+    color: #333;
+}
+
+.mt-2 { margin-top: 10px; }
+.mt-4 { margin-top: 20px; }
+
+.booking-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.booking-success {
+    text-align: center;
+    padding: 30px 10px;
+}
+
+.success-icon {
+    color: #22c55e;
+    margin-bottom: 20px;
+}
+
+.booking-success p {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #333;
+}

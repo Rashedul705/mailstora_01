@@ -1,3 +1,5 @@
+process.env.TZ = 'Asia/Dhaka';
+
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -21,6 +23,8 @@ connectRedis();
 const apiRoutes = require('./routes/api');
 
 const app = express();
+const setupReminders = require('./jobs/reminders');
+setupReminders();
 
 // View Engine
 app.set('view engine', 'ejs');

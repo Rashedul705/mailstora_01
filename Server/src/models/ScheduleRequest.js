@@ -4,12 +4,19 @@ const scheduleRequestSchema = new mongoose.Schema({
     customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
     name: { type: String, required: true },
     email: { type: String, required: true },
-    phone: { type: String, default: '' },
+    whatsapp: { type: String, required: true },
     company: { type: String, default: '' },
-    meeting_date: { type: Date, required: true },
-    meeting_time: { type: String, required: true },
-    topic: { type: String, default: '' },
-    status: { type: String, enum: ['Pending', 'Scheduled', 'Completed', 'Cancelled'], default: 'Pending' }
+    date: { type: String, required: true }, // Format: YYYY-MM-DD
+    time: { type: String, required: true }, // Format: HH:mm
+    duration: { type: Number, default: 30 }, // Fixed to 30 mins
+    meetingMethod: { type: String, enum: ['WhatsApp Call', 'Zoom', 'Google Meet'], required: true },
+    meetingLink: { type: String, default: '' },
+    message: { type: String, default: '' },
+    status: { type: String, enum: ['Pending', 'Confirmed', 'Completed', 'Cancelled'], default: 'Pending' },
+    remindersSent: {
+        before30min: { type: Boolean, default: false },
+        before5min: { type: Boolean, default: false }
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('ScheduleRequest', scheduleRequestSchema);
