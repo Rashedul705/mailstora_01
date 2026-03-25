@@ -109,7 +109,7 @@ export default function AvailabilitySettings() {
                                 onChange={e => setStartTime(e.target.value)}
                                 style={{
                                     width: '100%', padding: '10px', borderRadius: '6px',
-                                    border: '1px solid var(--border)', background: 'var(--bg-dark)', color: '#fff'
+                                    border: '1px solid #ccc', background: '#fff', color: '#333'
                                 }}
                                 required
                             />
@@ -122,7 +122,7 @@ export default function AvailabilitySettings() {
                                 onChange={e => setEndTime(e.target.value)}
                                 style={{
                                     width: '100%', padding: '10px', borderRadius: '6px',
-                                    border: '1px solid var(--border)', background: 'var(--bg-dark)', color: '#fff'
+                                    border: '1px solid #ccc', background: '#fff', color: '#333'
                                 }}
                                 required
                             />

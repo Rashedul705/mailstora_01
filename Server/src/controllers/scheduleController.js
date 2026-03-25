@@ -4,6 +4,8 @@ const AdminAvailability = require('../models/AdminAvailability');
 const baseController = require('./baseController');
 const CustomerService = require('../services/CustomerService');
 const { sendEmail } = require('../services/email');
+const moment = require('moment-timezone');
+
 exports.getAll = async (req, res) => {
     try {
         const schedules = await ScheduleRequest.find().populate('customer').sort({ createdAt: -1 });
@@ -21,16 +23,16 @@ exports.getOne = async (req, res) => {
 
 exports.create = async (req, res) => {
     try {
-        const { email } = req.body;
+        const { email, date, time, timezone } = req.body;
         // Verify email through OTP
         const otpRecord = await OTP.findOne({ email, verified: true });
         if (!otpRecord) {
             return res.status(400).json({ message: 'Email must be verified before booking' });
         }
 
-        // Prevent double booking (same date + time)
-        const { date, time } = req.body;
-        const existingBooking = await ScheduleRequest.findOne({ date, time, status: { $ne: 'Cancelled' } });
+        // Prevent double booking (same exact UTC datetime)
+        const utcDateObj = new Date(time);
+        const existingBooking = await ScheduleRequest.findOne({ utcDateTime: utcDateObj, status: { $ne: 'Cancelled' } });
         if (existingBooking) {
             return res.status(400).json({ message: 'This time slot is already booked' });
         }
@@ -38,24 +40,40 @@ exports.create = async (req, res) => {
         const customer = await CustomerService.handleCustomerActivity({
             name: req.body.name,
             email: req.body.email,
-            phone: req.body.whatsapp, // Map whatsapp to phone for CRM
+            phone: req.body.whatsapp,
             company_name: req.body.company,
             source: 'schedule',
             is_order: false
         });
 
-        const schedule = await ScheduleRequest.create({ ...req.body, customer: customer._id });
+        // Derive Dhaka time strings for the admin panel
+        const dhakaMomnt = moment.tz(utcDateObj, 'Asia/Dhaka');
+        
+        const finalPayload = {
+            ...req.body,
+            customer: customer._id,
+            userTimezone: timezone,
+            utcDateTime: utcDateObj,
+            // Overwrite date and time inputs to store strictly Dhaka local time for Admin sorting
+            date: dhakaMomnt.format('YYYY-MM-DD'),
+            time: dhakaMomnt.format('HH:mm')
+        };
+
+        const schedule = await ScheduleRequest.create(finalPayload);
 
         // Clean up OTP record
         await OTP.deleteOne({ email });
 
         // Send confirmation emails
+        const userMomnt = moment.tz(utcDateObj, timezone);
+
         const adminEmail = 'rashedul.afl@gmail.com';
         const adminSubject = 'New Consultation Booking';
         const adminHtml = `<h3>New Booking Received</h3>
             <p><strong>Name:</strong> ${req.body.name}</p>
             <p><strong>Email:</strong> ${req.body.email}</p>
-            <p><strong>Date & Time:</strong> ${req.body.date} at ${req.body.time}</p>
+            <p><strong>Date & Time (Dhaka):</strong> ${dhakaMomnt.format('YYYY-MM-DD')} at ${dhakaMomnt.format('hh:mm A')}</p>
+            <p><strong>Date & Time (Client):</strong> ${userMomnt.format('YYYY-MM-DD')} at ${userMomnt.format('hh:mm A z')}</p>
             <p><strong>Method:</strong> ${req.body.meetingMethod}</p>`;
             
         await sendEmail(adminEmail, adminSubject, 'New Booking Received', adminHtml);
@@ -63,7 +81,8 @@ exports.create = async (req, res) => {
         const clientSubject = 'Your Consultation is Confirmed';
         const clientHtml = `<h3>Consultation Confirmed</h3>
             <p>Hi ${req.body.name},</p>
-            <p>Your consultation is confirmed for <strong>${req.body.date}</strong> at <strong>${req.body.time}</strong>.</p>
+            <p>Your consultation is confirmed for <strong>${userMomnt.format('YYYY-MM-DD')}</strong> at <strong>${userMomnt.format('hh:mm A z')}</strong> (Your Local Time).</p>
+            <p><strong>Dhaka Time Equivalent:</strong> ${dhakaMomnt.format('hh:mm A z')}</p>
             <p><strong>Method:</strong> ${req.body.meetingMethod}</p>
             ${req.body.message ? `<p><strong>Your Message:</strong> ${req.body.message}</p>` : ''}`;
 
@@ -143,45 +162,92 @@ exports.updateAvailability = async (req, res) => {
 
 exports.getAvailableSlots = async (req, res) => {
     try {
-        const { date } = req.query; // format YYYY-MM-DD
-        if (!date) return res.status(400).json({ message: 'Date is required' });
+        const { date, timezone } = req.query; // date is User's local date 'YYYY-MM-DD'
+        if (!date || !timezone) return res.status(400).json({ message: 'Date and timezone are required' });
 
         let settings = await AdminAvailability.findOne();
         if (!settings) settings = await AdminAvailability.create({});
 
-        // Safely get day name from YYYY-MM-DD
-        const parts = date.split('-');
-        const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
-        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const dayName = dayNames[dateObj.getDay()];
+        // User's day range
+        const userStart = moment.tz(date, 'YYYY-MM-DD', timezone).startOf('day');
+        const userEnd = moment.tz(date, 'YYYY-MM-DD', timezone).endOf('day');
 
-        if (!settings.workingDays.includes(dayName)) {
-            return res.status(200).json([]); // No slots on this day
+        // Which Dhaka days does this overlap with?
+        const dhakaDays = [];
+        let curr = userStart.clone().tz('Asia/Dhaka').startOf('day').subtract(1, 'day'); // 1 day backwards to catch yesterday's overnight shift
+        let endCheck = userEnd.clone().tz('Asia/Dhaka').endOf('day').add(1, 'day'); // 1 day forwards
+
+        while (curr.isBefore(endCheck)) {
+            dhakaDays.push(curr.format('YYYY-MM-DD'));
+            curr.add(1, 'day');
         }
 
-        const slots = [];
-        let [startH, startM] = settings.startTime.split(':').map(Number);
+        const [startH, startM] = settings.startTime.split(':').map(Number);
         const [endH, endM] = settings.endTime.split(':').map(Number);
+        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-        let currentH = startH;
-        let currentM = startM;
+        const rawSlots = [];
 
-        while (currentH < endH || (currentH === endH && currentM < endM)) {
-            const timeStr = `${String(currentH).padStart(2, '0')}:${String(currentM).padStart(2, '0')}`;
-            slots.push(timeStr);
+        for (const dDay of dhakaDays) {
+            const dDateObj = moment.tz(dDay, 'YYYY-MM-DD', 'Asia/Dhaka');
+            const dayName = dayNames[dDateObj.day()];
 
-            currentM += 30;
-            if (currentM >= 60) {
-                currentH += 1;
-                currentM -= 60;
+            if (!settings.workingDays.includes(dayName)) continue; 
+
+            let shiftStart = dDateObj.clone().set({ hour: startH, minute: startM, second: 0, millisecond: 0 });
+            let shiftEnd = dDateObj.clone().set({ hour: endH, minute: endM, second: 0, millisecond: 0 });
+
+            // If shift crosses midnight (e.g. 23:00 to 05:00), end time is actually the next day
+            if (shiftEnd.isSameOrBefore(shiftStart)) {
+                shiftEnd.add(1, 'day');
+            }
+
+            let currSlotStart = shiftStart.clone();
+
+            while (currSlotStart.isBefore(shiftEnd)) {
+                let slotEnd = currSlotStart.clone().add(30, 'minutes');
+                // Drop the slot if it exceeds the hard boundary of the shift
+                if (slotEnd.isAfter(shiftEnd)) break;
+
+                // Only keep slots that strictly fall perfectly into the User's active Date window boundary
+                if (currSlotStart.isSameOrAfter(userStart) && currSlotStart.isBefore(userEnd)) {
+                    // Check if it's uniquely duplicated (avoid edge cases from evaluating 3 days)
+                    const isDup = rawSlots.find(s => s.startUtc.getTime() === currSlotStart.toDate().getTime());
+                    if (!isDup) {
+                        rawSlots.push({ startUtc: currSlotStart.toDate(), endUtc: slotEnd.toDate() });
+                    }
+                }
+                
+                currSlotStart.add(30, 'minutes');
             }
         }
 
-        // Fetch booked slots for this date
-        const booked = await ScheduleRequest.find({ date, status: { $ne: 'Cancelled' } });
-        const bookedTimes = booked.map(b => b.time);
+        if (rawSlots.length === 0) {
+            return res.status(200).json([]);
+        }
 
-        const availableSlots = slots.filter(slot => !bookedTimes.includes(slot));
+        const booked = await ScheduleRequest.find({
+            utcDateTime: { $in: rawSlots.map(s => s.startUtc) },
+            status: { $ne: 'Cancelled' }
+        });
+        const bookedUtcTimes = booked.map(b => b.utcDateTime.getTime());
+
+        const availableSlots = [];
+        for (const slot of rawSlots) {
+            // Check if slot start time already passed in real-time
+            if (slot.startUtc.getTime() <= Date.now()) continue;
+
+            if (!bookedUtcTimes.includes(slot.startUtc.getTime())) {
+                const s = moment(slot.startUtc).tz(timezone);
+                const e = moment(slot.endUtc).tz(timezone);
+                
+                availableSlots.push({
+                    value: slot.startUtc.toISOString(),
+                    label: `${s.format('hh:mm A')} - ${e.format('hh:mm A')}`
+                });
+            }
+        }
+
         res.status(200).json(availableSlots);
     } catch (err) { res.status(500).json({ error: err.message }); }
 };

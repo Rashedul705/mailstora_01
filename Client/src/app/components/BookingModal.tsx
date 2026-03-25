@@ -59,11 +59,15 @@ export default function BookingModal({ isOpen, onClose }: { isOpen: boolean; onC
 
     const fetchSlots = async (selectedDate: string) => {
         try {
-            const res = await fetch(`http://localhost:5001/api/schedules/available-slots?date=${selectedDate}`);
+            const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const res = await fetch(`http://localhost:5001/api/schedules/available-slots?date=${selectedDate}&timezone=${userTimezone}`);
             if (res.ok) {
                 const data = await res.json();
                 setAvailableSlots(data);
-                if (!data.includes(time)) setTime('');
+                
+                // data might be array of objects now: { value: ISO, label: formatted }
+                // if selected time does not exist in new values, clear it
+                if (!data.find((slot: any) => slot.value === time)) setTime('');
             }
         } catch (err) {
             console.error(err);
@@ -119,12 +123,14 @@ export default function BookingModal({ isOpen, onClose }: { isOpen: boolean; onC
         setError('');
         setLoading(true);
         try {
+            const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             const payload = {
                 name,
                 email,
                 whatsapp,
                 date,
                 time,
+                timezone: userTimezone,
                 meetingMethod,
                 meetingLink: (meetingMethod === 'Zoom' || meetingMethod === 'Google Meet') ? meetingLink : '',
                 message
@@ -212,60 +218,86 @@ export default function BookingModal({ isOpen, onClose }: { isOpen: boolean; onC
                         {step === 3 && (
                             <form onSubmit={handleBook} className="booking-form scrollable-form">
                                 <div className="form-group">
+                                    <label>Email Address *</label>
+                                    <input type="email" readOnly value={email} style={{ backgroundColor: '#eeeeee', color: '#666', cursor: 'not-allowed', border: '1px solid #ddd' }} />
+                                </div>
+                                <div className="form-group">
                                     <label>Full Name *</label>
-                                    <input type="text" required value={name} onChange={(e) => setName(e.target.value)} />
+                                    <input type="text" className="text-input-clean" required value={name} onChange={(e) => setName(e.target.value)} />
                                 </div>
                                 <div className="form-group">
                                     <label>WhatsApp Number *</label>
-                                    <input type="tel" required value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} placeholder="+1234567890" />
+                                    <input type="tel" className="text-input-clean" required value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} placeholder="+1234567890" />
                                 </div>
                                 
-                                <div className="form-row">
-                                    <div className="form-group half">
-                                        <label>Date *</label>
-                                        <input type="date" required value={date} onChange={(e) => setDate(e.target.value)} min={getBDDateString()} />
-                                    </div>
-                                    <div className="form-group half">
-                                        <label>Time Slot *</label>
-                                        <select required value={time} onChange={(e) => setTime(e.target.value)} disabled={!date}>
-                                            <option value="">Select Time</option>
-                                            {availableSlots.map(slot => {
-                                                const [h, m] = slot.split(':').map(Number);
-                                                let endH = h;
-                                                let endM = m + 30;
-                                                if (endM >= 60) { endH += 1; endM -= 60; }
-                                                const endStr = `${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}`;
-                                                return <option key={slot} value={slot}>{`${slot} - ${endStr}`}</option>;
-                                            })}
-                                        </select>
-                                    </div>
+                                <div className="form-group">
+                                    <label>Date *</label>
+                                    <input type="date" required value={date} onChange={(e) => setDate(e.target.value)} min={getBDDateString()} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Time Slot *</label>
+                                    {!date ? (
+                                        <div style={{ fontSize: '14px', color: '#888', padding: '10px 0' }}>Please select a date first.</div>
+                                    ) : availableSlots.length === 0 ? (
+                                        <div style={{ fontSize: '14px', color: '#888', padding: '10px 0' }}>No slots available for this date.</div>
+                                    ) : (
+                                        <div className="time-grid">
+                                            {availableSlots.map((slot: any) => (
+                                                <button 
+                                                    type="button" 
+                                                    key={slot.value} 
+                                                    className={`time-btn ${time === slot.value ? 'selected' : ''}`}
+                                                    onClick={() => setTime(slot.value)}
+                                                >
+                                                    {slot.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div style={{ fontSize: '13px', color: '#666', marginTop: '-5px', textAlign: 'left', fontWeight: '500' }}>
+                                    ✓ All times are shown in your local time ({Intl.DateTimeFormat().resolvedOptions().timeZone})
                                 </div>
 
                                 <div className="form-group">
                                     <label>Preferred Meeting Method *</label>
-                                    <select required value={meetingMethod} onChange={(e) => setMeetingMethod(e.target.value)}>
-                                        <option value="WhatsApp Call">WhatsApp Call</option>
-                                        <option value="Zoom">Zoom</option>
-                                        <option value="Google Meet">Google Meet</option>
-                                    </select>
+                                    <div className="method-grid">
+                                        {['WhatsApp Call', 'Zoom', 'Google Meet'].map(method => (
+                                            <button 
+                                                type="button" 
+                                                key={method}
+                                                className={`method-btn ${meetingMethod === method ? 'selected' : ''}`}
+                                                onClick={() => setMeetingMethod(method)}
+                                            >
+                                                {method}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
 
                                 {(meetingMethod === 'Zoom' || meetingMethod === 'Google Meet') && (
                                     <div className="form-group">
                                         <label>Meeting Link (optional)</label>
-                                        <input type="url" value={meetingLink} onChange={(e) => setMeetingLink(e.target.value)} placeholder="If you have a preferred link..." />
+                                        <input type="url" className="text-input-clean" value={meetingLink} onChange={(e) => setMeetingLink(e.target.value)} placeholder="If you have a preferred link..." />
                                         <small>Admin can also provide this later if left blank.</small>
                                     </div>
                                 )}
 
                                 <div className="form-group">
                                     <label>Message / Notes (optional)</label>
-                                    <textarea rows={3} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="What would you like to discuss?"></textarea>
+                                    <textarea rows={3} className="text-input-clean" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="What would you like to discuss?"></textarea>
                                 </div>
 
-                                <button type="submit" className="btn btn-primary full-width" disabled={loading}>
-                                    {loading ? 'Confirming...' : 'Confirm Consultation'}
+                                <button type="submit" className="btn btn-primary full-width" disabled={loading || !time}>
+                                    {loading ? 'Booking...' : 'Confirm Booking'}
                                 </button>
+                                
+                                <div className="trust-text">
+                                    <span>✓ Free consultation</span>
+                                    <span>✓ Fast response</span>
+                                    <span>✓ No spam</span>
+                                </div>
                             </form>
                         )}
                     </>

@@ -5,10 +5,11 @@ import { useState, useEffect } from 'react';
 export type ColumnDef = {
     key: string;
     label: string;
-    type: 'text' | 'number' | 'email' | 'textarea' | 'select' | 'date' | 'boolean';
+    type: 'text' | 'number' | 'email' | 'textarea' | 'select' | 'date' | 'boolean' | 'custom';
     options?: string[]; // For select type
     hideInTable?: boolean;
     readOnly?: boolean;
+    render?: (row: any) => React.ReactNode;
 };
 
 interface CrudProps {
@@ -159,7 +160,7 @@ export default function GenericCrudPage({ title, endpoint, columns }: CrudProps)
                                     <tr key={row._id} style={{ borderBottom: '1px solid #eee' }}>
                                         {columns.filter(c => !c.hideInTable).map(col => (
                                             <td key={col.key} style={{ padding: '12px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                                {typeof row[col.key] === 'object' ? JSON.stringify(row[col.key]) : String(row[col.key] || '')}
+                                                {col.render ? col.render(row) : (typeof row[col.key] === 'object' ? JSON.stringify(row[col.key]) : String(row[col.key] || ''))}
                                             </td>
                                         ))}
                                         <td style={{ padding: '12px' }}>
@@ -179,7 +180,7 @@ export default function GenericCrudPage({ title, endpoint, columns }: CrudProps)
                     <div style={{ background: '#fff', padding: '30px', borderRadius: '8px', width: '90%', maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto' }}>
                         <h2 style={{ marginBottom: '20px' }}>{editingItem ? 'Edit' : 'Add'} {title}</h2>
                         <form onSubmit={handleSave}>
-                            {columns.filter(c => !c.readOnly || (!editingItem && c.readOnly)).map(col => (
+                            {columns.filter(c => c.type !== 'custom' && (!c.readOnly || (!editingItem && c.readOnly))).map(col => (
                                 <div key={col.key} style={{ marginBottom: '15px' }}>
                                     <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>{col.label}</label>
 
