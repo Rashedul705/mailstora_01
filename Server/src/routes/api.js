@@ -109,5 +109,6 @@ router.use('/services', require('./serviceRoutes'));
 router.use('/dashboard', require('./dashboardRoutes'));
 router.use('/content', require('./contentRoutes'));
 router.use('/webhooks', require('./webhooks'));
+router.use('/messages', require('./messageRoutes'));
 
 module.exports = router;
