@@ -57,7 +57,7 @@ export default async function Home() {
   const activeHero = data.hero?.find((h: any) => h.is_active) || data.hero?.[0] || null;
 
   return (
-    <main>
+    <div className="main">
       <Navbar />
       <Hero data={activeHero} />
       <Problem />
@@ -71,6 +71,6 @@ export default async function Home() {
       <FAQ data={data.faq} />
       <Contact />
       <Footer />
-    </main>
+    </div>
   );
 }

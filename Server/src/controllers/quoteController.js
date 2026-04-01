@@ -66,26 +66,37 @@ exports.create = async (req, res) => {
         const projectStatusUrl = `${frontendUrl}/quote/view/${quote.access_token}`;
 
         const clientSubject = `Re: Quote Request #${quote.quote_number} - MailStora`;
-        const clientHtml = `
-            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-                <p>Hello ${quote.name},</p>
-                <p>Thank you for requesting a quote from MailStora.</p>
-                <p>We have received your request (<strong>#${quote.quote_number}</strong>) and our team will review your project details shortly. We will contact you soon with more information.</p>
-                <br/>
-                <div style="text-align: center; margin: 30px 0;">
-                    <a href="${projectStatusUrl}" style="background-color: #4338CA; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">View Project Status & Message History</a>
-                </div>
-                <h3>Project Summary:</h3>
-                <ul>
-                    <li><strong>Service:</strong> ${quote.service_type}</li>
-                    <li><strong>Email Types:</strong> ${emailTypesStr}</li>
-                    <li><strong>Templates:</strong> ${quote.template_quantity}</li>
-                    <li><strong>ESP:</strong> ${espStr}</li>
-                </ul>
-                <p>Best regards,<br/>MailStora Team</p>
-            </div>
+        const clientContent = `
+            <p>Hello <strong>${quote.name}</strong>,</p>
+            <p>Thank you for requesting a quote from <strong>MailStora</strong>. We have received your request (<strong>#${quote.quote_number}</strong>) and our team will review your project details shortly. We will get back to you soon.</p>
+            <h3 style="color:#2d287b;font-size:16px;margin:20px 0 10px 0;">Project Summary</h3>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;">
+                <tr style="background-color:#f9fafb;">
+                    <td style="padding:10px 16px;font-weight:bold;color:#374151;width:40%;border-bottom:1px solid #e5e7eb;">Service</td>
+                    <td style="padding:10px 16px;color:#555;border-bottom:1px solid #e5e7eb;">${quote.service_type}</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 16px;font-weight:bold;color:#374151;border-bottom:1px solid #e5e7eb;">Email Types</td>
+                    <td style="padding:10px 16px;color:#555;border-bottom:1px solid #e5e7eb;">${emailTypesStr}</td>
+                </tr>
+                <tr style="background-color:#f9fafb;">
+                    <td style="padding:10px 16px;font-weight:bold;color:#374151;border-bottom:1px solid #e5e7eb;">Templates</td>
+                    <td style="padding:10px 16px;color:#555;border-bottom:1px solid #e5e7eb;">${quote.template_quantity}</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 16px;font-weight:bold;color:#374151;">ESP / Platform</td>
+                    <td style="padding:10px 16px;color:#555;">${espStr}</td>
+                </tr>
+            </table>
+            <p style="margin-top:20px;">You can track your project status and message history anytime using the button below.</p>
         `;
-        sendEmail(quote.email, clientSubject, 'Your quote request has been received.', clientHtml).catch(e => console.error('Failed to send client email:', e));
+        sendEmail(
+            quote.email,
+            clientSubject,
+            `Your quote request #${quote.quote_number} has been received.`,
+            clientContent,
+            { title: `Quote Request #${quote.quote_number} Received`, buttonText: 'View Project Status', buttonUrl: projectStatusUrl }
+        ).catch(e => console.error('Failed to send client email:', e));
 
         // Send notification email to admin
         const attachmentLinks = (quote.attachments && quote.attachments.length > 0)
@@ -93,36 +104,37 @@ exports.create = async (req, res) => {
             : '<li>None</li>';
 
         const adminSubject = `New Quote Request #${quote.quote_number} Received`;
-        const adminHtml = `
-            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-                <p>A new quote request (<strong>#${quote.quote_number}</strong>) has been submitted.</p>
-                <br/>
-                <h3>Client Info</h3>
-                <ul>
-                    <li><strong>Name:</strong> ${quote.name}</li>
-                    <li><strong>Email:</strong> ${quote.email}</li>
-                    <li><strong>WhatsApp:</strong> ${quote.whatsapp}</li>
-                    <li><strong>Company:</strong> ${quote.company || 'N/A'}</li>
-                    <li><strong>Website:</strong> ${quote.website || 'N/A'}</li>
-                </ul>
-                <h3>Project Details</h3>
-                <ul>
-                    <li><strong>Service Type:</strong> ${quote.service_type}</li>
-                    <li><strong>Email Types:</strong> ${emailTypesStr}</li>
-                    <li><strong>Templates:</strong> ${quote.template_quantity}</li>
-                    <li><strong>ESP:</strong> ${espStr}</li>
-                    <li><strong>Design Status:</strong> ${quote.design_status === 'have_design' ? 'Has design' : 'Needs design support'}</li>
-                </ul>
-                ${quote.design_status === 'need_design' && quote.design_brief ? `<h3>Design Brief</h3><p>${quote.design_brief}</p>` : ''}
-                <h3>Project Description</h3>
-                <p>${quote.project_description}</p>
-                <h3>Attachments</h3>
-                <ul>${attachmentLinks}</ul>
-                <br/>
-                <p>Open the admin panel to review and respond.</p>
-            </div>
+        const adminContent = `
+            <p>A new quote request (<strong>#${quote.quote_number}</strong>) has been submitted.</p>
+            <h3 style="color:#2d287b;font-size:16px;margin:20px 0 10px 0;">Client Info</h3>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;margin-bottom:16px;">
+                <tr style="background-color:#f9fafb;"><td style="padding:9px 16px;font-weight:bold;width:35%;border-bottom:1px solid #e5e7eb;">Name</td><td style="padding:9px 16px;border-bottom:1px solid #e5e7eb;">${quote.name}</td></tr>
+                <tr><td style="padding:9px 16px;font-weight:bold;border-bottom:1px solid #e5e7eb;">Email</td><td style="padding:9px 16px;border-bottom:1px solid #e5e7eb;">${quote.email}</td></tr>
+                <tr style="background-color:#f9fafb;"><td style="padding:9px 16px;font-weight:bold;border-bottom:1px solid #e5e7eb;">WhatsApp</td><td style="padding:9px 16px;border-bottom:1px solid #e5e7eb;">${quote.whatsapp}</td></tr>
+                <tr><td style="padding:9px 16px;font-weight:bold;border-bottom:1px solid #e5e7eb;">Company</td><td style="padding:9px 16px;border-bottom:1px solid #e5e7eb;">${quote.company || 'N/A'}</td></tr>
+                <tr style="background-color:#f9fafb;"><td style="padding:9px 16px;font-weight:bold;">Website</td><td style="padding:9px 16px;">${quote.website || 'N/A'}</td></tr>
+            </table>
+            <h3 style="color:#2d287b;font-size:16px;margin:20px 0 10px 0;">Project Details</h3>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;margin-bottom:16px;">
+                <tr style="background-color:#f9fafb;"><td style="padding:9px 16px;font-weight:bold;width:35%;border-bottom:1px solid #e5e7eb;">Service Type</td><td style="padding:9px 16px;border-bottom:1px solid #e5e7eb;">${quote.service_type}</td></tr>
+                <tr><td style="padding:9px 16px;font-weight:bold;border-bottom:1px solid #e5e7eb;">Email Types</td><td style="padding:9px 16px;border-bottom:1px solid #e5e7eb;">${emailTypesStr}</td></tr>
+                <tr style="background-color:#f9fafb;"><td style="padding:9px 16px;font-weight:bold;border-bottom:1px solid #e5e7eb;">Templates</td><td style="padding:9px 16px;border-bottom:1px solid #e5e7eb;">${quote.template_quantity}</td></tr>
+                <tr><td style="padding:9px 16px;font-weight:bold;border-bottom:1px solid #e5e7eb;">ESP</td><td style="padding:9px 16px;border-bottom:1px solid #e5e7eb;">${espStr}</td></tr>
+                <tr style="background-color:#f9fafb;"><td style="padding:9px 16px;font-weight:bold;">Design Status</td><td style="padding:9px 16px;">${quote.design_status === 'have_design' ? 'Has design' : 'Needs design support'}</td></tr>
+            </table>
+            ${quote.design_status === 'need_design' && quote.design_brief ? `<h3 style="color:#2d287b;font-size:16px;">Design Brief</h3><p>${quote.design_brief}</p>` : ''}
+            <h3 style="color:#2d287b;font-size:16px;margin:20px 0 10px 0;">Project Description</h3>
+            <p style="background:#f9fafb;padding:14px;border-radius:6px;border-left:4px solid #2d287b;">${quote.project_description}</p>
+            <h3 style="color:#2d287b;font-size:16px;">Attachments</h3>
+            <p>${attachmentLinks}</p>
         `;
-        sendEmail('rashedul.afl@gmail.com', adminSubject, 'A new quote request has been submitted.', adminHtml).catch(e => console.error('Failed to send admin email:', e));
+        sendEmail(
+            'rashedul.afl@gmail.com',
+            adminSubject,
+            `New quote request #${quote.quote_number} has been submitted.`,
+            adminContent,
+            { title: `New Quote #${quote.quote_number}` }
+        ).catch(e => console.error('Failed to send admin email:', e));
 
         res.status(201).json(quote);
     } catch (error) { res.status(400).json({ error: error.message }); }
@@ -155,25 +167,23 @@ exports.reply = async (req, res) => {
         const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
         const projectStatusUrl = `${frontendUrl}/quote/view/${quote.access_token}`;
 
-        const html = `
-            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-                <p>Hello ${quote.name},</p>
-                <p>Our team has replied to your quote request (<strong>#${quote.quote_number}</strong>).</p>
-                <br/>
-                <p><strong>Message from MailStora:</strong></p>
-                <div style="background: #f4f4f4; padding: 15px; border-radius: 5px;">
-                    ${message.replace(/\\n/g, '<br/>')}
-                </div>
-                <br/>
-                <div style="text-align: center; margin: 30px 0;">
-                    <a href="${projectStatusUrl}" style="background-color: #4338CA; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Reply on Dashboard</a>
-                </div>
-                <p>If you have more information to add, please reply to this email or use the dashboard link above.</p>
-                <p>Best regards,<br/>MailStora Team</p>
+        const replyContent = `
+            <p>Hello <strong>${quote.name}</strong>,</p>
+            <p>Our team has replied to your quote request (<strong>#${quote.quote_number}</strong>).</p>
+            <h3 style="color:#2d287b;font-size:16px;margin:20px 0 10px 0;">Message from MailStora</h3>
+            <div style="background:#f9fafb;padding:16px;border-radius:6px;border-left:4px solid #2d287b;font-size:15px;line-height:1.7;">
+                ${message.split('\n').join('<br/>')}
             </div>
+            <p style="margin-top:20px;">If you have more to add, please reply directly or use the dashboard link below.</p>
         `;
 
-        await sendEmail(quote.email, subject, message, html);
+        await sendEmail(
+            quote.email,
+            subject,
+            message,
+            replyContent,
+            { title: `Reply to Quote #${quote.quote_number}`, buttonText: 'Reply on Dashboard', buttonUrl: projectStatusUrl }
+        );
 
         res.status(200).json({ message: 'Reply sent successfully', quoteMessage, quote });
     } catch (error) {
@@ -206,19 +216,21 @@ exports.replyClient = async (req, res) => {
 
         // Notify admin
         const adminSubject = `New Client Reply - Quote #${quote.quote_number}`;
-        const adminHtml = `
-            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-                <p>Client <strong>${quote.name}</strong> has replied to Quote #${quote.quote_number}.</p>
-                <br/>
-                <p><strong>Message:</strong></p>
-                <div style="background: #f4f4f4; padding: 15px; border-radius: 5px;">
-                    ${message.replace(/\\n/g, '<br/>')}
-                </div>
-                <br/>
-                <p>Open the admin panel to review and respond.</p>
+        const adminClientReplyContent = `
+            <p>Client <strong>${quote.name}</strong> has replied to Quote <strong>#${quote.quote_number}</strong>.</p>
+            <h3 style="color:#2d287b;font-size:16px;margin:20px 0 10px 0;">Client Message</h3>
+            <div style="background:#f9fafb;padding:16px;border-radius:6px;border-left:4px solid #2d287b;font-size:15px;line-height:1.7;">
+                ${message.split('\n').join('<br/>')}
             </div>
+            <p style="margin-top:20px;">Log in to the admin panel to review and respond.</p>
         `;
-        sendEmail('rashedul.afl@gmail.com', adminSubject, `Client reply for #${quote.quote_number}`, adminHtml).catch(e => console.error('Failed to send admin email:', e));
+        sendEmail(
+            'rashedul.afl@gmail.com',
+            adminSubject,
+            `Client reply for #${quote.quote_number}`,
+            adminClientReplyContent,
+            { title: `New Client Reply — Quote #${quote.quote_number}` }
+        ).catch(e => console.error('Failed to send admin email:', e));
 
         res.status(200).json({ message: 'Reply sent successfully', quoteMessage, quote });
     } catch (error) {

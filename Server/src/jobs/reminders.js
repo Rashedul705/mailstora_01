@@ -72,23 +72,43 @@ const sendReminderEmail = async (booking, timeText) => {
     const userMomnt = moment.tz(booking.utcDateTime, booking.userTimezone);
 
     // Client Email
-    const clientHtml = `<h3>Consultation Reminder</h3>
-        <p>Hi ${booking.name},</p>
-        <p>Your consultation is starting in <strong>${timeText}</strong>.</p>
-        <p><strong>Date & Time:</strong> ${userMomnt.format('YYYY-MM-DD')} at ${userMomnt.format('hh:mm A z')} (Your Time)</p>
-        <p><strong>Method:</strong> ${booking.meetingMethod}</p>
-        ${booking.meetingLink ? `<p><strong>Meeting Link:</strong> <a href="${booking.meetingLink}">${booking.meetingLink}</a></p>` : ''}`;
+    const clientContent = `
+        <p>Hi <strong>${booking.name}</strong>,</p>
+        <p>This is a friendly reminder that your consultation with <strong>MailStora</strong> is starting in <strong>${timeText}</strong>.</p>
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;">
+            <tr style="background-color:#f9fafb;"><td style="padding:10px 16px;font-weight:bold;width:40%;border-bottom:1px solid #e5e7eb;">Date &amp; Time</td><td style="padding:10px 16px;border-bottom:1px solid #e5e7eb;">${userMomnt.format('YYYY-MM-DD')} at ${userMomnt.format('hh:mm A z')} (Your Time)</td></tr>
+            <tr><td style="padding:10px 16px;font-weight:bold;">Method</td><td style="padding:10px 16px;">${booking.meetingMethod}</td></tr>
+        </table>
+        ${booking.meetingLink ? `<p style="margin-top:16px;"><strong>Meeting Link:</strong> <a href="${booking.meetingLink}" style="color:#2d287b;">${booking.meetingLink}</a></p>` : ''}
+        <p style="margin-top:16px;">Please get ready a few minutes early. We look forward to speaking with you!</p>
+    `;
     
-    await sendEmail(booking.email, subject, `Your consultation starts in ${timeText}.`, clientHtml);
+    await sendEmail(
+        booking.email,
+        subject,
+        `Your consultation starts in ${timeText}.`,
+        clientContent,
+        { title: `⏰ Starting in ${timeText}`, preheader: `Your MailStora consultation is starting in ${timeText}.` }
+    );
 
     // Admin Email
-    const adminHtml = `<h3>Consultation Reminder</h3>
-        <p>Consultation with ${booking.name} is starting in <strong>${timeText}</strong>.</p>
-        <p><strong>Email:</strong> ${booking.email}</p>
-        <p><strong>Date & Time (Dhaka):</strong> ${dhakaMomnt.format('YYYY-MM-DD')} at ${dhakaMomnt.format('hh:mm A z')}</p>
-        <p><strong>Method:</strong> ${booking.meetingMethod}</p>`;
+    const adminContent = `
+        <p>A consultation with <strong>${booking.name}</strong> is starting in <strong>${timeText}</strong>.</p>
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;">
+            <tr style="background-color:#f9fafb;"><td style="padding:9px 16px;font-weight:bold;width:40%;border-bottom:1px solid #e5e7eb;">Client</td><td style="padding:9px 16px;border-bottom:1px solid #e5e7eb;">${booking.name}</td></tr>
+            <tr><td style="padding:9px 16px;font-weight:bold;border-bottom:1px solid #e5e7eb;">Email</td><td style="padding:9px 16px;border-bottom:1px solid #e5e7eb;">${booking.email}</td></tr>
+            <tr style="background-color:#f9fafb;"><td style="padding:9px 16px;font-weight:bold;border-bottom:1px solid #e5e7eb;">Date &amp; Time (Dhaka)</td><td style="padding:9px 16px;border-bottom:1px solid #e5e7eb;">${dhakaMomnt.format('YYYY-MM-DD')} at ${dhakaMomnt.format('hh:mm A z')}</td></tr>
+            <tr><td style="padding:9px 16px;font-weight:bold;">Method</td><td style="padding:9px 16px;">${booking.meetingMethod}</td></tr>
+        </table>
+    `;
         
-    await sendEmail(adminEmail, `Admin ${subject}`, `Consultation starts in ${timeText}.`, adminHtml);
+    await sendEmail(
+        adminEmail,
+        `Admin ${subject}`,
+        `Consultation starts in ${timeText}.`,
+        adminContent,
+        { title: `⏰ Upcoming: Consultation in ${timeText}` }
+    );
 };
 
 module.exports = setupReminders;
