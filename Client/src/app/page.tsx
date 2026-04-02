@@ -62,11 +62,11 @@ export default async function Home() {
       <Hero data={activeHero} />
       <Problem />
       <Services data={data.services} />
-      <Pricing data={data.pricing} />
       <Portfolio data={data.portfolio} />
       <Testimonials data={data.testimonials} />
       <Stats />
       <Process />
+      <Pricing data={data.pricing} />
       <CTA />
       <FAQ data={data.faq} />
       <Contact />
