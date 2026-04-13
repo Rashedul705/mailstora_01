@@ -3,10 +3,8 @@
     color: #ffffff;
     position: relative;
     overflow: hidden;
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);
-    padding: 80px 24px;
+    width: 100%;
+    padding: 90px 24px;
     box-sizing: border-box;
 }
 
@@ -60,7 +58,7 @@
 }
 
 .cta-title {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(1.75rem, 5vw, 3rem);
     font-weight: 800;
     color: #ffffff;
     line-height: 1.15;
@@ -96,10 +94,17 @@
     letter-spacing: 0.03em;
 }
 
+/* ── Tablet ── */
+@media (max-width: 1024px) {
+    .cta-section {
+        padding: 72px 32px;
+    }
+}
+
 /* ── Mobile ── */
 @media (max-width: 640px) {
     .cta-section {
-        padding: 60px 20px;
+        padding: 56px 20px;
     }
 
     .cta-buttons {

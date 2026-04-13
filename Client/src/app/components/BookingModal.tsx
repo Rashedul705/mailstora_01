@@ -124,6 +124,8 @@ export default function BookingModal({ isOpen, onClose }: { isOpen: boolean; onC
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
+    const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+
     // Form data
     const [email, setEmail] = useState('');
     const [otp, setOtp] = useState('');
@@ -181,7 +183,7 @@ export default function BookingModal({ isOpen, onClose }: { isOpen: boolean; onC
     const fetchSlots = async (selectedDate: string) => {
         try {
             const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            const res = await fetch(`http://localhost:5001/api/schedules/available-slots?date=${selectedDate}&timezone=${userTimezone}`);
+            const res = await fetch(`${API_BASE}/api/schedules/available-slots?date=${selectedDate}&timezone=${userTimezone}`);
             if (res.ok) {
                 const data = await res.json();
                 setAvailableSlots(data);
@@ -200,7 +202,7 @@ export default function BookingModal({ isOpen, onClose }: { isOpen: boolean; onC
         setError('');
         setLoading(true);
         try {
-            const res = await fetch('http://localhost:5001/api/schedules/send-otp', {
+            const res = await fetch(`${API_BASE}/api/schedules/send-otp`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
@@ -222,7 +224,7 @@ export default function BookingModal({ isOpen, onClose }: { isOpen: boolean; onC
         setError('');
         setLoading(true);
         try {
-            const res = await fetch('http://localhost:5001/api/schedules/verify-otp', {
+            const res = await fetch(`${API_BASE}/api/schedules/verify-otp`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, otp })
@@ -256,7 +258,7 @@ export default function BookingModal({ isOpen, onClose }: { isOpen: boolean; onC
                 meetingLink: (meetingMethod === 'Zoom' || meetingMethod === 'Google Meet') ? meetingLink : '',
                 message
             };
-            const res = await fetch('http://localhost:5001/api/schedules', {
+            const res = await fetch(`${API_BASE}/api/schedules`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

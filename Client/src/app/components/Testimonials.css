@@ -1,6 +1,15 @@
 .testimonials-section {
-    background: var(--section-alt);
+    background: var(--hero-bg);
+    color: #ffffff;
     padding-top: 1rem;
+}
+
+.testimonials-section .section-title {
+    color: #ffffff;
+}
+
+.testimonials-section .section-subtitle {
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .testimonials-header {
@@ -21,22 +30,24 @@
 }
 
 .testimonial-card {
-    background: #ffffff;
-    border: 1px solid var(--card-border);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 1.25rem;
     padding: 1.75rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     position: relative;
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12px);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
     overflow: hidden;
 }
 
 .testimonial-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
 .testimonial-quote-mark {
@@ -45,7 +56,7 @@
     right: 1.25rem;
     font-size: 6rem;
     line-height: 1;
-    color: rgba(99, 102, 241, 0.08);
+    color: rgba(255, 255, 255, 0.06);
     font-family: Georgia, serif;
     font-weight: 900;
     pointer-events: none;
@@ -59,7 +70,7 @@
 
 .testimonial-review {
     font-size: 0.92rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.8);
     line-height: 1.75;
     flex: 1;
     font-style: italic;
@@ -70,7 +81,7 @@
     align-items: center;
     gap: 0.75rem;
     padding-top: 0.75rem;
-    border-top: 1px solid var(--card-border);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .testimonial-avatar {
@@ -97,10 +108,10 @@
 .testimonial-name {
     font-size: 0.9rem;
     font-weight: 700;
-    color: var(--foreground);
+    color: #ffffff;
 }
 
 .testimonial-role {
     font-size: 0.78rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.6);
 }

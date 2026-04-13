@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import "./Portfolio.css";
 
 const items = [
@@ -31,7 +32,7 @@ export default function Portfolio({ data = [] }: { data?: any[] }) {
                                     className="portfolio-img"
                                 />
                                 <div className="portfolio-overlay">
-                                    <a href="#contact" className="portfolio-view-btn">View Details →</a>
+                                    <Link href="/quote" className="portfolio-view-btn">View Details →</Link>
                                 </div>
                             </div>
                             <div className="portfolio-content">
@@ -44,7 +45,7 @@ export default function Portfolio({ data = [] }: { data?: any[] }) {
                 </div>
 
                 <div className="portfolio-action text-center">
-                    <a href="#contact" className="btn btn-primary">See Full Portfolio</a>
+                    <Link href="/quote" className="btn btn-primary">Request Portfolio</Link>
                 </div>
             </div>
         </section>

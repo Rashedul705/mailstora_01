@@ -1,9 +1,16 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import BookingModal from './BookingModal';
 import './Consultation.css';
 
 export default function Consultation() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     return (
+        <>
         <section className="consultation-section section">
             <div className="container">
                 <div className="consultation-card">
@@ -15,11 +22,11 @@ export default function Consultation() {
                                 Ready to transform your email presence? Let's discuss your goals, review your current designs, and map out a plan for higher conversions and better engagement.
                             </p>
                             <div className="consultation-buttons">
-                                <a href="#contact" className="btn btn-primary">
+                                <Link href="/quote" className="btn btn-primary">
                                     Contact Us
-                                </a>
+                                </Link>
                                 <a
-                                    href="https://wa.me/your-whatsapp-link"
+                                    href="https://wa.me/+8801744350705"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="btn btn-whatsapp"
@@ -29,9 +36,9 @@ export default function Consultation() {
                                     </svg>
                                     WhatsApp
                                 </a>
-                                <a href="#calendar" className="btn btn-secondary">
+                                <button onClick={() => setIsModalOpen(true)} className="btn btn-secondary">
                                     Booking Calendar
-                                </a>
+                                </button>
                             </div>
                         </div>
                         <div className="consultation-image">
@@ -56,6 +63,8 @@ export default function Consultation() {
                     </div>
                 </div>
             </div>
+            <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </section>
+        </>
     );
 }

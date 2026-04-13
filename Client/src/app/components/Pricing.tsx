@@ -155,7 +155,7 @@ export default function Pricing({ data = [] }: { data?: any[] }) {
                                     ))}
                                 </ul>
                                 <div className="pricing-action">
-                                    <Link href="/checkout" className={`btn ${isHighlighted ? 'btn-primary' : 'btn-secondary'} full-width`} style={{ display: 'block' }}>
+                                    <Link href={btnText === 'Contact Us' ? '/quote' : '/checkout'} className={`btn ${isHighlighted ? 'btn-primary' : 'btn-secondary'} full-width`} style={{ display: 'block' }}>
                                         {btnText}
                                     </Link>
                                 </div>

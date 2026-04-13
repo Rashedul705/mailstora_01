@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import BookingModal from "./BookingModal";
 import "./Hero.css";
 
@@ -34,7 +35,7 @@ export default function Hero({ data }: { data?: any }) {
                     </p>
 
                     <div className="hero-buttons">
-                        <a href={heroData.cta_link} className="btn btn-primary">{heroData.cta_text}</a>
+                        <Link href="/quote" className="btn btn-primary">{heroData.cta_text}</Link>
                         <a href="#portfolio" className="btn btn-secondary">View Portfolio</a>
                     </div>
 
