@@ -1,6 +1,7 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Problem from "./components/Problem";
+import Trust from "./components/Trust";
 import Services from "./components/Services";
 import Pricing from "./components/Pricing";
 import Portfolio from "./components/Portfolio";
@@ -26,7 +27,8 @@ async function getLandingData() {
       `${API_BASE}/api/pricing`,
       `${API_BASE}/api/portfolio`,
       `${API_BASE}/api/testimonials`,
-      `${API_BASE}/api/faq`
+      `${API_BASE}/api/faq`,
+      `${API_BASE}/api/partners`
     ];
 
     const responses = await Promise.all(
@@ -44,11 +46,12 @@ async function getLandingData() {
       pricing: responses[2] ? await responses[2].json() : [],
       portfolio: responses[3] ? await responses[3].json() : [],
       testimonials: responses[4] ? await responses[4].json() : [],
-      faq: responses[5] ? await responses[5].json() : []
+      faq: responses[5] ? await responses[5].json() : [],
+      partners: responses[6] ? await responses[6].json() : []
     };
   } catch (error) {
     console.error("Failed to fetch landing data", error);
-    return { hero: [], services: [], pricing: [], portfolio: [], testimonials: [], faq: [] };
+    return { hero: [], services: [], pricing: [], portfolio: [], testimonials: [], faq: [], partners: [] };
   }
 }
 
@@ -57,10 +60,12 @@ export default async function Home() {
   const activeHero = data.hero?.find((h: any) => h.is_active) || data.hero?.[0] || null;
 
   return (
-    <main className="main">
+    <>
       <Navbar />
-      <Hero data={activeHero} />
+      <main className="main">
+        <Hero data={activeHero} />
       <Problem />
+      <Trust data={data.partners} />
       <Services data={data.services} />
       <Portfolio data={data.portfolio} />
       <Testimonials data={data.testimonials} />
@@ -69,8 +74,9 @@ export default async function Home() {
       <Pricing data={data.pricing} />
       <CTA />
       <FAQ data={data.faq} />
-      <Contact />
+        <Contact />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }

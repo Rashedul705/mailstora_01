@@ -1,0 +1,88 @@
+.trust-section {
+    padding: 60px 0;
+    background-color: #f8f9fa; /* slightly off white or pure white depending on preference */
+    border-bottom: 1px solid #eaeaea;
+}
+
+.trust-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: #4a4a4a;
+    margin-bottom: 40px;
+}
+
+.trust-carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.trust-logos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    overflow: hidden;
+    gap: 30px;
+}
+
+.trust-logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.trust-logo-item:hover {
+    opacity: 1;
+}
+
+.partner-logo-img {
+    max-width: 100%;
+    max-height: 45px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.trust-logo-item:hover .partner-logo-img {
+    filter: grayscale(0%);
+}
+
+.carousel-btn {
+    background: transparent;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #555;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.carousel-btn:hover {
+    background-color: #eee;
+    color: #111;
+}
+
+@media (max-width: 768px) {
+    .trust-logos {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .carousel-btn {
+        display: none; /* Hide buttons on mobile in favor of wrap or touch swipe */
+    }
+}

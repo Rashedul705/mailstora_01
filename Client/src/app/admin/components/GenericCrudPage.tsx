@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 export type ColumnDef = {
     key: string;
     label: string;
-    type: 'text' | 'number' | 'email' | 'textarea' | 'select' | 'date' | 'boolean' | 'custom';
+    type: 'text' | 'number' | 'email' | 'textarea' | 'select' | 'date' | 'boolean' | 'custom' | 'image';
     options?: string[]; // For select type
     hideInTable?: boolean;
     readOnly?: boolean;
@@ -72,6 +72,33 @@ export default function GenericCrudPage({ title, endpoint, columns }: CrudProps)
 
     const handleChange = (key: string, value: any) => {
         setFormData((prev: any) => ({ ...prev, [key]: value }));
+    };
+
+    const [uploadingImageKey, setUploadingImageKey] = useState<string | null>(null);
+
+    const handleImageUpload = async (key: string, file: File) => {
+        setUploadingImageKey(key);
+        const uploadData = new FormData();
+        uploadData.append('image', file);
+        
+        try {
+            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+            const res = await fetch(`${API_BASE}/api/upload-imgbb`, {
+                method: 'POST',
+                body: uploadData
+            });
+            const data = await res.json();
+            if (res.ok && data.imageUrl) {
+                handleChange(key, data.imageUrl);
+            } else {
+                alert('Image upload failed: ' + (data.message || data.error));
+            }
+        } catch (error) {
+            console.error('Upload error', error);
+            alert('Upload error occurred check console.');
+        } finally {
+            setUploadingImageKey(null);
+        }
     };
 
     const handleSave = async (e: any) => {
@@ -207,6 +234,27 @@ export default function GenericCrudPage({ title, endpoint, columns }: CrudProps)
                                             checked={!!formData[col.key]}
                                             onChange={(e) => handleChange(col.key, e.target.checked)}
                                         />
+                                    ) : col.type === 'image' ? (
+                                        <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '4px' }}>
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={(e) => {
+                                                    if (e.target.files && e.target.files[0]) {
+                                                        handleImageUpload(col.key, e.target.files[0]);
+                                                    }
+                                                }}
+                                                style={{ width: '100%', marginBottom: '10px' }}
+                                                disabled={uploadingImageKey === col.key}
+                                            />
+                                            {uploadingImageKey === col.key && <p style={{ color: '#f97316', fontSize: '14px', marginBottom: '10px' }}>Uploading...</p>}
+                                            {formData[col.key] && (
+                                                <div>
+                                                    <img src={formData[col.key]} alt="Preview" style={{ maxHeight: '100px', maxWidth: '100%', objectFit: 'contain', border: '1px solid #eee', borderRadius: '4px' }} />
+                                                    <p style={{ fontSize: '12px', color: '#666', marginTop: '5px', wordBreak: 'break-all' }}>{formData[col.key]}</p>
+                                                </div>
+                                            )}
+                                        </div>
                                     ) : (
                                         <input
                                             type={col.type}
