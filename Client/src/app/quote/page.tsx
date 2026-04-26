@@ -4,12 +4,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import './quote.css';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-);
 
 
 const STEPS = [
@@ -55,8 +49,6 @@ export default function QuotePage() {
         project_description: ''
     });
 
-    const [attachments, setAttachments] = useState<File[]>([]);
-    const [designFiles, setDesignFiles] = useState<File[]>([]);
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
     const [errorMessage, setErrorMessage] = useState('');
     const [stepErrors, setStepErrors] = useState<Record<string, string>>({});
@@ -93,26 +85,6 @@ export default function QuotePage() {
         setFormData({ ...formData, design_status: value });
         if (stepErrors['design_status']) {
             setStepErrors(prev => { const n = { ...prev }; delete n['design_status']; return n; });
-        }
-    };
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'attachment' | 'design') => {
-        if (e.target.files) {
-            const files = Array.from(e.target.files);
-            if (type === 'attachment') {
-                setAttachments(prev => [...prev, ...files]);
-            } else {
-                setDesignFiles(prev => [...prev, ...files]);
-            }
-        }
-        e.target.value = '';
-    };
-
-    const removeFile = (index: number, type: 'attachment' | 'design') => {
-        if (type === 'attachment') {
-            setAttachments(prev => prev.filter((_, i) => i !== index));
-        } else {
-            setDesignFiles(prev => prev.filter((_, i) => i !== index));
         }
     };
 
@@ -172,16 +144,6 @@ export default function QuotePage() {
             submitData.append('design_status', formData.design_status);
             submitData.append('design_brief', formData.design_brief);
             submitData.append('project_description', formData.project_description);
-
-            // Append all attachments
-            attachments.forEach(file => {
-                submitData.append('attachments', file);
-            });
-
-            // Append all design files
-            designFiles.forEach(file => {
-                submitData.append('design_attachments', file);
-            });
 
             const res = await fetch('/api/quotes', {
                 method: 'POST',
@@ -405,30 +367,6 @@ export default function QuotePage() {
                 {renderFieldError('design_status')}
             </div>
 
-            {formData.design_status === 'have_design' && (
-                <div className="conditional-field" style={{ marginTop: '1.5rem' }}>
-                    <div className="quote-field full">
-                        <label className="quote-label">Upload Your Design Files <span className="optional">(Optional)</span></label>
-                        <div className="file-upload-zone" onClick={() => document.getElementById('designFileInput')?.click()}>
-                            <div className="upload-icon">🎨</div>
-                            <p>Click to upload your design files, mockups, or screenshots</p>
-                            <span>PNG, JPG, PDF, AI, FIG, PSD, SKETCH – Max 5MB each</span>
-                        </div>
-                        <input id="designFileInput" type="file" style={{ display: 'none' }} onChange={(e) => handleFileChange(e, 'design')} accept=".pdf,.png,.jpg,.jpeg,.ai,.fig,.sketch,.psd" multiple />
-                        {designFiles.length > 0 && (
-                            <div className="file-list">
-                                {designFiles.map((file, i) => (
-                                    <div key={i} className="file-item">
-                                        <span>📎 {file.name}</span>
-                                        <button type="button" className="file-remove" onClick={() => removeFile(i, 'design')}>✕</button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
-
             {formData.design_status === 'need_design' && (
                 <div className="conditional-field" style={{ marginTop: '1.5rem' }}>
                     <div className="quote-field full">
@@ -440,25 +378,6 @@ export default function QuotePage() {
                             onChange={handleChange}
                             placeholder="Describe your preferred style, colors, brand guidelines, inspiration links, etc."
                         />
-                    </div>
-                    <div className="quote-field full" style={{ marginTop: '1rem' }}>
-                        <label className="quote-label">Reference Files <span className="optional">(Optional)</span></label>
-                        <div className="file-upload-zone" onClick={() => document.getElementById('refFileInput')?.click()}>
-                            <div className="upload-icon">📁</div>
-                            <p>Click to upload reference images or files</p>
-                            <span>PNG, JPG, PDF, AI, FIG – Max 5MB each</span>
-                        </div>
-                        <input id="refFileInput" type="file" style={{ display: 'none' }} onChange={(e) => handleFileChange(e, 'design')} accept=".pdf,.png,.jpg,.jpeg,.ai,.fig,.sketch" multiple />
-                        {designFiles.length > 0 && (
-                            <div className="file-list">
-                                {designFiles.map((file, i) => (
-                                    <div key={i} className="file-item">
-                                        <span>📎 {file.name}</span>
-                                        <button type="button" className="file-remove" onClick={() => removeFile(i, 'design')}>✕</button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
                     </div>
                 </div>
             )}
@@ -482,26 +401,6 @@ export default function QuotePage() {
                     style={{ minHeight: '180px' }}
                 />
                 {renderFieldError('project_description')}
-            </div>
-
-            <div className="quote-field full" style={{ marginTop: '1.5rem' }}>
-                <label className="quote-label">Attachments <span className="optional">(Optional)</span></label>
-                <div className="file-upload-zone" onClick={() => document.getElementById('attachmentFileInput')?.click()}>
-                    <div className="upload-icon">📂</div>
-                    <p>Click to upload files related to your project</p>
-                    <span>PDF, DOC, PNG, JPG, FIG – Max 5MB each</span>
-                </div>
-                <input id="attachmentFileInput" type="file" style={{ display: 'none' }} onChange={(e) => handleFileChange(e, 'attachment')} accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.fig" multiple />
-                {attachments.length > 0 && (
-                    <div className="file-list">
-                        {attachments.map((file, i) => (
-                            <div key={i} className="file-item">
-                                <span>📎 {file.name}</span>
-                                <button type="button" className="file-remove" onClick={() => removeFile(i, 'attachment')}>✕</button>
-                            </div>
-                        ))}
-                    </div>
-                )}
             </div>
         </div>
     );

@@ -128,7 +128,19 @@
     height: 2px;
     background-color: #312E81;
     border-radius: 2px;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger-line.open:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger-line.open:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-line.open:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
 }
 
 /* CTA button in nav */
@@ -188,4 +200,35 @@
     border-radius: 9999px;
     padding: 0.65rem 1.5rem;
     font-weight: 600;
+}
+
+.nav-wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #25D366;
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.nav-wa-btn:hover {
+    background-color: #128C7E;
+}
+
+.nav-wa-text {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .nav-wa-btn {
+        padding: 0.6rem 1rem;
+    }
+    .nav-wa-text {
+        display: inline;
+        font-size: 0.875rem;
+    }
 }

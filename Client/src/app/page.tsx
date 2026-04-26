@@ -5,9 +5,10 @@ import Trust from "./components/Trust";
 import Services from "./components/Services";
 import Pricing from "./components/Pricing";
 import Portfolio from "./components/Portfolio";
+import Platforms from "./components/Platforms";
 import Testimonials from "./components/Testimonials";
+import WhyChooseUs from "./components/WhyChooseUs";
 import Stats from "./components/Stats";
-import Process from "./components/Process";
 import CTA from "./components/CTA";
 import FAQ from "./components/FAQ";
 import Contact from "./components/Contact";
@@ -67,10 +68,11 @@ export default async function Home() {
       <Problem />
       <Trust data={data.partners} />
       <Services data={data.services} />
+      <Platforms />
       <Portfolio data={data.portfolio} />
       <Testimonials data={data.testimonials} />
+      <WhyChooseUs />
       <Stats />
-      <Process />
       <Pricing data={data.pricing} />
       <CTA />
       <FAQ data={data.faq} />

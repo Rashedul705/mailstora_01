@@ -1,0 +1,35 @@
+.platforms-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 3rem auto;
+}
+
+.platforms-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.platform-badge {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 1rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+    cursor: default;
+    box-shadow: var(--shadow-soft);
+}
+
+.platform-badge:hover {
+    background-color: var(--hover-bg, var(--primary));
+    color: var(--hover-text, #fff);
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}

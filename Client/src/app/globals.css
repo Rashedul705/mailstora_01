@@ -115,3 +115,34 @@ button {
   border-color: var(--accent-orange-hover);
   color: var(--accent-orange-hover);
 }
+
+.floating-wa-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: #25D366;
+  color: #fff;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 15px -3px rgba(37, 211, 102, 0.3);
+  z-index: 1000;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.floating-wa-btn:hover {
+  background-color: #128C7E;
+  transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+  .floating-wa-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 52px;
+    height: 52px;
+  }
+}

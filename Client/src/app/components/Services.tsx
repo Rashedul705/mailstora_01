@@ -1,6 +1,6 @@
 import './Services.css';
 
-const services = [
+const HARDCODED_SERVICES = [
     {
         icon: (
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -10,7 +10,8 @@ const services = [
             </svg>
         ),
         iconClass: "primary-icon",
-        title: "Responsive HTML Email Templates",
+        cardClass: "border-orange",
+        title: "HTML Email Templates",
         features: [
             "Hand-coded clean HTML, no drag & drop",
             "Pixel-perfect conversion from Figma or PSD",
@@ -23,12 +24,14 @@ const services = [
     {
         icon: (
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
             </svg>
         ),
         iconClass: "secondary-icon",
-        title: "Professional HTML Email Signatures",
+        cardClass: "border-blue",
+        title: "Responsive HTML Email Signatures",
         features: [
             "Fully clickable links & social icons",
             "Outlook & Gmail compatible",
@@ -38,10 +41,30 @@ const services = [
             "Clean, minimal code structure",
         ],
     },
+    {
+        icon: (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+        ),
+        iconClass: "tertiary-icon",
+        cardClass: "border-purple",
+        title: "Professional HTML Email Signatures",
+        features: [
+            "Fully coded in HTML",
+            "Works in Gmail & Outlook",
+            "Social media icons",
+            "Clickable banners",
+            "Mobile responsive",
+            "Quick delivery",
+        ],
+    },
 ];
 
 export default function Services({ data = [] }: { data?: any[] }) {
-    const defaultServices = data.length > 0 ? data : services;
+    // We override API data here to enforce the new 3-card design
+    const services = HARDCODED_SERVICES;
 
     return (
         <section className="services-section section" id="services">
@@ -52,8 +75,8 @@ export default function Services({ data = [] }: { data?: any[] }) {
                 </div>
 
                 <div className="services-grid">
-                    {defaultServices.map((service, idx) => (
-                        <div key={idx} className="service-card">
+                    {services.map((service, idx) => (
+                        <div key={idx} className={`service-card ${service.cardClass}`}>
                             <div className={`service-icon ${service.iconClass}`}>
                                 {service.icon}
                             </div>
