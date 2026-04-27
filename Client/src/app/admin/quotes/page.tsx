@@ -1,19 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import './quotes-admin.css';
 
 export default function QuotesAdmin() {
     const [quotes, setQuotes] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [statusFilter, setStatusFilter] = useState('');
-
-    // Modal state
-    const [selectedQuote, setSelectedQuote] = useState<any>(null);
-    const [editingStatus, setEditingStatus] = useState('');
-    const [actionLoading, setActionLoading] = useState(false);
-    const [replyText, setReplyText] = useState('');
 
     const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/quotes`;
 
@@ -34,196 +27,106 @@ export default function QuotesAdmin() {
         fetchQuotes();
     }, []);
 
-    const handleDelete = async (id: string) => {
+    const handleDelete = async (id: string, e: any) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (!confirm('Are you sure you want to delete this quote request?')) return;
         try {
             await fetch(`${API_URL}/${id}`, { method: 'DELETE', credentials: 'omit' });
             fetchQuotes();
-            if (selectedQuote?._id === id) setSelectedQuote(null);
         } catch (error) {
             console.error('Error deleting quote:', error);
             alert('Failed to delete quote.');
         }
     };
 
-    const handleUpdateStatus = async () => {
-        if (!selectedQuote) return;
-        setActionLoading(true);
-        try {
-            await fetch(`${API_URL}/${selectedQuote._id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: editingStatus })
-            });
-            await fetchQuotes();
-            setSelectedQuote({ ...selectedQuote, status: editingStatus });
-        } catch (error) {
-            alert('Failed to update status');
-        } finally {
-            setActionLoading(false);
-        }
-    };
-
-    const handleConvertToOrder = async () => {
-        if (!confirm('Are you sure you want to convert this quote to an order?')) return;
-        setActionLoading(true);
-        try {
-            const res = await fetch(`${API_URL}/${selectedQuote._id}/convert`, {
-                method: 'POST',
-                credentials: 'omit'
-            });
-            const data = await res.json();
-            if (res.ok) {
-                alert('Converted successfully! Order ID: ' + data.order._id);
-                fetchQuotes();
-                setSelectedQuote({ ...selectedQuote, status: 'converted' });
-                setEditingStatus('converted');
-            } else {
-                alert(data.message || 'Failed to convert');
-            }
-        } catch (error) {
-            console.error('Convert Error:', error);
-            alert('Failed to convert quote.');
-        } finally {
-            setActionLoading(false);
-        }
-    };
-
-    const openQuote = async (quote: any) => {
-        setSelectedQuote(quote);
-        setEditingStatus(quote.status);
-        setReplyText('');
-
-        try {
-            const res = await fetch(`${API_URL}/${quote._id}`, { credentials: 'omit' });
-            const data = await res.json();
-            setSelectedQuote(data);
-            
-            // Clear unread badge locally for immediate feedback
-            setQuotes(prev => prev.map(q => q._id === quote._id ? { ...q, has_unread: false } : q));
-        } catch (error) {
-            console.error('Failed to fetch full quote details:', error);
-        }
-    };
-
-    const handleSendReply = async () => {
-        if (!replyText.trim() || !selectedQuote) return;
-        setActionLoading(true);
-        try {
-            const res = await fetch(`${API_URL}/${selectedQuote._id}/reply`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: replyText })
-            });
-
-            if (res.ok) {
-                const data = await res.json();
-                setSelectedQuote({ ...selectedQuote, messages: [...(selectedQuote.messages || []), data.quoteMessage] });
-                setReplyText('');
-                fetchQuotes();
-            } else {
-                const err = await res.json();
-                alert(err.message || 'Failed to send reply');
-            }
-        } catch (error) {
-            console.error('Reply Error:', error);
-            alert('Failed to send reply.');
-        } finally {
-            setActionLoading(false);
-        }
-    };
-
-    const filteredQuotes = quotes.filter(q => {
-        const matchesSearch = (q.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            q.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            q.service_type?.toLowerCase().includes(searchQuery.toLowerCase()));
-        const matchesStatus = statusFilter ? q.status === statusFilter : true;
-        return matchesSearch && matchesStatus;
-    });
-
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            year: 'numeric', month: 'short', day: 'numeric'
         });
     };
 
     const getEspDisplay = (quote: any) => {
-        if (quote.esp === 'Custom / Other') return quote.esp_custom || 'Custom';
-        return quote.esp || '—';
+        return (quote.esp && quote.esp.length > 0) ? quote.esp.join(', ') : '—';
+    };
+
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case 'new': return 'var(--primary-orange)'; // orange
+            case 'reviewed': return '#3b82f6'; // blue
+            case 'replied': return '#10b981'; // green
+            case 'closed': return '#6b7280'; // gray
+            default: return '#6b7280';
+        }
     };
 
     return (
         <div className="quotes-admin-container">
-            <div className="admin-header">
+            <div className="admin-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                 <div>
-                    <h1 className="admin-title">Quote Requests</h1>
-                    <p style={{ color: '#64748B', marginTop: '0.25rem' }}>Review, manage, and convert client requests into active orders.</p>
+                    <h1 className="admin-title" style={{ color: 'var(--primary-dark)', fontSize: '1.8rem', margin: 0 }}>Quote Requests</h1>
+                    <p style={{ color: '#64748B', marginTop: '0.5rem' }}>Review and manage all incoming client requests.</p>
                 </div>
-            </div>
-
-            <div className="admin-toolbar">
-                <input
-                    type="text"
-                    placeholder="Search by name, email, or service..."
-                    className="admin-search-input"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <select className="admin-filter-select" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-                    <option value="">All Statuses</option>
-                    <option value="new">New</option>
-                    <option value="replied">Replied</option>
-                    <option value="contacted">Contacted</option>
-                    <option value="negotiation">Negotiation</option>
-                    <option value="converted">Converted to Order</option>
-                    <option value="closed">Closed / Rejected</option>
-                </select>
-                <button onClick={fetchQuotes} className="admin-btn admin-btn-secondary">
+                <button onClick={fetchQuotes} className="admin-btn admin-btn-secondary" style={{ border: '1px solid #cbd5e1', background: 'white', padding: '0.5rem 1rem', borderRadius: '6px' }}>
                     ↻ Refresh
                 </button>
             </div>
 
-            <div className="admin-table-container">
+            <div className="admin-table-container" style={{ background: 'white', borderRadius: '12px', border: '1px solid #e2e4f0', overflow: 'hidden' }}>
                 {loading ? (
-                    <div className="admin-loading-state">Loading Quote Requests...</div>
+                    <div className="admin-loading-state" style={{ padding: '3rem', textAlign: 'center' }}>Loading Quote Requests...</div>
                 ) : (
-                    <table className="admin-table">
-                        <thead>
+                    <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <thead style={{ background: '#f8f9fa', borderBottom: '1px solid #e2e4f0' }}>
                             <tr>
-                                <th>Client Name</th>
-                                <th>Email</th>
-                                <th>Service Type</th>
-                                <th>ESP</th>
-                                <th>Qty</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th style={{ padding: '1rem', textAlign: 'left', color: '#64748b' }}>Quote ID</th>
+                                <th style={{ padding: '1rem', textAlign: 'left', color: '#64748b' }}>Client Name</th>
+                                <th style={{ padding: '1rem', textAlign: 'left', color: '#64748b' }}>Email</th>
+                                <th style={{ padding: '1rem', textAlign: 'left', color: '#64748b' }}>WhatsApp</th>
+                                <th style={{ padding: '1rem', textAlign: 'left', color: '#64748b' }}>Service</th>
+                                <th style={{ padding: '1rem', textAlign: 'left', color: '#64748b' }}>ESP</th>
+                                <th style={{ padding: '1rem', textAlign: 'left', color: '#64748b' }}>Status</th>
+                                <th style={{ padding: '1rem', textAlign: 'left', color: '#64748b' }}>Date</th>
+                                <th style={{ padding: '1rem', textAlign: 'right', color: '#64748b' }}>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredQuotes.length === 0 ? (
+                            {quotes.length === 0 ? (
                                 <tr>
-                                    <td colSpan={8} style={{ textAlign: 'center', padding: '3rem' }}>No quotes found.</td>
+                                    <td colSpan={9} style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>No quotes found.</td>
                                 </tr>
                             ) : (
-                                filteredQuotes.map(quote => (
-                                    <tr key={quote._id} onClick={() => openQuote(quote)} className="cursor-pointer hover-row">
-                                        <td style={{ fontWeight: 600 }}>{quote.name}</td>
-                                        <td>{quote.email}</td>
-                                        <td>{quote.service_type}</td>
-                                        <td>{getEspDisplay(quote)}</td>
-                                        <td>{quote.template_quantity || '—'}</td>
-                                        <td><span className="text-sm">{new Date(quote.createdAt).toLocaleDateString()}</span></td>
-                                        <td>
-                                            <span className={`badge badge-${quote.status === 'new' ? 'pending' : quote.status === 'converted' ? 'completed' : quote.status === 'replied' ? 'info' : 'progress'}`}>
+                                quotes.map(quote => (
+                                    <tr key={quote._id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                                        <td style={{ padding: '1rem', fontWeight: 600, color: 'var(--primary-dark)' }}>{quote.quoteId}</td>
+                                        <td style={{ padding: '1rem' }}>{quote.client?.name}</td>
+                                        <td style={{ padding: '1rem' }}>{quote.client?.email}</td>
+                                        <td style={{ padding: '1rem' }}>{quote.client?.whatsapp}</td>
+                                        <td style={{ padding: '1rem' }}>{quote.service}</td>
+                                        <td style={{ padding: '1rem' }}>{getEspDisplay(quote)}</td>
+                                        <td style={{ padding: '1rem' }}>
+                                            <span style={{ 
+                                                backgroundColor: getStatusColor(quote.status), 
+                                                color: 'white', 
+                                                padding: '0.25rem 0.75rem', 
+                                                borderRadius: '9999px',
+                                                fontSize: '0.75rem',
+                                                fontWeight: 600,
+                                                textTransform: 'uppercase'
+                                            }}>
                                                 {quote.status}
                                             </span>
-                                            {quote.has_unread && <span className="unread-badge">New Message</span>}
                                         </td>
-                                        <td>
-                                            <button className="admin-btn admin-btn-icon" onClick={(e) => { e.stopPropagation(); openQuote(quote); }}>
-                                                View Details
-                                            </button>
+                                        <td style={{ padding: '1rem', fontSize: '0.9rem', color: '#64748b' }}>{formatDate(quote.submittedAt)}</td>
+                                        <td style={{ padding: '1rem', textAlign: 'right' }}>
+                                            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                                                <Link href={`/admin/quotes/${quote.quoteId}`} style={{ padding: '0.4rem 0.8rem', background: 'var(--primary-dark)', color: 'white', borderRadius: '6px', textDecoration: 'none', fontSize: '0.85rem' }}>
+                                                    View / Reply
+                                                </Link>
+                                                <button onClick={(e) => handleDelete(quote._id, e)} style={{ padding: '0.4rem 0.8rem', background: '#fee2e2', color: '#b91c1c', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }}>
+                                                    Delete
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
@@ -232,166 +135,6 @@ export default function QuotesAdmin() {
                     </table>
                 )}
             </div>
-
-            {/* Custom Quote Detail Modal */}
-            {selectedQuote && (
-                <div className="admin-modal-overlay" onClick={() => setSelectedQuote(null)}>
-                    <div className="admin-modal" style={{ maxWidth: '850px', width: '90%' }} onClick={e => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <div>
-                                <h2 className="modal-title">Quote Request Details</h2>
-                                <p style={{ color: '#64748B', fontSize: '0.875rem' }}>Submitted: {formatDate(selectedQuote.createdAt)}</p>
-                            </div>
-                            <button className="modal-close" onClick={() => setSelectedQuote(null)}>×</button>
-                        </div>
-
-                        <div className="modal-body quote-modal-body">
-                            <div className="quote-detail-grid">
-                                <div className="detail-section">
-                                    <h3>Client Information</h3>
-                                    <div className="detail-row"><span>Name:</span> <strong>{selectedQuote.name}</strong></div>
-                                    <div className="detail-row"><span>Email:</span> <a href={`mailto:${selectedQuote.email}`}>{selectedQuote.email}</a></div>
-                                    <div className="detail-row"><span>WhatsApp:</span> {selectedQuote.whatsapp || selectedQuote.phone || 'N/A'}</div>
-                                    <div className="detail-row"><span>Company:</span> {selectedQuote.company || 'N/A'}</div>
-                                    <div className="detail-row"><span>Website:</span> {selectedQuote.website ? <a href={selectedQuote.website} target="_blank" rel="noreferrer">{selectedQuote.website}</a> : 'N/A'}</div>
-
-                                    <div style={{ marginTop: '1.5rem' }}>
-                                        <a href={`mailto:${selectedQuote.email}?subject=Regarding your MailStora Quote - ${selectedQuote.service_type}`} className="admin-btn admin-btn-primary" style={{ width: '100%' }}>
-                                            ✉️ Reply to Client
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div className="detail-section">
-                                    <h3>Project Scope</h3>
-                                    <div className="detail-row"><span>Service Type:</span> <strong>{selectedQuote.service_type}</strong></div>
-                                    <div className="detail-row"><span>Templates:</span> {selectedQuote.template_quantity || selectedQuote.template_count || '—'}</div>
-                                    <div className="detail-row"><span>ESP:</span> {getEspDisplay(selectedQuote)}</div>
-                                    <div className="detail-row">
-                                        <span>Design Status:</span>
-                                        <strong style={{ color: selectedQuote.design_status === 'need_design' ? '#D97706' : '#059669' }}>
-                                            {selectedQuote.design_status === 'have_design' ? '✅ Has Design' : selectedQuote.design_status === 'need_design' ? '✏️ Needs Design' : '—'}
-                                        </strong>
-                                    </div>
-
-                                    {selectedQuote.email_types && selectedQuote.email_types.length > 0 && (
-                                        <div className="detail-row" style={{ flexDirection: 'column', gap: '0.5rem' }}>
-                                            <span>Email Types:</span>
-                                            <div className="tag-list">
-                                                {selectedQuote.email_types.map((type: string, i: number) => (
-                                                    <span key={i} className="detail-tag">{type}</span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {selectedQuote.design_status === 'need_design' && selectedQuote.design_brief && (
-                                <div className="detail-description" style={{ marginTop: '1.5rem' }}>
-                                    <h3>Design Brief</h3>
-                                    <div className="description-box">{selectedQuote.design_brief}</div>
-                                </div>
-                            )}
-
-                            <div className="detail-description">
-                                <h3>Project Description</h3>
-                                <div className="description-box">
-                                    {selectedQuote.project_description || 'No description provided.'}
-                                </div>
-                            </div>
-
-                            {/* Attachments */}
-                            {((selectedQuote.attachments && selectedQuote.attachments.length > 0) || selectedQuote.attachment) && (
-                                <div className="detail-description" style={{ marginTop: '1rem' }}>
-                                    <h3>📎 Attachments</h3>
-                                    <div className="attachments-list">
-                                        {selectedQuote.attachments && selectedQuote.attachments.map((url: string, i: number) => {
-                                            const isDesign = url.includes('/design_');
-                                            const label = isDesign ? 'Clients Design' : 'General Attachment';
-                                            return (
-                                                <a key={i} href={url} target="_blank" rel="noreferrer" className="attachment-download-link">
-                                                    📄 {label} — Download
-                                                </a>
-                                            );
-                                        })}
-                                        {selectedQuote.attachment && !selectedQuote.attachments?.length && (
-                                            <a href={selectedQuote.attachment} target="_blank" rel="noreferrer" className="attachment-download-link">
-                                                📄 View Attachment
-                                            </a>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
-
-                            <div className="conversation-section" style={{ marginTop: '2rem' }}>
-                                <h3>Conversation History</h3>
-                                <div className="chat-history">
-                                    {!selectedQuote.messages || selectedQuote.messages.length === 0 ? (
-                                        <div className="no-messages">No messages yet. Send a reply below to start the conversation!</div>
-                                    ) : (
-                                        selectedQuote.messages.map((msg: any) => (
-                                            <div key={msg._id} className={`chat-bubble ${msg.sender_type === 'admin' ? 'chat-admin' : 'chat-client'}`}>
-                                                <div className="chat-bubble-header">
-                                                    <strong>{msg.sender_type === 'admin' ? 'MailStora Team' : selectedQuote.name}</strong>
-                                                    <span className="chat-date">{formatDate(msg.createdAt)}</span>
-                                                </div>
-                                                <div className="chat-bubble-body">{msg.message}</div>
-                                            </div>
-                                        ))
-                                    )}
-                                </div>
-
-                                <div className="reply-box">
-                                    <textarea
-                                        className="admin-input-field"
-                                        style={{ width: '100%', minHeight: '100px', marginBottom: '1rem', padding: '1rem' }}
-                                        placeholder="Type your reply here... (This will be emailed directly to the client)"
-                                        value={replyText}
-                                        onChange={(e) => setReplyText(e.target.value)}
-                                        disabled={actionLoading}
-                                    ></textarea>
-                                    <button
-                                        onClick={handleSendReply}
-                                        disabled={actionLoading || !replyText.trim()}
-                                        className="admin-btn admin-btn-primary"
-                                    >
-                                        {actionLoading ? 'Sending...' : 'Send Reply'}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="modal-footer quote-modal-footer">
-                            <div className="status-updater">
-                                <label>Status:</label>
-                                <select value={editingStatus} onChange={(e) => setEditingStatus(e.target.value)} className="admin-input-field" style={{ width: '150px' }}>
-                                    <option value="new">New</option>
-                                    <option value="replied">Replied</option>
-                                    <option value="contacted">Contacted</option>
-                                    <option value="negotiation">Negotiation</option>
-                                    <option value="converted">Converted to Order</option>
-                                    <option value="closed">Closed / Rejected</option>
-                                </select>
-                                <button onClick={handleUpdateStatus} disabled={actionLoading || editingStatus === selectedQuote.status} className="admin-btn admin-btn-secondary">
-                                    Save
-                                </button>
-                            </div>
-
-                            <div className="quote-actions">
-                                <button type="button" onClick={() => handleDelete(selectedQuote._id)} className="admin-btn admin-btn-danger">
-                                    Delete
-                                </button>
-                                {selectedQuote.status !== 'converted' && (
-                                    <button type="button" onClick={handleConvertToOrder} disabled={actionLoading} className="admin-btn admin-btn-primary" style={{ background: '#059669' }}>
-                                        Convert to Order ✓
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
