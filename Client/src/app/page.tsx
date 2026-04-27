@@ -9,7 +9,6 @@ import Platforms from "./components/Platforms";
 import Testimonials from "./components/Testimonials";
 import WhyChooseUs from "./components/WhyChooseUs";
 import Stats from "./components/Stats";
-import CTA from "./components/CTA";
 import FAQ from "./components/FAQ";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -74,7 +73,6 @@ export default async function Home() {
       <WhyChooseUs />
       <Stats />
       <Pricing data={data.pricing} />
-      <CTA />
       <FAQ data={data.faq} />
         <Contact />
       </main>
