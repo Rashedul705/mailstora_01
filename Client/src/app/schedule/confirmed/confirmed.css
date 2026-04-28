@@ -1,0 +1,121 @@
+.confirmed-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0fdf4 0%, #f0f0ff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-family: var(--font-inter, 'Inter', sans-serif);
+}
+
+.confirmed-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 44px 40px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 8px 40px rgba(45,40,123,0.12);
+    text-align: center;
+    border: 1px solid #e8eaf6;
+}
+
+.confirmed-icon {
+    font-size: 4rem;
+    margin-bottom: 16px;
+    animation: pop 0.5s ease;
+}
+
+@keyframes pop {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.confirmed-title {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #2d287b;
+    margin: 0 0 10px;
+}
+
+.confirmed-subtitle {
+    font-size: 0.9rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0 0 28px;
+}
+
+.confirmed-details {
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.cd-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.875rem;
+}
+
+.cd-row:last-child { border-bottom: none; }
+
+.cd-label { color: #64748b; }
+.cd-value { font-weight: 600; color: #1e1b4b; }
+.mono { font-family: monospace; font-size: 0.8rem; background: #f0f0ff; padding: 2px 8px; border-radius: 6px; color: #2d287b; }
+
+.confirmed-reminders {
+    background: #fff7ed;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    border: 1px solid #fed7aa;
+    text-align: left;
+}
+
+.reminder-item {
+    font-size: 0.8rem;
+    color: #92400e;
+    padding: 4px 0;
+}
+
+.confirmed-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.home-btn {
+    flex: 1;
+    padding: 13px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.875rem;
+    transition: border-color 0.15s;
+}
+.home-btn:hover { border-color: #2d287b; color: #2d287b; }
+
+.wa-btn {
+    flex: 1;
+    padding: 13px 16px;
+    background: #22c55e;
+    color: #fff;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.875rem;
+    transition: background 0.15s;
+}
+.wa-btn:hover { background: #16a34a; }
+
+@media (max-width: 480px) {
+    .confirmed-card { padding: 28px 20px; }
+    .confirmed-actions { flex-direction: column; }
+}
