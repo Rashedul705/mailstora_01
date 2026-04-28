@@ -25,8 +25,25 @@
 .schedule-header p {
     font-size: 1.05rem;
     color: #64748b;
-    margin: 0;
+    margin: 0 0 14px;
 }
+
+/* Timezone banner */
+.tz-banner {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    background: #f0f0ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 30px;
+    padding: 7px 16px;
+    font-size: 0.8rem;
+    color: #374151;
+    margin-top: 6px;
+}
+.tz-banner-et   { font-weight: 600; color: #2d287b; }
+.tz-banner-local { color: #64748b; }
 
 /* Two-column grid */
 .schedule-layout {
@@ -131,37 +148,57 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
-    font-size: 0.875rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
     cursor: not-allowed;
-    color: #cbd5e1;
+    color: #d1d5db;
     font-weight: 500;
     transition: all 0.15s;
     position: relative;
+    border: 2px solid transparent;
+}
+
+.cal-day.disabled {
+    color: #d1d5db;
+    cursor: not-allowed;
+    background: transparent;
 }
 
 .cal-day.available {
     color: #1e1b4b;
+    font-weight: 700;
     cursor: pointer;
-    background: #f0f0ff;
+    background: #eef0ff;
+    border-color: #c7d2fe;
+    box-shadow: 0 1px 4px rgba(45,40,123,0.08);
 }
+
 .cal-day.available:hover {
-    background: #e0e0ff;
+    background: #2d287b;
+    color: #fff;
+    border-color: #2d287b;
+    box-shadow: 0 4px 12px rgba(45,40,123,0.25);
+    transform: translateY(-1px);
 }
 
 .cal-day.today {
-    outline: 2px solid #f97316;
+    outline: 3px solid #f97316;
     outline-offset: -2px;
+    font-weight: 800;
+}
+
+.cal-day.today.available {
+    background: #fff7ed;
+    border-color: #f97316;
+    color: #c2410c;
 }
 
 .cal-day.selected {
     background: #2d287b !important;
     color: #fff !important;
-}
-
-.cal-day.disabled {
-    color: #e2e8f0;
-    cursor: not-allowed;
+    border-color: #2d287b !important;
+    box-shadow: 0 4px 14px rgba(45,40,123,0.35) !important;
+    transform: none;
 }
 
 .cal-tz-note {
@@ -174,7 +211,7 @@
 /* ==================== TIME SLOTS ==================== */
 .slots-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
 
@@ -209,9 +246,28 @@
 }
 
 .slot-time {
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.2;
 }
+
+.slot-et {
+    font-size: 0.65rem;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+/* Local time shown below ET time */
+.slot-local {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #f97316;
+    background: #fff7ed;
+    padding: 1px 6px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+.slot-btn.selected .slot-local { background: rgba(255,255,255,0.2); color: #fde68a; }
 
 .slot-tag {
     font-size: 0.65rem;
@@ -267,28 +323,43 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 16px 10px;
-    border-radius: 12px;
+    padding: 18px 10px;
+    border-radius: 14px;
     border: 2px solid #e2e8f0;
     background: #fff;
     cursor: pointer;
-    transition: all 0.15s;
-    gap: 4px;
+    transition: all 0.18s;
+    gap: 8px;
 }
 
 .method-card:hover {
-    border-color: #2d287b;
-    background: #f0f0ff;
+    border-color: #c7d2fe;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(45,40,123,0.1);
 }
 
 .method-card.selected {
-    border-color: #f97316;
-    background: #fff7ed;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
 }
 
+/* Colorful icon circle */
+.method-icon-wrap {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+    transition: transform 0.15s;
+}
+
+.method-card:hover .method-icon-wrap { transform: scale(1.1); }
+
 .method-icon { font-size: 1.6rem; }
-.method-label { font-weight: 700; font-size: 0.9rem; color: #1e1b4b; }
-.method-desc { font-size: 0.7rem; color: #94a3b8; text-align: center; }
+.method-label { font-weight: 700; font-size: 0.9rem; color: #1e1b4b; transition: color 0.15s; }
+.method-desc { font-size: 0.7rem; color: #94a3b8; text-align: center; line-height: 1.3; }
 
 /* ==================== CLIENT FORM ==================== */
 .client-form { display: flex; flex-direction: column; gap: 16px; }
@@ -411,6 +482,40 @@
 .summary-label { color: #64748b; }
 .summary-value { font-weight: 600; color: #1e1b4b; text-align: right; max-width: 55%; }
 .summary-value.free { color: #16a34a; font-size: 1rem; }
+
+/* Local time row in sidebar */
+.local-time-row { background: #fff7ed; border-radius: 8px; padding: 8px 10px; border-bottom: none !important; margin: 2px 0; }
+.local-time-val { color: #ea580c !important; font-size: 0.85rem; }
+
+/* Sidebar timezone card */
+.sidebar-tz-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    border: 1px solid #e8eaf6;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tz-card-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tz-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.et-dot    { background: #2d287b; }
+.local-dot { background: #f97316; }
+
+.tz-name { font-size: 0.85rem; font-weight: 700; color: #1e1b4b; }
+.tz-sub  { font-size: 0.72rem; color: #94a3b8; }
 
 .sidebar-trust {
     background: #fff;

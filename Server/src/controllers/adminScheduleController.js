@@ -45,7 +45,9 @@ exports.getAdminSchedule = async (req, res) => {
                 confirmed: confirmedCount,
                 pending: pendingCount
             },
-            activeHours: settings.activeHours,
+            startTime:  settings.startTime  || '9:00 AM',
+            endTime:    settings.endTime    || '5:00 PM',
+            activeDays: settings.activeDays && settings.activeDays.length ? settings.activeDays : [1,2,3,4,5],
             upcomingBookings
         });
 
@@ -56,18 +58,21 @@ exports.getAdminSchedule = async (req, res) => {
 
 exports.saveActiveHours = async (req, res) => {
     try {
-        const { activeHours } = req.body;
-        if (!Array.isArray(activeHours)) return res.status(400).json({ message: 'activeHours must be an array' });
+        const { startTime, endTime, activeDays } = req.body;
+        if (!startTime || !endTime) return res.status(400).json({ message: 'startTime and endTime are required' });
+        if (!Array.isArray(activeDays)) return res.status(400).json({ message: 'activeDays must be an array' });
 
         let settings = await ScheduleSettings.findOne();
         if (!settings) {
-            settings = await ScheduleSettings.create({ activeHours });
+            settings = await ScheduleSettings.create({ startTime, endTime, activeDays });
         } else {
-            settings.activeHours = activeHours;
+            settings.startTime  = startTime;
+            settings.endTime    = endTime;
+            settings.activeDays = activeDays;
             await settings.save();
         }
 
-        res.json({ message: 'Active hours saved successfully', activeHours: settings.activeHours });
+        res.json({ message: 'Schedule saved', startTime: settings.startTime, endTime: settings.endTime, activeDays: settings.activeDays });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

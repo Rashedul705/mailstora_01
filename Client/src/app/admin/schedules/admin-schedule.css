@@ -86,7 +86,126 @@
     margin: 0;
 }
 
-/* Active Hours */
+/* Start/End Time Picker */
+.hours-picker-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.hours-picker-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.hours-picker-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.hours-picker-select {
+    padding: 11px 14px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: #1e1b4b;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    background: #f8fafc;
+}
+
+.hours-picker-select:focus { border-color: #2d287b; background: #fff; }
+
+.hours-picker-arrow {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    padding-bottom: 10px;
+    flex-shrink: 0;
+}
+
+/* Active Days */
+.active-days-section {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.active-days-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.day-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 2px solid #e2e8f0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.day-btn.on {
+    background: #2d287b;
+    color: #fff;
+    border-color: #2d287b;
+}
+
+.day-btn.off {
+    background: #f8fafc;
+    color: #94a3b8;
+    border-color: #e2e8f0;
+}
+
+.day-btn.off:hover { border-color: #2d287b; color: #2d287b; background: #f0f0ff; }
+
+/* Slot Preview */
+.slots-preview {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 14px;
+}
+
+.slots-preview-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #166534;
+    margin: 0 0 10px;
+}
+
+.slots-preview-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.slot-chip {
+    background: #fff;
+    border: 1px solid #86efac;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #166534;
+}
+
+.hours-note {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* Save button */
 .save-hours-btn {
     padding: 8px 18px;
     background: #2d287b;
@@ -97,46 +216,12 @@
     font-size: 0.85rem;
     font-weight: 600;
     transition: background 0.15s;
+    white-space: nowrap;
 }
 .save-hours-btn.saved { background: #22c55e; }
 .save-hours-btn:hover:not(:disabled) { background: #1e1b4b; }
+.save-hours-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-.hours-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-bottom: 12px;
-}
-
-.hour-btn {
-    padding: 10px 6px;
-    border-radius: 8px;
-    border: 1.5px solid #e2e8f0;
-    cursor: pointer;
-    font-size: 0.82rem;
-    font-weight: 600;
-    transition: all 0.15s;
-}
-
-.hour-btn.on {
-    background: #2d287b;
-    color: #fff;
-    border-color: #2d287b;
-}
-
-.hour-btn.off {
-    background: #f8fafc;
-    color: #94a3b8;
-    border-color: #e2e8f0;
-}
-
-.hour-btn.off:hover { border-color: #2d287b; color: #2d287b; }
-
-.hours-note {
-    font-size: 0.75rem;
-    color: #94a3b8;
-    margin: 0;
-}
 
 /* Filters */
 .filter-select {
@@ -186,6 +271,8 @@
 
 .bc-date { font-size: 0.72rem; color: #64748b; }
 .bc-time { font-size: 0.85rem; font-weight: 700; color: #2d287b; margin-top: 2px; }
+.bc-tz   { font-size: 0.6rem; font-weight: 600; background: #f97316; color: #fff; padding: 1px 5px; border-radius: 4px; vertical-align: middle; margin-left: 2px; }
+.bc-et   { font-size: 0.68rem; color: #94a3b8; margin-top: 2px; font-style: italic; }
 
 .bc-info { flex: 1; min-width: 0; }
 

@@ -4,23 +4,84 @@ import { useState, useEffect, useCallback } from 'react';
 import './admin-schedule.css';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+const BD_ZONE  = 'Asia/Dhaka';
 
-const ALL_HOURS = [
-    '8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM',
-    '1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM','7:00 PM','8:00 PM'
-];
+// Build ET time options with BDT labels (runs client-side)
+function buildTimeOptions() {
+    const ref = new Date();
+    const [yr, mo, dy] = ref.toISOString().split('T')[0].split('-').map(Number);
+    const options: Array<{ value: string; label: string }> = [];
+
+    for (let h = 0; h < 24; h++) {
+        for (const m of [0, 30]) {
+            const ampm = h < 12 ? 'AM' : 'PM';
+            const h12  = h === 0 ? 12 : h > 12 ? h - 12 : h;
+            const etStr = `${h12}:${String(m).padStart(2, '0')} ${ampm}`;
+
+            // Convert ET time → UTC → BDT
+            const guess = new Date(Date.UTC(yr, mo - 1, dy, h + 4, m));
+            const etParts = new Intl.DateTimeFormat('en-US', {
+                timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit', hour12: false,
+            }).formatToParts(guess);
+            const etH = parseInt(etParts.find(p => p.type === 'hour')?.value ?? '0');
+            const etM = parseInt(etParts.find(p => p.type === 'minute')?.value ?? '0');
+            const utcDate = new Date(guess.getTime() + ((h - etH) * 60 + (m - etM)) * 60_000);
+            const bdtStr = new Intl.DateTimeFormat('en-US', {
+                timeZone: BD_ZONE, hour: 'numeric', minute: '2-digit', hour12: true,
+            }).format(utcDate);
+
+            options.push({ value: etStr, label: `${bdtStr} BDT  (${etStr} ET)` });
+        }
+    }
+    return options;
+}
+
+const TIME_OPTIONS_DATA = typeof window !== 'undefined' ? buildTimeOptions() : [];
+const TIME_VALUES = TIME_OPTIONS_DATA.map(o => o.value);
+
+// ET slot → BDT label for preview chips
+function etSlotToBDT(etStr: string): string {
+    const match = etStr.match(/^(\d+):(\d+)\s*(AM|PM)$/i);
+    if (!match) return etStr;
+    let h = parseInt(match[1]); const m = parseInt(match[2]); const p = match[3].toUpperCase();
+    if (p === 'PM' && h !== 12) h += 12;
+    if (p === 'AM' && h === 12) h = 0;
+    const ref = new Date();
+    const [yr, mo, dy] = ref.toISOString().split('T')[0].split('-').map(Number);
+    const guess = new Date(Date.UTC(yr, mo - 1, dy, h + 4, m));
+    const etParts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit', hour12: false }).formatToParts(guess);
+    const etH = parseInt(etParts.find(p => p.type === 'hour')?.value ?? '0');
+    const etM = parseInt(etParts.find(p => p.type === 'minute')?.value ?? '0');
+    const utcDate = new Date(guess.getTime() + ((h - etH) * 60 + (m - etM)) * 60_000);
+    return new Intl.DateTimeFormat('en-US', { timeZone: BD_ZONE, hour: 'numeric', minute: '2-digit', hour12: true }).format(utcDate);
+}
+
+const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const METHOD_COLORS: Record<string, string> = {
-    whatsapp: '#22c55e',
-    zoom: '#8b5cf6',
-    google_meet: '#f59e0b',
+    whatsapp:    '#22c55e',
+    zoom:        '#2D8CFF',
+    google_meet: '#EA4335',
 };
 
 const METHOD_LABELS: Record<string, string> = {
-    whatsapp: 'WhatsApp',
-    zoom: 'Zoom',
+    whatsapp:    'WhatsApp',
+    zoom:        'Zoom',
     google_meet: 'Google Meet',
 };
+
+/** Format a UTC timestamp into Bangladesh Time (Asia/Dhaka) */
+function toBDDateTime(utcStr: string): { date: string; time: string } {
+    const d = new Date(utcStr);
+    return {
+        date: d.toLocaleDateString('en-CA', { timeZone: BD_ZONE }),
+        time: d.toLocaleTimeString('en-US', { timeZone: BD_ZONE, hour: 'numeric', minute: '2-digit', hour12: true }),
+    };
+}
+
+function toETTime(utcStr: string): string {
+    return new Date(utcStr).toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit', hour12: true });
+}
 
 function CountdownTimer({ utcDateTime }: { utcDateTime: string }) {
     const [label, setLabel] = useState('');
@@ -42,17 +103,23 @@ function CountdownTimer({ utcDateTime }: { utcDateTime: string }) {
 }
 
 export default function AdminSchedulePage() {
-    const [stats, setStats] = useState({ today: 0, thisWeek: 0, confirmed: 0, pending: 0 });
-    const [activeHours, setActiveHours] = useState<string[]>([]);
+    const [stats, setStats]                       = useState({ today: 0, thisWeek: 0, confirmed: 0, pending: 0 });
+    const [startTime, setStartTime]               = useState('9:00 AM');  // stored as ET
+    const [endTime, setEndTime]                   = useState('5:00 PM');  // stored as ET
+    const [activeDays, setActiveDays]             = useState<number[]>([1,2,3,4,5]);
+    const [timeOptions, setTimeOptions]           = useState<Array<{ value: string; label: string }>>([]);
     const [upcomingBookings, setUpcomingBookings] = useState<any[]>([]);
-    const [filter, setFilter] = useState('all');
-    const [selectedBooking, setSelectedBooking] = useState<any>(null);
-    const [message, setMessage] = useState('');
-    const [sendingMsg, setSendingMsg] = useState(false);
-    const [savingHours, setSavingHours] = useState(false);
-    const [hoursSaved, setHoursSaved] = useState(false);
-    const [cancelConfirm, setCancelConfirm] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [filter, setFilter]                     = useState('all');
+    const [selectedBooking, setSelectedBooking]   = useState<any>(null);
+    const [message, setMessage]                   = useState('');
+    const [sendingMsg, setSendingMsg]             = useState(false);
+    const [savingHours, setSavingHours]           = useState(false);
+    const [hoursSaved, setHoursSaved]             = useState(false);
+    const [cancelConfirm, setCancelConfirm]       = useState<string | null>(null);
+    const [loading, setLoading]                   = useState(true);
+
+    // Build time options client-side (needs Intl)
+    useEffect(() => { setTimeOptions(buildTimeOptions()); }, []);
 
     const fetchData = useCallback(async () => {
         try {
@@ -60,7 +127,9 @@ export default function AdminSchedulePage() {
             if (!res.ok) return;
             const data = await res.json();
             setStats(data.stats);
-            setActiveHours(data.activeHours || []);
+            setStartTime(data.startTime   || '9:00 AM');
+            setEndTime(data.endTime       || '5:00 PM');
+            setActiveDays(data.activeDays && data.activeDays.length ? data.activeDays : [1,2,3,4,5]);
             setUpcomingBookings(data.upcomingBookings || []);
         } catch {}
         setLoading(false);
@@ -68,20 +137,13 @@ export default function AdminSchedulePage() {
 
     useEffect(() => { fetchData(); }, [fetchData]);
 
-    const toggleHour = (hour: string) => {
-        setActiveHours(prev =>
-            prev.includes(hour) ? prev.filter(h => h !== hour) : [...prev, hour]
-        );
-        setHoursSaved(false);
-    };
-
     const saveHours = async () => {
         setSavingHours(true);
         await fetch(`${API_BASE}/api/admin/schedule/hours`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify({ activeHours }),
+            body: JSON.stringify({ startTime, endTime, activeDays }),
         });
         setSavingHours(false);
         setHoursSaved(true);
@@ -109,8 +171,7 @@ export default function AdminSchedulePage() {
         });
         setSendingMsg(false);
         setMessage('');
-        // Refresh the selected booking's conversation
-        const res = await fetch(`${API_BASE}/api/admin/schedule`, { credentials: 'include' });
+        const res  = await fetch(`${API_BASE}/api/admin/schedule`, { credentials: 'include' });
         const data = await res.json();
         const updated = data.upcomingBookings.find((b: any) => b.bookingId === selectedBooking.bookingId);
         if (updated) setSelectedBooking(updated);
@@ -118,9 +179,7 @@ export default function AdminSchedulePage() {
     };
 
     const filteredBookings = upcomingBookings.filter(b => {
-        if (filter === 'today') {
-            return new Date(b.utcDateTime).toDateString() === new Date().toDateString();
-        }
+        if (filter === 'today') return new Date(b.utcDateTime).toDateString() === new Date().toDateString();
         if (filter === 'week') {
             const now = new Date();
             const weekEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7);
@@ -129,6 +188,20 @@ export default function AdminSchedulePage() {
         }
         return true;
     });
+
+    // Preview: generate ET slots between startTime and endTime, then show as BDT
+    const previewSlots = (() => {
+        const etValues = timeOptions.map(o => o.value);
+        const startIdx = etValues.indexOf(startTime);
+        const endIdx   = etValues.indexOf(endTime);
+        if (startIdx >= 0 && endIdx > startIdx) {
+            return etValues.slice(startIdx, endIdx).map(et => ({
+                et,
+                bdt: etSlotToBDT(et),
+            }));
+        }
+        return [];
+    })();
 
     if (loading) return <div className="as-loading">Loading schedule data…</div>;
 
@@ -157,28 +230,94 @@ export default function AdminSchedulePage() {
             </div>
 
             <div className="as-main-grid">
-                {/* LEFT: Active Hours + Booking List */}
+                {/* LEFT */}
                 <div className="as-left">
-                    {/* Active Hours Manager */}
+
+                    {/* Active Hours Manager — Start/End picker */}
                     <div className="as-card">
                         <div className="as-card-header">
-                            <h2>Active Hours Manager</h2>
-                            <button className={`save-hours-btn ${hoursSaved ? 'saved' : ''}`} onClick={saveHours} disabled={savingHours}>
+                            <h2>Active Hours</h2>
+                            <button
+                                className={`save-hours-btn ${hoursSaved ? 'saved' : ''}`}
+                                onClick={saveHours}
+                                disabled={savingHours}
+                            >
                                 {savingHours ? 'Saving…' : hoursSaved ? '✓ Saved' : 'Save Hours'}
                             </button>
                         </div>
-                        <div className="hours-grid">
-                            {ALL_HOURS.map(hour => (
-                                <button
-                                    key={hour}
-                                    className={`hour-btn ${activeHours.includes(hour) ? 'on' : 'off'}`}
-                                    onClick={() => toggleHour(hour)}
+
+                        {/* Start / End dropdowns — labelled in BDT */}
+                        <div className="hours-picker-row">
+                            <div className="hours-picker-group">
+                                <label className="hours-picker-label">Start Time (BDT)</label>
+                                <select
+                                    className="hours-picker-select"
+                                    value={startTime}
+                                    onChange={e => { setStartTime(e.target.value); setHoursSaved(false); }}
                                 >
-                                    {hour}
-                                </button>
-                            ))}
+                                    {timeOptions.map(t => (
+                                        <option key={t.value} value={t.value}>{t.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="hours-picker-arrow">→</div>
+
+                            <div className="hours-picker-group">
+                                <label className="hours-picker-label">End Time (BDT)</label>
+                                <select
+                                    className="hours-picker-select"
+                                    value={endTime}
+                                    onChange={e => { setEndTime(e.target.value); setHoursSaved(false); }}
+                                >
+                                    {timeOptions.map(t => (
+                                        <option key={t.value} value={t.value}>{t.label}</option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
-                        <p className="hours-note">⏰ Times in US Eastern Time (ET) · Mon–Fri</p>
+
+                        {/* Active Days — 7-day toggle */}
+                        <div className="active-days-section">
+                            <label className="hours-picker-label">Active Days</label>
+                            <div className="active-days-row">
+                                {DAYS_OF_WEEK.map((day, idx) => (
+                                    <button
+                                        key={day}
+                                        className={`day-btn ${activeDays.includes(idx) ? 'on' : 'off'}`}
+                                        onClick={() => {
+                                            setActiveDays(prev =>
+                                                prev.includes(idx) ? prev.filter(d => d !== idx) : [...prev, idx].sort()
+                                            );
+                                            setHoursSaved(false);
+                                        }}
+                                        type="button"
+                                    >
+                                        {day}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Live preview of generated slots (BDT) */}
+                        {previewSlots.length > 0 && (
+                            <div className="slots-preview">
+                                <p className="slots-preview-label">
+                                    ✅ {previewSlots.length} slots shown to clients (30 min · BDT display):
+                                </p>
+                                <div className="slots-preview-grid">
+                                    {previewSlots.map(s => (
+                                        <span key={s.et} className="slot-chip" title={s.et + ' ET'}>{s.bdt}</span>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {previewSlots.length === 0 && (
+                            <p className="hours-note" style={{ color: '#ef4444' }}>⚠ End time must be after start time.</p>
+                        )}
+
+                        <p className="hours-note">⏰ Admin sets time in BDT · Stored as ET internally · Mon options include all 7 days</p>
                     </div>
 
                     {/* Upcoming Consultations */}
@@ -199,10 +338,23 @@ export default function AdminSchedulePage() {
                                 {filteredBookings.map(b => (
                                     <div key={b.bookingId} className={`booking-card ${selectedBooking?.bookingId === b.bookingId ? 'selected' : ''}`}>
                                         <div className="bc-date-col">
-                                            <div className="bc-date">{b.date}</div>
-                                            <div className="bc-time">{b.timeSlot}</div>
+                                            {b.utcDateTime ? (() => {
+                                                const bd = toBDDateTime(b.utcDateTime);
+                                                const et = toETTime(b.utcDateTime);
+                                                return (
+                                                    <>
+                                                        <div className="bc-date">{bd.date}</div>
+                                                        <div className="bc-time">{bd.time} <span className="bc-tz">BDT</span></div>
+                                                        <div className="bc-et">({et} ET)</div>
+                                                    </>
+                                                );
+                                            })() : (
+                                                <>
+                                                    <div className="bc-date">{b.date}</div>
+                                                    <div className="bc-time">{b.timeSlot}</div>
+                                                </>
+                                            )}
                                         </div>
-
                                         <div className="bc-info">
                                             <div className="bc-name">{b.client?.name}</div>
                                             <div className="bc-email">{b.client?.email}</div>

@@ -11,39 +11,56 @@ exports.getAvailableSlots = async (req, res) => {
         if (!date) return res.status(400).json({ message: 'Date is required' });
 
         const settings = await ScheduleSettings.findOne() || new ScheduleSettings();
-        
-        // Ensure date is a weekday (Monday - Friday)
-        const dayOfWeek = moment.tz(date, 'YYYY-MM-DD', ET_ZONE).day();
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-            return res.json([]); // Weekends closed by default
+
+        // Check against admin-configured active days
+        const dayOfWeek  = moment.tz(date, 'YYYY-MM-DD', ET_ZONE).day();
+        const activeDays = settings.activeDays && settings.activeDays.length ? settings.activeDays : [1,2,3,4,5];
+        if (!activeDays.includes(dayOfWeek)) {
+            return res.json([]); // Day not active
         }
 
-        const activeHours = settings.activeHours; // ["9:00 AM", "10:00 AM", ...]
+        const startTime = settings.startTime || '9:00 AM';
+        const endTime   = settings.endTime   || '5:00 PM';
         const now = moment().tz(ET_ZONE);
-        
-        // Get all bookings for this date
-        const existingBookings = await Booking.find({ 
-            date, 
-            status: { $ne: 'cancelled' } 
-        });
-        const bookedTimeSlots = existingBookings.map(b => b.timeSlot);
 
-        const slots = activeHours.map(hour => {
-            // hour is like "10:00 AM"
+        // Build cursor from startTime, advance in 30-min steps until endTime
+        const cursor = moment.tz(`${date} ${startTime}`, 'YYYY-MM-DD h:mm A', ET_ZONE);
+        const end    = moment.tz(`${date} ${endTime}`,   'YYYY-MM-DD h:mm A', ET_ZONE);
+
+        // Get all booked timeslots for this date
+        const existingBookings = await Booking.find({ date, status: { $ne: 'cancelled' } });
+        const bookedTimeSlots  = existingBookings.map(b => b.timeSlot);
+
+        const slots = [];
+        while (cursor.isBefore(end)) {
+            const hour     = cursor.format('h:mm A'); // e.g. "9:00 AM"
             const timeSlot = `${hour} ET`;
-            const slotDateTime = moment.tz(`${date} ${hour}`, 'YYYY-MM-DD h:mm A', ET_ZONE);
-            
-            let isBooked = bookedTimeSlots.includes(timeSlot);
-            let isPast = slotDateTime.isBefore(now);
-            
-            return {
+            const isBooked = bookedTimeSlots.includes(timeSlot);
+            const isPast   = cursor.isBefore(now);
+
+            slots.push({
                 timeSlot,
-                isBooked: isBooked || isPast, // Disallow past slots
-                originalTime: hour
-            };
-        });
+                isBooked: isBooked || isPast,
+                originalTime: hour,
+            });
+
+            cursor.add(30, 'minutes');
+        }
 
         res.json(slots);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.getSettings = async (req, res) => {
+    try {
+        const settings = await ScheduleSettings.findOne() || new ScheduleSettings();
+        res.json({
+            activeDays: settings.activeDays && settings.activeDays.length ? settings.activeDays : [1,2,3,4,5],
+            startTime:  settings.startTime || '9:00 AM',
+            endTime:    settings.endTime   || '5:00 PM',
+        });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
