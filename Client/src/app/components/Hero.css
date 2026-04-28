@@ -413,6 +413,7 @@
     transition: all 0.25s ease;
     box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35);
     font-family: inherit;
+    text-decoration: none;
 }
 
 .hero-schedule-btn:hover {

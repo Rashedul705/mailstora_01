@@ -64,7 +64,7 @@ export default function Dashboard() {
                         </tr>
                     </thead>
                     <tbody>
-                        {stats.recentOrders.length === 0 ? (
+                        {!stats.recentOrders || stats.recentOrders.length === 0 ? (
                             <tr><td colSpan={5} style={{ padding: '12px', textAlign: 'center' }}>No recent orders.</td></tr>
                         ) : (
                             stats.recentOrders.map((order: any) => (
