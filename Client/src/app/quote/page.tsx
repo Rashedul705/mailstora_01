@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import Image from 'next/image';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import './quote.css';
@@ -391,6 +392,7 @@ export default function QuotePage() {
                     <div className="quote-sidebar">
                         <div className="sidebar-sticky">
                             <div className="sidebar-card dark">
+                                <Image src="/logo-white-v2.svg" alt="MailStora Logo" width={160} height={36} style={{ objectFit: 'contain', marginBottom: '1.5rem' }} />
                                 <h3>Why Choose MailStora?</h3>
                                 
                                 <ul className="why-list">

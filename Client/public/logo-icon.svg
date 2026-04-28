@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <g fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-width="14">
+    <!-- Envelope Base -->
+    <path d="M 20 45 L 20 90 A 6 6 0 0 0 26 96 L 94 96 A 6 6 0 0 0 100 90 L 100 65" stroke="#2d287b" />
+    <!-- Flap / Left M diagonal -->
+    <path d="M 20 45 L 60 75" stroke="#2d287b" />
+    <!-- Arrow / Right M diagonal -->
+    <path d="M 60 75 L 106 32" stroke="#f97316" />
+    <!-- Arrow Head -->
+    <path d="M 80 32 L 106 32 L 106 58" stroke="#f97316" />
+  </g>
+</svg>

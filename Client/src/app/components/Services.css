@@ -23,12 +23,7 @@
     }
 }
 
-@media (min-width: 1024px) {
-    .services-grid {
-        grid-template-columns: repeat(3, 1fr);
-        max-width: 1200px;
-    }
-}
+
 
 .service-card {
     display: flex;

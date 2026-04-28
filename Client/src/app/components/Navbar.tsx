@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import './Navbar.css';
 
@@ -13,7 +14,7 @@ export default function Navbar() {
                 {/* Multi-color Logo */}
                 <div className="navbar-brand">
                     <Link href="/">
-                        <span className="brand-mail">Mail</span><span className="brand-stora">Stora</span>
+                        <Image src="/logo-color.svg" alt="MailStora Logo" width={180} height={40} style={{ objectFit: 'contain' }} priority />
                     </Link>
                 </div>
 

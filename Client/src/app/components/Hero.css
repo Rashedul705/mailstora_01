@@ -113,7 +113,8 @@
     }
 }
 
-.hero-title-highlight {
+.hero-title-highlight,
+.hero-title span {
     background: linear-gradient(90deg, #f97316 0%, #fb923c 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

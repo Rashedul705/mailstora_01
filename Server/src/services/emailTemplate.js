@@ -107,9 +107,7 @@ ${preheaderHtml}
                                 <!-- Logo -->
                                 <td style="padding:20px 30px;" valign="middle">
                                     <a href="${SITE_URL}" target="_blank" style="text-decoration:none;">
-                                        <span style="font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:bold;color:#ffffff;letter-spacing:0.5px;">
-                                            Mail<span style="color:#a5b4fc;">Stora</span>
-                                        </span>
+                                        <img src="https://i.ibb.co/xK5M7BBS/logo-white.png" alt="MailStora" width="160" style="display:block;border:0;width:160px;height:auto;" />
                                     </a>
                                 </td>
                                 <!-- Nav links (hidden on mobile) -->
@@ -182,9 +180,7 @@ ${preheaderHtml}
                             <tr>
                                 <td align="center" style="padding-bottom:16px;">
                                     <a href="${SITE_URL}" target="_blank" style="text-decoration:none;">
-                                        <span style="font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:bold;color:#ffffff;">
-                                            Mail<span style="color:#a5b4fc;">Stora</span>
-                                        </span>
+                                        <img src="https://i.ibb.co/xK5M7BBS/logo-white.png" alt="MailStora" width="130" style="display:block;border:0;width:130px;height:auto;margin:0 auto;" />
                                     </a>
                                 </td>
                             </tr>

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import './Footer.css';
 
 export default function Footer() {
@@ -8,7 +9,7 @@ export default function Footer() {
                 <div className="footer-content">
                     <div className="footer-brand">
                         <Link href="/" className="footer-logo-link">
-                            <span className="brand-mail">Mail</span><span className="brand-stora">Stora</span>
+                            <Image src="/logo-color.svg" alt="MailStora Logo" width={180} height={40} style={{ objectFit: 'contain' }} />
                         </Link>
                         <p>Professional HTML email templates & signatures.</p>
                     </div>
