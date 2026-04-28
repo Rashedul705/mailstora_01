@@ -17,7 +17,7 @@ export default function AdminLayout({
     useEffect(() => {
         const verifyAuth = async () => {
             try {
-                const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
                 const res = await fetch(`${API_BASE}/api/auth/verify`, {
                     credentials: 'include'
                 });
@@ -46,7 +46,7 @@ export default function AdminLayout({
 
     const handleLogout = async () => {
         try {
-            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
             await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' });
         } catch (e) { }
         localStorage.removeItem('adminAuth');

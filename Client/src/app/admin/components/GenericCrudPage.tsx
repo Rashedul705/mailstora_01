@@ -27,7 +27,7 @@ export default function GenericCrudPage({ title, endpoint, columns }: CrudProps)
     const [formData, setFormData] = useState<any>({});
     const [saving, setSaving] = useState(false);
 
-    const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}${endpoint}`;
+    const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}${endpoint}`;
 
     const fetchData = async () => {
         setLoading(true);
@@ -82,7 +82,7 @@ export default function GenericCrudPage({ title, endpoint, columns }: CrudProps)
         uploadData.append('image', file);
         
         try {
-            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
             const res = await fetch(`${API_BASE}/api/upload-imgbb`, {
                 method: 'POST',
                 body: uploadData
