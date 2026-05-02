@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+
 export default function FileManagerPage() {
     const [currentPath, setCurrentPath] = useState('');
     const [files, setFiles] = useState<any[]>([]);
@@ -12,7 +14,7 @@ export default function FileManagerPage() {
     const fetchFiles = async (path: string) => {
         setLoading(true);
         try {
-            const res = await fetch(`/api/file-manager?path=${encodeURIComponent(path)}`);
+            const res = await fetch(`${API_BASE}/api/file-manager?path=${encodeURIComponent(path)}`, { credentials: 'omit' });
             const data = await res.json();
             if (res.ok) {
                 setFiles(data.files || []);
@@ -52,7 +54,11 @@ export default function FileManagerPage() {
         formData.append('path', currentPath);
 
         try {
-            await fetch('/api/file-manager', { method: 'POST', body: formData });
+            const res = await fetch(`${API_BASE}/api/file-manager`, { method: 'POST', body: formData, credentials: 'omit' });
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || 'Failed to create folder');
+            }
             fetchFiles(currentPath);
         } catch (err: any) {
             alert(err.message);
@@ -74,7 +80,11 @@ export default function FileManagerPage() {
 
         try {
             setLoading(true);
-            await fetch('/api/file-manager', { method: 'POST', body: formData });
+            const res = await fetch(`${API_BASE}/api/file-manager`, { method: 'POST', body: formData, credentials: 'omit' });
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || 'Failed to upload file');
+            }
             fetchFiles(currentPath);
         } catch (err: any) {
             alert(err.message);
@@ -89,7 +99,11 @@ export default function FileManagerPage() {
 
         const fullPath = currentPath ? `${currentPath}/${fileName}` : fileName;
         try {
-            await fetch(`/api/file-manager?path=${encodeURIComponent(fullPath)}`, { method: 'DELETE' });
+            const res = await fetch(`${API_BASE}/api/file-manager?path=${encodeURIComponent(fullPath)}`, { method: 'DELETE', credentials: 'omit' });
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || 'Failed to delete');
+            }
             fetchFiles(currentPath);
         } catch (err: any) {
             alert(err.message);
@@ -184,7 +198,7 @@ export default function FileManagerPage() {
                                             {file.name}
                                         </button>
                                     ) : (
-                                        <a href={`/Email_Template/${currentPath ? currentPath + '/' : ''}${file.name}`} target="_blank" style={{ color: '#444', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px' }}>
+                                        <a href={`${API_BASE}/Email_Template/${currentPath ? currentPath + '/' : ''}${file.name}`} target="_blank" style={{ color: '#444', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px' }}>
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
                                             {file.name}
                                         </a>
