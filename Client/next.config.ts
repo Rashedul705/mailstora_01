@@ -12,6 +12,19 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  async rewrites() {
+    return {
+      beforeFiles: [],
+      afterFiles: [],
+      fallback: [
+        {
+          source: '/Email_Template/:path*',
+          destination: '/Email_Template_Index/:path*',
+        },
+      ],
+    };
+  },
+
   // Required for Netlify's Next.js adapter
   output: 'standalone',
 };
