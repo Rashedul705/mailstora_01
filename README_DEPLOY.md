@@ -32,5 +32,11 @@ This project is structured as a Monorepo with a **Next.js Client** and an **Expr
 - Make sure `FRONTEND_URL` on the backend matches your Netlify domain.
 - Make sure `NEXT_PUBLIC_API_URL` on the frontend matches your Render domain.
 
+## ⚠️ Important Note on the "File Manager" Feature
+The new **Admin File Manager** allows you to upload and delete files in the `public/Email_Template` directory dynamically.
+- **cPanel / VPS Deployment:** If you run this project on a traditional VPS, cPanel Node.js app, or Railway (with a persistent volume), the File Manager will work perfectly.
+- **Netlify / Vercel Deployment:** These platforms are "Serverless" and their file systems are **read-only** at runtime. If you deploy the frontend to Netlify, the File Manager **will fail** when trying to create folders or upload files because it cannot write to the disk.
+  - If you *must* use Netlify, you will need to upload your Email Template files manually via Git rather than using the Admin Panel File Manager.
+
 ---
 **Note:** The `netlify.toml` includes a redirect that proxies `/api/*` to your backend. You can use this for cleaner URLs if desired.

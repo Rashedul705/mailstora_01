@@ -83,6 +83,7 @@ export default function AdminLayout({
                     <Link href="/admin/services" className={`sidebar-link ${pathname.startsWith('/admin/services') ? 'active' : ''}`}><span>Services</span></Link>
                     <Link href="/admin/partners" className={`sidebar-link ${pathname.startsWith('/admin/partners') ? 'active' : ''}`}><span>Partners (Trust Logos)</span></Link>
                     <Link href="/admin/content" className={`sidebar-link ${pathname.startsWith('/admin/content') ? 'active' : ''}`}><span>Website Content</span></Link>
+                    <Link href="/admin/file-manager" className={`sidebar-link ${pathname.startsWith('/admin/file-manager') ? 'active' : ''}`}><span>File Manager</span></Link>
 
                     <div style={{ padding: '0 1rem', margin: '1rem 0' }}>
                         <div style={{ height: '1px', background: 'var(--border)' }}></div>
