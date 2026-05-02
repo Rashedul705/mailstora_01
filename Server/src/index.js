@@ -25,6 +25,7 @@ connectRedis();
 const apiRoutes = require('./routes/api');
 
 const app = express();
+app.set('trust proxy', 1);
 const setupReminders = require('./jobs/reminders');
 setupReminders();
 
