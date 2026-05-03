@@ -8,11 +8,6 @@ const ET_ZONE = 'America/New_York';
 exports.getAdminSchedule = async (req, res) => {
     try {
         const now = moment().tz(ET_ZONE);
-        
-        // Settings for active hours grid
-        const settings = await ScheduleSettings.findOne() || await ScheduleSettings.create({});
-
-        // All bookings sorted
         const bookings = await Booking.find().sort({ utcDateTime: 1 });
 
         let todayCount = 0;
@@ -32,8 +27,7 @@ exports.getAdminSchedule = async (req, res) => {
             if (bTime.isSame(now, 'day')) todayCount++;
             if (bTime.isSame(now, 'week')) weekCount++;
 
-            // Only return upcoming or ongoing (within last hour) bookings for the list
-            if (bTime.isAfter(now.clone().subtract(1, 'hours'))) {
+            if (bTime.isAfter(now.clone().subtract(24, 'hours'))) {
                 upcomingBookings.push(b);
             }
         });
@@ -45,9 +39,6 @@ exports.getAdminSchedule = async (req, res) => {
                 confirmed: confirmedCount,
                 pending: pendingCount
             },
-            startTime:  settings.startTime  || '9:00 AM',
-            endTime:    settings.endTime    || '5:00 PM',
-            activeDays: settings.activeDays && settings.activeDays.length ? settings.activeDays : [1,2,3,4,5],
             upcomingBookings
         });
 
@@ -56,23 +47,46 @@ exports.getAdminSchedule = async (req, res) => {
     }
 };
 
-exports.saveActiveHours = async (req, res) => {
+exports.getAvailability = async (req, res) => {
     try {
-        const { startTime, endTime, activeDays } = req.body;
-        if (!startTime || !endTime) return res.status(400).json({ message: 'startTime and endTime are required' });
-        if (!Array.isArray(activeDays)) return res.status(400).json({ message: 'activeDays must be an array' });
+        let settings = await ScheduleSettings.findOne();
+        if (!settings) settings = await ScheduleSettings.create({ availability: [] });
+        res.json({ availability: settings.availability });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+const bdtToEt = (timeStr) => {
+    if (!timeStr) return '';
+    let [h, m] = timeStr.split(':').map(Number);
+    h -= 10;
+    if (h < 0) h += 24;
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+};
+
+exports.saveAvailability = async (req, res) => {
+    try {
+        const { availability } = req.body;
+        if (!Array.isArray(availability)) return res.status(400).json({ message: 'availability array is required' });
+
+        const mappedAvailability = availability.map(dayObj => {
+            return {
+                ...dayObj,
+                startET: dayObj.enabled && dayObj.startBDT ? bdtToEt(dayObj.startBDT) : '',
+                endET: dayObj.enabled && dayObj.endBDT ? bdtToEt(dayObj.endBDT) : ''
+            };
+        });
 
         let settings = await ScheduleSettings.findOne();
         if (!settings) {
-            settings = await ScheduleSettings.create({ startTime, endTime, activeDays });
+            settings = await ScheduleSettings.create({ availability: mappedAvailability });
         } else {
-            settings.startTime  = startTime;
-            settings.endTime    = endTime;
-            settings.activeDays = activeDays;
+            settings.availability = mappedAvailability;
             await settings.save();
         }
 
-        res.json({ message: 'Schedule saved', startTime: settings.startTime, endTime: settings.endTime, activeDays: settings.activeDays });
+        res.json({ message: 'Availability saved', availability: settings.availability });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

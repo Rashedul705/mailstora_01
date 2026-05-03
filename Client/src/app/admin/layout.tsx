@@ -97,7 +97,6 @@ export default function AdminLayout({
                         {stats?.schedules?.pendingVerification > 0 && <span className="sidebar-badge">{stats.schedules.pendingVerification}</span>}
                     </Link>
                     
-                    <Link href="/admin/availability" className={`sidebar-link ${pathname.startsWith('/admin/availability') ? 'active' : ''}`}><span>Availability Settings</span></Link>
                     <Link href="/admin/orders" className={`sidebar-link ${pathname.startsWith('/admin/orders') ? 'active' : ''}`}><span>Orders</span></Link>
                     <Link href="/admin/portfolio" className={`sidebar-link ${pathname.startsWith('/admin/portfolio') ? 'active' : ''}`}><span>Portfolio</span></Link>
                     <Link href="/admin/pricing" className={`sidebar-link ${pathname.startsWith('/admin/pricing') ? 'active' : ''}`}><span>Pricing</span></Link>

@@ -7,58 +7,82 @@ const ET_ZONE = 'America/New_York';
 
 exports.getAvailableSlots = async (req, res) => {
     try {
-        const { date } = req.query; // format: YYYY-MM-DD
+        const { date } = req.query;
         if (!date) return res.status(400).json({ message: 'Date is required' });
 
         const settings = await ScheduleSettings.findOne() || new ScheduleSettings();
+        let availability = (settings.availability || []).filter(a => a.enabled && a.startBDT && a.endBDT);
 
-        // Check against admin-configured active days
-        const dayOfWeek  = moment.tz(date, 'YYYY-MM-DD', ET_ZONE).day();
-        const activeDays = settings.activeDays && settings.activeDays.length ? settings.activeDays : [1,2,3,4,5];
-        if (!activeDays.includes(dayOfWeek)) {
-            return res.json([]); // Day not active
+        // Fallback: if no availability configured, use Mon-Fri 9AM-5PM ET (= Mon-Fri 7PM-3AM BDT next day)
+        if (availability.length === 0) {
+            availability = [
+                { day: 'Monday',    enabled: true, startBDT: '7:00 PM', endBDT: '3:00 AM' },
+                { day: 'Tuesday',   enabled: true, startBDT: '7:00 PM', endBDT: '3:00 AM' },
+                { day: 'Wednesday', enabled: true, startBDT: '7:00 PM', endBDT: '3:00 AM' },
+                { day: 'Thursday',  enabled: true, startBDT: '7:00 PM', endBDT: '3:00 AM' },
+                { day: 'Friday',    enabled: true, startBDT: '7:00 PM', endBDT: '3:00 AM' },
+            ];
         }
 
-        const startTime = settings.startTime || '09:00';
-        const endTime   = settings.endTime   || '17:00';
+        const targetDateET = moment.tz(date, 'YYYY-MM-DD', ET_ZONE);
+        const targetDateBDT = targetDateET.clone().tz('Asia/Dhaka');
         const now = moment().tz(ET_ZONE);
 
-        // Function to parse either "HH:mm" or "h:mm A"
-        const parseTime = (dateStr, timeStr) => {
-            if (timeStr.includes('AM') || timeStr.includes('PM')) {
-                return moment.tz(`${dateStr} ${timeStr}`, 'YYYY-MM-DD h:mm A', ET_ZONE);
-            }
-            return moment.tz(`${dateStr} ${timeStr}`, 'YYYY-MM-DD HH:mm', ET_ZONE);
-        };
-
-        // Build cursor from startTime, advance in 30-min steps until endTime
-        const cursor = parseTime(date, startTime);
-        let end    = parseTime(date, endTime);
-
-        // Handle overnight shifts (e.g. 23:00 to 05:00)
-        if (end.isSameOrBefore(cursor)) {
-            end.add(1, 'day');
-        }
-
-        // Get all booked timeslots for this date
         const existingBookings = await Booking.find({ date, status: { $ne: 'cancelled' } });
-        const bookedTimeSlots  = existingBookings.map(b => b.timeSlot);
+        const bookedTimeSlots = existingBookings.map(b => b.timeSlot);
 
         const slots = [];
-        while (cursor.isBefore(end)) {
-            const hour     = cursor.format('h:mm A'); // Output consistently to UI
-            const timeSlot = `${hour} ET`;
-            const isBooked = bookedTimeSlots.includes(timeSlot);
-            const isPast   = cursor.isBefore(now);
 
-            slots.push({
-                timeSlot,
-                isBooked: isBooked || isPast,
-                originalTime: hour,
-            });
+        const parseTimeBDT = (dateStr, timeStr) => {
+            if (!timeStr) return null;
+            if (timeStr.includes('AM') || timeStr.includes('PM')) {
+                return moment.tz(`${dateStr} ${timeStr}`, 'YYYY-MM-DD h:mm A', 'Asia/Dhaka');
+            }
+            return moment.tz(`${dateStr} ${timeStr}`, 'YYYY-MM-DD HH:mm', 'Asia/Dhaka');
+        };
 
-            cursor.add(30, 'minutes');
+        // Evaluate 3 BDT days around the target ET date to catch cross-midnight shifts
+        for (let d = -1; d <= 1; d++) {
+            const evalBDT = targetDateBDT.clone().add(d, 'days');
+            const dayName = evalBDT.format('dddd');
+
+            const dayConfig = availability.find(a => a.day === dayName);
+            if (!dayConfig) continue;
+
+            const cursor = parseTimeBDT(evalBDT.format('YYYY-MM-DD'), dayConfig.startBDT);
+            let end = parseTimeBDT(evalBDT.format('YYYY-MM-DD'), dayConfig.endBDT);
+            if (!cursor || !end) continue;
+
+            // Handle overnight: if end <= start, shift end to next day
+            if (end.isSameOrBefore(cursor)) {
+                end.add(1, 'day');
+            }
+
+            while (cursor.isBefore(end)) {
+                if (cursor.clone().tz(ET_ZONE).format('YYYY-MM-DD') === date) {
+                    const hour = cursor.clone().tz(ET_ZONE).format('h:mm A');
+                    const timeSlot = `${hour} ET`;
+                    const isBooked = bookedTimeSlots.includes(timeSlot);
+                    const isPast = cursor.clone().tz(ET_ZONE).isBefore(now);
+
+                    if (!slots.find(s => s.timeSlot === timeSlot)) {
+                        slots.push({
+                            timeSlot,
+                            isBooked: isBooked || isPast,
+                            originalTime: hour,
+                            bdtTime: cursor.format('h:mm A')
+                        });
+                    }
+                }
+                cursor.add(30, 'minutes');
+            }
         }
+
+        slots.sort((a, b) => {
+            const tA = moment.tz(`${date} ${a.originalTime}`, 'YYYY-MM-DD h:mm A', ET_ZONE);
+            const tB = moment.tz(`${date} ${b.originalTime}`, 'YYYY-MM-DD h:mm A', ET_ZONE);
+            return tA.valueOf() - tB.valueOf();
+        });
 
         res.json(slots);
     } catch (err) {
@@ -69,10 +93,27 @@ exports.getAvailableSlots = async (req, res) => {
 exports.getSettings = async (req, res) => {
     try {
         const settings = await ScheduleSettings.findOne() || new ScheduleSettings();
+        const availability = (settings.availability || []).filter(a => a.enabled);
+        const activeDaysET = new Set();
+
+        if (availability.length === 0) {
+            // Fallback: Mon–Fri active in ET (indices 1-5)
+            [0, 1, 2, 3, 4, 5, 6].forEach(i => activeDaysET.add(i));
+        } else {
+            const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            availability.forEach(dayObj => {
+                const bdtIdx = dayNames.indexOf(dayObj.day);
+                if (bdtIdx !== -1) {
+                    // Mark both the BDT day index and previous day in ET (ET is 10h behind BDT)
+                    activeDaysET.add(bdtIdx);
+                    activeDaysET.add(bdtIdx === 0 ? 6 : bdtIdx - 1);
+                }
+            });
+        }
+
         res.json({
-            activeDays: settings.activeDays && settings.activeDays.length ? settings.activeDays : [1,2,3,4,5],
-            startTime:  settings.startTime || '9:00 AM',
-            endTime:    settings.endTime   || '5:00 PM',
+            activeDays: Array.from(activeDaysET),
+            availability: settings.availability || []
         });
     } catch (err) {
         res.status(500).json({ error: err.message });

@@ -104,8 +104,9 @@ function CountdownTimer({ utcDateTime }: { utcDateTime: string }) {
 
 export default function AdminSchedulePage() {
     const [stats, setStats]                       = useState({ today: 0, thisWeek: 0, confirmed: 0, pending: 0 });
-    const [startTime, setStartTime]               = useState('9:00 AM');  // stored as ET
-    const [endTime, setEndTime]                   = useState('5:00 PM');  // stored as ET
+    // BDT times (what the user picks and what gets stored)
+    const [startBDT, setStartBDT]                 = useState('7:00 PM');  // default 9 AM ET
+    const [endBDT, setEndBDT]                     = useState('3:00 AM');  // default 5 PM ET
     const [activeDays, setActiveDays]             = useState<number[]>([1,2,3,4,5]);
     const [timeOptions, setTimeOptions]           = useState<Array<{ value: string; label: string }>>([]);
     const [upcomingBookings, setUpcomingBookings] = useState<any[]>([]);
@@ -121,32 +122,71 @@ export default function AdminSchedulePage() {
     // Build time options client-side (needs Intl)
     useEffect(() => { setTimeOptions(buildTimeOptions()); }, []);
 
+    const DAYS_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
     const fetchData = useCallback(async () => {
         try {
-            const res = await fetch(`${API_BASE}/api/admin/schedule`, { credentials: 'include' });
-            if (!res.ok) return;
-            const data = await res.json();
-            setStats(data.stats);
-            setStartTime(data.startTime   || '9:00 AM');
-            setEndTime(data.endTime       || '5:00 PM');
-            setActiveDays(data.activeDays && data.activeDays.length ? data.activeDays : [1,2,3,4,5]);
-            setUpcomingBookings(data.upcomingBookings || []);
+            // Fetch stats + bookings
+            const statsRes = await fetch(`${API_BASE}/api/admin/schedule`, { credentials: 'include' });
+            if (statsRes.ok) {
+                const data = await statsRes.json();
+                setStats(data.stats);
+                setUpcomingBookings(data.upcomingBookings || []);
+            }
+
+            // Fetch availability (BDT-based) separately
+            const availRes = await fetch(`${API_BASE}/api/admin/schedule/availability`, { credentials: 'include' });
+            if (availRes.ok) {
+                const availData = await availRes.json();
+                const availability: any[] = availData.availability || [];
+
+                if (availability.length > 0) {
+                    // Find first enabled day to populate the shared start/end BDT fields
+                    const firstEnabled = availability.find((a: any) => a.enabled && a.startBDT && a.endBDT);
+                    if (firstEnabled) {
+                        setStartBDT(firstEnabled.startBDT);
+                        setEndBDT(firstEnabled.endBDT);
+                    }
+                    // Reconstruct activeDays from enabled days
+                    const enabledDayIndices = availability
+                        .filter((a: any) => a.enabled)
+                        .map((a: any) => DAYS_NAMES.indexOf(a.day))
+                        .filter(i => i !== -1);
+                    if (enabledDayIndices.length > 0) setActiveDays(enabledDayIndices);
+                }
+            }
         } catch {}
         setLoading(false);
     }, []);
 
     useEffect(() => { fetchData(); }, [fetchData]);
 
+    // BDT label for a given BDT time string (for display in preview)
+    const bdtSlotLabel = (bdtTimeStr: string) => bdtTimeStr;
+
     const saveHours = async () => {
         setSavingHours(true);
-        await fetch(`${API_BASE}/api/admin/schedule/hours`, {
+        // Build availability array: apply same startBDT/endBDT to all active days
+        const availability = DAYS_NAMES.map(day => {
+            const dayIdx = DAYS_NAMES.indexOf(day);
+            const enabled = activeDays.includes(dayIdx);
+            return {
+                day,
+                enabled,
+                startBDT: enabled ? startBDT : '',
+                endBDT: enabled ? endBDT : ''
+            };
+        });
+
+        await fetch(`${API_BASE}/api/admin/schedule/availability`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify({ startTime, endTime, activeDays }),
+            body: JSON.stringify({ availability }),
         });
         setSavingHours(false);
         setHoursSaved(true);
+        setTimeout(() => setHoursSaved(false), 3000);
     };
 
     const cancelBooking = async (bookingId: string) => {
@@ -189,18 +229,33 @@ export default function AdminSchedulePage() {
         return true;
     });
 
-    // Preview: generate ET slots between startTime and endTime, then show as BDT
+    // Preview: generate BDT slots between startBDT and endBDT
     const previewSlots = (() => {
-        const etValues = timeOptions.map(o => o.value);
-        const startIdx = etValues.indexOf(startTime);
-        const endIdx   = etValues.indexOf(endTime);
-        if (startIdx >= 0 && endIdx > startIdx) {
-            return etValues.slice(startIdx, endIdx).map(et => ({
-                et,
-                bdt: etSlotToBDT(et),
-            }));
+        // Build a simple BDT slot list from startBDT to endBDT in 30-min steps
+        const parse12h = (str: string): number => {
+            const match = str.match(/(\d+):(\d+)\s*(AM|PM)/i);
+            if (!match) return -1;
+            let h = parseInt(match[1]); const m = parseInt(match[2]); const p = match[3].toUpperCase();
+            if (p === 'PM' && h !== 12) h += 12;
+            if (p === 'AM' && h === 12) h = 0;
+            return h * 60 + m;
+        };
+        const format12h = (totalMins: number) => {
+            let h = Math.floor(totalMins / 60) % 24;
+            const m = totalMins % 60;
+            const ampm = h < 12 ? 'AM' : 'PM';
+            const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+            return `${h12}:${String(m).padStart(2, '0')} ${ampm}`;
+        };
+        let startMin = parse12h(startBDT);
+        let endMin = parse12h(endBDT);
+        if (startMin < 0 || endMin < 0) return [];
+        if (endMin <= startMin) endMin += 24 * 60; // overnight
+        const result = [];
+        for (let t = startMin; t < endMin; t += 30) {
+            result.push(format12h(t % (24 * 60)));
         }
-        return [];
+        return result;
     })();
 
     if (loading) return <div className="as-loading">Loading schedule data…</div>;
@@ -252,11 +307,11 @@ export default function AdminSchedulePage() {
                                 <label className="hours-picker-label">Start Time (BDT)</label>
                                 <select
                                     className="hours-picker-select"
-                                    value={startTime}
-                                    onChange={e => { setStartTime(e.target.value); setHoursSaved(false); }}
+                                    value={startBDT}
+                                    onChange={e => { setStartBDT(e.target.value); setHoursSaved(false); }}
                                 >
                                     {timeOptions.map(t => (
-                                        <option key={t.value} value={t.value}>{t.label}</option>
+                                        <option key={t.value} value={t.label.split(' BDT')[0].trim()}>{t.label}</option>
                                     ))}
                                 </select>
                             </div>
@@ -267,11 +322,11 @@ export default function AdminSchedulePage() {
                                 <label className="hours-picker-label">End Time (BDT)</label>
                                 <select
                                     className="hours-picker-select"
-                                    value={endTime}
-                                    onChange={e => { setEndTime(e.target.value); setHoursSaved(false); }}
+                                    value={endBDT}
+                                    onChange={e => { setEndBDT(e.target.value); setHoursSaved(false); }}
                                 >
                                     {timeOptions.map(t => (
-                                        <option key={t.value} value={t.value}>{t.label}</option>
+                                        <option key={t.value} value={t.label.split(' BDT')[0].trim()}>{t.label}</option>
                                     ))}
                                 </select>
                             </div>
@@ -306,18 +361,18 @@ export default function AdminSchedulePage() {
                                     ✅ {previewSlots.length} slots shown to clients (30 min · BDT display):
                                 </p>
                                 <div className="slots-preview-grid">
-                                    {previewSlots.map(s => (
-                                        <span key={s.et} className="slot-chip" title={s.et + ' ET'}>{s.bdt}</span>
+                                    {previewSlots.map((bdt, i) => (
+                                        <span key={i} className="slot-chip">{bdt}</span>
                                     ))}
                                 </div>
                             </div>
                         )}
 
                         {previewSlots.length === 0 && (
-                            <p className="hours-note" style={{ color: '#ef4444' }}>⚠ End time must be after start time.</p>
+                            <p className="hours-note" style={{ color: '#ef4444' }}>⚠ End time must be after start time (or end time wraps to next day for overnight shifts).</p>
                         )}
 
-                        <p className="hours-note">⏰ Admin sets time in BDT · Stored as ET internally · Mon options include all 7 days</p>
+                        <p className="hours-note">⏰ Times set in BDT · Stored & applied as ET internally · Each slot is 30 minutes</p>
                     </div>
 
                     {/* Upcoming Consultations */}

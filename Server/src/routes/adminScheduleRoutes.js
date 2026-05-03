@@ -7,7 +7,8 @@ const verifyToken = require('../middleware/auth');
 router.use(verifyToken);
 
 router.get('/', adminScheduleController.getAdminSchedule);
-router.patch('/hours', adminScheduleController.saveActiveHours);
+router.get('/availability', adminScheduleController.getAvailability);
+router.patch('/availability', adminScheduleController.saveAvailability);
 router.patch('/:bookingId/status', adminScheduleController.updateBookingStatus);
 router.post('/:bookingId/message', adminScheduleController.sendMessage);
 
