@@ -2,10 +2,36 @@
 
 import { useState, useEffect } from 'react';
 
-const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const DAYS = [
+    { index: 1, name: 'Monday' },
+    { index: 2, name: 'Tuesday' },
+    { index: 3, name: 'Wednesday' },
+    { index: 4, name: 'Thursday' },
+    { index: 5, name: 'Friday' },
+    { index: 6, name: 'Saturday' },
+    { index: 0, name: 'Sunday' }
+];
+
+// Helper to convert "9:00 AM" to "09:00" for input type="time"
+const formatToInputTime = (timeStr: string) => {
+    if (!timeStr) return "09:00";
+    if (!timeStr.includes('AM') && !timeStr.includes('PM')) return timeStr; // already HH:mm
+    
+    const [time, modifier] = timeStr.split(' ');
+    let [hours, minutes] = time.split(':');
+    
+    if (hours === '12') {
+        hours = '00';
+    }
+    if (modifier === 'PM') {
+        hours = parseInt(hours, 10) + 12 + '';
+    }
+    
+    return `${hours.padStart(2, '0')}:${minutes}`;
+};
 
 export default function AvailabilitySettings() {
-    const [workingDays, setWorkingDays] = useState<string[]>([]);
+    const [activeDays, setActiveDays] = useState<number[]>([]);
     const [startTime, setStartTime] = useState('09:00');
     const [endTime, setEndTime] = useState('17:00');
     const [loading, setLoading] = useState(true);
@@ -19,14 +45,17 @@ export default function AvailabilitySettings() {
     const fetchAvailability = async () => {
         try {
             const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
-            const res = await fetch(`${API_BASE}/api/schedules/settings/availability`, {
-                headers: { 'Content-Type': 'application/json' }
+            const res = await fetch(`${API_BASE}/api/admin/schedule`, {
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include'
             });
             if (res.ok) {
                 const data = await res.json();
-                setWorkingDays(data.workingDays || []);
-                setStartTime(data.startTime || '09:00');
-                setEndTime(data.endTime || '17:00');
+                setActiveDays(data.activeDays || []);
+                setStartTime(formatToInputTime(data.startTime || '09:00'));
+                setEndTime(formatToInputTime(data.endTime || '17:00'));
+            } else {
+                console.error("Failed to load availability");
             }
         } catch (err) {
             console.error(err);
@@ -40,10 +69,11 @@ export default function AvailabilitySettings() {
         setMessage('');
         try {
             const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
-            const res = await fetch(`${API_BASE}/api/schedules/settings/availability`, {
-                method: 'PUT',
+            const res = await fetch(`${API_BASE}/api/admin/schedule/hours`, {
+                method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ workingDays, startTime, endTime })
+                body: JSON.stringify({ activeDays, startTime, endTime }),
+                credentials: 'include'
             });
             if (res.ok) {
                 setMessage('Availability settings saved successfully!');
@@ -57,88 +87,114 @@ export default function AvailabilitySettings() {
         setTimeout(() => setMessage(''), 3000);
     };
 
-    const toggleDay = (day: string) => {
-        setWorkingDays(prev => 
-            prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day]
+    const toggleDay = (dayIndex: number) => {
+        setActiveDays(prev => 
+            prev.includes(dayIndex) ? prev.filter(d => d !== dayIndex) : [...prev, dayIndex]
         );
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) {
+        return (
+            <div className="admin-page">
+                <div className="admin-header">
+                    <h2>Loading...</h2>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="admin-page">
-            <div className="admin-header">
+            <div className="admin-header" style={{ marginBottom: '2rem' }}>
                 <div className="admin-title">
-                    <h2>Availability Settings</h2>
-                    <p>Manage your working days and hours for consultations.</p>
+                    <h2 style={{ fontSize: '2rem', color: '#1a1740', marginBottom: '0.5rem' }}>Availability Settings</h2>
+                    <p style={{ color: '#64748b' }}>Manage your working days and hours for consultations.</p>
                 </div>
             </div>
 
-            <div className="admin-content" style={{ maxWidth: '600px', background: 'var(--bg-surface)', padding: '2rem', borderRadius: '8px' }}>
-                <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div className="admin-content" style={{ maxWidth: '600px', background: 'white', padding: '2rem', borderRadius: '12px', border: '1px solid #e2e4f0' }}>
+                <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                     
                     <div>
-                        <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}>Working Days</label>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                            {DAYS.map(day => (
-                                <button
-                                    key={day}
-                                    type="button"
-                                    onClick={() => toggleDay(day)}
-                                    style={{
-                                        padding: '8px 16px',
-                                        borderRadius: '20px',
-                                        border: `1px solid ${workingDays.includes(day) ? 'var(--primary)' : 'rgba(255,255,255,0.2)'}`,
-                                        background: workingDays.includes(day) ? 'var(--primary)' : 'transparent',
-                                        color: workingDays.includes(day) ? '#fff' : 'var(--text-secondary)',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    {day}
-                                </button>
-                            ))}
+                        <label style={{ display: 'block', marginBottom: '12px', fontWeight: '700', color: '#1e293b' }}>Working Days</label>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                            {DAYS.map(day => {
+                                const isSelected = activeDays.includes(day.index);
+                                return (
+                                    <button
+                                        key={day.name}
+                                        type="button"
+                                        onClick={() => toggleDay(day.index)}
+                                        style={{
+                                            padding: '8px 20px',
+                                            borderRadius: '99px',
+                                            border: `1px solid ${isSelected ? '#4338CA' : '#cbd5e1'}`,
+                                            background: isSelected ? '#4338CA' : 'white',
+                                            color: isSelected ? 'white' : '#475569',
+                                            cursor: 'pointer',
+                                            fontWeight: 600,
+                                            fontSize: '0.875rem',
+                                            transition: 'all 0.2s'
+                                        }}
+                                    >
+                                        {day.name}
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '20px' }}>
+                    <div style={{ display: 'flex', gap: '24px' }}>
                         <div style={{ flex: 1 }}>
-                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>Start Time</label>
+                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '700', color: '#1e293b' }}>Start Time</label>
                             <input 
                                 type="time" 
                                 value={startTime} 
                                 onChange={e => setStartTime(e.target.value)}
                                 style={{
-                                    width: '100%', padding: '10px', borderRadius: '6px',
-                                    border: '1px solid #ccc', background: '#fff', color: '#333'
+                                    width: '100%', padding: '12px', borderRadius: '8px',
+                                    border: '1px solid #cbd5e1', background: 'white', color: '#1e293b',
+                                    fontSize: '1rem'
                                 }}
                                 required
                             />
                         </div>
                         <div style={{ flex: 1 }}>
-                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>End Time</label>
+                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '700', color: '#1e293b' }}>End Time</label>
                             <input 
                                 type="time" 
                                 value={endTime} 
                                 onChange={e => setEndTime(e.target.value)}
                                 style={{
-                                    width: '100%', padding: '10px', borderRadius: '6px',
-                                    border: '1px solid #ccc', background: '#fff', color: '#333'
+                                    width: '100%', padding: '12px', borderRadius: '8px',
+                                    border: '1px solid #cbd5e1', background: 'white', color: '#1e293b',
+                                    fontSize: '1rem'
                                 }}
                                 required
                             />
                         </div>
                     </div>
 
-                    <div style={{ marginTop: '10px' }}>
+                    <div style={{ marginTop: '16px' }}>
                         <button type="submit" disabled={saving} style={{
-                            background: 'var(--primary)', color: '#fff', border: 'none', 
-                            padding: '12px 24px', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold'
+                            background: '#4338CA', color: 'white', border: 'none', 
+                            padding: '14px 28px', borderRadius: '8px', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: '700',
+                            fontSize: '1rem', transition: 'background 0.2s', width: '100%'
                         }}>
                             {saving ? 'Saving...' : 'Save Settings'}
                         </button>
                     </div>
 
-                    {message && <div style={{ color: message.includes('Error') ? '#ef4444' : '#22c55e', marginTop: '10px' }}>{message}</div>}
+                    {message && (
+                        <div style={{ 
+                            padding: '12px', borderRadius: '8px', textAlign: 'center', fontWeight: '600',
+                            background: message.includes('Error') ? '#fef2f2' : '#f0fdf4',
+                            color: message.includes('Error') ? '#ef4444' : '#16a34a',
+                            border: `1px solid ${message.includes('Error') ? '#fca5a5' : '#bbf7d0'}`
+                        }}>
+                            {message}
+                        </div>
+                    )}
                 </form>
             </div>
         </div>
