@@ -38,6 +38,9 @@ app.set('views', path.join(__dirname, 'views'));
 // Set FRONTEND_URL env var in Render dashboard, e.g.:
 //   https://your-site.netlify.app
 const allowedOrigins = [
+    'https://mailstora.com',
+    'https://www.mailstora.com',
+    'https://mailstora01.netlify.app',
     'http://localhost:3000',
     'http://localhost:3001',
 ];
@@ -49,7 +52,7 @@ if (process.env.EXTRA_ORIGINS) {
     process.env.EXTRA_ORIGINS.split(',').forEach(o => allowedOrigins.push(o.trim()));
 }
 
-app.use(cors({
+const corsOptions = {
     origin: (origin, callback) => {
         // Allow server-to-server (no origin) and known origins
         if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
@@ -59,7 +62,13 @@ app.use(cors({
         }
     },
     credentials: true,
-}));
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+// Handle preflight requests for all routes
+app.options('*', cors(corsOptions));
+app.use(cors(corsOptions));
 
 // ── Core Middleware ──────────────────────────────────────────
 app.use(cookieParser());
