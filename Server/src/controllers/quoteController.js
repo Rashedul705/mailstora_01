@@ -37,8 +37,8 @@ exports.create = async (req, res) => {
                 company: req.body.company || ''
             },
             service: req.body.service_type,
-            emailTypes: req.body.email_types ? JSON.parse(req.body.email_types) : [],
-            esp: req.body.esp ? JSON.parse(req.body.esp) : [],
+            emailTypes: Array.isArray(req.body.email_types) ? req.body.email_types : (req.body.email_types ? JSON.parse(req.body.email_types) : []),
+            esp: Array.isArray(req.body.esp) ? req.body.esp : (req.body.esp ? JSON.parse(req.body.esp) : []),
             designStatus: req.body.design_status,
             attachmentUrl: req.body.attachmentUrl || '',
             projectDetails: req.body.project_description,
