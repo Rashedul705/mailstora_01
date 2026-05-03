@@ -12,6 +12,8 @@ const DAYS = [
     { index: 0, name: 'Sunday' }
 ];
 
+const ET_ZONE = 'America/New_York';
+
 // Helper to convert "9:00 AM" to "09:00" for input type="time"
 const formatToInputTime = (timeStr: string) => {
     if (!timeStr) return "09:00";
@@ -30,6 +32,45 @@ const formatToInputTime = (timeStr: string) => {
     return `${hours.padStart(2, '0')}:${minutes}`;
 };
 
+function getUserTZ(): string {
+    try { return Intl.DateTimeFormat().resolvedOptions().timeZone; }
+    catch { return 'UTC'; }
+}
+
+function friendlyTZ(tz: string): string {
+    return tz.split('/').pop()?.replace(/_/g, ' ') ?? tz;
+}
+
+// Convert "23:00" (ET) to local string, assuming today
+function getLocalTimeStr(time24: string, userTZ: string): string {
+    if (!time24) return '';
+    const [h, m] = time24.split(':').map(Number);
+    if (isNaN(h) || isNaN(m)) return '';
+
+    const today = new Date();
+    // Guess UTC instant assuming ET is UTC-4
+    const guess = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate(), h + 4, m, 0));
+    
+    const etFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: ET_ZONE, hour: 'numeric', minute: '2-digit', hour12: false,
+    });
+    
+    const etParts  = etFormatter.formatToParts(guess);
+    const etHStr   = etParts.find(p => p.type === 'hour')?.value ?? '0';
+    // Handle 24h format quirk where midnight can be '24' instead of '0'
+    const etH      = parseInt(etHStr) === 24 ? 0 : parseInt(etHStr); 
+    const etM      = parseInt(etParts.find(p => p.type === 'minute')?.value ?? '0');
+
+    // Correct the UTC instant
+    const deltaMs = ((h - etH) * 60 + (m - etM)) * 60_000;
+    const utcDate = new Date(guess.getTime() + deltaMs);
+
+    return new Intl.DateTimeFormat('en-US', {
+        timeZone: userTZ, hour: 'numeric', minute: '2-digit', hour12: true,
+    }).format(utcDate);
+}
+
+
 export default function AvailabilitySettings() {
     const [activeDays, setActiveDays] = useState<number[]>([]);
     const [startTime, setStartTime] = useState('09:00');
@@ -37,8 +78,10 @@ export default function AvailabilitySettings() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState('');
+    const [userTZ, setUserTZ] = useState('UTC');
 
     useEffect(() => {
+        setUserTZ(getUserTZ());
         fetchAvailability();
     }, []);
 
@@ -146,7 +189,7 @@ export default function AvailabilitySettings() {
 
                     <div style={{ display: 'flex', gap: '24px' }}>
                         <div style={{ flex: 1 }}>
-                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '700', color: '#1e293b' }}>Start Time</label>
+                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '700', color: '#1e293b' }}>Start Time (US Eastern)</label>
                             <input 
                                 type="time" 
                                 value={startTime} 
@@ -158,9 +201,14 @@ export default function AvailabilitySettings() {
                                 }}
                                 required
                             />
+                            {userTZ !== ET_ZONE && (
+                                <div style={{ marginTop: '8px', fontSize: '0.875rem', color: '#64748b' }}>
+                                    Your local time: <strong style={{ color: '#4338CA' }}>{getLocalTimeStr(startTime, userTZ)}</strong> ({friendlyTZ(userTZ)})
+                                </div>
+                            )}
                         </div>
                         <div style={{ flex: 1 }}>
-                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '700', color: '#1e293b' }}>End Time</label>
+                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '700', color: '#1e293b' }}>End Time (US Eastern)</label>
                             <input 
                                 type="time" 
                                 value={endTime} 
@@ -172,6 +220,11 @@ export default function AvailabilitySettings() {
                                 }}
                                 required
                             />
+                            {userTZ !== ET_ZONE && (
+                                <div style={{ marginTop: '8px', fontSize: '0.875rem', color: '#64748b' }}>
+                                    Your local time: <strong style={{ color: '#4338CA' }}>{getLocalTimeStr(endTime, userTZ)}</strong> ({friendlyTZ(userTZ)})
+                                </div>
+                            )}
                         </div>
                     </div>
 

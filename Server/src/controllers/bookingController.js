@@ -19,13 +19,26 @@ exports.getAvailableSlots = async (req, res) => {
             return res.json([]); // Day not active
         }
 
-        const startTime = settings.startTime || '9:00 AM';
-        const endTime   = settings.endTime   || '5:00 PM';
+        const startTime = settings.startTime || '09:00';
+        const endTime   = settings.endTime   || '17:00';
         const now = moment().tz(ET_ZONE);
 
+        // Function to parse either "HH:mm" or "h:mm A"
+        const parseTime = (dateStr, timeStr) => {
+            if (timeStr.includes('AM') || timeStr.includes('PM')) {
+                return moment.tz(`${dateStr} ${timeStr}`, 'YYYY-MM-DD h:mm A', ET_ZONE);
+            }
+            return moment.tz(`${dateStr} ${timeStr}`, 'YYYY-MM-DD HH:mm', ET_ZONE);
+        };
+
         // Build cursor from startTime, advance in 30-min steps until endTime
-        const cursor = moment.tz(`${date} ${startTime}`, 'YYYY-MM-DD h:mm A', ET_ZONE);
-        const end    = moment.tz(`${date} ${endTime}`,   'YYYY-MM-DD h:mm A', ET_ZONE);
+        const cursor = parseTime(date, startTime);
+        let end    = parseTime(date, endTime);
+
+        // Handle overnight shifts (e.g. 23:00 to 05:00)
+        if (end.isSameOrBefore(cursor)) {
+            end.add(1, 'day');
+        }
 
         // Get all booked timeslots for this date
         const existingBookings = await Booking.find({ date, status: { $ne: 'cancelled' } });
@@ -33,7 +46,7 @@ exports.getAvailableSlots = async (req, res) => {
 
         const slots = [];
         while (cursor.isBefore(end)) {
-            const hour     = cursor.format('h:mm A'); // e.g. "9:00 AM"
+            const hour     = cursor.format('h:mm A'); // Output consistently to UI
             const timeSlot = `${hour} ET`;
             const isBooked = bookedTimeSlots.includes(timeSlot);
             const isPast   = cursor.isBefore(now);
