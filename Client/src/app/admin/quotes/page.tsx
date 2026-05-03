@@ -199,7 +199,7 @@ export default function QuotesAdmin() {
                                     <span className={`badge badge-status-${quote.status}`}>{quote.status}</span>
                                     <span className="badge badge-service">{quote.service}</span>
                                     {quote.esp && quote.esp.length > 0 && (
-                                        <span className="badge badge-esp">{quote.esp.join(', ')}</span>
+                                        <span className="badge badge-esp">{Array.isArray(quote.esp) ? quote.esp.join(', ') : quote.esp}</span>
                                     )}
                                     {quote.attachmentUrl && (
                                         <span className="badge badge-attachment">📎 Attachment</span>
@@ -274,11 +274,11 @@ export default function QuotesAdmin() {
                                     </div>
                                     <div className="info-box">
                                         <h4>Email Platform (ESP)</h4>
-                                        <p>{selectedQuoteDetail.esp?.join(', ') || 'None selected'}</p>
+                                        <p>{Array.isArray(selectedQuoteDetail.esp) ? selectedQuoteDetail.esp.join(', ') : (selectedQuoteDetail.esp || 'None selected')}</p>
                                     </div>
                                     <div className="info-box">
                                         <h4>Email Types</h4>
-                                        <p>{selectedQuoteDetail.emailTypes?.join(', ') || 'None selected'}</p>
+                                        <p>{Array.isArray(selectedQuoteDetail.emailTypes) ? selectedQuoteDetail.emailTypes.join(', ') : (selectedQuoteDetail.emailTypes || 'None selected')}</p>
                                     </div>
                                     <div className="info-box">
                                         <h4>Design Status</h4>

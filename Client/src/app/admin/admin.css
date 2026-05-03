@@ -7,7 +7,7 @@
     --admin-text: #0F172A;
     --admin-text-muted: #64748B;
     --admin-border: #E2E8F0;
-    --admin-sidebar-bg: #0F172A;
+    --admin-sidebar-bg: #1a1740;
     --admin-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --admin-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
@@ -91,9 +91,20 @@
 }
 
 .sidebar-link.active {
-    background-color: var(--admin-primary);
+    background-color: rgba(249,115,22,0.12);
     color: #FFFFFF;
-    box-shadow: 0 10px 15px -3px rgba(67, 56, 202, 0.25);
+    border-left: 4px solid #f97316;
+    border-radius: 0 0.75rem 0.75rem 0;
+}
+
+.sidebar-badge {
+    background: #f97316;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-left: auto;
 }
 
 .sidebar-footer {
