@@ -1,55 +1,74 @@
 /**
- * MailStora Reusable Email Template System
- * =========================================
- * Provides a consistent, branded HTML email layout for all outgoing emails.
- * Uses table-based layout with inline CSS for maximum email client compatibility.
- *
- * Usage:
- *   const { buildEmail } = require('./emailTemplate');
- *   const html = buildEmail({ title, content, buttonText, buttonUrl, preheader });
+ * MailStora Reusable Email Template
+ * Uses table-based layout + inline CSS for maximum email client compatibility.
+ * Logo is pure HTML — no images needed, works in ALL email clients (Gmail, Outlook, Apple Mail).
  */
 
-const BRAND_COLOR = '#2d287b';
-const SITE_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
-const ADMIN_EMAIL = process.env.EMAIL_USER || 'rashedul.afl@gmail.com';
+const BRAND_COLOR  = '#2d287b';
+const ACCENT_COLOR = '#f97316';
+const SITE_URL     = process.env.FRONTEND_URL || 'https://mailstora.com';
+const ADMIN_EMAIL  = process.env.EMAIL_USER   || 'rashedul.afl@gmail.com';
 const FACEBOOK_URL = 'https://www.facebook.com/Rashedul7050';
-const PRIVACY_URL = `${SITE_URL}/privacy`;
-const YEAR = new Date().getFullYear();
+const PRIVACY_URL  = `${SITE_URL}/privacy`;
+const YEAR         = new Date().getFullYear();
 
 /**
- * Build a fully-styled HTML email.
- *
- * @param {Object} opts
- * @param {string}  opts.title      - Email heading shown inside the body card
- * @param {string}  opts.content    - Main HTML content (paragraphs, lists, etc.)
- * @param {string}  [opts.preheader]- Short preview text hidden in inbox list
- * @param {string}  [opts.buttonText] - CTA button label (omit to hide button)
- * @param {string}  [opts.buttonUrl]  - CTA button URL  (omit to hide button)
- * @returns {string} Complete HTML email string
+ * Pure HTML logo matching the website design exactly:
+ *   - Orange envelope icon (✉) + navy border box
+ *   - "Mail" in orange bold + "stora" in navy bold
+ * @param {'light'|'dark'} theme - 'dark' for dark backgrounds (navy header/footer)
  */
+function logoHtml(theme = 'light') {
+    const textColor  = theme === 'dark' ? '#ffffff' : BRAND_COLOR;
+    // Envelope box: white bg on dark, brand-color bg on light
+    const boxBg      = theme === 'dark' ? '#ffffff' : '#ffffff';
+    const boxBorder  = theme === 'dark' ? '#ffffff' : BRAND_COLOR;
+    return `<table role="presentation" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td valign="middle" style="padding-right:10px;">
+                <!-- Envelope icon box -->
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0"
+                       style="border:3px solid ${BRAND_COLOR};border-radius:5px;width:42px;height:30px;background:${boxBg};">
+                    <tr>
+                        <td align="center" valign="middle">
+                            <span style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;color:${BRAND_COLOR};line-height:1;">M</span><span style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;color:${ACCENT_COLOR};line-height:1;">&#8599;</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td valign="middle">
+                <span style="font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:bold;color:${ACCENT_COLOR};letter-spacing:-0.5px;line-height:1;">Mail</span><span style="font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:bold;color:${textColor};letter-spacing:-0.5px;line-height:1;">stora</span>
+            </td>
+        </tr>
+    </table>`;
+}
+
 function buildEmail({ title = '', content = '', preheader = '', buttonText = '', buttonUrl = '' }) {
+
     const preheaderHtml = preheader
-        ? `<div style="display:none;font-size:1px;color:#f5f5f5;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">${preheader}&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</div>`
+        ? `<div style="display:none;font-size:1px;color:#ffffff;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">${preheader}&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</div>`
         : '';
 
     const buttonHtml = buttonText && buttonUrl
-        ? `
-        <tr>
-            <td align="center" style="padding:30px 30px 10px 30px;">
-                <!--[if mso]>
-                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="${buttonUrl}" style="height:46px;v-text-anchor:middle;width:200px;" arcsize="10%" stroke="f" fillcolor="${BRAND_COLOR}">
-                    <w:anchorlock/>
-                    <center style="color:#ffffff;font-family:Arial,sans-serif;font-size:15px;font-weight:bold;">${buttonText}</center>
-                </v:roundrect>
-                <![endif]-->
-                <!--[if !mso]><!-->
+        ? `<tr>
+            <td align="center" style="padding:28px 30px 8px 30px;">
                 <a href="${buttonUrl}" target="_blank"
-                   style="background-color:${BRAND_COLOR};color:#ffffff;display:inline-block;font-family:Arial,sans-serif;font-size:15px;font-weight:bold;line-height:46px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;border-radius:4px;mso-hide:all;">
+                   style="background-color:${ACCENT_COLOR};color:#ffffff;display:inline-block;font-family:Arial,sans-serif;font-size:15px;font-weight:bold;line-height:48px;text-align:center;text-decoration:none;padding:0 28px;border-radius:6px;">
                     ${buttonText}
                 </a>
-                <!--<![endif]-->
             </td>
-        </tr>`
+          </tr>`
+        : '';
+
+    const titleHtml = title
+        ? `<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+               <tr><td style="padding-bottom:20px;border-bottom:2px solid #f0f0f0;">
+                   <h1 style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:bold;color:${BRAND_COLOR};line-height:1.3;">${title}</h1>
+               </td></tr>
+           </table>
+           <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+               <tr><td style="padding-top:24px;"></td></tr>
+           </table>`
         : '';
 
     return `<!DOCTYPE html>
@@ -61,165 +80,122 @@ function buildEmail({ title = '', content = '', preheader = '', buttonText = '',
     <meta name="x-apple-disable-message-reformatting">
     <title>${title ? title + ' | MailStora' : 'MailStora'}</title>
     <!--[if mso]>
-    <noscript>
-        <xml>
-            <o:OfficeDocumentSettings>
-                <o:PixelsPerInch>96</o:PixelsPerInch>
-            </o:OfficeDocumentSettings>
-        </xml>
-    </noscript>
+    <noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
     <![endif]-->
     <style type="text/css">
-        /* Reset */
-        body, table, td, a { -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
-        table, td { mso-table-lspace:0pt; mso-table-rspace:0pt; }
-        img { -ms-interpolation-mode:bicubic; border:0; height:auto; line-height:100%; outline:none; text-decoration:none; }
-        /* Outlook link override */
-        a[x-apple-data-detectors] { color:inherit !important; text-decoration:none !important; font-size:inherit !important; }
-        /* Mobile */
-        @media only screen and (max-width:600px) {
-            .email-wrapper { width:100% !important; max-width:100% !important; }
-            .email-container { width:100% !important; }
-            .nav-link { display:none !important; }
-            .mobile-hide { display:none !important; }
-            .content-td { padding:20px 16px !important; }
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; }
+        a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; }
+        @media only screen and (max-width: 600px) {
+            .email-container { width: 100% !important; max-width: 100% !important; }
+            .mobile-hide     { display: none !important; }
+            .content-pad     { padding: 20px 16px !important; }
         }
     </style>
 </head>
-<body style="margin:0;padding:0;background-color:#f5f5f5;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;">
+<body style="margin:0;padding:0;background-color:#f1f5f9;font-family:Arial,Helvetica,sans-serif;">
 
 ${preheaderHtml}
 
-<!-- Outer wrapper -->
-<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#f5f5f5;">
-    <tr>
-        <td align="center" style="padding:24px 16px;">
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#f1f5f9;">
+<tr><td align="center" style="padding:32px 16px;">
 
-            <!-- Email container — max 600px -->
-            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" class="email-container"
-                   style="max-width:600px;width:600px;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" class="email-container"
+           style="max-width:600px;width:100%;border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.10);">
 
-                <!-- ===================== HEADER ===================== -->
-                <tr>
-                    <td style="background-color:${BRAND_COLOR};padding:0;">
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                            <tr>
-                                <!-- Logo -->
-                                <td style="padding:20px 30px;" valign="middle">
-                                    <a href="${SITE_URL}" target="_blank" style="text-decoration:none;">
-                                        <img src="https://i.ibb.co/xK5M7BBS/logo-white.png" alt="MailStora" width="160" style="display:block;border:0;width:160px;height:auto;" />
-                                    </a>
-                                </td>
-                                <!-- Nav links (hidden on mobile) -->
-                                <td align="right" style="padding:20px 30px;" valign="middle" class="mobile-hide">
-                                    <a href="${SITE_URL}/#services" target="_blank"
-                                       style="font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#c7d2fe;text-decoration:none;margin-left:20px;">Services</a>
-                                    <a href="${SITE_URL}/#prices" target="_blank"
-                                       style="font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#c7d2fe;text-decoration:none;margin-left:20px;">Pricing</a>
-                                    <a href="${SITE_URL}/#portfolio" target="_blank"
-                                       style="font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#c7d2fe;text-decoration:none;margin-left:20px;">Portfolio</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+        <!-- ===== HEADER ===== -->
+        <tr>
+            <td style="background-color:${BRAND_COLOR};padding:20px 32px;">
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <!-- Logo -->
+                        <td valign="middle">
+                            <a href="${SITE_URL}" target="_blank" style="text-decoration:none;">
+                                ${logoHtml('dark')}
+                            </a>
+                        </td>
+                        <!-- Nav links (hidden on mobile) -->
+                        <td align="right" valign="middle" class="mobile-hide">
+                            <a href="${SITE_URL}/#services"  target="_blank" style="font-family:Arial,sans-serif;font-size:12px;color:#c7d2fe;text-decoration:none;margin-left:16px;">Services</a>
+                            <a href="${SITE_URL}/pricing"    target="_blank" style="font-family:Arial,sans-serif;font-size:12px;color:#c7d2fe;text-decoration:none;margin-left:16px;">Pricing</a>
+                            <a href="${SITE_URL}/#portfolio" target="_blank" style="font-family:Arial,sans-serif;font-size:12px;color:#c7d2fe;text-decoration:none;margin-left:16px;">Portfolio</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 
-                <!-- Accent bar -->
-                <tr>
-                    <td style="background-color:#4f46e5;height:4px;font-size:0;line-height:0;">&nbsp;</td>
-                </tr>
+        <!-- Orange accent bar -->
+        <tr><td style="background-color:${ACCENT_COLOR};height:4px;font-size:0;line-height:0;">&nbsp;</td></tr>
 
-                <!-- ===================== BODY ===================== -->
-                <tr>
-                    <td style="background-color:#ffffff;padding:40px 40px 30px 40px;" class="content-td">
+        <!-- ===== BODY ===== -->
+        <tr>
+            <td class="content-pad" style="background-color:#ffffff;padding:36px 40px 28px 40px;">
 
-                        ${title ? `
-                        <!-- Title -->
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                            <tr>
-                                <td style="padding-bottom:24px;border-bottom:2px solid #f0f0f0;">
-                                    <h1 style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:bold;color:${BRAND_COLOR};line-height:1.3;">${title}</h1>
-                                </td>
-                            </tr>
-                        </table>
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                            <tr><td style="padding-top:24px;"></td></tr>
-                        </table>
-                        ` : ''}
+                ${titleHtml}
 
-                        <!-- Dynamic content injected here -->
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                            <tr>
-                                <td style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.7;color:#444444;">
-                                    ${content}
-                                </td>
-                            </tr>
-                        </table>
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.75;color:#374151;">
+                            ${content}
+                        </td>
+                    </tr>
+                </table>
 
-                        ${buttonHtml}
+                ${buttonHtml}
 
-                        <!-- Divider -->
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                            <tr>
-                                <td style="padding-top:30px;border-top:1px solid #f0f0f0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#888888;">
-                                    <p style="margin:0 0 4px 0;">Best regards,</p>
-                                    <p style="margin:0;font-weight:bold;color:${BRAND_COLOR};">The MailStora Team</p>
-                                </td>
-                            </tr>
-                        </table>
+                <!-- Sign-off -->
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td style="padding-top:28px;border-top:1px solid #f0f0f0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#6b7280;">
+                            <p style="margin:0 0 4px 0;">Best regards,</p>
+                            <p style="margin:0;font-weight:bold;color:${BRAND_COLOR};">The MailStora Team</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 
-                    </td>
-                </tr>
+        <!-- ===== FOOTER ===== -->
+        <tr>
+            <td style="background-color:${BRAND_COLOR};padding:24px 32px;">
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <!-- Logo -->
+                    <tr>
+                        <td align="center" style="padding-bottom:14px;">
+                            <a href="${SITE_URL}" target="_blank" style="text-decoration:none;">
+                                ${logoHtml('dark')}
+                            </a>
+                        </td>
+                    </tr>
+                    <!-- Links -->
+                    <tr>
+                        <td align="center" style="padding-bottom:12px;">
+                            <a href="mailto:${ADMIN_EMAIL}" style="font-family:Arial,sans-serif;font-size:12px;color:#c7d2fe;text-decoration:none;margin:0 8px;">Contact Us</a>
+                            <span style="color:#6366f1;">|</span>
+                            <a href="${FACEBOOK_URL}" target="_blank" style="font-family:Arial,sans-serif;font-size:12px;color:#c7d2fe;text-decoration:none;margin:0 8px;">Facebook</a>
+                            <span style="color:#6366f1;">|</span>
+                            <a href="${PRIVACY_URL}" target="_blank" style="font-family:Arial,sans-serif;font-size:12px;color:#c7d2fe;text-decoration:none;margin:0 8px;">Privacy Policy</a>
+                        </td>
+                    </tr>
+                    <!-- Copyright -->
+                    <tr>
+                        <td align="center">
+                            <p style="margin:0;font-family:Arial,sans-serif;font-size:11px;color:#818cf8;line-height:1.6;">
+                                &copy; ${YEAR} MailStora. All rights reserved.<br>
+                                Professional HTML Email Templates &amp; Signatures
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 
-                <!-- ===================== FOOTER ===================== -->
-                <tr>
-                    <td style="background-color:${BRAND_COLOR};padding:28px 30px;">
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+    </table>
 
-                            <!-- Logo row -->
-                            <tr>
-                                <td align="center" style="padding-bottom:16px;">
-                                    <a href="${SITE_URL}" target="_blank" style="text-decoration:none;">
-                                        <img src="https://i.ibb.co/xK5M7BBS/logo-white.png" alt="MailStora" width="130" style="display:block;border:0;width:130px;height:auto;margin:0 auto;" />
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <!-- Links row -->
-                            <tr>
-                                <td align="center" style="padding-bottom:16px;">
-                                    <a href="mailto:${ADMIN_EMAIL}" target="_blank"
-                                       style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#c7d2fe;text-decoration:none;margin:0 10px;">Contact Us</a>
-                                    <span style="color:#6366f1;font-size:12px;">|</span>
-                                    <a href="${FACEBOOK_URL}" target="_blank"
-                                       style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#c7d2fe;text-decoration:none;margin:0 10px;">Facebook</a>
-                                    <span style="color:#6366f1;font-size:12px;">|</span>
-                                    <a href="${PRIVACY_URL}" target="_blank"
-                                       style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#c7d2fe;text-decoration:none;margin:0 10px;">Privacy Policy</a>
-                                </td>
-                            </tr>
-
-                            <!-- Copyright -->
-                            <tr>
-                                <td align="center">
-                                    <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#818cf8;line-height:1.5;">
-                                        &copy; ${YEAR} MailStora. All rights reserved.<br>
-                                        Professional HTML Email Templates &amp; Signatures
-                                    </p>
-                                </td>
-                            </tr>
-
-                        </table>
-                    </td>
-                </tr>
-
-            </table>
-            <!-- /Email container -->
-
-        </td>
-    </tr>
+</td></tr>
 </table>
-<!-- /Outer wrapper -->
 
 </body>
 </html>`;
