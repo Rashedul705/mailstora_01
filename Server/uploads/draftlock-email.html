@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Understanding DraftLOCK-Flow</title>
+    <meta http-equiv="x-us-compitible" content="text/html; charset=utf-8" />
+    <meta http-equiv="x-us-compitible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #E5E5E5;
+            -webkit-text-size-adjust: 100% !important;
+            -ms-text-size-adjust: 100% !important;
+            -webkit-font-smothing: antialiased !important;
+        }
+
+        img {
+            border: 0 !important;
+            outline: none !important;
+        }
+
+        table {
+            border-collapse: collapse;
+            mso-table-lspace: 0;
+            mso-table-rspace: 0;
+        }
+
+        td,
+        a,
+        span {
+            border-collapse: collapse;
+            mso-line-height-rule: exactly;
+
+        }
+
+        p {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        @media only screen and (max-width: 600px) {
+
+            /*------------ Tables ---------------*/
+            .em_full_wrap {}
+
+            .em_main_table {
+                width: 100% !important;
+            }
+
+            .em_wrapper {
+                width: 100% !important
+            }
+
+            .table300 {
+                width: 300px !important;
+            }
+
+            .table250 {
+                width: 250px !important;
+            }
+  
+
+            /*------------ Images ---------------*/
+            .em_img img {
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            .bgimg {
+                background-size: cover !important;
+            }
+
+            /*--------- Tds -----------*/
+            .tds100 {
+                width: 38% !important;
+            }
+
+            .tds185 {
+                width: 62% !important;
+            }
+
+            .TdsBlock {
+                width: 100% !important;
+                display: block !important;
+                text-align: center !important;
+                
+            }
+
+
+            /*------------ Others ---------------*/
+            .padding_left20 {
+                padding-left: 20px !important;
+            }
+
+            .padding_right20 {
+                padding-right: 20px !important;
+            }
+
+            .padding_top25 {
+                padding-top: 25px !important;
+            }
+
+            .padding_top40 {
+                padding-top: 40px !important;
+            }
+
+            .mobHide {
+                display: none !important;
+            }
+
+            .paddbtm10 {
+                padding-bottom: 10px !important;
+            }
+
+            .paddTB {
+                padding-top: 10px !important;
+                padding-bottom: 10px !important;
+            }
+
+            .font_size38 {
+                font-size: 30px !important;
+                line-height: 36px !important;
+            }
+
+            .fontSize40 {
+                font-size: 25px !important;
+                line-height: 32px !important;
+            }
+
+            .fontSize20 {
+                font-size: 20px !important;
+                line-height: 30px !important;
+            }
+
+            .M_padding_left_right40 {
+                padding-left: 40px !important;
+                padding-right: 40px !important;
+            }
+
+            .M_padding_left_right20 {
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+            }
+
+        }
+    </style>
+</head>
+
+<body style="margin: 0 auto; padding: 0px">
+<!-- logo -->
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#E5E5E5" class="em_full_wrap">
+        <tr>
+            <td align="center">
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                    style="width: 800px; background-color: #FFFFFF" class="em_wrapper">
+                    <tr>
+                        <td align="center" style="padding: 48px 0 25px 0;">
+                            <table align="center" width="630" border="0" cellspacing="0" cellpadding="0"
+                                style="width: 630px; background-color: #FFFFFF;" class="em_wrapper">
+                                <tr>
+                                    <td align="center">
+                                        <table align="left" width="151" border="0" cellspacing="0" cellpadding="0"
+                                            style="width: 151px; background-color: #FFFFFF;">
+                                            <tr>
+                                                <td align="center" class="padding_left20">
+                                                    <a href="https://www.windowscanada.com/" target="_blank"><img src="https://myccwd.com/wp-content/uploads/2026/03/logo_draftlock.png" width="151" height="39" border="0" style="display: block;" alt="Logo"></a>
+
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table align="left" width="2" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td align="center">
+
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table align="right" width="152" border="0" cellspacing="0" cellpadding="0"
+                                            style="width: 152px; background-color: #FFFFFF;" >
+                                            <tr>
+                                                <td align="right" class="padding_right20 padding-top"
+                                                    style="color: #2F2E39; font-family:'inter', sans-serif; font-size: 14px; line-height: 17px; font-weight: 500; font-style: normal;">
+                                                    The trusted choice.
+                                                    Canadian made.
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <!-- Hero -->
+
+
+        <tr>
+            <td align="center">
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                    style="width: 800px; background-color: #ffffff" class="em_wrapper">
+                    
+                    <tr>
+                        <td align="center">
+                            <table table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                                style="width: 800px; background-color: #ffffff" class="em_wrapper">
+                                <tr>
+        
+                                    <td align="left" valign="middle" width="385" class="TdsBlock em_img">
+                                        <img src="https://myccwd.com/wp-content/uploads/2026/03/top_banner_left.png" width="385" height="390" border="0" style="display: block;"
+                                            alt="Hero section left">
+                                    </td>
+        
+                                    <td align="right" valign="middle" width="415" class="TdsBlock em_img">
+                                        <img src="https://myccwd.com/wp-content/uploads/2026/03/top_banner_right.png" width="415" height="390" border="0" style="display: block;"
+                                            alt="Hero section lest">
+                                    </td>
+                                </tr>
+                            </table>
+        
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+
+    <!-- section 3 -->
+        <tr>
+            <td align="center" >
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                    style="width: 800px; background-color: #FFFFFF" class="em_wrapper">
+                    <tr>
+                        <td align="center" style="padding: 80px 0 40px 0;">
+                            <table align="center" width="690" border="0" cellspacing="0" cellpadding="0"
+                                style="width: 690px; background-color: #FFFFFF" class="em_wrapper">
+                                <tr>
+                                    <td align="center" class="padding_left20 padding_right20">
+
+                                        <table align="right" width="329" border="0" cellspacing="0" cellpadding="0"
+                                            style="width: 329px; background-color: #FFFFFF" class="em_wrapper">
+                                            <tr>
+                                                <td align="center" >
+                                                    <table align="center" width="329" border="0" cellspacing="0" cellpadding="0"
+                                                        style="width: 329px; background-color: #FFFFFF" class="em_wrapper">
+                                                        <tr>
+                                                            <td align="left" class="em_img">
+                                                                <img src="https://myccwd.com/wp-content/uploads/2026/03/red_and_white_box.png" width="329" height="376" border="0"
+                                                                    style="display: block;" alt="Red and white box">
+                                        
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        
+
+                                        <table align="left" width="2" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td>
+                                        
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table align="left" width="327" border="0" cellspacing="0" cellpadding="0"
+                                            style="width: 327px; background-color: #FFFFFF" class="em_wrapper">
+                                            <tr>
+                                                <td align="left">
+                                                    <img src="https://myccwd.com/wp-content/uploads/2026/03/whatisdraftloock.png" width="212" height="34" border="0" style="display: block;"alt="What is Draftlock">
+                                        
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr>
+                                                <td align="left"
+                                                    style="color: #2F2E39; font-family:'inter', sans-serif; font-size: 18px; line-height: 30px; font-weight: 400; font-style: normal; padding: 25px 0 0 0;">
+                                                    DraftLOCK<sup>&trade;</sup> is our sealing technology designed to reduce air leakage around your windows. By creating a tighter, more reliable seal, it helps your home stay comfortable, without overworking your heating or cooling system.
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td align="left" style="padding: 20px 0 0 0;">
+                                                    <table align="left" width="190" border="0" cellspacing="0" cellpadding="0" style="width: 190px; background-color: #FFFFFF" class="em_wrapper">
+                                                        <tr>
+                                                            <td align="center" style="color:#BB2542; font-family:'Inter', sans-serif; font-size:16px; line-height:60px; font-weight:400; font-style: normal; padding: 0 0 40px 0; ">
+                                                                <div><!--[if mso]>
+                                                                <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.windowscanada.com/" style="height:50px;v-text-anchor:middle;width:190px;" strokecolor="#BB2542" fillcolor="#fafafb">
+                                                                    <w:anchorlock/>
+                                                                    <center style="color:#BB2542;font-family:sans-serif;font-size:16px;font-weight:bold;">See how it works</center>
+                                                                </v:rect>
+                                                                <![endif]--><a href="https://www.windowscanada.com/" target="_blank"
+                                                                        style="background-color:#fafafb;border:1px solid #BB2542;color:#BB2542;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:190px;-webkit-text-size-adjust:none;mso-hide:all;">See
+                                                                        how it works</a></div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>                                
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <!-- Benifits of DraftLOCK -->
+
+        <tr>
+            <td align="center" >
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                    style="width: 800px; background-color: #BB2542" class="em_wrapper">
+                    <tr>
+                        <td align="center" style="padding: 45px 0 0 0;" class="M_padding_left_right40">
+                            <table align="center" width="710" border="0" cellspacing="0" cellpadding="0" style="width: 710px; background-color: #BB2542" class="em_wrapper">
+                                <tr>
+                                    <td align="center">
+                                        <table align="left" width="340" border="0" cellspacing="0" cellpadding="0"
+                                            style="width: 340px; background-color: #BB2542;" class="em_wrapper">
+                                            <tr>
+                                                <td align="center" class="em_img" style="padding: 40px 0 0 0;">
+                                                    <img src="https://myccwd.com/wp-content/uploads/2026/03/benfits_draftlock_logo.png" width="288" height="149" border="0" style="display: block;" alt="benfits_draftlock_logo">
+                                
+                                                </td>
+                                            </tr>
+                                        </table>
+                                
+                                        <table align="left" width="2" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td align="center">
+                                
+                                                </td>
+                                            </tr>
+                                        </table>
+                                
+                                        <table align="right" width="367" border="0" cellspacing="0" cellpadding="0"
+                                            style="width: 367px; background-color: #BB2542;" class="em_wrapper">
+                                            <tr>
+                                                <td align="center" class="padding_top40">
+                                                    <table align="center" width="367" border="0" cellspacing="0" cellpadding="0"
+                                                        style="width: 367px; " class="em_wrapper">
+                                                        <tr>
+                                                            <td align="center" class="em_img">
+                                                                <img src="https://myccwd.com/wp-content/uploads/2026/03/benfits_draftlock_image_right.png" width="367" height="350" border="0"
+                                                                    style="display: block;" alt="benfits_draftlock_image_right">
+                                                    
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center">
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                    style="width: 800px; background-color: #BB2542" class="em_wrapper">
+                    <tr>
+                        <td align="center" class="M_padding_left_right40 padding_top40">
+                            <table align="center" width="720" border="0" cellspacing="0" cellpadding="0"
+                                style="width: 720px;" class="em_wrapper">
+                                <tr>
+                                    <td align="center">
+                                        <table align="left" width="340" border="0" cellspacing="0" cellpadding="0"
+                                            style="width: 340px;" class="em_wrapper">
+                                            <tr>
+                                                <td align="left">
+                                                    <table align="left" width="340" border="0" cellspacing="0" cellpadding="0" style="width: 340px;" class="table250">
+                                                        <tr>
+                                                            <td align="left" width="54" valign="middle">
+                                                                <img src="https://myccwd.com/wp-content/uploads/2026/03/1.png" width="34" height="35" border="0" style="display: block;" alt="Leak-Proof Performance">
+                                                            </td>
+                                                            
+                                                            <td align="left" width="286" valign="middle" class="fontSize20"
+                                                                style="color: #ffffff; font-family:'inter', sans-serif; font-size: 24px; line-height: 28px; font-weight: 500; font-style: normal;">
+                                                                Leak-Proof Performance
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+
+                                                <tr>
+                                                    <td align="left"
+                                                        style="color: #ffffff; font-family:'inter', sans-serif; font-size: 20px; line-height: 30px; font-weight: 400; font-style: normal; padding: 20px 0 0 0;">
+                                                        Our windows and doors are made with an advanced ASTM-approved acrylic system that eliminates unattractive rubber
+                                                        strips,
+                                                        which deteriorate over time, and securely bonds the sealed glass unit to the sash.
+                                                    </td>
+                                                </tr>
+
+                                            </tr>
+
+                                            <tr>
+                                                <td align="center" style="padding: 40px 0 0 0;">
+                                                    <table align="left" width="340" border="0" cellspacing="0" cellpadding="0" style="width: 340px;" class="em_wrapper">
+                                                        <tr>
+                                                            <td align="left" width="54" valign="middle">
+                                                                <img src="https://myccwd.com/wp-content/uploads/2026/03/2.png" width="34" height="35" border="0" style="display: block;" alt="World Class Energy Efficient Glass Units">
+                                                            </td>
+                                            
+                                                            <td align="left" width="286" valign="middle" class="fontSize20"
+                                                                style="color: #ffffff; font-family:'inter', sans-serif; font-size: 24px; line-height: 28px; font-weight: 500; font-style: normal;">
+                                                                World Class Energy Efficient Glass Units
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            
+                                                <tr>
+                                                    <td align="left"
+                                                        style="color: #ffffff; font-family:'inter', sans-serif; font-size: 20px; line-height: 30px; font-weight: 400; font-style: normal; padding: 20px 0 0 0;">
+                                                        Glass units supplied from world-class manufacturers Cardinal I.G and Guardian Glass featuring exceptional Lo\u0112 Glass Coatings.
+                                                    </td>
+                                                </tr>
+                                            
+                                            </tr>
+
+
+                                            <tr>
+                                                <td align="center" style="padding: 40px 0 0 0;">
+                                                    <table align="left" width="340" border="0" cellspacing="0" cellpadding="0" style="width: 340px;" class="em_wrapper">
+                                                        <tr>
+                                                            <td align="left" width="54" valign="middle">
+                                                                <img src="https://myccwd.com/wp-content/uploads/2026/03/3.png" width="34" height="35" border="0" style="display: block;" alt="Optional Foam Insulation">
+                                                            </td>
+                                            
+                                                            <td align="left" width="286" valign="middle" class="fontSize20"
+                                                                style="color: #ffffff; font-family:'inter', sans-serif; font-size: 24px; line-height: 28px; font-weight: 500; font-style: normal;">
+                                                                Optional Foam Insulation
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            
+                                                <tr>
+                                                    <td align="left"
+                                                        style="color: #ffffff; font-family:'inter', sans-serif; font-size: 20px; line-height: 30px; font-weight: 400; font-style: normal; padding: 20px 0 0 0;">
+                                                        Foam insulation will increase the thermal efficiency of the window.
+                                                    </td>
+                                                </tr>
+                                            
+                                            </tr>
+
+                                            <tr>
+                                                <td align="center" style="padding: 40px 0 0 0;">
+                                                    <table align="left" width="340" border="0" cellspacing="0" cellpadding="0" style="width: 340px;"
+                                                        class="em_wrapper">
+                                                        <tr>
+                                                            <td align="left" width="54" valign="middle">
+                                                                <img src="https://myccwd.com/wp-content/uploads/2026/03/4.png" width="34" height="35" border="0" style="display: block;" alt="Premium Hardware">
+                                                            </td>
+                                            
+                                                            <td align="left" width="286" valign="middle" class="fontSize20"
+                                                                style="color: #ffffff; font-family:'inter', sans-serif; font-size: 24px; line-height: 28px; font-weight: 500; font-style: normal;">
+                                                                Premium Hardware
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            
+                                            <tr>
+                                                <td align="left"
+                                                    style="color: #ffffff; font-family:'inter', sans-serif; font-size: 20px; line-height: 30px; font-weight: 400; font-style: normal; padding: 20px 0 0 0;">
+                                                    Superior quality hardware increases the durability of your windows and doors.
+                                                </td>
+                                            </tr>
+                                            
+                                            </tr>
+
+
+                                            <tr>
+                                                <td align="center" style="padding: 40px 0 0 0;">
+                                                    <table align="left" width="340" border="0" cellspacing="0" cellpadding="0" style="width: 340px;"
+                                                        class="em_wrapper">
+                                                        <tr>
+                                                            <td align="left" width="54" valign="middle">
+                                                                <img src="https://myccwd.com/wp-content/uploads/2026/03/5.png" width="34" height="35" border="0" style="display: block;" alt="Cardinal IG Spacer System">
+                                                            </td>
+                                            
+                                                            <td align="left" width="286" valign="middle" class="fontSize20"
+                                                                style="color: #ffffff; font-family:'inter', sans-serif; font-size: 24px; line-height: 28px; font-weight: 500; font-style: normal;">
+                                                                Cardinal IG Spacer System
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            
+                                            <tr>
+                                                <td align="left"
+                                                    style="color: #ffffff; font-family:'inter', sans-serif; font-size: 20px; line-height: 30px; font-weight: 400; font-style: normal; padding: 20px 0 0 0;">
+                                                    Designed for consistent window performance durability.
+                                                </td>
+                                            </tr>
+                                            
+                                            </tr>
+
+
+                                        </table>
+        
+                                        <table align="left" width="2" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td align="center">
+        
+                                                </td>
+                                            </tr>
+                                        </table>
+        
+                                        <table align="right" width="340" border="0" cellspacing="0" cellpadding="0"
+                                            style="width: 340px; background-color: #BB2542;" class="em_wrapper">
+                                            <tr>
+                                                <td align="center" style="padding: 60px 0 0 0;">
+                                                    <table align="center" width="340" border="0" cellspacing="0" cellpadding="0"
+                                                        style="width: 340px; " class="em_wrapper">
+                                                        <tr>
+                                                            <td align="center">
+                                                                <table align="left" width="340" border="0" cellspacing="0" cellpadding="0" style="width: 340px;" class="em_wrapper">
+                                                                    <tr>
+                                                                        <td align="left" width="54" valign="middle">
+                                                                            <img src="https://myccwd.com/wp-content/uploads/2026/03/6.png" width="34" height="35" border="0" style="display: block;" alt="100% Eco-Friendly
+                                                                            & Recyclable">
+                                                                        </td>
+                                                        
+                                                        
+                                                                        <td align="left" width="286" valign="middle" class="fontSize20"
+                                                                            style="color: #ffffff; font-family:'inter', sans-serif; font-size: 24px; line-height: 28px; font-weight: 500; font-style: normal;">
+                                                                            100% Eco-Friendly
+                                                                            & Recyclable
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        
+                                                            <tr>
+                                                                <td align="left"
+                                                                    style="color: #ffffff; font-family:'inter', sans-serif; font-size: 20px; line-height: 30px; font-weight: 400; font-style: normal; padding: 25px 0 0 0;">
+                                                                    Constructed with the highest quality lead-free uPVC, all our windows are UV resistant and will not fade, discolour, warp, crack or peel.
+                                                                </td>
+                                                            </tr>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td align="center" style="padding: 40px 0 0 0;">
+                                                                <table align="left" width="340" border="0" cellspacing="0" cellpadding="0" style="width: 340px;"
+                                                                    class="em_wrapper">
+                                                                    <tr>
+                                                                        <td align="left" width="54" valign="middle">
+                                                                            <img src="https://myccwd.com/wp-content/uploads/2026/03/7.png" width="34" height="35" border="0" style="display: block;" alt="Maximum Strength Profile Corners">
+                                                                        </td>
+                                                        
+                                                                        <td align="left" width="286" valign="middle" class="fontSize20"
+                                                                            style="color: #ffffff; font-family:'inter', sans-serif; font-size: 24px; line-height: 28px; font-weight: 500; font-style: normal;">
+                                                                            Maximum Strength Profile Corners
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        
+                                                            <tr>
+                                                                <td align="left"
+                                                                    style="color: #ffffff; font-family:'inter', sans-serif; font-size: 20px; line-height: 30px; font-weight: 400; font-style: normal; padding: 20px 0 0 0;">
+                                                                    For increased strength, all frame and sash corners are fusion welded throughout.
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td align="center" style="padding: 40px 0 0 0;">
+                                                                <table align="left" width="340" border="0" cellspacing="0" cellpadding="0" style="width: 340px;"
+                                                                    class="em_wrapper">
+                                                                    <tr>
+                                                                        <td align="left" width="54" valign="middle">
+                                                                            <img src="https://myccwd.com/wp-content/uploads/2026/03/8.png" width="34" height="35" border="0" style="display: block;" alt="Super Efficient
+                                                                            Frames & Sashes">
+                                                                        </td>
+                                                        
+                                                                        <td align="left" width="286" valign="middle" class="fontSize20"
+                                                                            style="color: #ffffff; font-family:'inter', sans-serif; font-size: 24px; line-height: 28px; font-weight: 500; font-style: normal;">
+                                                                            Super Efficient
+                                                                            Frames & Sashes
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        
+                                                            <tr>
+                                                                <td align="left"
+                                                                    style="color: #ffffff; font-family:'inter', sans-serif; font-size: 20px; line-height: 30px; font-weight: 400; font-style: normal; padding: 20px 0 0 0;">
+                                                                    Multiple-chamber frames and sashes ensure greater thermal efficiency and excellent soundproofing.
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td align="center" style="padding: 40px 0 0 0;">
+                                                                <table align="left" width="340" border="0" cellspacing="0" cellpadding="0" style="width: 340px;"
+                                                                    class="em_wrapper">
+                                                                    <tr>
+                                                                        <td align="left" width="54" valign="middle">
+                                                                            <img src="https://myccwd.com/wp-content/uploads/2026/03/9.png" width="34" height="35" border="0" style="display: block;" alt="Slim Contoured Design for Contemporary Look">
+                                                                        </td>
+                                                        
+                                                                        <td align="left" width="286" valign="middle" class="fontSize20"
+                                                                            style="color: #ffffff; font-family:'inter', sans-serif; font-size: 24px; line-height: 28px; font-weight: 500; font-style: normal;">
+                                                                            Slim Contoured Design for Contemporary Look
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        
+                                                            <tr>
+                                                                <td align="left"
+                                                                    style="color: #ffffff; font-family:'inter', sans-serif; font-size: 20px; line-height: 30px; font-weight: 400; font-style: normal; padding: 20px 0 0 0;">
+                                                                    Contoured design creates a more modern aesthetic and feel.
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                        </tr>
+
+                                                    
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+        
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center">
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                    style="width: 800px; background-color: #BB2542" class="em_wrapper">
+                    <tr>
+                        <td align="center">
+                            <table align="center" width="750" border="0" cellspacing="0" cellpadding="0"
+                                style="width: 750px; background-color: #BB2542" class="em_wrapper">
+                                <tr>
+                                    <td align="center">
+
+                                        <table align="left" width="189" border="0" cellspacing="0" cellpadding="0"
+                                            style="width: 189px; background-color: #BB2542" class="em_wrapper">
+                                            <tr>
+                                                <td align="center" style="padding: 25px 0 0 20px;" >
+                                                    <table align="center" width="189" border="0" cellspacing="0" cellpadding="0"
+                                                        style="width: 189px; background-color: #BB2542">
+                                                        <tr>
+                                                            <td align="left" width="34" valign="middle">
+                                                                <img src="https://myccwd.com/wp-content/uploads/2026/03/bryan_profile_photo.png" width="189" height="249" border="0" style="display: block;"
+                                                                    alt="Bryan profile photo">
+                                                            </td>
+                                                        </tr>
+                                                    
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        
+                                        </table>
+
+                                        <table align="left" width="2" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td>
+                                        
+                                                </td>
+                                            </tr>
+                                        
+                                        </table>
+
+                                        <table align="right" width="500" border="0" cellspacing="0" cellpadding="0"
+                                            style="width: 500px; background-color: #BB2542" class="em_wrapper">
+                                            <tr>
+                                                <td align="center" style="padding: 80px 0 0 0;" class="padding_top25">
+                                                    <table align="left" width="300" border="0" cellspacing="0" cellpadding="0"
+                                                        style="width: 300px; background-color: #BB2542" class="em_wrapper">
+                                                        <tr>
+                                                            <td align="center">
+                                                                <table align="center" width="300" border="0" cellspacing="0" cellpadding="0"
+                                                                    style="width: 300px; background-color: #BB2542">
+                                                                    <tr>
+                                                                        <td align="left" valign="middle" width="215"
+                                                                            style="color: #ffffff; font-family:'inter', sans-serif; font-size: 28px; line-height: 30px; font-weight: 400; font-style: normal;">
+                                                                            Bryan Baeumler
+                                                                        </td>
+                                                                
+                                                                        <td align="left" width="20" valign="middle">
+                                                                
+                                                                        </td>
+                                                                
+                                                                
+                                                                        <td align="right" width="70" valign="middle">
+                                                                            <img src="https://myccwd.com/wp-content/uploads/2026/03/beaumler.png" width="70" height="44" border="0" style="display: block;"
+                                                                                alt="Bryan profile photo">
+                                                                        </td>
+                                                                    </tr>
+                                                                
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                        
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td align="left" class="padding_right20 padding_left20"
+                                                    style="color: #ffffff; font-family:'inter', sans-serif; font-size: 14px; line-height: 26px; font-weight: 400; font-style: normal; padding: 20px 0 20px 0;">
+                                                    HGTV Host and #1 Expert in Quality Construction and Renovations
+                                                    Canadian Choice Windows & Doors are recommended by Bryan Baeumler
+                                                </td>
+                                            </tr>
+                                        
+                                        </table>
+
+                                    </td>
+                                </tr>
+                            
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center">
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0" style="width: 800px; background-color: #ffffff" class="em_wrapper">
+                    <tr>
+                        <td align="center" style="height: 65px;">
+                            &nbsp;
+
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center">
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0" style="width: 800px; background-color: #BB2542" class="em_wrapper">
+                    <tr>
+                        <td align="center" >
+                            
+                            <table align="center" width="760" border="0" cellspacing="0" cellpadding="0" style="width: 760px; background-color: #BB2542" class="em_wrapper">
+                                <tr>
+                                    <td align="center" style="padding: 20px 0 20px 0;" class="M_padding_left_right20"> 
+                                        <table align="center" width="740" border="0" cellspacing="0" cellpadding="0" style="width: 740px; border: 20px solid #ffffff;" class="em_wrapper">
+                                            <tr>
+                                                <td align="center"
+                                                    style="color: #ffffff; font-family:'Inter', sans-serif; font-size: 29px; line-height: 33px; font-weight: 700; padding: 40px 40px;">
+                                                    DraftLOCK™ works quietly in the background built into windows engineered for Canadian climates and ENERGY STAR®
+                                                    performance standards.
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td align="center">
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                    style="width: 800px; background-color: #ffffff" class="em_wrapper">
+                    <tr>
+                        <td align="center" style="padding: 50px 0 40px 0;">
+                            <table align="center" width="247" border="0" cellspacing="0" cellpadding="0" style="width: 247px; background-color: #ffffff" class="em_wrapper">
+                                <tr>
+                                    <td align="center"
+                                        style="color:#FFFFFF; font-family:'Inter', sans-serif; font-size:16px; line-height:60px; font-weight:400; font-style: normal; ">
+                                        <div><!--[if mso]>
+                                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.windowscanada.com/" style="height:51px;v-text-anchor:middle;width:247px;" arcsize="55%" stroke="f" fillcolor="#BB2542">
+                                            <w:anchorlock/>
+                                            <center>
+                                        <![endif]-->
+                                            <a href="https://www.windowscanada.com/"
+                                                style="background-color:#BB2542;border-radius:2px;color:#ffffff;display:inline-block;font-family:'Inter', sans-serif;font-size:16px; font-weight:400; line-height:51px; text-align:center;text-decoration:none;width:247px;-webkit-text-size-adjust:none;">See
+                                                how DraftLOCK works</a>
+                                            <!--[if mso]>
+                                            </center>
+                                        </v:roundrect>
+                                        <![endif]-->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center">
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                    style="width: 800px; background-color: #ffffff" class="em_wrapper">
+                    <tr>
+                        <td align="center" class="em_img">
+                            <img src="https://myccwd.com/wp-content/uploads/2026/03/draftlock_red_logo.png" width="800" height="84" border="0" style="display: block;"
+                                alt="draftlock_red_logo">
+                        </td>                    
+                    </tr>
+
+                    <tr>
+                        <td align="center">
+                            <table table align="center" width="800" border="0" cellspacing="0" cellpadding="0" style="width: 800px; background-color: #ffffff" class="em_wrapper">
+                                <tr>
+
+                                    <td align="left" valign="middle" width="400" class="TdsBlock em_img" >
+                                        <img src="https://myccwd.com/wp-content/uploads/2026/03/draftlock_windows_left.png" width="400" height="308" border="0" style="display: block;"
+                                            alt="draftlock_windows_left"  >
+                                    </td>
+
+                                    <td align="right" valign="middle" width="400" class="TdsBlock em_img" >
+                                        <img src="https://myccwd.com/wp-content/uploads/2026/03/draftlock_windows_right.png" width="400" height="308" border="0" style="display: block;"
+                                            alt="draftlock_windows_rightt">
+                                    </td>  
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center">
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                    style="width: 800px; background-color: #ffffff" class="em_wrapper">
+                    <tr>
+                        <td align="center"><table align="center" width="740" border="0" cellspacing="0" cellpadding="0"
+                                style="width: 740px;" class="em_wrapper">
+                                <tr>
+                                    <td align="center"
+                                        style="color: #000000; font-family:'Inter', sans-serif; font-size: 24px; line-height: 30px; font-weight: 700; padding: 40px 20px;">
+                                        Explore our energy-efficient windows <span style="color: #BB2542; padding: 0 20px 0 0;">&rsaquo;</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td align="center">
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                    style="width: 800px; background-color: #BB2542" class="em_wrapper">
+                    <tr>
+                        <td align="center">
+                            <table align="center" width="590" border="0" cellspacing="0" cellpadding="0" style="width: 590px;"
+                                class="em_wrapper">
+                                <tr>
+                                    <td align="center"
+                                        style="color: #FFFFFF; font-family: 'Bebas Neue', Arial, sans-serif; font-size: 29px; line-height: 30px; font-weight: 700; padding: 40px 20px 0 20px;">
+                                        Questions?
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td align="center"
+                                        style="color: #FFFFFF; font-family: 'Inter', Arial, sans-serif; font-size: 24px; line-height: 28px; font-weight: 400; padding: 20px 20px;">
+                                        Have questions about performance or energy savings? We're happy to walk you through it.
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td align="center">
+                                        <table align="center" width="140" border="0" cellspacing="0" cellpadding="0" style="width: 140px;" class="em_wrapper">
+                                            <tr>
+                                                <td align="center"
+                                                    style="color:#FFFFFF; font-family:'Inter', sans-serif; font-size:16px; line-height:60px; font-weight:400; font-style: normal; padding: 0 0 40px 0; ">
+                                                    <div><!--[if mso]>
+                                                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.windowscanada.com/contact-us.html" style="height:46px;v-text-anchor:middle;width:140px;" arcsize="55%" stroke="f" fillcolor="#FFFFFF">
+                                                        <w:anchorlock/>
+                                                        <center>
+                                                    <![endif]-->
+                                                        <a href="https://www.windowscanada.com/contact-us.html" target="_blank"
+                                                            style="background-color:#FFFFFF;border-radius:2px;color:#BB2542;display:inline-block;font-family:'Inter', sans-serif; font-size:16px;font-weight:bold;line-height:46px;text-align:center;text-decoration:none;width:140px;-webkit-text-size-adjust:none;">Contact
+                                                            Us</a>
+                                                        <!--[if mso]>
+                                                        </center>
+                                                    </v:roundrect>
+                                                    <![endif]-->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+
+
+
+        <tr>
+            <td align="center">
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                    style="width: 800px; background-color: #000000" class="em_wrapper">
+                    <tr>
+                        <td align="center">
+                            <table align="center" width="480" border="0" cellspacing="0" cellpadding="0" style="width: 480px;"
+                                class="em_wrapper">
+                                <tr>
+                                    <td align="center" style="padding: 45px 0 25px 0;">
+                                        <img src="https://myccwd.com/wp-content/uploads/2026/03/footer_logo.png" width="51" height="38" border="0" style="display: block;"
+                                            alt="Footer Logo">
+                                    </td>
+                                    
+                                </tr>
+
+                                <tr>
+                                    <td align="center"
+                                        style="color: #FFFFFF; font-family: 'Inter', Arial, sans-serif; font-size: 20px; line-height: 30px; font-weight: 400;">
+                                        Get in touch!
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td align="center">
+                                        <table align="center" width="226" border="0" cellspacing="0" cellpadding="0" style="width: 226px;" class="em_wrapper">
+                                            <tr>
+                                                <td align="center" style="padding: 20px 0 0 0;">
+                                                    <table align="center" width="226" border="0" cellspacing="0" cellpadding="0" style="width: 226px;">
+                                                        <tr>
+                                                            <td align="left" valign="middle" width="21">
+                                                                <a href="https://www.tiktok.com/@canadianchoice" target="_blank"><img src="https://myccwd.com/wp-content/uploads/2026/03/tiktik.png" width="21" height="21" border="0" style="display: block;" alt="Tiktok"></a>
+                                                    
+                                                            </td>
+
+                                                            <td align="left" valign="middle" width="20">
+                                                                &nbsp;
+                                                            
+                                                            </td>
+
+                                                            <td align="left" valign="middle" width="21">
+                                                                <a href="https://www.facebook.com/CanadianChoiceOfficial/" target="_blank"><img src="https://myccwd.com/wp-content/uploads/2026/03/fb.png" width="21" height="21" border="0" style="display: block;" alt="FB"></a>
+                                                            
+                                                            </td>
+                                                            
+                                                            <td align="left" valign="middle" width="20">
+                                                                &nbsp;
+                                                            
+                                                            </td>
+
+                                                            <td align="left" valign="middle" width="21">
+                                                                <a href="https://ca.pinterest.com/canadianchoicehomeimprovements/" target="_blank"><img src="https://myccwd.com/wp-content/uploads/2026/03/pinterest.png" width="21" height="21" border="0" style="display: block;" alt="Pinterest"></a>
+                                                            
+                                                            </td>
+                                                            
+                                                            <td align="left" valign="middle" width="20">
+                                                                &nbsp;
+                                                            
+                                                            </td>
+
+                                                            <td align="left" valign="middle" width="21">
+                                                                <a href="https://www.youtube.com/@canadianchoicewindowsdoors3224" target="_blank"><img src="https://myccwd.com/wp-content/uploads/2026/03/yt.png" width="21" height="21" border="0" style="display: block;" alt="youtube"></a>
+                                                            
+                                                            </td>
+                                                            
+                                                            <td align="left" valign="middle" width="20">
+                                                                &nbsp;
+                                                            
+                                                            </td>
+
+                                                            <td align="left" valign="middle" width="21">
+                                                                <a href="https://www.linkedin.com/company/canadian-choice-windowsanddoors/" target="_blank"><img src="https://myccwd.com/wp-content/uploads/2026/03/Hover.png" width="21" height="21" border="0" style="display: block;" alt="LinkedIn"></a>
+                                                            
+                                                            </td>
+                                                            
+                                                            <td align="left" valign="middle" width="20">
+                                                                &nbsp;
+                                                            
+                                                            </td>
+
+                                                            <td align="left" valign="middle" width="21">
+                                                                <a href="https://www.instagram.com/canadian_choice" target="_blank"><img src="https://myccwd.com/wp-content/uploads/2026/03/ig.png" width="21" height="21" border="0" style="display: block;" alt="Instagram"></a>
+                                                            
+                                                            </td> 
+                                                        </tr>
+                                                    
+                                                    </table>
+
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td align="center"
+                                        style="color: #FFFFFF; font-family: 'Inter', Arial, sans-serif; font-size: 18px; line-height: 29px; font-weight: 400; padding: 25px 20px 40px 20px;">
+                                        Our mailing address is: <br>
+                                        55 Westcreek Dr, Vaughan, ON L4L 9N6
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+
+
+        <tr>
+            <td align="center">
+                <table align="center" width="800" border="0" cellspacing="0" cellpadding="0"
+                    style="width: 800px; background-color: #ffffff" class="em_wrapper">
+                    <tr>
+                        <td align="center">
+                            <table align="center" width="500" border="0" cellspacing="0" cellpadding="0" style="width: 500px;"
+                                class="em_wrapper">
+                                
+                                <tr>
+                                    <td align="center" class="M_padding_left_right20"
+                                        style="color: #E5E5E5; font-family: 'Inter', Arial, sans-serif; font-size: 12px; line-height: 21px; font-weight: 400; padding: 25px 0 0 0;">
+                                        You are receiving this email based on your previous inquiries to Canadian Choice Windows & Doors. If you would like to
+                                        opt out from receiving further email communications from Canadian Choice Windows & Doors, please <a href="$[LI:UNSUBSCRIBE]$" target="_blank" style="color: #E5E5E5; ">unsubscribe</a> here.
+                                    </td>
+                                </tr>
+        
+        
+                                <tr>
+                                    <td align="center"
+                                        style="color: #000000; font-family: 'Inter', Arial, sans-serif; font-size: 12px; line-height: 21px; font-weight: 400; padding: 25px 20px 40px 20px;">
+                                        &copy; 2026 Canadian Choice Windows & Doors - All rights reserved.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
