@@ -80,7 +80,9 @@ export default function AdminLayout({
         <div className="admin-layout">
             <aside className="admin-sidebar">
                 <div className="sidebar-header">
-                    <span>MailStora Admin</span>
+                    <Link href="/">
+                        <img src="https://i.ibb.co/20rsCF0V/7a8f27f1857c.jpg" alt="MailStora Admin" style={{ maxWidth: '180px', height: 'auto' }} />
+                    </Link>
                 </div>
 
                 <nav className="sidebar-nav">

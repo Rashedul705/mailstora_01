@@ -392,7 +392,7 @@ export default function QuotePage() {
                     <div className="quote-sidebar">
                         <div className="sidebar-sticky">
                             <div className="sidebar-card dark">
-                                <Image src="/logo-white-v2.svg" alt="MailStora Logo" width={160} height={36} style={{ objectFit: 'contain', marginBottom: '1.5rem' }} />
+                                <Image src="https://i.ibb.co/WpyvpjQ3/7753c6e6d5e2.png" alt="MailStora Logo" width={320} height={70} style={{ objectFit: 'contain', marginBottom: '1.5rem', marginLeft: '-10px' }} />
                                 <h3>Why Choose MailStora?</h3>
                                 
                                 <ul className="why-list">

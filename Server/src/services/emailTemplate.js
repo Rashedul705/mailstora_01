@@ -19,25 +19,11 @@ const YEAR         = new Date().getFullYear();
  * @param {'light'|'dark'} theme - 'dark' for dark backgrounds (navy header/footer)
  */
 function logoHtml(theme = 'light') {
-    const textColor  = theme === 'dark' ? '#ffffff' : BRAND_COLOR;
-    // Envelope box: white bg on dark, brand-color bg on light
-    const boxBg      = theme === 'dark' ? '#ffffff' : '#ffffff';
-    const boxBorder  = theme === 'dark' ? '#ffffff' : BRAND_COLOR;
+    const LOGO_URL = 'https://i.ibb.co/Wv3XJf8p/2cdac023da4e.jpg';
     return `<table role="presentation" border="0" cellpadding="0" cellspacing="0">
         <tr>
-            <td valign="middle" style="padding-right:10px;">
-                <!-- Envelope icon box -->
-                <table role="presentation" border="0" cellpadding="0" cellspacing="0"
-                       style="border:3px solid ${BRAND_COLOR};border-radius:5px;width:42px;height:30px;background:${boxBg};">
-                    <tr>
-                        <td align="center" valign="middle">
-                            <span style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;color:${BRAND_COLOR};line-height:1;">M</span><span style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;color:${ACCENT_COLOR};line-height:1;">&#8599;</span>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-            <td valign="middle">
-                <span style="font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:bold;color:${ACCENT_COLOR};letter-spacing:-0.5px;line-height:1;">Mail</span><span style="font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:bold;color:${textColor};letter-spacing:-0.5px;line-height:1;">stora</span>
+            <td align="center" valign="middle">
+                <img src="${LOGO_URL}" alt="MailStora Logo" width="260" style="display:block;border:0;outline:none;text-decoration:none;width:260px;height:auto;" />
             </td>
         </tr>
     </table>`;

@@ -13,8 +13,8 @@ export default function Navbar() {
             <div className="container navbar-container">
                 {/* Multi-color Logo */}
                 <div className="navbar-brand">
-                    <Link href="/">
-                        <Image src="/logo-color.svg" alt="MailStora Logo" width={180} height={40} style={{ objectFit: 'contain' }} priority />
+                    <Link href="/" style={{ marginLeft: '-15px' }}>
+                        <Image src="https://i.ibb.co/WpyvpjQ3/7753c6e6d5e2.png" alt="MailStora Logo" width={380} height={85} style={{ objectFit: 'contain' }} priority />
                     </Link>
                 </div>
 

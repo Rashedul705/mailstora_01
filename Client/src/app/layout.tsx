@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "MailStora - Professional HTML Email Templates & Signatures",
   description: "Custom HTML Email Templates & Signatures. Responsive, tested, and compatible with Outlook, Gmail, and major email platforms.",
   icons: {
-    icon: "/logo-icon.svg",
+    icon: "https://i.ibb.co/WpyvpjQ3/7753c6e6d5e2.png",
   },
 };
 
