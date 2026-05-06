@@ -84,6 +84,14 @@ export default function AdminLayout({
                 </div>
 
                 <nav className="sidebar-nav">
+                    <div className="sidebar-section">BLOG</div>
+                    <Link href="/admin/blog" className={`sidebar-link ${pathname === '/admin/blog' ? 'active' : ''}`}><span>All Posts</span></Link>
+                    <Link href="/admin/blog/new" className={`sidebar-link ${pathname === '/admin/blog/new' ? 'active' : ''}`}><span>New Post</span></Link>
+                    <Link href="/admin/blog/categories" className={`sidebar-link ${pathname.startsWith('/admin/blog/categories') ? 'active' : ''}`}><span>Categories</span></Link>
+                    <Link href="/admin/blog/tags" className={`sidebar-link ${pathname.startsWith('/admin/blog/tags') ? 'active' : ''}`}><span>Tags</span></Link>
+                    <Link href="/admin/blog/media" className={`sidebar-link ${pathname.startsWith('/admin/blog/media') ? 'active' : ''}`}><span>Media</span></Link>
+                    
+                    <div className="sidebar-section" style={{ marginTop: '1.5rem' }}>BUSINESS</div>
                     <Link href="/admin/dashboard" className={`sidebar-link ${pathname === '/admin/dashboard' ? 'active' : ''}`}><span>Dashboard</span></Link>
                     <Link href="/admin/customers" className={`sidebar-link ${pathname.startsWith('/admin/customers') ? 'active' : ''}`}><span>Customers</span></Link>
                     

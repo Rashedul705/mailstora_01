@@ -113,5 +113,7 @@ router.use('/webhooks', require('./webhooks'));
 router.use('/messages', require('./messageRoutes'));
 router.use('/partners', require('./partnerRoutes'));
 router.use('/file-manager', require('./fileManagerRoutes'));
+router.use('/blog', require('./blogRoutes'));
+router.use('/admin/blog', require('./adminBlogRoutes'));
 
 module.exports = router;
