@@ -44,6 +44,7 @@ export default function TipTapEditor({ content, onChange, onWordCountChange, onC
             CharacterCount,
         ],
         content: content,
+        immediatelyRender: false,
         onUpdate: ({ editor }) => {
             onChange(editor.getHTML());
             if (onWordCountChange) onWordCountChange(editor.storage.characterCount.words());

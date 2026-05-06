@@ -39,6 +39,5 @@ const bookingSchema = new mongoose.Schema({
 
 // Index for quickly looking up overlapping slots
 bookingSchema.index({ utcDateTime: 1 });
-bookingSchema.index({ bookingId: 1 });
 
 module.exports = mongoose.model('Booking', bookingSchema);

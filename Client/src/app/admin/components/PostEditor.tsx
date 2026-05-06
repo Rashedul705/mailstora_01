@@ -63,7 +63,7 @@ export default function PostEditor({ initialData = null }: { initialData?: any }
                 method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(postData),
-                credentials: 'omit'
+                credentials: 'include'
             });
 
             if (res.ok) {
@@ -95,7 +95,7 @@ export default function PostEditor({ initialData = null }: { initialData?: any }
             const res = await fetch(`${API_BASE}/api/admin/blog/upload-image`, {
                 method: 'POST',
                 body: formData,
-                credentials: 'omit'
+                credentials: 'include'
             });
             if (res.ok) {
                 const data = await res.json();

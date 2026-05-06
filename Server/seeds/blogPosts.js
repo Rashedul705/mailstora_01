@@ -1,13 +1,6 @@
 const mongoose = require('mongoose');
-require('dotenv').config({ path: './.env' });
+require('dotenv').config();
 const Post = require('../src/models/Post');
-
-const generateSlug = (title) =>
-  title.toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim();
 
 const dummyPosts = [
   {
@@ -15,41 +8,34 @@ const dummyPosts = [
     category: "Email Marketing",
     tags: ["email", "open rates", "deliverability", "segmentation"],
     excerpt: "Most businesses make the same email mistakes over and over. Here's how to identify and fix them before your next campaign goes out.",
-    content: `<p>Email marketing delivers <strong>$36 for every $1 spent</strong> — the highest ROI of any marketing channel. But most businesses are unknowingly sabotaging their own results with a handful of very fixable mistakes.</p>
-    <blockquote class="tip-box">The biggest email mistakes are both technical and strategic. The good news? All of them are fixable in under an hour.</blockquote>
-    <h2>1. Using a No-Reply Email Address</h2>
-    <p>Nothing kills engagement faster than sending from "noreply@yourcompany.com". It signals to subscribers that their reply doesn't matter — and reply rate is one of the strongest deliverability signals for inbox placement.</p>
+    content: `<p>Most businesses make the same email mistakes over and over. Here's how to identify and fix them before your next campaign goes out.</p>
+    <h2>1. Not Segmenting Your List</h2>
+    <p>Sending the same email to everyone is a recipe for low engagement. Segment by interest, behavior, or demographics.</p>
     <h2>2. Ignoring Mobile Optimization</h2>
-    <p>Over 60% of emails are opened on mobile devices. If your template breaks on a phone screen, you're losing more than half your audience before they read a single word.</p>
-    <ul>
-      <li>Use single-column layouts for mobile screens</li>
-      <li>Keep subject lines under 40 characters</li>
-      <li>Use large tap-friendly buttons — minimum 44px height</li>
-      <li>Always test on real devices before sending</li>
-    </ul>
-    <h2>3. Sending Without Segmentation</h2>
-    <p>Blasting the same email to your entire list is a 2015 strategy. Modern email marketing means sending the right message to the right person at the right time.</p>
-    <p>Other mistakes include bad subject lines, wrong send frequency, dirty email lists, no personalization, skipping A/B testing, weak CTA, and not tracking metrics.</p>`,
+    <p>Over 50% of emails are opened on mobile. If your template isn't responsive, you're losing half your audience.</p>
+    <h2>3. Using Generic Subject Lines</h2>
+    <p>Your subject line is the gatekeeper. Make it personal, urgent, or curious to drive clicks.</p>
+    <blockquote class="tip-box">Tip: Always A/B test your subject lines to see what resonates best with your specific audience.</blockquote>
+    <h2>4. Buying Email Lists</h2>
+    <p>This is the fastest way to get your domain blacklisted. Build your list organically for quality engagement.</p>`,
+    coverImage: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1200&auto=format&fit=crop",
     status: "published",
-    publishedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
-    author: { name: "Rashedul Islam" },
-    metaTitle: "10 Email Marketing Mistakes That Are Killing Your Open Rates",
-    metaDescription: "Most businesses make the same email mistakes over and over. Here's how to identify and fix them before your next campaign goes out."
+    publishedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+    author: { name: "Rashedul Islam" }
   },
   {
     title: "How to Build a Marketing Funnel That Actually Converts in 2026",
     category: "Digital Marketing",
     tags: ["funnel", "conversion", "marketing strategy", "leads"],
     excerpt: "Most marketing funnels leak at every stage. Here's how to build one that actually moves people from stranger to paying customer.",
-    content: `<p>A marketing funnel isn't just a buzzword; it's the customer journey mapped out. But most funnels have massive leaks.</p>
-    <h2>Awareness Stage</h2>
-    <p>This is where people discover you. Content marketing, SEO, and social media are key here. But don't just ask for the sale immediately.</p>
-    <h2>Interest Stage</h2>
-    <p>Once they know you, you need their email. Offer a lead magnet that solves a specific problem for them. This is where your email marketing kicks in.</p>
-    <h2>Decision Stage</h2>
-    <p>Now they are comparing you to competitors. Send case studies, testimonials, and detailed product comparisons via email.</p>
-    <h2>Action Stage</h2>
-    <p>The final push. Offer a time-sensitive discount or a strong call to action to convert them into paying customers.</p>`,
+    content: `<p>Most marketing funnels leak at every stage. Here's how to build one that actually moves people from stranger to paying customer.</p>
+    <h2>The Awareness Stage</h2>
+    <p>Use high-value content to attract the right people to your site.</p>
+    <h2>The Consideration Stage</h2>
+    <p>Nurture your leads with targeted emails and social proof.</p>
+    <h2>The Decision Stage</h2>
+    <p>Make a compelling offer that's hard to refuse.</p>`,
+    coverImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
     status: "published",
     publishedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
     author: { name: "Rashedul Islam" }
@@ -59,12 +45,7 @@ const dummyPosts = [
     category: "Business Growth",
     tags: ["email list", "small business", "social media", "audience"],
     excerpt: "Social media algorithms change overnight. Your email list is an asset you actually own — here's why that matters more than ever in 2026.",
-    content: `<p>Relying solely on social media is like building your house on rented land. If the algorithm changes, your reach disappears.</p>
-    <h2>Ownership is Key</h2>
-    <p>You don't own your Instagram followers. You do own your email list. It's an asset that you can take with you, regardless of platform changes.</p>
-    <h2>Direct Access</h2>
-    <p>When you send an email, it lands directly in their inbox. There's no algorithm deciding if they should see it or not.</p>
-    <h2>Higher Conversion Rates</h2>
+    content: `<p>Social media algorithms change overnight. Your email list is an asset you actually own — here's why that matters more than ever in 2026.</p>
     <p>Email marketing consistently outperforms social media when it comes to actual sales and conversions.</p>
     <h2>How to Start</h2>
     <ul>
@@ -72,6 +53,7 @@ const dummyPosts = [
       <li>Offer a valuable freebie (lead magnet).</li>
       <li>Promote it everywhere.</li>
     </ul>`,
+    coverImage: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
     status: "published",
     publishedAt: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000),
     author: { name: "Rashedul Islam" }
@@ -90,6 +72,7 @@ const dummyPosts = [
     <p>Words like "Exclusive", "Secret", "Limited", and "Now" can significantly boost open rates.</p>
     <h2>Emoji Usage</h2>
     <p>Use emojis sparingly to stand out, but don't overdo it. One well-placed emoji can increase opens by 56%.</p>`,
+    coverImage: "https://images.unsplash.com/photo-1557200134-90327ee9fafa?q=80&w=1200&auto=format&fit=crop",
     status: "published",
     publishedAt: new Date(Date.now() - 16 * 24 * 60 * 60 * 1000),
     author: { name: "Rashedul Islam" }
@@ -107,6 +90,7 @@ const dummyPosts = [
     <h2>HubSpot</h2>
     <p>More than just an ESP, it's a full CRM. If you need sales and marketing alignment, this is the way to go. However, it's the most expensive option.</p>
     <p>Conclusion: Choose Mailchimp if you're just starting, Klaviyo for e-commerce, and HubSpot for B2B/complex sales.</p>`,
+    coverImage: "https://images.unsplash.com/photo-1454165833767-12d9b236034e?q=80&w=1200&auto=format&fit=crop",
     status: "published",
     publishedAt: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000),
     author: { name: "Rashedul Islam" }
@@ -116,13 +100,14 @@ const dummyPosts = [
     category: "Case Study",
     tags: ["case study", "SaaS", "open rate", "HTML email", "results"],
     excerpt: "The industry average open rate is 21%. Here's exactly how we helped one SaaS company more than double that with a redesigned HTML email template.",
-    content: `<p>We recently worked with a SaaS company struggling with low engagement.</p>
-    <h2>The Problem</h2>
-    <p>Their emails were text-heavy, not mobile-responsive, and lacked clear calls to action. Their open rate was stuck at 18%.</p>
+    content: `<p>The industry average open rate is 21%. Here's exactly how we helped one SaaS company more than double that with a redesigned HTML email template.</p>
+    <h2>The Challenge</h2>
+    <p>A SaaS brand was struggling with a 12% open rate. Their emails were landing in the promo tab or being ignored.</p>
     <h2>The Solution</h2>
-    <p>We completely redesigned their templates. We used a clean, single-column layout, large tap-friendly buttons, and optimized their subject lines using A/B testing.</p>
-    <h2>The Results</h2>
-    <p>Within two months, their open rate skyrocketed to 42%, and their click-through rate tripled. The key takeaway? Design and deliverability go hand-in-hand.</p>`,
+    <p>We implemented a clean, professional HTML template and focused on personalization.</p>
+    <h2>The Result</h2>
+    <p>Within 30 days, their open rate jumped to 42%, and click-through rates tripled.</p>`,
+    coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
     status: "published",
     publishedAt: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000),
     author: { name: "Rashedul Islam" }
@@ -131,23 +116,40 @@ const dummyPosts = [
 
 const seedDB = async () => {
   try {
-    const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mailstora'; // Replace with fallback or ensure .env is read
-    await mongoose.connect(mongoURI);
-    console.log('MongoDB Connected...');
-
-    await Post.deleteMany({});
-    console.log('Existing posts removed.');
-
-    for (const post of dummyPosts) {
-      post.slug = generateSlug(post.title);
-      const newPost = new Post(post);
-      await newPost.save();
+    const mongoURI = process.env.MONGODB_URI;
+    if (!mongoURI) {
+      throw new Error('MONGODB_URI is not defined in .env');
     }
+    await mongoose.connect(mongoURI);
+    console.log("MongoDB Connected...");
+    
+    await Post.deleteMany({});
+    console.log("Existing posts removed.");
 
-    console.log('Dummy posts seeded successfully!');
+    // Function to generate slug from title
+    const generateSlug = (title) => {
+      return title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+    };
+
+    const postsToSeed = dummyPosts.map(post => ({
+      ...post,
+      slug: generateSlug(post.title),
+      metaTitle: post.title,
+      metaDescription: post.excerpt,
+      readingTime: Math.ceil(post.content.split(' ').length / 200) || 1,
+      views: 0
+    }));
+
+    await Post.insertMany(postsToSeed);
+    console.log("Dummy posts seeded successfully!");
     process.exit();
   } catch (error) {
-    console.error('Error seeding data:', error);
+    console.error("Error seeding DB:", error);
     process.exit(1);
   }
 };
