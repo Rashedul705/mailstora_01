@@ -95,7 +95,24 @@
 @media (max-width: 768px) {
     .footer-content {
         flex-direction: column;
+        align-items: center;
+        text-align: center;
         gap: 3rem;
+    }
+
+    .footer-links-group {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-list {
+        align-items: center;
+    }
+
+    .social-icons {
+        justify-content: center;
     }
 }
 
