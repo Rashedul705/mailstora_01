@@ -1,0 +1,257 @@
+.portfolio-page-wrapper {
+    background: #f4f5f9;
+    min-height: 100vh;
+}
+
+.portfolio-hero {
+    background: linear-gradient(150deg, #1e1a5e, #2d287b);
+    color: #fff;
+    padding: 6rem 0 4rem;
+}
+
+.hero-pill {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero-stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-stat-item .stat-val {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #f97316;
+}
+
+.hero-stat-item .stat-lbl {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.portfolio-main {
+    padding: 4rem 0;
+}
+
+.filter-bar {
+    position: sticky;
+    top: 80px;
+    z-index: 10;
+    background: #fff;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    margin-bottom: 3rem;
+}
+
+.tabs {
+    display: flex;
+    gap: 2rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 0.5rem 0;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+}
+
+.tab-btn.active {
+    color: #f97316;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #f97316;
+    border-radius: 3px 3px 0 0;
+}
+
+.tab-btn .count {
+    background: #f1f5f9;
+    padding: 0.1rem 0.5rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+}
+
+.tab-btn.active .count {
+    background: #fff7ed;
+    color: #f97316;
+}
+
+.toolbar {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0.6rem 1rem 0.6rem 2.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #2d287b;
+}
+
+.sort-dropdown {
+    padding: 0.6rem 2rem 0.6rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+    outline: none;
+}
+
+.view-toggle {
+    display: flex;
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 0.25rem;
+}
+
+.view-btn {
+    padding: 0.4rem 1rem;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.view-btn.active {
+    background: #fff;
+    color: #0f172a;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.portfolio-items.list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.portfolio-items.list .portfolio-card {
+    display: flex;
+    flex-direction: row;
+}
+
+.portfolio-items.list .portfolio-preview {
+    width: 300px;
+    height: 100%;
+    min-height: 200px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 4rem;
+}
+
+.page-numbers {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.page-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #475569;
+    transition: all 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+    border-color: #f97316;
+    color: #f97316;
+}
+
+.page-btn.active {
+    background: #f97316;
+    color: #fff;
+    border-color: #f97316;
+}
+
+.nav-btn {
+    width: auto;
+    padding: 0 1rem;
+    color: #f97316;
+    border-color: #f97316;
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #e2e8f0;
+    color: #94a3b8;
+}
+
+.no-results {
+    text-align: center;
+    padding: 4rem;
+    color: #64748b;
+    font-size: 1.1rem;
+    grid-column: 1 / -1;
+}

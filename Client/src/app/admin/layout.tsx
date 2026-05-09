@@ -86,7 +86,12 @@ export default function AdminLayout({
                 </div>
 
                 <nav className="sidebar-nav">
-                    <div className="sidebar-section">BLOG</div>
+                    <div className="sidebar-section">PORTFOLIO</div>
+                    <Link href="/admin/portfolio" className={`sidebar-link ${pathname === '/admin/portfolio' ? 'active' : ''}`}><span>All Items</span></Link>
+                    <Link href="/admin/portfolio/new" className={`sidebar-link ${pathname === '/admin/portfolio/new' ? 'active' : ''}`}><span>Add New</span></Link>
+                    <Link href="/admin/portfolio/categories" className={`sidebar-link ${pathname.startsWith('/admin/portfolio/categories') ? 'active' : ''}`}><span>Categories</span></Link>
+                    
+                    <div className="sidebar-section" style={{ marginTop: '1.5rem' }}>BLOG</div>
                     <Link href="/admin/blog" className={`sidebar-link ${pathname === '/admin/blog' ? 'active' : ''}`}><span>All Posts</span></Link>
                     <Link href="/admin/blog/new" className={`sidebar-link ${pathname === '/admin/blog/new' ? 'active' : ''}`}><span>New Post</span></Link>
                     <Link href="/admin/blog/categories" className={`sidebar-link ${pathname.startsWith('/admin/blog/categories') ? 'active' : ''}`}><span>Categories</span></Link>
@@ -108,7 +113,6 @@ export default function AdminLayout({
                     </Link>
                     
                     <Link href="/admin/orders" className={`sidebar-link ${pathname.startsWith('/admin/orders') ? 'active' : ''}`}><span>Orders</span></Link>
-                    <Link href="/admin/portfolio" className={`sidebar-link ${pathname.startsWith('/admin/portfolio') ? 'active' : ''}`}><span>Portfolio</span></Link>
                     <Link href="/admin/pricing" className={`sidebar-link ${pathname.startsWith('/admin/pricing') ? 'active' : ''}`}><span>Pricing</span></Link>
                     <Link href="/admin/testimonials" className={`sidebar-link ${pathname.startsWith('/admin/testimonials') ? 'active' : ''}`}><span>Testimonials</span></Link>
                     <Link href="/admin/faq" className={`sidebar-link ${pathname.startsWith('/admin/faq') ? 'active' : ''}`}><span>FAQ</span></Link>
