@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import "./Portfolio.css";
 
-export default function Portfolio() {
+export default function Portfolio({ data }: { data?: any }) {
     const [items, setItems] = useState<any[]>([]);
     const [stats, setStats] = useState({ totalTemplates: 400 });
     const [activeFilter, setActiveFilter] = useState('All Work');

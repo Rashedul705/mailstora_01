@@ -84,7 +84,7 @@ export default function PortfolioEditor({ initialData = null }: { initialData?: 
 
     const handleArrayUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: 'desktopImages' | 'mobileImages') => {
         if (!e.target.files) return;
-        const newUrls = [];
+        const newUrls: string[] = [];
         for (let i = 0; i < e.target.files.length; i++) {
             const url = await handleImageUpload(e.target.files[i]);
             if (url) newUrls.push(url);
