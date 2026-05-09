@@ -9,7 +9,7 @@ export default function Footer() {
                 <div className="footer-content">
                     <div className="footer-brand">
                         <Link href="/" className="footer-logo-link">
-                            <Image src="https://i.ibb.co/WpyvpjQ3/7753c6e6d5e2.png" alt="MailStora Logo" width={380} height={85} style={{ objectFit: 'contain' }} />
+                            <Image src="https://i.ibb.co/ZRyRSNND/e37672fd303e.png" alt="MailStora Logo" width={220} height={45} style={{ objectFit: 'contain' }} />
                         </Link>
                         <p>Professional HTML email <br /> templates & signatures.</p>
                     </div>

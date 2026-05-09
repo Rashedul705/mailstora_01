@@ -14,7 +14,7 @@ export default function Navbar() {
                 {/* Multi-color Logo */}
                 <div className="navbar-brand">
                     <Link href="/" style={{ marginLeft: '-15px' }}>
-                        <Image src="https://i.ibb.co/WpyvpjQ3/7753c6e6d5e2.png" alt="MailStora Logo" width={380} height={85} style={{ objectFit: 'contain' }} priority />
+                        <Image src="https://i.ibb.co/ZRyRSNND/e37672fd303e.png" alt="MailStora Logo" width={220} height={45} style={{ objectFit: 'contain' }} priority />
                     </Link>
                 </div>
 

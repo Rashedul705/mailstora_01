@@ -19,7 +19,7 @@ const YEAR         = new Date().getFullYear();
  * @param {'light'|'dark'} theme - 'dark' for dark backgrounds (navy header/footer)
  */
 function logoHtml(theme = 'light') {
-    const LOGO_URL = 'https://i.ibb.co/Wv3XJf8p/2cdac023da4e.jpg';
+    const LOGO_URL = 'https://i.ibb.co/ZRyRSNND/e37672fd303e.png';
     return `<table role="presentation" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td align="center" valign="middle">
