@@ -51,7 +51,7 @@ export default function Portfolio() {
         <section className="portfolio-section" id="portfolio">
             <div className="container">
                 <div className="portfolio-header text-center">
-                    <div className="section-pill">✦ Our Portfolio</div>
+                    <div className="section-pill">✦ OUR PORTFOLIO</div>
                     <h2 className="section-title">
                         Recent Work That <span className="text-orange">Delivers Results</span>
                     </h2>
@@ -62,19 +62,19 @@ export default function Portfolio() {
 
                 <div className="stats-strip">
                     <div className="stat-item">
-                        <span className="stat-value">{stats.totalTemplates}+</span>
+                        <span className="stat-value text-orange">{stats.totalTemplates}+</span>
                         <span className="stat-label">Templates Built</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-value">180+</span>
+                        <span className="stat-value text-navy">180+</span>
                         <span className="stat-label">Happy Clients</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-value">30+</span>
+                        <span className="stat-value text-orange">30+</span>
                         <span className="stat-label">ESPs Supported</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-value">100%</span>
+                        <span className="stat-value text-navy">100%</span>
                         <span className="stat-label">Satisfaction</span>
                     </div>
                 </div>
@@ -128,15 +128,19 @@ export default function Portfolio() {
                             
                             <div className="portfolio-info">
                                 <div className="card-meta">
-                                    <span className="card-type">{item.type}</span>
+                                    <span className={`card-type-badge badge-${(item.type || 'Template').replace(' ', '-').toLowerCase()}`}>
+                                        {(item.type || 'Template').toUpperCase()}
+                                    </span>
                                     <span className="card-esp">{item.esp}</span>
                                 </div>
                                 <h3 className="card-title">{item.title}</h3>
-                                <p className="card-client">👤 {item.clientName}</p>
-                                <div className="card-tags">
-                                    {(item.compatibility || []).slice(0,3).map((tag: string, i: number) => (
-                                        <span key={i} className="compatibility-tag">{tag}</span>
-                                    ))}
+                                <div className="card-bottom-meta">
+                                    <span className="card-client">👤 {item.clientName}</span>
+                                    <div className="card-compatibility">
+                                        {(item.compatibility || []).slice(0,3).map((tag: string, i: number) => (
+                                            <span key={i} className="compatibility-tag">{tag}</span>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>

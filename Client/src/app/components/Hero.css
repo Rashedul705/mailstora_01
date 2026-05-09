@@ -151,7 +151,7 @@
     width: 100%;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 640px) {
     .hero-buttons {
         flex-direction: row;
         flex-wrap: wrap;

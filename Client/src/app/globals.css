@@ -142,9 +142,13 @@ button {
 
 @media (max-width: 768px) {
   .floating-wa-btn {
-    bottom: 20px;
-    right: 20px;
-    width: 52px;
-    height: 52px;
+    bottom: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+  }
+  .floating-wa-btn svg {
+    width: 24px;
+    height: 24px;
   }
 }

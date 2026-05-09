@@ -1,6 +1,31 @@
 .portfolio-section {
-    padding: 5rem 0;
+    padding: 5rem 0 8rem;
     background: #f8fafc;
+}
+
+.portfolio-header {
+    margin-bottom: 3.5rem;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.8rem;
+    }
+}
+
+.section-subtitle {
+    color: #64748b;
+    font-size: 1.05rem;
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.6;
 }
 
 .section-pill {
@@ -21,25 +46,69 @@
 
 .stats-strip {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     background: #fff;
-    padding: 2rem;
+    padding: 2.5rem 0;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-    margin: 2rem auto 3rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    margin: 3rem auto 3rem; /* place normally below header */
     max-width: 900px;
+    position: relative;
+    z-index: 10;
+    flex-wrap: wrap;
+    gap: 1.5rem 0;
+}
+
+@media (max-width: 768px) {
+    .stats-strip {
+        padding: 2rem 0;
+    }
 }
 
 .stat-item {
     text-align: center;
+    flex: 1 1 40%;
+    border-right: 1px solid #f1f5f9;
+}
+
+@media (min-width: 640px) {
+    .stat-item {
+        flex: 1;
+    }
+}
+
+.stat-item:nth-child(even) {
+    border-right: none;
+}
+
+@media (min-width: 640px) {
+    .stat-item:nth-child(even) {
+        border-right: 1px solid #f1f5f9;
+    }
+    .stat-item:last-child {
+        border-right: none;
+    }
 }
 
 .stat-value {
     display: block;
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 800;
+    margin-bottom: 0.3rem;
+}
+
+@media (max-width: 768px) {
+    .stat-value {
+        font-size: 1.8rem;
+    }
+}
+
+.stat-value.text-orange {
     color: #f97316;
-    margin-bottom: 0.2rem;
+}
+
+.stat-value.text-navy {
+    color: #1e1b4b;
 }
 
 .stat-label {
@@ -213,40 +282,53 @@
 .card-meta {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.8rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
-.card-type {
-    color: #2d287b;
-    background: #eef2ff;
-    padding: 0.2rem 0.6rem;
+.card-type-badge {
+    padding: 0.25rem 0.6rem;
     border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
 }
+
+.badge-email-template { background: #f3e8ff; color: #7e22ce; }
+.badge-template { background: #f3e8ff; color: #7e22ce; }
+.badge-case-study { background: #dcfce7; color: #15803d; }
+.badge-email-signature { background: #ffedd5; color: #c2410c; }
+.badge-signature { background: #ffedd5; color: #c2410c; }
 
 .card-esp {
     color: #64748b;
+    font-weight: 500;
+    font-size: 0.8rem;
 }
 
 .card-title {
     font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
     color: #0f172a;
+    margin-bottom: 1.2rem;
+    line-height: 1.4;
+}
+
+.card-bottom-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .card-client {
     font-size: 0.85rem;
     color: #64748b;
-    margin-bottom: 1rem;
+    font-weight: 500;
 }
 
-.card-tags {
+.card-compatibility {
     display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    gap: 0.4rem;
 }
 
 .compatibility-tag {
@@ -272,6 +354,7 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .btn-navy {
