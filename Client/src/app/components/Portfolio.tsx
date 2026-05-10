@@ -11,7 +11,7 @@ export default function Portfolio({ data }: { data?: any }) {
 
     useEffect(() => {
         // Fetch featured items
-        fetch('http://localhost:5000/api/portfolio/featured')
+        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/portfolio/featured`)
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data)) setItems(data);
@@ -19,7 +19,7 @@ export default function Portfolio({ data }: { data?: any }) {
             .catch(err => console.error(err));
 
         // Fetch stats
-        fetch('http://localhost:5000/api/portfolio/stats')
+        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/portfolio/stats`)
             .then(res => res.json())
             .then(data => {
                 if (data.totalTemplates) setStats(data);
@@ -66,7 +66,7 @@ export default function Portfolio({ data }: { data?: any }) {
                         <span className="stat-label">Templates Built</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-value text-navy">180+</span>
+                        <span className="stat-value text-orange">180+</span>
                         <span className="stat-label">Happy Clients</span>
                     </div>
                     <div className="stat-item">
@@ -74,7 +74,7 @@ export default function Portfolio({ data }: { data?: any }) {
                         <span className="stat-label">ESPs Supported</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-value text-navy">100%</span>
+                        <span className="stat-value text-orange">100%</span>
                         <span className="stat-label">Satisfaction</span>
                     </div>
                 </div>

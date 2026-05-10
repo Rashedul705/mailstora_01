@@ -121,8 +121,7 @@ export default function Pricing({ data }: { data?: any }) {
                                     <Link 
                                         href={ctaLink} 
                                         className={`btn full-width ${
-                                            pkg.ctaStyle === 'primary' ? 'btn-primary' : 
-                                            pkg.ctaStyle === 'outline' ? 'btn-outline-orange' : 'btn-navy-gradient'
+                                            pkg.ctaStyle === 'outline' ? 'btn-outline-orange' : 'btn-primary'
                                         }`}
                                     >
                                         {pkg.ctaText}

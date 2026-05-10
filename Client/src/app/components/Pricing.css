@@ -8,10 +8,31 @@
     margin-bottom: 2rem;
 }
 
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.8rem;
+    }
+}
+
+.section-subtitle {
+    color: #64748b;
+    font-size: 1.05rem;
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
 .pricing-label-pill {
     display: inline-block;
     background-color: #eef2ff;
-    color: var(--navy);
+    color: #2d287b;
     padding: 6px 16px;
     border-radius: 999px;
     font-size: 14px;
@@ -131,7 +152,7 @@
 .package-name {
     font-size: 18px;
     font-weight: 800;
-    color: var(--navy);
+    color: #0f172a;
     margin-bottom: 8px;
 }
 
@@ -151,7 +172,7 @@
 .price-amount {
     font-size: 36px;
     font-weight: 800;
-    color: var(--navy);
+    color: #0f172a;
 }
 
 .price-period {
@@ -192,7 +213,7 @@
 }
 
 .package-features li.included {
-    color: var(--navy);
+    color: #475569;
 }
 
 .package-features li.excluded {
@@ -323,6 +344,6 @@
 
 .toggle-btn.active {
     color: #FFFFFF;
-    background-color: var(--navy);
+    background-color: #2d287b;
     box-shadow: 0 4px 10px rgba(45, 40, 123, 0.2);
 }

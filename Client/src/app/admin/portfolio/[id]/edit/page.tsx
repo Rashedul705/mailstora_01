@@ -8,7 +8,7 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ id: st
 
     useEffect(() => {
         const fetchItem = async () => {
-            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+            const API_BASE = process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}`;
             const res = await fetch(`${API_BASE}/api/admin/portfolio/${id}`);
             if (res.ok) {
                 const data = await res.json();

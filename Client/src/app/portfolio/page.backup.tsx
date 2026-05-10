@@ -18,7 +18,7 @@ export default function PortfolioPage() {
     const limit = 9;
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/portfolio/counts')
+        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/portfolio/counts`)
             .then(res => res.json())
             .then(data => setStats(data))
             .catch(err => console.error(err));
@@ -26,7 +26,7 @@ export default function PortfolioPage() {
 
     useEffect(() => {
         const fetchItems = async () => {
-            let url = `http://localhost:5000/api/portfolio?page=${page}&limit=${limit}&sort=${sort}`;
+            let url = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/portfolio?page=${page}&limit=${limit}&sort=${sort}`;
             if (activeTab) url += `&type=${activeTab}`;
             if (searchQuery) url += `&q=${searchQuery}`;
 

@@ -14,13 +14,13 @@ export default function AdminPortfolioList() {
 
     const fetchItems = async () => {
         setIsLoading(true);
-        let url = `http://localhost:5000/api/admin/portfolio?`;
+        let url = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/admin/portfolio?`;
         if (filterType !== 'All Types') url += `type=${filterType}&`;
         if (filterStatus !== 'All Status') url += `status=${filterStatus.toLowerCase()}&`;
         if (searchQuery) url += `q=${searchQuery}&`;
 
         try {
-            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+            const API_BASE = process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}`;
             const res = await fetch(`${API_BASE}/api/admin/portfolio?${url.split('?')[1]}`, { credentials: 'omit' }); // Omit or include based on auth
             if (res.ok) {
                 const data = await res.json();
@@ -34,7 +34,7 @@ export default function AdminPortfolioList() {
 
     const fetchStats = async () => {
         try {
-            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+            const API_BASE = process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}`;
             const res = await fetch(`${API_BASE}/api/admin/portfolio/stats`);
             if (res.ok) {
                 const data = await res.json();
@@ -57,7 +57,7 @@ export default function AdminPortfolioList() {
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure you want to delete this item?')) return;
         try {
-            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+            const API_BASE = process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}`;
             const res = await fetch(`${API_BASE}/api/admin/portfolio/${id}`, {
                 method: 'DELETE'
             });

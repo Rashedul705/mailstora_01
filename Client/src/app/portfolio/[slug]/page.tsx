@@ -15,7 +15,7 @@ export default function SinglePortfolioPage({ params }: { params: Promise<{ slug
     const [relatedItems, setRelatedItems] = useState<any[]>([]);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/portfolio/${slug}`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/portfolio/${slug}`)
             .then(res => res.json())
             .then(data => {
                 setItem(data);
@@ -29,7 +29,7 @@ export default function SinglePortfolioPage({ params }: { params: Promise<{ slug
                 if (allImages.length > 0) setActiveGalleryImage(allImages[0]);
 
                 // Fetch related
-                fetch(`http://localhost:5000/api/portfolio?type=${data.type}&limit=3`)
+                fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/portfolio?type=${data.type}&limit=3`)
                     .then(res => res.json())
                     .then(relData => {
                         if (relData.items) {

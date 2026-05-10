@@ -14,6 +14,8 @@
   --accent-orange: #f97316;
   --accent-orange-hover: #ea580c;
   --shadow-orange: 0 10px 15px -3px rgba(249, 115, 22, 0.3);
+  --orange: var(--accent-orange);
+  --navy: var(--primary);
 }
 
 * {
@@ -97,6 +99,11 @@ button {
   border-radius: 0.5rem;
   transition: all 0.2s ease;
 }
+
+.full-width {
+  width: 100%;
+}
+
 
 .btn-primary {
   background-color: var(--accent-orange);

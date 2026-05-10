@@ -67,7 +67,7 @@ export default function PortfolioEditor({ initialData = null }: { initialData?: 
     const handleImageUpload = async (file: File) => {
         const data = new FormData();
         data.append('image', file);
-        const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+        const API_BASE = process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}`;
         const res = await fetch(`${API_BASE}/api/admin/portfolio/upload-image`, {
             method: 'POST',
             body: data
@@ -136,7 +136,7 @@ export default function PortfolioEditor({ initialData = null }: { initialData?: 
 
         const method = initialData ? 'PUT' : 'POST';
         const url = initialData ? `/api/admin/portfolio/${initialData._id}` : `/api/admin/portfolio`;
-        const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+        const API_BASE = process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}`;
 
         try {
             const res = await fetch(`${API_BASE}${url}`, {
