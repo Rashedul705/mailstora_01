@@ -1,164 +1,304 @@
 .pricing-section {
-    background-color: var(--background);
+    background-color: #ffffff;
+    padding: 60px 0;
     position: relative;
 }
 
 .pricing-header {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
+}
+
+.pricing-label-pill {
+    display: inline-block;
+    background-color: #eef2ff;
+    color: var(--navy);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.text-orange {
+    color: var(--orange);
 }
 
 .pricing-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
-    max-width: 1100px;
-    margin: 0 auto;
-    align-items: center;
-    /* helps center the highlighted card if we make it taller */
+    gap: 18px;
+    margin: 0 auto 3rem;
 }
 
 @media (min-width: 768px) {
     .pricing-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 1024px) {
-    .pricing-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
     }
 }
 
 .pricing-card {
     background-color: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 2rem;
-    padding: 2.5rem;
+    border: 1.5px solid #e2e4f0;
+    border-radius: 16px;
+    padding: 32px 24px;
     position: relative;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
 .pricing-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
 }
 
-.pricing-card.highlighted {
-    border: 2px solid #4338CA;
-    box-shadow: 0 20px 50px -10px rgba(67, 56, 202, 0.2);
+.popular-card {
+    /* To have a gradient top border with border-radius */
+    border-top: none;
+    position: relative;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
 }
-
-@media (min-width: 1024px) {
-    .pricing-card.highlighted {
-        transform: scale(1.05);
-        z-index: 10;
-    }
-
-    .pricing-card.highlighted:hover {
-        transform: scale(1.08) translateY(-10px);
-    }
+.popular-card::before {
+    content: '';
+    position: absolute;
+    top: -1.5px;
+    left: -1.5px;
+    right: -1.5px;
+    height: 6px;
+    background: linear-gradient(90deg, var(--orange), var(--navy));
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    z-index: 0;
 }
 
 .popular-badge {
     position: absolute;
-    top: -14px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(90deg, #4338CA, #6366F1);
+    top: -12px;
+    right: 24px;
+    background-color: var(--orange);
     color: #fff;
-    padding: 0.4rem 1.25rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    box-shadow: 0 10px 20px -5px rgba(67, 56, 202, 0.4);
+    z-index: 1;
 }
 
 .pricing-info {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #F1F5F9;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+.pricing-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.pricing-icon-wrapper[data-style="primary"] {
+    background-color: #fff3ed;
+    color: var(--orange);
+}
+
+.pricing-icon-wrapper[data-style="outline"] {
+    background-color: #eef2ff;
+    color: var(--navy);
+}
+
+.pricing-icon-wrapper[data-style="custom"] {
+    background: linear-gradient(135deg, var(--navy), #4338CA);
+    color: white;
+}
+
+.package-label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #64748B;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
 }
 
 .package-name {
-    font-size: 1.5rem;
+    font-size: 18px;
     font-weight: 800;
-    color: #0F172A;
-    margin-bottom: 0.75rem;
+    color: var(--navy);
+    margin-bottom: 8px;
 }
 
 .package-desc {
-    font-size: 1rem;
+    font-size: 12px;
     color: #64748B;
-    margin-bottom: 2rem;
     line-height: 1.5;
-    min-height: 48px;
+    margin-bottom: 24px;
+    min-height: 36px;
 }
 
-.package-price {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
+.package-price-row {
+    border-bottom: 1.5px solid #e2e4f0;
+    padding-bottom: 24px;
 }
 
 .price-amount {
-    font-size: 3.5rem;
-    font-weight: 900;
-    color: #0F172A;
-    line-height: 1;
-    letter-spacing: -0.02em;
-}
-
-@media (max-width: 480px) {
-    .price-amount {
-        font-size: 2.75rem;
-    }
-    
-    .pricing-card {
-        padding: 1.75rem;
-    }
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--navy);
 }
 
 .price-period {
-    font-size: 1.125rem;
-    color: #94A3B8;
-    font-weight: 600;
+    font-size: 14px;
+    color: #64748B;
+    margin-left: 4px;
+}
+
+.custom-price-block {
+    display: flex;
+    flex-direction: column;
+}
+.custom-price-block .price-amount {
+    font-size: 32px;
+}
+.custom-price-block .price-period {
+    margin-left: 0;
+    margin-top: 4px;
+    font-size: 12px;
 }
 
 .package-features {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
-    margin-bottom: 3rem;
+    gap: 12px;
+    margin-bottom: 32px;
     flex-grow: 1;
+    position: relative;
+    z-index: 1;
 }
 
 .package-features li {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    color: #334155;
-    font-size: 1rem;
+    font-size: 13px;
     font-weight: 500;
 }
 
-.check-icon {
-    color: #4338CA;
+.package-features li.included {
+    color: var(--navy);
+}
+
+.package-features li.excluded {
+    color: #94A3B8;
+}
+
+.feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
     flex-shrink: 0;
 }
 
+.check-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background-color: #e0f2fe;
+    color: #0284c7;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: bold;
+}
+.included .check-circle {
+    background-color: #dcfce7;
+    color: #16a34a;
+}
+
+.dash-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.pricing-action {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-navy-gradient {
+    background: linear-gradient(135deg, var(--navy), #4338CA);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 14px rgba(45, 40, 123, 0.2);
+}
+.btn-navy-gradient:hover {
+    background: linear-gradient(135deg, #1e1b4b, var(--navy));
+    color: white;
+}
+
+.btn-outline-orange {
+    background-color: white;
+    border: 1.5px solid var(--orange);
+    color: var(--orange);
+}
+.btn-outline-orange:hover {
+    background-color: var(--orange);
+    color: white;
+}
+
+/* Trust Row */
+.pricing-trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 16px;
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #64748B;
+    font-weight: 500;
+}
+
+.trust-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background-color: #dcfce7;
+    border-radius: 50%;
+    font-size: 10px;
+    margin-right: 8px;
+}
+
+/* Toggle */
 .pricing-toggle-wrapper {
     display: flex;
     justify-content: center;
-    margin-top: 3rem;
-    margin-bottom: 4rem;
+    margin-top: 2rem;
 }
 
 .pricing-toggle {
@@ -167,25 +307,22 @@
     border: 1px solid #E2E8F0;
     border-radius: 9999px;
     padding: 0.5rem;
-    position: relative;
 }
 
 .toggle-btn {
     background: transparent;
     color: #64748B;
     border: none;
-    padding: 0.875rem 2rem;
-    font-size: 1rem;
+    padding: 10px 24px;
+    font-size: 14px;
     font-weight: 700;
     border-radius: 9999px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    z-index: 1;
+    transition: all 0.3s;
 }
 
 .toggle-btn.active {
     color: #FFFFFF;
-    background-color: #4338CA;
-    box-shadow: 0 10px 20px -5px rgba(67, 56, 202, 0.3);
+    background-color: var(--navy);
+    box-shadow: 0 4px 10px rgba(45, 40, 123, 0.2);
 }

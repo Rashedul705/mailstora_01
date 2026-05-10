@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/pricingController');
-router.get('/', controller.getAll);
-router.post('/', controller.create);
-router.get('/:id', controller.getOne);
-router.put('/:id', controller.update);
-router.delete('/:id', controller.remove);
+
+router.get('/', controller.getPublicPricing);
+router.get('/settings', controller.getSettings);
+
 module.exports = router;

@@ -116,5 +116,6 @@ router.use('/file-manager', require('./fileManagerRoutes'));
 router.use('/blog', require('./blogRoutes'));
 router.use('/admin/blog', require('./adminBlogRoutes'));
 router.use('/admin/portfolio', require('./adminPortfolioRoutes'));
+router.use('/admin/pricing', require('./adminPricingRoutes'));
 
 module.exports = router;

@@ -23,6 +23,7 @@ export default function Navbar() {
                     <Link href="/#services" className="nav-link">Services</Link>
                     <Link href="/#portfolio" className="nav-link">Portfolio</Link>
                     <Link href="/#prices" className="nav-link">Pricing</Link>
+                    <Link href="/blog" className="nav-link">Blog</Link>
                     <Link href="/#contact" className="nav-link">Contact</Link>
                 </div>
 
@@ -54,6 +55,7 @@ export default function Navbar() {
                     <Link href="/#services" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Services</Link>
                     <Link href="/#portfolio" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Portfolio</Link>
                     <Link href="/#prices" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Pricing</Link>
+                    <Link href="/blog" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Blog</Link>
                     <Link href="/#contact" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Contact</Link>
                     <Link href="/quote" className="btn btn-primary mobile-signup-btn" onClick={() => setMenuOpen(false)}>Get a Free Quote</Link>
                 </div>
