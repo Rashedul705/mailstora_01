@@ -1,36 +1,88 @@
+/* ──────────────────────────────────────────────
+   Problem Section  –  light background design
+   ────────────────────────────────────────────── */
+
 .problem-section {
-    padding: 6rem 0;
-    /* py-24 equivalent spacing */
-    background: linear-gradient(180deg, #1E1B4B 0%, #111029 100%);
+    padding: 3.5rem 1rem 4.5rem;
+    background: #F5F5FA;   /* very light lavender-grey, matching the screenshot */
 }
 
-.problem-header {
-    max-width: 720px;
-    margin: 0 auto 3rem;
+@media (min-width: 768px) {
+    .problem-section {
+        padding: 5rem 1.5rem 6rem;
+    }
+}
+
+.problem-container {
+    max-width: 1100px;
+    margin: 0 auto;
     text-align: center;
 }
 
-.problem-section-title {
-    font-size: 2.5rem;
+/* ── Badge ── */
+.problem-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 1.1rem;
+    border: 1.5px solid #f97316;
+    border-radius: 999px;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: #FFFFFF;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
+    letter-spacing: 0.08em;
+    color: #f97316;
+    background: #FFF5EE;
+    margin-bottom: 1.6rem;
+    text-transform: uppercase;
 }
 
-.problem-section-subtitle {
-    font-size: 1.125rem;
-    color: #94A3B8;
-    line-height: 1.6;
+/* ── Heading ── */
+.problem-heading {
+    font-size: clamp(1.5rem, 5vw, 2.6rem);
+    font-weight: 800;
+    color: #1E1B4B;
+    line-height: 1.25;
+    margin-bottom: 1.1rem;
+    padding: 0 0.5rem;
 }
 
+.problem-heading-accent {
+    color: #f97316;
+    display: block;
+}
+
+/* ── Subtitle ── */
+.problem-subtitle {
+    font-size: 0.95rem;
+    color: #6B7280;
+    line-height: 1.75;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    padding: 0 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .problem-subtitle {
+        font-size: 1.05rem;
+        margin-bottom: 3.5rem;
+    }
+}
+
+.problem-br {
+    display: none;
+}
+@media (min-width: 640px) {
+    .problem-br { display: inline; }
+}
+
+/* ── Card Grid ── */
 .problem-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
     .problem-grid {
         grid-template-columns: 1fr 1fr;
     }
@@ -42,54 +94,73 @@
     }
 }
 
+/* ── Card ── */
 .problem-card {
-    background: rgba(30, 27, 75, 0.5);
-    /* Semi-transparent dark purple */
-    border: 1px solid #3730A3;
-    /* Solid muted indigo */
-    border-radius: 1rem;
-    padding: 2rem 1.5rem;
+    background: #FFFFFF;
+    border-radius: 1.25rem;
+    padding: 1.5rem 1.25rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    /* For Safari */
-    text-align: left;
-    transition: all 0.3s ease;
+    align-items: center;
+    text-align: center;
+    gap: 0;
+    box-shadow: 0 2px 16px rgba(30, 27, 75, 0.07);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+}
+
+@media (min-width: 768px) {
+    .problem-card {
+        padding: 2rem 1.5rem 1.75rem;
+    }
 }
 
 .problem-card:hover {
-    transform: translateY(-8px);
-    border-color: #6366F1;
-    /* Brighter border on hover */
-    /* Soft orange/purple outer glow */
-    box-shadow: 0 10px 40px -10px rgba(255, 138, 0, 0.2), 0 0 20px rgba(99, 102, 241, 0.2);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 36px rgba(30, 27, 75, 0.13);
 }
 
-.problem-icon {
-    width: 3rem;
-    height: 3rem;
-    background: rgba(255, 138, 0, 0.1);
-    border-radius: 0.75rem;
+/* ── Icon wrapper ── */
+.problem-icon-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #FF8A00;
-    /* Brand Orange */
+    margin-bottom: 1.4rem;
     flex-shrink: 0;
-    margin-bottom: 0.5rem;
 }
 
-.problem-title {
-    font-size: 1.125rem;
+.problem-emoji {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+/* ── Card Title ── */
+.problem-card-title {
+    font-size: 1.05rem;
     font-weight: 700;
-    color: #FFFFFF;
-    line-height: 1.4;
+    color: #1E1B4B;
+    line-height: 1.35;
+    margin-bottom: 0.85rem;
 }
 
-.problem-desc {
+/* ── Card Description ── */
+.problem-card-desc {
     font-size: 0.875rem;
-    color: #94A3B8;
-    line-height: 1.6;
+    color: #6B7280;
+    line-height: 1.65;
+    flex: 1;
+    margin-bottom: 1.25rem;
+}
+
+/* ── Check Badge ── */
+.problem-check {
+    margin-top: auto;
+}
+
+.problem-check svg {
+    width: 28px;
+    height: 28px;
 }
