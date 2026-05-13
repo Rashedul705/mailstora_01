@@ -123,16 +123,16 @@ export default function AdminDashboard() {
             <div className="dash-section-title">Schedules at a Glance</div>
             <div className="dash-stats-grid">
                 <div className="dash-stat-card">
+                    <span className="dash-stat-title">Total Schedules</span>
+                    <span className="dash-stat-value">{data.schedules?.total || 0}</span>
+                </div>
+                <div className="dash-stat-card">
+                    <span className="dash-stat-title">Confirmed</span>
+                    <span className="dash-stat-value" style={{ color: '#16a34a' }}>{data.schedules?.confirmed || 0}</span>
+                </div>
+                <div className="dash-stat-card">
                     <span className="dash-stat-title">Today</span>
                     <span className="dash-stat-value">{data.schedules?.today || 0}</span>
-                </div>
-                <div className="dash-stat-card">
-                    <span className="dash-stat-title">This Week</span>
-                    <span className="dash-stat-value">{data.schedules?.thisWeek || 0}</span>
-                </div>
-                <div className="dash-stat-card">
-                    <span className="dash-stat-title">This Month</span>
-                    <span className="dash-stat-value">{data.schedules?.thisMonth || 0}</span>
                 </div>
                 <div className="dash-stat-card">
                     <span className="dash-stat-title">Pending Verification</span>

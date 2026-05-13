@@ -45,9 +45,8 @@ export default function Problem() {
 
                 {/* Subtitle */}
                 <p className="problem-subtitle">
-                    If your email doesn't render, it doesn't convert. Broken layouts and "Outlook-only" bugs
-                    are more than just a nuisance — they represent thousands in missed opportunities.
-                    It's time for templates that actually work.
+                    A broken email is a lost customer. Skip the rendering headaches and get custom templates
+                    that actually work on every screen, every time.
                 </p>
 
                 {/* Cards */}
