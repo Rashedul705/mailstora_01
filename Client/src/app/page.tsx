@@ -8,7 +8,6 @@ import Portfolio from "./components/Portfolio";
 import Platforms from "./components/Platforms";
 import Testimonials from "./components/Testimonials";
 import WhyChooseUs from "./components/WhyChooseUs";
-import Stats from "./components/Stats";
 import FAQ from "./components/FAQ";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -70,7 +69,6 @@ export default async function Home() {
       <Portfolio data={data.portfolio} />
       <Testimonials data={data.testimonials} />
       <WhyChooseUs />
-      <Stats />
       <Pricing data={data.pricing} />
       <FAQ data={data.faq} />
         <Contact />
