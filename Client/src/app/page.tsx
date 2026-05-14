@@ -63,6 +63,7 @@ export default async function Home() {
       <main className="main">
         <Hero data={activeHero} />
       <Problem />
+      <div style={{ width: '100%', height: '1px', background: '#e2e4f0', margin: '0 auto' }} />
       <Trust />
       <Services data={data.services} />
       <Platforms />

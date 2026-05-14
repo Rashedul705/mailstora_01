@@ -130,6 +130,21 @@ button {
   color: var(--accent-orange-hover);
 }
 
+/* Upwork brand button */
+.btn-upwork {
+  background-color: #14a800;
+  color: #ffffff;
+  border: 2px solid #14a800;
+  gap: 7px;
+}
+
+.btn-upwork:hover {
+  background-color: #0d8a00;
+  border-color: #0d8a00;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(20, 168, 0, 0.35);
+}
+
 .floating-wa-btn {
   position: fixed;
   bottom: 24px;

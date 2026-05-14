@@ -43,6 +43,18 @@ export default function Hero({ data }: { data?: any }) {
                             Chat on WhatsApp
                         </a>
                         <a href="/#portfolio" className="btn btn-secondary">View Portfolio</a>
+                        <a
+                            href="https://www.upwork.com/freelancers/~01e77f8c3283919883"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn btn-upwork"
+                        >
+                            {/* Upwork U icon */}
+                            <svg width="16" height="16" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                                <path d="M24.75 17.542c-1.469 0-2.849-.61-4.081-1.638l.303-1.437.013-.066c.264-1.511 1.094-4.047 3.765-4.047 1.98 0 3.595 1.627 3.595 3.595 0 1.979-1.615 3.593-3.595 3.593zM24.75 8c-3.43 0-6.017 2.287-7.122 6.019-.838-1.548-1.459-3.414-1.838-4.985H12.9v5.967c0 1.905-.87 3.808-2.775 3.808-1.905 0-2.906-1.903-2.906-3.808l.011-5.967H4.25v5.967c0 3.748 1.95 6.722 5.875 6.722 3.925 0 5.918-3.15 5.918-6.906l-.003-.638c.35 1.104.831 2.276 1.438 3.293L15.56 26h2.97l1.123-5.447c1.203.813 2.593 1.301 4.097 1.301 3.748 0 6.75-3.027 6.75-6.75 0-3.722-3.002-6.104-5.75-6.104z"/>
+                            </svg>
+                            Upwork Profile
+                        </a>
                     </div>
 
 

@@ -4,7 +4,7 @@
 
 .trust-section {
     padding: 5rem 1.5rem 4rem;
-    background: #f4f5f9;
+    background: #ffffff;   /* clean white — contrasts with Problem's lavender-grey */
     overflow: hidden;
 }
 
@@ -50,28 +50,24 @@
 .trust-marquee-wrapper {
     position: relative;
     overflow: hidden;
-    /* Fade edges */
 }
 
 .trust-marquee-wrapper::before,
 .trust-marquee-wrapper::after {
     content: '';
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 0; bottom: 0;
     width: 80px;
     z-index: 2;
     pointer-events: none;
 }
-
 .trust-marquee-wrapper::before {
     left: 0;
-    background: linear-gradient(to right, #f4f5f9, transparent);
+    background: linear-gradient(to right, #ffffff, transparent);
 }
-
 .trust-marquee-wrapper::after {
     right: 0;
-    background: linear-gradient(to left, #f4f5f9, transparent);
+    background: linear-gradient(to left, #ffffff, transparent);
 }
 
 /* ── Track ── */
@@ -80,14 +76,9 @@
     align-items: center;
     gap: 16px;
     width: max-content;
-
     animation: trust-marquee linear infinite;
-    animation-duration: inherit; /* overridden inline */
 }
-
-.trust-marquee-track:hover {
-    animation-play-state: paused;
-}
+.trust-marquee-track:hover { animation-play-state: paused; }
 
 @keyframes trust-marquee {
     0%   { transform: translateX(0); }
@@ -125,16 +116,24 @@
     white-space: nowrap;
 }
 
-/* ── Stats strip ── */
+/* ── Stats area wrapper ── */
+.trust-stats-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    border-top: 0.5px solid #e2e4f0;
+    padding-top: 28px;
+    margin-top: 36px;
+}
+
+/* ── Stats row ── */
 .trust-stats {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 48px;
-    border-top: 0.5px solid #e2e4f0;
-    padding-top: 28px;
-    margin-top: 36px;
 }
 
 .trust-stat {
@@ -161,6 +160,29 @@
     font-size: 0.8rem;
     color: #6b7280;
     margin-top: 4px;
+}
+
+/* ── Upwork profile button ── */
+.trust-upwork-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 28px;
+    background: #14a800;
+    color: #fff;
+    font-size: 0.925rem;
+    font-weight: 700;
+    border-radius: 999px;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 14px rgba(20, 168, 0, 0.25);
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.trust-upwork-btn:hover {
+    background: #0d8a00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(20, 168, 0, 0.35);
 }
 
 @media (max-width: 640px) {
