@@ -28,7 +28,6 @@ async function getLandingData() {
       `${API_BASE}/api/portfolio`,
       `${API_BASE}/api/testimonials`,
       `${API_BASE}/api/faq`,
-      `${API_BASE}/api/partners`
     ];
 
     const responses = await Promise.all(
@@ -47,11 +46,10 @@ async function getLandingData() {
       portfolio: responses[3] ? await responses[3].json() : [],
       testimonials: responses[4] ? await responses[4].json() : [],
       faq: responses[5] ? await responses[5].json() : [],
-      partners: responses[6] ? await responses[6].json() : []
     };
   } catch (error) {
     console.error("Failed to fetch landing data", error);
-    return { hero: [], services: [], pricing: [], portfolio: [], testimonials: [], faq: [], partners: [] };
+    return { hero: [], services: [], pricing: [], portfolio: [], testimonials: [], faq: [] };
   }
 }
 
@@ -65,7 +63,7 @@ export default async function Home() {
       <main className="main">
         <Hero data={activeHero} />
       <Problem />
-      <Trust data={data.partners} />
+      <Trust />
       <Services data={data.services} />
       <Platforms />
       <Portfolio data={data.portfolio} />

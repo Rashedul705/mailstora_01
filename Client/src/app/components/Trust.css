@@ -1,78 +1,173 @@
+/* ══════════════════════════════════════════
+   Trust Logos Section
+   ══════════════════════════════════════════ */
+
 .trust-section {
-    padding: 60px 0;
-    background-color: #f8f9fa; /* slightly off white or pure white depending on preference */
-    border-bottom: 1px solid #eaeaea;
-}
-
-.trust-title {
-    text-align: center;
-    font-size: 32px;
-    font-weight: 700;
-    color: #4a4a4a;
-    margin-bottom: 40px;
-}
-
-.trust-carousel-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    position: relative;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.trust-logos {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex: 1;
+    padding: 5rem 1.5rem 4rem;
+    background: #f4f5f9;
     overflow: hidden;
-    gap: 30px;
 }
 
-.trust-logo-item {
+.trust-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* ── Header ── */
+.trust-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #f97316;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+.trust-heading {
+    font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+    font-weight: 800;
+    color: #2d287b;
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+}
+
+.trust-subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+.trust-divider {
+    width: 48px;
+    height: 3px;
+    background: #f97316;
+    border-radius: 999px;
+    margin: 0 auto 3rem;
+}
+
+/* ── Marquee wrapper ── */
+.trust-marquee-wrapper {
+    position: relative;
+    overflow: hidden;
+    /* Fade edges */
+}
+
+.trust-marquee-wrapper::before,
+.trust-marquee-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.trust-marquee-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, #f4f5f9, transparent);
+}
+
+.trust-marquee-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, #f4f5f9, transparent);
+}
+
+/* ── Track ── */
+.trust-marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: max-content;
+
+    animation: trust-marquee linear infinite;
+    animation-duration: inherit; /* overridden inline */
+}
+
+.trust-marquee-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes trust-marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ── Pill cards ── */
+.trust-pill {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 120px;
-    opacity: 0.6;
-}
-
-.partner-logo-img {
-    max-width: 100%;
-    height: 36px;
-    object-fit: contain;
-    filter: grayscale(100%) brightness(0);
-}
-
-.carousel-btn {
-    background: transparent;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #555;
-    transition: all 0.2s;
+    background: #fff;
+    border: 0.5px solid #e2e4f0;
+    border-radius: 12px;
+    height: 56px;
+    padding: 0 28px;
     flex-shrink: 0;
+    transition: box-shadow 0.2s ease;
 }
 
-.carousel-btn:hover {
-    background-color: #eee;
-    color: #111;
+.trust-pill:hover {
+    box-shadow: 0 4px 14px rgba(45, 40, 123, 0.1);
 }
 
-@media (max-width: 768px) {
-    .trust-logos {
-        flex-wrap: wrap;
-        justify-content: center;
+.trust-pill-img {
+    max-height: 28px;
+    max-width: 120px;
+    object-fit: contain;
+}
+
+.trust-pill-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+    white-space: nowrap;
+}
+
+/* ── Stats strip ── */
+.trust-stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 48px;
+    border-top: 0.5px solid #e2e4f0;
+    padding-top: 28px;
+    margin-top: 36px;
+}
+
+.trust-stat {
+    text-align: center;
+}
+
+.trust-stat-number {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #2d287b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.trust-stat-dot {
+    color: #f97316;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.trust-stat-label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+    .trust-stats {
+        gap: 28px;
     }
-    
-    .carousel-btn {
-        display: none; /* Hide buttons on mobile in favor of wrap or touch swipe */
+    .trust-section {
+        padding: 3rem 1rem 3rem;
     }
 }

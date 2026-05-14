@@ -1,0 +1,451 @@
+/* ══════════════════════════════════════════
+   Admin — Trust Logos Page
+   ══════════════════════════════════════════ */
+
+.tl-page {
+    padding: 0;
+    max-width: 1000px;
+}
+
+/* ── Settings bar ── */
+.tl-settings-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border: 0.5px solid #e2e4f0;
+    border-radius: 10px;
+    padding: 10px 18px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.tl-settings-left,
+.tl-settings-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tl-settings-icon {
+    font-size: 1.1rem;
+    color: #6b7280;
+}
+
+.tl-settings-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.tl-settings-select {
+    padding: 6px 12px;
+    border: 1px solid #e2e4f0;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1f2937;
+    background: #fff;
+    cursor: pointer;
+    outline: none;
+    min-width: 110px;
+}
+
+/* Toggle switch */
+.tl-toggle {
+    width: 44px;
+    height: 24px;
+    border-radius: 999px;
+    background: #d1d5db;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.tl-toggle.on {
+    background: #f97316;
+}
+
+.tl-toggle-knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    transition: left 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.tl-toggle.on .tl-toggle-knob {
+    left: 23px;
+}
+
+/* ── Header ── */
+.tl-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.tl-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tl-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #2d287b;
+    margin: 0;
+}
+
+.tl-count-badge {
+    font-size: 0.8rem;
+    color: #6b7280;
+    background: #f3f4f6;
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-weight: 600;
+}
+
+.tl-loading {
+    text-align: center;
+    padding: 3rem;
+    color: #6b7280;
+}
+
+/* ── Logo grid ── */
+.tl-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+@media (max-width: 700px) {
+    .tl-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Logo card ── */
+.tl-card {
+    background: #fff;
+    border: 0.5px solid #e2e4f0;
+    border-radius: 10px;
+    padding: 14px;
+    transition: box-shadow 0.2s;
+}
+
+.tl-card:hover {
+    box-shadow: 0 4px 14px rgba(45,40,123,0.08);
+}
+
+.tl-card-editing {
+    border-color: #f97316;
+    box-shadow: 0 0 0 2px rgba(249,115,22,0.12);
+}
+
+.tl-card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+/* Thumbnail */
+.tl-thumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: #e8e7f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #2d287b;
+}
+
+.tl-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.tl-card-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.tl-card-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #1f2937;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tl-card-url {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tl-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Status badges */
+.tl-status-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 3px 10px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.tl-status-badge.active {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.tl-status-badge.hidden {
+    background: #fef9c3;
+    color: #854d0e;
+}
+
+.tl-status-badge:hover { opacity: 0.75; }
+
+.tl-card-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.tl-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    padding: 4px;
+    border-radius: 6px;
+    transition: background 0.15s;
+}
+
+.tl-icon-btn:hover { background: #f3f4f6; }
+.tl-icon-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Add placeholder */
+.tl-add-placeholder {
+    background: #fff;
+    border: 1.5px dashed #d1d5db;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 100px;
+    cursor: pointer;
+    color: #9ca3af;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.tl-add-placeholder:hover {
+    border-color: #f97316;
+    color: #f97316;
+}
+
+.tl-add-plus {
+    font-size: 1.5rem;
+}
+
+/* ── Inline edit panel ── */
+.tl-inline-edit {
+    background: #fafafa;
+    border: 0.5px solid #e2e4f0;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 16px;
+    margin-top: -4px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tl-edit-preview {
+    max-height: 36px;
+    object-fit: contain;
+    margin-bottom: 6px;
+    border-radius: 4px;
+}
+
+.tl-edit-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* ── Add New Logo Form ── */
+.tl-add-form {
+    background: #fff;
+    border: 0.5px solid #e2e4f0;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tl-add-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2d287b;
+    margin: 0;
+}
+
+.tl-add-title span {
+    color: #f97316;
+    margin-right: 4px;
+}
+
+/* ── Shared form pieces ── */
+.tl-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+@media (max-width: 600px) {
+    .tl-form-row { grid-template-columns: 1fr; }
+}
+
+.tl-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tl-form-group label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    text-transform: uppercase;
+}
+
+.tl-form-group input {
+    padding: 10px 12px;
+    border: 1px solid #e2e4f0;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    color: #1f2937;
+    outline: none;
+    transition: border-color 0.2s;
+    background: #fff;
+}
+
+.tl-form-group input:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.1);
+}
+
+/* Upload box */
+.tl-upload-box {
+    border: 1.5px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 28px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: #9ca3af;
+    font-size: 0.8rem;
+    transition: border-color 0.2s;
+}
+
+.tl-upload-box:hover {
+    border-color: #f97316;
+}
+
+.tl-upload-icon {
+    font-size: 1.4rem;
+}
+
+.tl-upload-preview {
+    max-height: 48px;
+    object-fit: contain;
+}
+
+/* Form footer */
+.tl-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* Buttons */
+.tl-btn-primary {
+    padding: 10px 22px;
+    background: #2d287b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.tl-btn-primary:hover { background: #1e1b55; }
+.tl-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.tl-btn-save {
+    padding: 8px 18px;
+    background: #f97316;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.tl-btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.tl-btn-cancel,
+.tl-btn-ghost {
+    padding: 8px 18px;
+    background: #fff;
+    color: #374151;
+    border: 1px solid #e2e4f0;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.tl-btn-cancel:hover,
+.tl-btn-ghost:hover { background: #f9fafb; }

@@ -117,5 +117,6 @@ router.use('/blog', require('./blogRoutes'));
 router.use('/admin/blog', require('./adminBlogRoutes'));
 router.use('/admin/portfolio', require('./adminPortfolioRoutes'));
 router.use('/admin/pricing', require('./adminPricingRoutes'));
+router.use('/trust-logos',   require('./trustLogoRoutes'));
 
 module.exports = router;
