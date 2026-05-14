@@ -67,7 +67,7 @@ export default async function Home() {
       <Services data={data.services} />
       <Platforms />
       <Portfolio data={data.portfolio} />
-      <Testimonials data={data.testimonials} />
+      <Testimonials />
       <WhyChooseUs />
       <Pricing data={data.pricing} />
       <FAQ data={data.faq} />
