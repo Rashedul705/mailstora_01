@@ -21,10 +21,24 @@ export default function SinglePortfolioPage({ params }: { params: Promise<{ slug
                 setItem(data);
                 
                 // Set initial gallery image
-                const allImages = [];
-                if (data.angleViews) allImages.push(...data.angleViews);
-                if (data.desktopImages) data.desktopImages.forEach((url: string) => allImages.push({ label: 'Desktop View', device: 'desktop', imageUrl: url }));
-                if (data.mobileImages) data.mobileImages.forEach((url: string) => allImages.push({ label: 'Mobile View', device: 'mobile', imageUrl: url }));
+                const allImages: any[] = [];
+                if (data.angleViews) {
+                    allImages.push(...data.angleViews.filter((a: any) => a.imageUrl && a.imageUrl.trim() !== ''));
+                }
+                if (data.desktopImages) {
+                    data.desktopImages.forEach((url: string) => {
+                        if (url && url.trim() !== '') {
+                            allImages.push({ label: 'Desktop View', device: 'desktop', imageUrl: url });
+                        }
+                    });
+                }
+                if (data.mobileImages) {
+                    data.mobileImages.forEach((url: string) => {
+                        if (url && url.trim() !== '') {
+                            allImages.push({ label: 'Mobile View', device: 'mobile', imageUrl: url });
+                        }
+                    });
+                }
                 
                 if (allImages.length > 0) setActiveGalleryImage(allImages[0]);
 
@@ -42,10 +56,24 @@ export default function SinglePortfolioPage({ params }: { params: Promise<{ slug
 
     if (!item) return <div className="loading-state">Loading...</div>;
 
-    const allGalleryItems = [];
-    if (item.angleViews) allGalleryItems.push(...item.angleViews);
-    if (item.desktopImages) item.desktopImages.forEach((url: string, i: number) => allGalleryItems.push({ label: `Desktop View ${i+1}`, device: 'desktop', imageUrl: url }));
-    if (item.mobileImages) item.mobileImages.forEach((url: string, i: number) => allGalleryItems.push({ label: `Mobile View ${i+1}`, device: 'mobile', imageUrl: url }));
+    const allGalleryItems: any[] = [];
+    if (item.angleViews) {
+        allGalleryItems.push(...item.angleViews.filter((a: any) => a.imageUrl && a.imageUrl.trim() !== ''));
+    }
+    if (item.desktopImages) {
+        item.desktopImages.forEach((url: string, i: number) => {
+            if (url && url.trim() !== '') {
+                allGalleryItems.push({ label: `Desktop View ${i+1}`, device: 'desktop', imageUrl: url });
+            }
+        });
+    }
+    if (item.mobileImages) {
+        item.mobileImages.forEach((url: string, i: number) => {
+            if (url && url.trim() !== '') {
+                allGalleryItems.push({ label: `Mobile View ${i+1}`, device: 'mobile', imageUrl: url });
+            }
+        });
+    }
 
     const filteredGalleryItems = allGalleryItems.filter(img => {
         if (galleryTab === 'All') return true;
@@ -102,6 +130,7 @@ export default function SinglePortfolioPage({ params }: { params: Promise<{ slug
                                                 alt="Desktop View" 
                                                 width={600} 
                                                 height={400} 
+                                                priority
                                                 className="mockup-inner-img"
                                             />
                                         </div>
@@ -114,6 +143,7 @@ export default function SinglePortfolioPage({ params }: { params: Promise<{ slug
                                                 alt="Mobile View" 
                                                 width={300} 
                                                 height={600} 
+                                                priority
                                                 className="mockup-inner-img"
                                             />
                                         </div>
@@ -142,11 +172,12 @@ export default function SinglePortfolioPage({ params }: { params: Promise<{ slug
                 </div>
                 
                 <div className="main-preview-box">
-                    {activeGalleryImage ? (
+                    {activeGalleryImage && activeGalleryImage.imageUrl ? (
                         <Image 
                             src={activeGalleryImage.imageUrl} 
                             alt={activeGalleryImage.label} 
                             fill
+                            sizes="(max-width: 1200px) 100vw, 1200px"
                             className="main-preview-img"
                         />
                     ) : (
@@ -169,7 +200,15 @@ export default function SinglePortfolioPage({ params }: { params: Promise<{ slug
                             onClick={() => setActiveGalleryImage(img)}
                         >
                             <div className="thumb-img-wrapper">
-                                <Image src={img.imageUrl} alt={img.label} fill className="thumb-img" />
+                                {img.imageUrl && (
+                                    <Image 
+                                        src={img.imageUrl} 
+                                        alt={img.label} 
+                                        fill 
+                                        sizes="120px"
+                                        className="thumb-img" 
+                                    />
+                                )}
                             </div>
                             <div className={`thumb-label ${img.device === 'mobile' ? 'mobile-lbl' : 'desktop-lbl'}`}>
                                 {img.label}
@@ -269,7 +308,13 @@ export default function SinglePortfolioPage({ params }: { params: Promise<{ slug
                         {relatedItems.map((rel, idx) => (
                             <div key={idx} className="portfolio-card" style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '13px' }}>
                                 <div className="portfolio-preview" style={{ height: '150px', background: '#2d287b', position: 'relative', overflow: 'hidden' }}>
-                                    <Image src={rel.coverImage || '/mockup.png'} alt={rel.title} fill style={{ objectFit: 'cover' }} />
+                                    <Image 
+                                        src={rel.coverImage || '/mockup.png'} 
+                                        alt={rel.title} 
+                                        fill 
+                                        sizes="(max-width: 768px) 100vw, 33vw"
+                                        style={{ objectFit: 'cover' }} 
+                                    />
                                     <Link href={`/portfolio/${rel.slug}`} style={{ position: 'absolute', inset: 0 }}></Link>
                                 </div>
                                 <div className="portfolio-info" style={{ padding: '1rem' }}>

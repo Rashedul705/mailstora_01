@@ -70,6 +70,7 @@ export default function PortfolioEditor({ initialData = null }: { initialData?: 
         const API_BASE = process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}`;
         const res = await fetch(`${API_BASE}/api/admin/portfolio/upload-image`, {
             method: 'POST',
+            credentials: 'include',
             body: data
         });
         const json = await res.json();
@@ -142,6 +143,7 @@ export default function PortfolioEditor({ initialData = null }: { initialData?: 
             const res = await fetch(`${API_BASE}${url}`, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify(payload)
             });
             if (res.ok) {
