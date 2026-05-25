@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["nodejs_20", "npm"]
+
+[variables]
+NODE_ENV = "production"
+
+[phases.install]
+cmds = ["npm install"]
+
+[start]
+cmd = "npm run start"

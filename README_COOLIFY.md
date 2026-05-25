@@ -48,7 +48,7 @@ If you prefer to scale components independently or use Coolify-managed databases
 ### 2. Express Server (Backend)
 1. Click **+ New Resource** and select **Public/Private Repository** (Git).
 2. Set the **Base Directory** to `Server`.
-3. Set the **Build Pack** to **Dockerfile**.
+3. Set the **Build Pack** to **Nixpacks** (it will automatically use `nixpacks.toml`).
 4. Set the **Port** to `5001`.
 5. Under **Environment Variables**, add:
    - `PORT`: `5001`
@@ -62,7 +62,7 @@ If you prefer to scale components independently or use Coolify-managed databases
 ### 3. Next.js Client (Frontend)
 1. Click **+ New Resource** and select **Public/Private Repository** (Git).
 2. Set the **Base Directory** to `Client`.
-3. Set the **Build Pack** to **Dockerfile**.
+3. Set the **Build Pack** to **Nixpacks** (it will automatically use `nixpacks.toml`).
 4. Set the **Port** to `3000`.
 5. Under **Environment Variables**:
    - Add `NEXT_PUBLIC_API_URL` set to the backend service URL (e.g., `https://mailstora-api.yourdomain.com`).
