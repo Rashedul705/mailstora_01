@@ -57,17 +57,23 @@ export default function AdminPortfolioList() {
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure you want to delete this item?')) return;
         try {
+            console.log('Attempting to delete item with ID:', id);
             const API_BASE = process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}`;
             const res = await fetch(`${API_BASE}/api/admin/portfolio/${id}`, {
                 method: 'DELETE',
                 credentials: 'include'
             });
+            console.log('Delete response status:', res.status);
             if (res.ok) {
                 fetchItems();
                 fetchStats();
+            } else {
+                const data = await res.json().catch(() => ({}));
+                alert(`Delete failed: ${data.message || res.statusText || res.status}`);
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error deleting:', error);
+            alert(`Network error deleting: ${error.message || error}`);
         }
     };
 
