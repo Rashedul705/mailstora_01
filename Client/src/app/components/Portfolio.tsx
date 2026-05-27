@@ -5,18 +5,20 @@ import Link from "next/link";
 import "./Portfolio.css";
 
 export default function Portfolio({ data }: { data?: any }) {
-    const [items, setItems] = useState<any[]>([]);
+    const [items, setItems] = useState<any[]>(data?.items || []);
     const [stats, setStats] = useState({ totalTemplates: 400 });
     const [activeFilter, setActiveFilter] = useState('All Work');
 
     useEffect(() => {
-        // Fetch featured items
-        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/portfolio/featured`)
-            .then(res => res.json())
-            .then(data => {
-                if (Array.isArray(data)) setItems(data);
-            })
-            .catch(err => console.error(err));
+        // Fetch items if SSR data is missing
+        if (!data?.items || data.items.length === 0) {
+            fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/portfolio`)
+                .then(res => res.json())
+                .then(fetchedData => {
+                    if (fetchedData.items) setItems(fetchedData.items);
+                })
+                .catch(err => console.error(err));
+        }
 
         // Fetch stats
         fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/portfolio/stats`)
