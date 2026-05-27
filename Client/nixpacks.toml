@@ -1,10 +1,5 @@
 [phases.setup]
-nixPkgs = ["nodejs_20", "npm"]
-
-[variables]
-NEXT_TELEMETRY_DISABLED = "1"
-PUPPETEER_SKIP_DOWNLOAD = "true"
-NODE_ENV = "production"
+nixPkgs = ["nodejs_22"]
 
 [phases.install]
 cmds = ["npm install"]
@@ -13,4 +8,4 @@ cmds = ["npm install"]
 cmds = ["npm run build"]
 
 [start]
-cmd = "npm run start"
+cmd = "npm start"
