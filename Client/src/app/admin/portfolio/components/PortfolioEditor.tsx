@@ -131,6 +131,10 @@ export default function PortfolioEditor({ initialData = null }: { initialData?: 
     };
 
     const save = async (statusOverride?: string) => {
+        if (!formData.title) return alert("Project Title is required.");
+        if (!formData.clientName) return alert("Client Name is required.");
+        if (!formData.coverImage) return alert("Cover Image is required.");
+
         setIsSaving(true);
         const payload = { ...formData };
         if (statusOverride) payload.status = statusOverride;
@@ -146,13 +150,16 @@ export default function PortfolioEditor({ initialData = null }: { initialData?: 
                 credentials: 'include',
                 body: JSON.stringify(payload)
             });
+            
             if (res.ok) {
                 router.push('/admin/portfolio');
             } else {
-                alert('Failed to save');
+                const errorData = await res.json().catch(() => null);
+                alert(`Failed to save: ${errorData?.error || errorData?.message || res.statusText}`);
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
+            alert(`Network Error: ${error.message}`);
         }
         setIsSaving(false);
     };
