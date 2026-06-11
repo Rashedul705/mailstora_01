@@ -40,7 +40,6 @@ export default function Pricing({ data }: { data?: any }) {
         <section className="pricing-section section" id="prices">
             <div className="container" style={{ maxWidth: '1040px' }}>
                 <div className="pricing-header text-center">
-                    <div className="pricing-label-pill">✦ Pricing</div>
                     <h2 className="section-title" dangerouslySetInnerHTML={{
                         __html: settings.sectionTitle.replace('Transparent Pricing', '<span class="text-orange">Transparent Pricing</span>')
                     }}>

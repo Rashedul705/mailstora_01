@@ -32,11 +32,7 @@ export default function Problem() {
         <section className="problem-section" id="problem">
             <div className="problem-container problem-split-layout">
 
-                {/* Left Column: Title and info */}
                 <div className="problem-info-col">
-                    <div className="problem-badge">
-                        <span>🧠</span> THE PROBLEM
-                    </div>
                     <h2 className="problem-heading">
                         Tired of Emails That Look Perfect…<br />
                         <span className="problem-heading-accent">Until You Send Them?</span>

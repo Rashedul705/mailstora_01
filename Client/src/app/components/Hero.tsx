@@ -26,8 +26,6 @@ export default function Hero({ data }: { data?: any }) {
             <div className="container hero-container">
                 {/* ── LEFT: Copy & CTAs ── */}
                 <div className="hero-content">
-                    <span className="hero-badge">✦ Professional Email Development</span>
-
                     <h1 className="hero-title" dangerouslySetInnerHTML={{ __html: heroData.title }}></h1>
 
                     <p className="hero-subtitle">

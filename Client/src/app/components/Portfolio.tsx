@@ -53,7 +53,6 @@ export default function Portfolio({ data }: { data?: any }) {
         <section className="portfolio-section" id="portfolio">
             <div className="container">
                 <div className="portfolio-header text-center">
-                    <div className="section-pill">✦ OUR PORTFOLIO</div>
                     <h2 className="section-title">
                         Recent Work That <span className="text-orange">Delivers Results</span>
                     </h2>

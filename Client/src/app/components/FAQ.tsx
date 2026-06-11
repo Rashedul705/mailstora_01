@@ -44,7 +44,6 @@ export default function FAQ({ data = [] }: { data?: any[] }) {
                 <div className="faq-split-layout">
                     {/* Left Column: Title and CTA card */}
                     <div className="faq-sidebar">
-                        <div className="faq-badge">✦ FAQ</div>
                         <h2 className="faq-title">Frequently Asked Questions</h2>
                         <p className="faq-subtitle">Everything you need to know before getting started.</p>
                         

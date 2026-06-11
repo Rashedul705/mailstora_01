@@ -68,32 +68,25 @@ export default function WhyChooseUs() {
     return (
         <section className="why-choose-section section section-alt" id="why-choose">
             <div className="container">
-                <div className="why-choose-split-layout">
-                    {/* Left Column: Info Sidebar */}
-                    <div className="why-choose-sidebar">
-                        <div className="why-choose-badge">✦ WHY MAILSTORA</div>
-                        <h2 className="why-choose-title">Why Choose MailStora?</h2>
-                        <p className="why-choose-description">
-                            We build robust, hand-coded email templates that look great everywhere, so you can focus on growing your business.
-                        </p>
-                    </div>
-
-                    {/* Right Column: Grid of features */}
-                    <div className="why-choose-grid-wrap">
-                        <div className="why-choose-grid">
-                            {features.map((feature, idx) => (
-                                <div key={idx} className="why-choose-card">
-                                    <div className="why-choose-icon">
-                                        {feature.icon}
-                                    </div>
-                                    <div className="why-choose-content">
-                                        <h3>{feature.title}</h3>
-                                        <p>{feature.description}</p>
-                                    </div>
-                                </div>
-                            ))}
+                <div className="why-choose-header text-center">
+                    <h2 className="section-title">Why Choose MailStora?</h2>
+                    <p className="section-subtitle">
+                        We build robust, hand-coded email templates that look great everywhere, so you can focus on growing your business.
+                    </p>
+                </div>
+                
+                <div className="why-choose-grid">
+                    {features.map((feature, idx) => (
+                        <div key={idx} className="why-choose-card">
+                            <div className="why-choose-icon">
+                                {feature.icon}
+                            </div>
+                            <div className="why-choose-content">
+                                <h3>{feature.title}</h3>
+                                <p>{feature.description}</p>
+                            </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </section>
