@@ -115,62 +115,63 @@ export default function Hero({ data }: { data?: any }) {
                     </div>
                 </div>
 
-                {/* ── RIGHT: Personal Card ── */}
+                {/* ── RIGHT: Premium Integrated Profile Card ── */}
                 <div className="hero-profile-side">
-                    <div className="hero-ring-wrapper">
-                        <div className="hero-ring-dots" />
+                    <div className="hero-profile-card">
                         <div className="hero-photo-frame">
                             <Image
                                 src={heroData.background_image || "/consultation-photo-v2.png"}
                                 alt="Rashedul Islam – Founder & Lead Mailstora"
-                                width={320}
-                                height={320}
+                                width={240}
+                                height={240}
                                 className="hero-photo"
                                 priority
                             />
                         </div>
-                    </div>
 
-                    <div className="hero-profile-info">
-                        <p className="hero-profile-name">Rashedul Islam</p>
-                        <p className="hero-profile-role">Founder &amp; Lead Mailstora</p>
-                    </div>
+                        <div className="hero-profile-info">
+                            <p className="hero-profile-name">Rashedul Islam</p>
+                            <p className="hero-profile-role">Founder &amp; Lead Mailstora</p>
+                        </div>
 
-                    {/* Trust Stats under name */}
-                    <div className="hero-stats">
-                        <div className="hero-stat-row">
-                            <div className="hero-stat">
-                                <span className="hero-stat-number">3+</span>
-                                <span className="hero-stat-label">Years Experience</span>
+                        <div className="hero-card-divider" />
+
+                        {/* Trust Stats under name */}
+                        <div className="hero-stats">
+                            <div className="hero-stat-row">
+                                <div className="hero-stat">
+                                    <span className="hero-stat-number">3+</span>
+                                    <span className="hero-stat-label">Years Exp</span>
+                                </div>
+                                <div className="hero-stat-divider" />
+                                <div className="hero-stat">
+                                    <span className="hero-stat-number">400+</span>
+                                    <span className="hero-stat-label">Built</span>
+                                </div>
                             </div>
-                            <div className="hero-stat-divider" />
-                            <div className="hero-stat">
-                                <span className="hero-stat-number">400+</span>
-                                <span className="hero-stat-label">Templates Built</span>
+                            <div className="hero-stat-row">
+                                <div className="hero-stat">
+                                    <span className="hero-stat-number">30+</span>
+                                    <span className="hero-stat-label">Clients Tested</span>
+                                </div>
+                                <div className="hero-stat-divider" />
+                                <div className="hero-stat">
+                                    <span className="hero-stat-number">24h</span>
+                                    <span className="hero-stat-label">Turnaround</span>
+                                </div>
                             </div>
                         </div>
-                        <div className="hero-stat-row">
-                            <div className="hero-stat">
-                                <span className="hero-stat-number">30+</span>
-                                <span className="hero-stat-label">Email Clients Tested</span>
-                            </div>
-                            <div className="hero-stat-divider" />
-                            <div className="hero-stat">
-                                <span className="hero-stat-number">24h</span>
-                                <span className="hero-stat-label">Fast Turnaround</span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <Link href="/schedule" className="hero-schedule-btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                            <line x1="16" y1="2" x2="16" y2="6" />
-                            <line x1="8" y1="2" x2="8" y2="6" />
-                            <line x1="3" y1="10" x2="21" y2="10" />
-                        </svg>
-                        Schedule a Consultation
-                    </Link>
+                        <Link href="/schedule" className="hero-schedule-btn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg>
+                            Schedule a Consultation
+                        </Link>
+                    </div>
 
                     <div className="hero-float-pill">
                         <span className="hero-float-pill-dot" />

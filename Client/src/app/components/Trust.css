@@ -91,29 +91,45 @@
     align-items: center;
     justify-content: center;
     background: #fff;
-    border: 0.5px solid #e2e4f0;
-    border-radius: 12px;
-    height: 56px;
-    padding: 0 28px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    height: 64px;
+    padding: 0 32px;
     flex-shrink: 0;
-    transition: box-shadow 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .trust-pill:hover {
-    box-shadow: 0 4px 14px rgba(45, 40, 123, 0.1);
+    box-shadow: 0 10px 20px -5px rgba(45, 40, 123, 0.08);
+    border-color: rgba(67, 56, 202, 0.2);
+    transform: translateY(-2px);
 }
 
 .trust-pill-img {
-    max-height: 28px;
-    max-width: 120px;
+    max-height: 34px;
+    max-width: 130px;
     object-fit: contain;
+    filter: grayscale(100%) brightness(0.3) opacity(0.5);
+    transition: all 0.3s ease;
+}
+
+.trust-pill:hover .trust-pill-img {
+    filter: none;
+    opacity: 0.95;
 }
 
 .trust-pill-name {
     font-size: 0.9rem;
-    font-weight: 600;
-    color: #374151;
+    font-weight: 700;
+    color: #475569;
     white-space: nowrap;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.trust-pill:hover .trust-pill-name {
+    color: var(--primary);
+    opacity: 1;
 }
 
 /* ── Stats area wrapper ── */

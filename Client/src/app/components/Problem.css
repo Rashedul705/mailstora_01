@@ -19,6 +19,32 @@
     text-align: center;
 }
 
+.problem-split-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+@media (min-width: 992px) {
+    .problem-split-layout {
+        display: grid;
+        grid-template-columns: 1fr 1.4fr;
+        gap: 4.5rem;
+        align-items: center;
+        text-align: left;
+    }
+    
+    .problem-info-col {
+        text-align: left;
+    }
+    
+    .problem-info-col .problem-subtitle {
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 0;
+    }
+}
+
 /* ── Badge ── */
 .problem-badge {
     display: inline-flex;
@@ -88,9 +114,9 @@
     }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 992px) {
     .problem-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 

@@ -122,8 +122,8 @@
 /* ── Grid ── */
 .testi-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
 }
 
 /* ── Card ── */
@@ -139,7 +139,8 @@
 }
 
 .testi-card.featured {
-    border: 1.5px solid #f97316;
+    border: 2px solid #f97316;
+    box-shadow: 0 20px 40px rgba(249, 115, 22, 0.08);
 }
 
 .testi-featured-badge {
@@ -304,9 +305,29 @@
 }
 
 /* ── Responsive ── */
-@media (max-width: 900px) {
+@media (min-width: 641px) and (max-width: 991px) {
     .testi-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    .testi-grid {
+        grid-template-columns: 1.5fr 1fr;
+        gap: 2rem;
+        align-items: stretch;
+    }
+    .testi-card.featured {
+        grid-row: span 2;
+        padding: 3rem 2.5rem;
+    }
+    .testi-card.featured .testi-quote-mark {
+        font-size: 48px;
+        margin-bottom: 1rem;
+    }
+    .testi-card.featured .testi-text {
+        font-size: 1.05rem;
+        line-height: 1.75;
     }
 }
 

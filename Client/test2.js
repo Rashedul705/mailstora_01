@@ -14,9 +14,9 @@ const puppeteer = require('puppeteer');
   });
   page.on('pageerror', error => errors.push(error.message));
 
-  console.log("Navigating to http://localhost:3001...");
+  console.log("Navigating to http://localhost:3000...");
   try {
-    const response = await page.goto('http://localhost:3001', { waitUntil: 'networkidle2' });
+    const response = await page.goto('http://localhost:3000', { waitUntil: 'networkidle2' });
     console.log(`Status code: ${response.status()}`);
     
     await page.screenshot({ path: '/Users/rashedulislam/Desktop/mailstora_program/mailstora_01/homepage_screenshot.png', fullPage: true });

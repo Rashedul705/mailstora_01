@@ -64,7 +64,7 @@ export default function Portfolio({ data }: { data?: any }) {
 
                 <div className="stats-strip">
                     <div className="stat-item">
-                        <span className="stat-value text-orange">{stats.totalTemplates}+</span>
+                        <span className="stat-value text-orange">400+</span>
                         <span className="stat-label">Templates Built</span>
                     </div>
                     <div className="stat-item">
