@@ -135,3 +135,13 @@
     color: #3730A3;
     transform: translateX(6px);
 }
+
+@media (max-width: 768px) {
+    .service-card {
+        align-items: center;
+        text-align: center;
+    }
+    .service-features li {
+        justify-content: center;
+    }
+}

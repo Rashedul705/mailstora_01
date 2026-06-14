@@ -165,6 +165,28 @@
     min-height: 36px;
 }
 
+.pricing-footer-content h4 {
+    font-size: 1.25rem;
+    color: #1e1b4b;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+}
+
+.pricing-footer-content p {
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .pricing-card {
+        align-items: center;
+        text-align: center;
+    }
+    .package-features li {
+        justify-content: center;
+    }
+}
+
 .package-price-row {
     border-bottom: 1.5px solid #e2e4f0;
     padding-bottom: 24px;

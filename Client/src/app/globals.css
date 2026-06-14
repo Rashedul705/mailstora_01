@@ -76,6 +76,18 @@ img {
 }
 
 /* CSS Grid 3 Col Safe Pattern */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .section-title,
+  .section-subtitle,
+  .section-header {
+    text-align: center !important;
+  }
+}
+
 .grid-3-col {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -347,6 +359,18 @@ button,
   grid-template-columns: repeat(3, 1fr) !important;
   gap: 24px !important;
   align-items: start !important;
+}
+
+@media (max-width: 900px) {
+  .pricing-section .pricing-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .pricing-section .pricing-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 /* Issue 6 — Make Cards Use align-items: start Not stretch */

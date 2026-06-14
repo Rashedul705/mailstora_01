@@ -116,7 +116,7 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .footer-content {
         grid-template-columns: 1fr;
     }
@@ -131,6 +131,14 @@
     }
     
     .footer-social {
+        justify-content: center;
+    }
+
+    .footer-list {
+        align-items: center;
+    }
+
+    .contact-item {
         justify-content: center;
     }
 }
