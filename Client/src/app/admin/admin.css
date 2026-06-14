@@ -14,7 +14,7 @@
 
 .admin-layout {
     display: flex;
-    min-height: 100vh;
+    min-height: 100svh;
     background-color: var(--admin-bg);
     color: var(--admin-text);
     font-family: 'Inter', -apple-system, sans-serif;
@@ -28,7 +28,7 @@
     display: flex;
     flex-direction: column;
     position: fixed;
-    height: 100vh;
+    height: 100svh;
     z-index: 100;
 }
 
@@ -249,7 +249,7 @@
 }
 
 .admin-loading {
-    height: 100vh;
+    height: 100svh;
     display: flex;
     align-items: center;
     justify-content: center;

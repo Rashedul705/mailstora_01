@@ -1,7 +1,7 @@
 .schedules-admin-page {
     display: flex;
     gap: 24px;
-    height: 100vh;
+    min-height: 100svh;
     overflow: hidden;
     background: #f8fafc;
 }
@@ -21,7 +21,7 @@
     flex-shrink: 0;
     background: white;
     border-left: 1px solid #e2e8f0;
-    height: 100vh;
+    min-height: 100svh;
     position: sticky;
     top: 0;
     overflow-y: auto;

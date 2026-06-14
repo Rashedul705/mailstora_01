@@ -1,7 +1,7 @@
 /* Global overrides for quote page */
 .bg-gray-50 {
     background-color: #f8f9fa;
-    min-height: 100vh;
+    padding: 80px 0;
 }
 
 /* Quote Hero Section */

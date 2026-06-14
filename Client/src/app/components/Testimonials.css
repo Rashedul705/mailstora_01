@@ -315,7 +315,7 @@
     .testi-grid {
         grid-template-columns: 1.5fr 1fr;
         gap: 2rem;
-        align-items: stretch;
+        align-items: start;
     }
     .testi-card.featured {
         grid-row: span 2;

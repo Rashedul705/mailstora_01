@@ -1,5 +1,5 @@
 .verify-page {
-    min-height: 100vh;
+    padding: 80px 0;
     background: linear-gradient(135deg, #f0f0ff 0%, #fff7ed 100%);
     display: flex;
     align-items: center;

@@ -1,7 +1,6 @@
 .portfolio-editor {
-    padding: 1.5rem;
     background: #f4f5f9;
-    min-height: 100vh;
+    padding: 80px 1.5rem;
 }
 
 .editor-topbar {
