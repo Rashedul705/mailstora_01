@@ -39,8 +39,8 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   max-width: 100%;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -moz-osx-font-smoothing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-synthesis: none;
   -ms-text-size-adjust: 100%;
 }
