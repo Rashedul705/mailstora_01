@@ -153,8 +153,8 @@
 
 /* Buttons */
 .hero-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 0.75rem;
     margin-bottom: 1.5rem;
     width: 100%;
@@ -162,9 +162,10 @@
 
 @media (min-width: 640px) {
     .hero-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 1rem;
         width: auto;
-        display: inline-grid;
     }
 }
 
@@ -257,10 +258,17 @@
 /* ── Platform Logos Strip ── */
 .hero-platforms {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 0.75rem;
-    flex-wrap: wrap;
     margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .hero-platforms {
+        flex-direction: row;
+    }
 }
 
 .hero-platforms-label {
@@ -274,6 +282,7 @@
 .hero-platforms-logos {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.75rem;
     flex-wrap: wrap;
 }
