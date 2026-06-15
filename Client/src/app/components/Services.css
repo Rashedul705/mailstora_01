@@ -141,7 +141,14 @@
         align-items: center;
         text-align: center;
     }
+    .service-features {
+        align-items: flex-start;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+    }
     .service-features li {
-        justify-content: center;
+        justify-content: flex-start;
     }
 }
