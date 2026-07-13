@@ -75,6 +75,27 @@ app.use(cookieParser());
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+// ── Email Template Image Proxy Route ────────────────────────
+const EmailTemplateImage = require('./models/EmailTemplateImage');
+app.get(/^\/Email_Template\/(.+)$/, async (req, res, next) => {
+    try {
+        const fullPath = req.params[0]; // e.g. "patric/2nd_batch/600px_1.png"
+        const parts = fullPath.split('/');
+        const fileName = parts.pop();
+        const folderName = parts.join('/');
+
+        const image = await EmailTemplateImage.findOne({ folderName, fileName });
+        if (image && image.imgbbUrl) {
+            // Temporary redirect, preferred over 301 so we can change backend later
+            return res.redirect(302, image.imgbbUrl);
+        }
+    } catch (err) {
+        console.error('Email_Template Proxy Error:', err);
+    }
+    // Fallback to local disk (express.static)
+    next();
+});
+
 app.use(express.static(path.join(__dirname, '../public')));
 
 // ── API Routes ───────────────────────────────────────────────
