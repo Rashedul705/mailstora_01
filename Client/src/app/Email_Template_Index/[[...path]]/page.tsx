@@ -9,54 +9,33 @@ export default async function DirectoryIndex({ params }: { params: Promise<{ pat
     const resolvedParams = await params;
     const slugs = resolvedParams.path || [];
     const relativePath = slugs.join('/');
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
     
-    // Resolve absolute path in the public directory
-    const publicDir = path.join(process.cwd(), 'public', 'Email_Template');
-    const targetDir = path.join(publicDir, relativePath);
+    let validFiles: any[] = [];
+    let isError = false;
 
-    // Security check: ensure targetDir is inside publicDir
-    if (!targetDir.startsWith(publicDir)) {
-        return <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>403 Forbidden</div>;
-    }
-
-    let isDirectory = false;
     try {
-        const stats = await fs.stat(targetDir);
-        isDirectory = stats.isDirectory();
+        const res = await fetch(`${apiUrl}/api/file-manager?path=${encodeURIComponent(relativePath)}`, {
+            cache: 'no-store'
+        });
+
+        if (!res.ok) {
+            isError = true;
+        } else {
+            const data = await res.json();
+            validFiles = data.files || [];
+        }
     } catch (e) {
-        return <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>404 Not Found</div>;
+        isError = true;
     }
 
-    if (!isDirectory) {
-        // If it's a file but somehow bypassed static serving, we shouldn't render a directory listing
-        return <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>File exists.</div>;
+    if (isError) {
+        // If it failed to fetch (e.g. not a directory, or backend error),
+        // we assume it might be a file request and redirect to the backend's proxy route.
+        // The backend proxy route handles ImgBB redirects or serves the legacy file.
+        const { redirect } = await import('next/navigation');
+        redirect(`${apiUrl}/Email_Template/${relativePath}`);
     }
-
-    const files = await fs.readdir(targetDir);
-    const fileListRaw = await Promise.all(
-        files.map(async (file) => {
-            // Hide hidden files like .DS_Store
-            if (file.startsWith('.')) return null;
-
-            const filePath = path.join(targetDir, file);
-            const stats = await fs.stat(filePath);
-            return {
-                name: file,
-                isDirectory: stats.isDirectory(),
-                size: stats.size,
-                lastModified: stats.mtime,
-            };
-        })
-    );
-
-    const validFiles = fileListRaw.filter((f): f is NonNullable<typeof f> => f !== null);
-
-    // Sort: directories first, then files alphabetically
-    validFiles.sort((a, b) => {
-        if (a.isDirectory && !b.isDirectory) return -1;
-        if (!a.isDirectory && b.isDirectory) return 1;
-        return a.name.localeCompare(b.name);
-    });
 
     // Format helpers
     const formatSize = (bytes: number) => {
@@ -81,7 +60,7 @@ export default async function DirectoryIndex({ params }: { params: Promise<{ pat
     const fileListFormatted = validFiles.map(file => ({
         ...file,
         size: formatSize(file.size),
-        lastModified: formatDate(file.lastModified)
+        lastModified: formatDate(new Date(file.lastModified))
     }));
 
     const currentUrlPath = '/Email_Template' + (relativePath ? '/' + relativePath : '');
