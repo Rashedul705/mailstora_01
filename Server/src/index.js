@@ -77,9 +77,13 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 // ── Email Template Image Proxy Route ────────────────────────
 const EmailTemplateImage = require('./models/EmailTemplateImage');
-app.get(/^\/Email_Template\/(.+)$/, async (req, res, next) => {
+app.use('/Email_Template', async (req, res, next) => {
+    // Only handle GET requests
+    if (req.method !== 'GET') return next();
+
     try {
-        const fullPath = req.params[0]; // e.g. "patric/2nd_batch/600px_1.png"
+        // req.path will be something like "/patric/2nd_batch/600px_1.png"
+        const fullPath = req.path.replace(/^\//, ''); // remove leading slash
         const parts = fullPath.split('/');
         const fileName = parts.pop();
         const folderName = parts.join('/');
