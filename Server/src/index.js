@@ -86,8 +86,17 @@ app.get(/^\/Email_Template\/(.+)$/, async (req, res, next) => {
 
         const image = await EmailTemplateImage.findOne({ folderName, fileName });
         if (image && image.imgbbUrl) {
-            // Temporary redirect, preferred over 301 so we can change backend later
-            return res.redirect(302, image.imgbbUrl);
+            // Stream the image from ImgBB to hide the ImgBB URL completely
+            const axios = require('axios');
+            const imgRes = await axios({
+                url: image.imgbbUrl,
+                method: 'GET',
+                responseType: 'stream'
+            });
+            // Forward the content type and add cache headers
+            res.set('Content-Type', imgRes.headers['content-type'] || 'image/png');
+            res.set('Cache-Control', 'public, max-age=31536000'); // Cache for 1 year
+            return imgRes.data.pipe(res);
         }
     } catch (err) {
         console.error('Email_Template Proxy Error:', err);

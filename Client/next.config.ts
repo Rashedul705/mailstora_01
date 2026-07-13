@@ -14,7 +14,18 @@ const nextConfig: NextConfig = {
 
   async rewrites() {
     return {
-      beforeFiles: [],
+      beforeFiles: [
+        {
+          // Proxy requests that have a file extension directly to the backend
+          // This keeps the URL as mailstora.com while streaming the image directly
+          source: '/Email_Template/:path([^/]+.[a-zA-Z0-9]+)',
+          destination: `${process.env.NEXT_PUBLIC_API_URL}/Email_Template/:path`,
+        },
+        {
+          source: '/Email_Template/:folder*/:file([^/]+.[a-zA-Z0-9]+)',
+          destination: `${process.env.NEXT_PUBLIC_API_URL}/Email_Template/:folder*/:file`,
+        }
+      ],
       afterFiles: [],
       fallback: [
         {

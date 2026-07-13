@@ -30,11 +30,7 @@ export default async function DirectoryIndex({ params }: { params: Promise<{ pat
     }
 
     if (isError) {
-        // If it failed to fetch (e.g. not a directory, or backend error),
-        // we assume it might be a file request and redirect to the backend's proxy route.
-        // The backend proxy route handles ImgBB redirects or serves the legacy file.
-        const { redirect } = await import('next/navigation');
-        redirect(`${apiUrl}/Email_Template/${relativePath}`);
+        return <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>404 Not Found</div>;
     }
 
     // Format helpers
