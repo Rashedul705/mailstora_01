@@ -86,22 +86,9 @@ export default function PortfolioEditor({ initialData = null }: { initialData?: 
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files?.[0]) return;
-        const file = e.target.files[0];
-        const data = new FormData();
-        data.append('file', file);
-        const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
-        try {
-            const res = await fetch(`${API_BASE}/api/upload-file`, {
-                method: 'POST',
-                body: data
-            });
-            const json = await res.json();
-            if (json.fileId) {
-                setFormData(prev => ({ ...prev, fullTemplateFile: `/api/file/${json.fileId}` }));
-            }
-        } catch (error) {
-            console.error('File upload failed:', error);
-            alert('File upload failed. Please try again.');
+        const url = await handleImageUpload(e.target.files[0]);
+        if (url) {
+            setFormData(prev => ({ ...prev, fullTemplateFile: url }));
         }
     };
 
@@ -281,21 +268,15 @@ export default function PortfolioEditor({ initialData = null }: { initialData?: 
                             <label>Full Template File (PDF, PSD, Full JPG, etc.)</label>
                             <div className="upload-box dashed">
                                 {formData.fullTemplateFile ? (
-                                    <div className="uploaded-preview" style={{ padding: '1rem', background: '#f8fafc', borderRadius: '8px' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                            <span style={{ fontSize: '2rem' }}>📁</span>
-                                            <div>
-                                                <div style={{ fontWeight: 600 }}>File Uploaded Successfully</div>
-                                                <a href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}${formData.fullTemplateFile}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.85rem', color: '#4338CA', textDecoration: 'underline' }}>View File</a>
-                                            </div>
-                                        </div>
+                                    <div className="uploaded-preview">
+                                        <Image src={formData.fullTemplateFile} alt="Full Template" width={200} height={100} style={{objectFit: 'cover'}} />
                                         <button onClick={() => setFormData(prev => ({...prev, fullTemplateFile: ''}))} className="btn-remove">×</button>
                                     </div>
                                 ) : (
                                     <>
-                                        <div className="upload-text">Click to upload raw source file or full template</div>
-                                        <input type="file" onChange={handleFileUpload} accept=".pdf,.psd,image/*" className="file-input-hidden" id="full-template-upload" />
-                                        <label htmlFor="full-template-upload" className="btn-upload-orange">Upload Full Template</label>
+                                        <div className="upload-text">Click to upload full template image (JPG/PNG)</div>
+                                        <input type="file" onChange={handleFileUpload} accept="image/*" className="file-input-hidden" id="full-template-upload" />
+                                        <label htmlFor="full-template-upload" className="btn-upload-orange">Upload Full Template Image</label>
                                     </>
                                 )}
                             </div>
