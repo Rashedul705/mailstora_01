@@ -8,44 +8,52 @@ const problems = [
         desc: 'Your beautifully designed template looks completely broken in Outlook 2016, 2019, and 365.',
     },
     {
-        emoji: '📱',
-        iconBg: '#FEF3C7',      // soft amber
-        title: 'Not Mobile\nResponsive',
-        desc: 'Over 60% of emails are opened on mobile. Non-responsive templates lose more than half your audience.',
+        emoji: '💼',
+        iconBg: '#D1FAE5',      // soft green
+        title: 'Signatures That\nLook Amateur',
+        desc: "Generic email signatures that look unpolished in clients' inboxes hurt your brand credibility every single email.",
     },
     {
         emoji: '🔧',
         iconBg: '#FCE7F3',      // soft pink
-        title: 'Importing into\nESPs',
+        title: 'Campaigns That\nMiss the Brand',
         desc: 'Drag-and-drop builders never produce the same result as a hand-coded template when imported into Klaviyo or Mailchimp.',
     },
     {
-        emoji: '💼',
-        iconBg: '#D1FAE5',      // soft green
-        title: 'Unprofessional\nSignatures',
-        desc: "Generic email signatures that look amateurish in clients' inboxes hurt your brand credibility every single email.",
+        emoji: '🔄',
+        iconBg: '#DBEAFE',      // soft blue
+        title: 'Flows Nobody\nSet Up Right',
+        desc: 'Half-finished automation means abandoned carts and new subscribers never hear from you at the moment that actually matters.',
     },
+    {
+        emoji: '🛍️',
+        iconBg: '#FEF3C7',      // soft amber
+        title: "Shopify Stores\nThat Don't Convert",
+        desc: "A store that loads slow or looks generic loses the sale before someone even reaches checkout.",
+    },
+    {
+        emoji: '📉',
+        iconBg: '#F3E8FF',      // soft purple
+        title: 'Feeds That\nGo Quiet',
+        desc: 'An inconsistent posting schedule kills reach and makes a brand look inactive, even when the business behind it is thriving.',
+    }
 ];
 
 export default function Problem() {
     return (
         <section className="problem-section" id="problem">
-            <div className="problem-container problem-split-layout">
-
-                <div className="problem-info-col">
+            <div className="problem-container">
+                <div className="problem-header">
                     <h2 className="problem-heading">
-                        Tired of Emails That Look Perfect…<br />
-                        <span className="problem-heading-accent">Until You Send Them?</span>
+                        Every Piece Looks Fine On Its Own...<br />
+                        <span className="problem-heading-accent">Until You Try to Make It Work Together?</span>
                     </h2>
                     <p className="problem-subtitle">
-                        A broken email is a lost customer. Skip the rendering headaches and get custom templates
-                        that actually work on every screen, every time.
+                        A broken template, a flow that never fires, a store that doesn't convert, or a feed nobody's posted to in weeks — each one quietly costs you customers. Skip the patchwork of freelancers and get every piece built to work as one system.
                     </p>
                 </div>
 
-                {/* Right Column: Grid of Cards */}
-                <div className="problem-grid-col">
-                    <div className="problem-grid">
+                <div className="problem-grid">
                         {problems.map((p, i) => (
                             <div className="problem-card" key={i}>
                                 <div
@@ -72,8 +80,6 @@ export default function Problem() {
                             </div>
                         ))}
                     </div>
-                </div>
-
             </div>
         </section>
     );

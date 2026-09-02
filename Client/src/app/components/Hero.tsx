@@ -6,15 +6,16 @@ import BookingModal from "./BookingModal";
 import "./Hero.css";
 
 const DEFAULT_HERO = {
-    title: "Custom <span>HTML Email Templates</span> That Work Perfectly in Outlook, Gmail & 30+ Email Clients",
-    subtitle: "Stop losing engagement due to broken formatting. Get hand-coded, pixel-perfect email templates and professional signatures tested across all major email clients, delivered in 24-48 hours.",
+    badge: "EMAIL · KLAVIYO · SHOPIFY · SOCIAL",
+    title: "<span>HTML Email</span> Development, <span>Klaviyo</span>, <span>Shopify</span> & Social. Handled by One Person.",
+    subtitle: "Custom email templates and signatures, Klaviyo campaigns and flows, Shopify store development, and social media management, all done by someone who ships them daily.",
     cta_text: "Get a Free Quote",
     cta_link: "#contact",
     background_image: "/consultation-photo-v2.png"
 };
 
 export default function Hero({ data }: { data?: any }) {
-    const heroData = data || DEFAULT_HERO;
+    const heroData = data ? { ...data, badge: DEFAULT_HERO.badge, title: DEFAULT_HERO.title, subtitle: DEFAULT_HERO.subtitle } : DEFAULT_HERO;
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
@@ -26,6 +27,9 @@ export default function Hero({ data }: { data?: any }) {
             <div className="container hero-container">
                 {/* ── LEFT: Copy & CTAs ── */}
                 <div className="hero-content">
+                    {heroData.badge && (
+                        <div className="hero-badge">{heroData.badge}</div>
+                    )}
                     <h1 className="hero-title" dangerouslySetInnerHTML={{ __html: heroData.title }}></h1>
 
                     <p className="hero-subtitle">
@@ -138,24 +142,24 @@ export default function Hero({ data }: { data?: any }) {
                         <div className="hero-stats">
                             <div className="hero-stat-row">
                                 <div className="hero-stat">
-                                    <span className="hero-stat-number">3+</span>
+                                    <span className="hero-stat-number">13+</span>
                                     <span className="hero-stat-label">Years Exp</span>
                                 </div>
                                 <div className="hero-stat-divider" />
                                 <div className="hero-stat">
-                                    <span className="hero-stat-number">400+</span>
-                                    <span className="hero-stat-label">Built</span>
+                                    <span className="hero-stat-number">16k+</span>
+                                    <span className="hero-stat-label">Upwork Hours</span>
                                 </div>
                             </div>
                             <div className="hero-stat-row">
                                 <div className="hero-stat">
-                                    <span className="hero-stat-number">30+</span>
-                                    <span className="hero-stat-label">Clients Tested</span>
+                                    <span className="hero-stat-number">400+</span>
+                                    <span className="hero-stat-label">Templates Built</span>
                                 </div>
                                 <div className="hero-stat-divider" />
                                 <div className="hero-stat">
                                     <span className="hero-stat-number">24h</span>
-                                    <span className="hero-stat-label">Turnaround</span>
+                                    <span className="hero-stat-label">Fast Turnaround</span>
                                 </div>
                             </div>
                         </div>
@@ -173,7 +177,7 @@ export default function Hero({ data }: { data?: any }) {
 
                     <div className="hero-float-pill">
                         <span className="hero-float-pill-dot" />
-                        100+ Happy Clients
+                        200+ happy clients
                     </div>
                 </div>
             </div>
