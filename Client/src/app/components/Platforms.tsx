@@ -4,12 +4,16 @@ export default function Platforms() {
     const platforms = [
         { name: "Mailchimp", color: "#FFE01B", textColor: "#241C15" },
         { name: "Klaviyo", color: "#282C34", textColor: "#FFFFFF" },
+        { name: "Shopify", color: "#95BF47", textColor: "#FFFFFF" },
         { name: "HubSpot", color: "#FF7A59", textColor: "#FFFFFF" },
         { name: "Zoho", color: "#0A4694", textColor: "#FFFFFF" },
         { name: "ActiveCampaign", color: "#356AE6", textColor: "#FFFFFF" },
         { name: "Constant Contact", color: "#0055A5", textColor: "#FFFFFF" },
         { name: "SendGrid", color: "#0263E0", textColor: "#FFFFFF" },
-        { name: "Brevo", color: "#0092FF", textColor: "#FFFFFF" }
+        { name: "Brevo", color: "#0092FF", textColor: "#FFFFFF" },
+        { name: "Instagram", color: "#E1306C", textColor: "#FFFFFF" },
+        { name: "TikTok", color: "#000000", textColor: "#FFFFFF" },
+        { name: "X (Twitter)", color: "#000000", textColor: "#FFFFFF" }
     ];
 
     return (

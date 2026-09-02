@@ -15,7 +15,7 @@
 
 .platform-badge {
     background-color: var(--card-bg);
-    border: 1px solid var(--card-border);
+    border: 1.5px solid #f97316;
     padding: 1rem 1.5rem;
     border-radius: 999px;
     font-weight: 600;

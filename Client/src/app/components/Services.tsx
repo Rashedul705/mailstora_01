@@ -31,7 +31,7 @@ const HARDCODED_SERVICES = [
         ),
         iconClass: "secondary-icon",
         cardClass: "border-blue",
-        title: "Responsive HTML Email Signatures",
+        title: "HTML Email Signatures",
         features: [
             "Fully clickable links & social icons",
             "Outlook & Gmail compatible",
@@ -51,17 +51,77 @@ const HARDCODED_SERVICES = [
         ),
         iconClass: "tertiary-icon",
         cardClass: "border-purple",
-        title: "Klaviyo & ESP Automation",
+        title: "Klaviyo Automation Flow",
         features: [
-            "Welcome, cart abandon & browse flow setup",
+            "Welcome, cart abandon & browse flow",
             "Audience segmentation & tagging",
-            "Sign-up form & popup integration",
-            "Dynamic product recommendation blocks",
-            "Performance tracking & analytics dashboards",
-            "A/B testing setup for headlines & offers",
+            "Advanced dynamic product logic",
+            "Multi-step customer journey mapping",
+            "Revenue-optimized triggered emails",
+            "A/B testing for optimal conversion",
         ],
     },
-
+    {
+        icon: (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+        ),
+        iconClass: "primary-icon",
+        cardClass: "border-orange",
+        title: "Klaviyo & ESP Campaign Setup",
+        features: [
+            "Full campaign scheduling & deployment",
+            "Promotional & newsletter creation",
+            "Audience targeted list segmentation",
+            "Subject line & preview text optimization",
+            "Performance tracking & analytics",
+            "QA testing before every send",
+        ],
+    },
+    {
+        icon: (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+        ),
+        iconClass: "secondary-icon",
+        cardClass: "border-blue",
+        title: "Shopify Store Development",
+        features: [
+            "Custom Shopify theme customization",
+            "Fast page load speed optimization",
+            "High-converting product page layout",
+            "App integration and setup",
+            "Mobile-first seamless checkout",
+            "On-brand visual design system",
+        ],
+    },
+    {
+        icon: (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+        ),
+        iconClass: "tertiary-icon",
+        cardClass: "border-purple",
+        title: "Social Media Management",
+        features: [
+            "Consistent posting schedule",
+            "Branded content creation & design",
+            "Community engagement & moderation",
+            "Platform-specific strategy execution",
+            "Hashtag & growth optimization",
+            "Monthly performance reporting",
+        ],
+    }
 ];
 
 export default function Services({ data = [] }: { data?: any[] }) {
@@ -72,8 +132,8 @@ export default function Services({ data = [] }: { data?: any[] }) {
         <section className="services-section section" id="services">
             <div className="container">
                 <div className="services-header text-center">
-                    <h2 className="section-title">Professional Email Development Services</h2>
-                    <p className="section-subtitle">Premium, hand-coded HTML email solutions for modern businesses.</p>
+                    <h2 className="section-title">Full-Service Digital Solutions</h2>
+                    <p className="section-subtitle">Premium, hand-built solutions across email, e-commerce, and social — for modern businesses.</p>
                 </div>
 
                 <div className="services-grid">

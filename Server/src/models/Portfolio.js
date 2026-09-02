@@ -12,6 +12,7 @@ const portfolioItemSchema = new mongoose.Schema({
   fullDescription: { type: String },
   whatWasIncluded: { type: String },
   coverImage: { type: String, required: true },
+  fullTemplateFile: { type: String },
   cardBackground: { type: String },
   desktopImages: [{ type: String }],
   mobileImages: [{ type: String }],
