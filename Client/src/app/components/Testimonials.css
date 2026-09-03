@@ -313,21 +313,20 @@
 
 @media (min-width: 992px) {
     .testi-grid {
-        grid-template-columns: 1.5fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
-        align-items: start;
+        align-items: stretch;
     }
     .testi-card.featured {
-        grid-row: span 2;
-        padding: 3rem 2.5rem;
+        padding: 24px;
     }
     .testi-card.featured .testi-quote-mark {
-        font-size: 48px;
-        margin-bottom: 1rem;
+        font-size: 32px;
+        margin-bottom: 8px;
     }
     .testi-card.featured .testi-text {
-        font-size: 1.05rem;
-        line-height: 1.75;
+        font-size: 14px;
+        line-height: 1.65;
     }
 }
 

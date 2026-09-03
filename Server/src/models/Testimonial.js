@@ -12,7 +12,7 @@ const testimonialSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // Pre-save hook to generate initials from the name
-testimonialSchema.pre('save', function(next) {
+testimonialSchema.pre('save', function() {
     if (this.isModified('name') || !this.avatarInitials) {
         if (this.name) {
             const parts = this.name.trim().split(/\s+/);
@@ -25,7 +25,6 @@ testimonialSchema.pre('save', function(next) {
             }
         }
     }
-    next();
 });
 
 module.exports = mongoose.model('Testimonial', testimonialSchema);
