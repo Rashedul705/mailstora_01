@@ -150,8 +150,8 @@ export default function Services({ data = [] }: { data?: any[] }) {
                                     </li>
                                 ))}
                             </ul>
-                            <a href="#prices" className="service-card-btn">
-                                Check Pricing →
+                            <a href="#contact" className="service-card-btn">
+                                Request Pricing →
                             </a>
                         </div>
                     ))}

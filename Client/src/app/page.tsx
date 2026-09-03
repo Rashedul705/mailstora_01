@@ -69,7 +69,7 @@ export default async function Home() {
       <Portfolio data={data.portfolio} />
       <Testimonials />
       <WhyChooseUs />
-      <Pricing data={data.pricing} />
+
       <FAQ data={data.faq} />
         <Contact />
       </main>

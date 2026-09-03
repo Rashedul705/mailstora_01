@@ -5,36 +5,46 @@ import Link from 'next/link';
 import './Pricing.css';
 
 export default function Pricing({ data }: { data?: any }) {
-    // Determine active tab initially
-    const [activeTab, setActiveTab] = useState<'template' | 'signature'>(data?.settings?.defaultTab || 'template');
+    const [activeTab, setActiveTab] = useState<string>(data?.settings?.defaultTab || 'template');
 
     // Default fallback structure if API returns empty array or null
     const safeData = data && !Array.isArray(data) ? data : {
         settings: {
             showTemplateTab: true,
             showSignatureTab: true,
+            showKlaviyoFlowTab: true,
+            showEspCampaignTab: true,
+            showShopifyTab: true,
+            showSocialMediaTab: true,
             defaultTab: 'template',
             sectionTitle: 'Simple, Transparent Pricing',
             sectionSubtitle: 'One-time project pricing. No subscriptions, no hidden fees. Pay per project and get a pixel-perfect result every time.'
         },
         template: [],
-        signature: []
+        signature: [],
+        klaviyo_flow: [],
+        esp_campaign: [],
+        shopify: [],
+        social_media: []
     };
 
-    const { settings, template, signature } = safeData;
+    const { settings } = safeData;
 
-    // Show toggle if both are true, otherwise just show whichever is active (and set it if not matching)
-    const showToggle = settings.showTemplateTab && settings.showSignatureTab;
-    
-    // Safety fallback: if only one tab is shown, force that active tab
-    if (!settings.showTemplateTab && activeTab === 'template' && settings.showSignatureTab) {
-        setActiveTab('signature');
-    }
-    if (!settings.showSignatureTab && activeTab === 'signature' && settings.showTemplateTab) {
-        setActiveTab('template');
+    const availableTabs = [
+        { id: 'template', label: '📧 Email Templates', show: settings.showTemplateTab !== false },
+        { id: 'signature', label: '✍ Email Signatures', show: settings.showSignatureTab !== false },
+        { id: 'klaviyo_flow', label: '⚡ Klaviyo Automation', show: settings.showKlaviyoFlowTab !== false },
+        { id: 'esp_campaign', label: '🚀 ESP Campaigns', show: settings.showEspCampaignTab !== false },
+        { id: 'shopify', label: '🛒 Shopify Development', show: settings.showShopifyTab !== false },
+        { id: 'social_media', label: '📱 Social Media', show: settings.showSocialMediaTab !== false }
+    ].filter(tab => tab.show);
+
+    // Safety fallback: if current activeTab is not in availableTabs, set it to the first available
+    if (availableTabs.length > 0 && !availableTabs.find(t => t.id === activeTab)) {
+        setActiveTab(availableTabs[0].id);
     }
 
-    const activePackages = activeTab === 'template' ? template : signature;
+    const activePackages = safeData[activeTab] || [];
 
     return (
         <section className="pricing-section section" id="prices">
@@ -46,21 +56,18 @@ export default function Pricing({ data }: { data?: any }) {
                     </h2>
                     <p className="section-subtitle">{settings.sectionSubtitle}</p>
 
-                    {showToggle && (
+                    {availableTabs.length > 1 && (
                         <div className="pricing-toggle-wrapper">
-                            <div className="pricing-toggle">
-                                <button
-                                    className={`toggle-btn ${activeTab === 'template' ? 'active' : ''}`}
-                                    onClick={() => setActiveTab('template')}
-                                >
-                                    📧 Email Templates
-                                </button>
-                                <button
-                                    className={`toggle-btn ${activeTab === 'signature' ? 'active' : ''}`}
-                                    onClick={() => setActiveTab('signature')}
-                                >
-                                    ✍ Email Signatures
-                                </button>
+                            <div className="pricing-toggle" style={{ overflowX: 'auto', whiteSpace: 'nowrap', paddingBottom: '5px' }}>
+                                {availableTabs.map(tab => (
+                                    <button
+                                        key={tab.id}
+                                        className={`toggle-btn ${activeTab === tab.id ? 'active' : ''}`}
+                                        onClick={() => setActiveTab(tab.id)}
+                                    >
+                                        {tab.label}
+                                    </button>
+                                ))}
                             </div>
                         </div>
                     )}

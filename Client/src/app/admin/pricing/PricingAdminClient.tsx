@@ -7,7 +7,7 @@ import './PricingAdmin.css';
 export default function PricingAdminClient() {
     const [packages, setPackages] = useState<any[]>([]);
     const [settings, setSettings] = useState<any>({});
-    const [activeTab, setActiveTab] = useState<'template' | 'signature'>('template');
+    const [activeTab, setActiveTab] = useState<string>('template');
     
     const [editingPkg, setEditingPkg] = useState<any>(null);
     const [isReordering, setIsReordering] = useState(false);
@@ -144,7 +144,7 @@ export default function PricingAdminClient() {
                             checked={settings.showTemplateTab !== false} 
                             onChange={(e) => updateSettings({ showTemplateTab: e.target.checked })}
                         />
-                        Show Email Templates tab
+                        HTML Email Templates
                     </label>
                 </div>
                 <div className="setting-item">
@@ -154,7 +154,47 @@ export default function PricingAdminClient() {
                             checked={settings.showSignatureTab !== false} 
                             onChange={(e) => updateSettings({ showSignatureTab: e.target.checked })}
                         />
-                        Show Email Signatures tab
+                        HTML Email Signatures
+                    </label>
+                </div>
+                <div className="setting-item">
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            checked={settings.showKlaviyoFlowTab !== false} 
+                            onChange={(e) => updateSettings({ showKlaviyoFlowTab: e.target.checked })}
+                        />
+                        Klaviyo Automation Flow
+                    </label>
+                </div>
+                <div className="setting-item">
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            checked={settings.showEspCampaignTab !== false} 
+                            onChange={(e) => updateSettings({ showEspCampaignTab: e.target.checked })}
+                        />
+                        Klaviyo & ESP Campaign
+                    </label>
+                </div>
+                <div className="setting-item">
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            checked={settings.showShopifyTab !== false} 
+                            onChange={(e) => updateSettings({ showShopifyTab: e.target.checked })}
+                        />
+                        Shopify Store Development
+                    </label>
+                </div>
+                <div className="setting-item">
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            checked={settings.showSocialMediaTab !== false} 
+                            onChange={(e) => updateSettings({ showSocialMediaTab: e.target.checked })}
+                        />
+                        Social Media Management
                     </label>
                 </div>
                 <div className="setting-item flex-item">
@@ -175,13 +215,37 @@ export default function PricingAdminClient() {
                     className={activeTab === 'template' ? 'active' : ''} 
                     onClick={() => setActiveTab('template')}
                 >
-                    📧 Email Template Packages
+                    📧 Email Templates
                 </button>
                 <button 
                     className={activeTab === 'signature' ? 'active' : ''} 
                     onClick={() => setActiveTab('signature')}
                 >
-                    ✍ Email Signature Packages
+                    ✍ Email Signatures
+                </button>
+                <button 
+                    className={activeTab === 'klaviyo_flow' ? 'active' : ''} 
+                    onClick={() => setActiveTab('klaviyo_flow')}
+                >
+                    ⚡ Klaviyo Automation
+                </button>
+                <button 
+                    className={activeTab === 'esp_campaign' ? 'active' : ''} 
+                    onClick={() => setActiveTab('esp_campaign')}
+                >
+                    🚀 ESP Campaigns
+                </button>
+                <button 
+                    className={activeTab === 'shopify' ? 'active' : ''} 
+                    onClick={() => setActiveTab('shopify')}
+                >
+                    🛒 Shopify Development
+                </button>
+                <button 
+                    className={activeTab === 'social_media' ? 'active' : ''} 
+                    onClick={() => setActiveTab('social_media')}
+                >
+                    📱 Social Media
                 </button>
                 
                 <button 

@@ -7,7 +7,7 @@ const featureSchema = new mongoose.Schema({
 }, { _id: false });
 
 const pricingPackageSchema = new mongoose.Schema({
-  serviceType: { type: String, enum: ['template', 'signature'], required: true },
+  serviceType: { type: String, enum: ['template', 'signature', 'klaviyo_flow', 'esp_campaign', 'shopify', 'social_media'], required: true },
   name: { type: String, required: true },
   label: { type: String },
   badgeText: { type: String },

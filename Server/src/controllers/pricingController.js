@@ -113,11 +113,19 @@ exports.getPublicPricing = async (req, res) => {
         
         const template = packages.filter(p => p.serviceType === 'template');
         const signature = packages.filter(p => p.serviceType === 'signature');
+        const klaviyo_flow = packages.filter(p => p.serviceType === 'klaviyo_flow');
+        const esp_campaign = packages.filter(p => p.serviceType === 'esp_campaign');
+        const shopify = packages.filter(p => p.serviceType === 'shopify');
+        const social_media = packages.filter(p => p.serviceType === 'social_media');
         
         res.json({
             settings,
             template,
-            signature
+            signature,
+            klaviyo_flow,
+            esp_campaign,
+            shopify,
+            social_media
         });
     } catch (err) {
         res.status(500).json({ error: err.message });

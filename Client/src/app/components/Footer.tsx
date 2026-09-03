@@ -11,14 +11,17 @@ export default function Footer() {
                         <Link href="/" className="footer-logo-link">
                             <Image src="https://i.ibb.co/ZRyRSNND/e37672fd303e.png" alt="MailStora Logo" width={180} height={38} style={{ objectFit: 'contain' }} />
                         </Link>
-                        <p>Professional HTML email <br /> templates & signatures.</p>
+                        <p>Premium omnichannel digital <br /> solutions for modern brands.</p>
                     </div>
                     <div className="footer-links-group">
                         <h4 className="footer-heading">SERVICES</h4>
                         <ul className="footer-list">
-                            <li><a href="#services">Custom Templates</a></li>
-                            <li><a href="#services">Email Signatures</a></li>
-                            <li><a href="#prices">Pricing</a></li>
+                            <li><a href="#services">HTML Email Templates</a></li>
+                            <li><a href="#services">HTML Email Signatures</a></li>
+                            <li><a href="#services">Klaviyo Automation Flow</a></li>
+                            <li><a href="#services">Klaviyo & ESP Campaign</a></li>
+                            <li><a href="#services">Shopify Store Development</a></li>
+                            <li><a href="#services">Social Media Management</a></li>
                         </ul>
                     </div>
                     <div className="footer-links-group">
@@ -31,9 +34,11 @@ export default function Footer() {
                     <div className="footer-links-group">
                         <h4 className="footer-heading">CONTACT</h4>
                         <ul className="footer-list">
-                            <li className="contact-item">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginRight: '8px'}}><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
-                                01744350705
+                            <li className="contact-item" style={{ marginBottom: '15px' }}>
+                                <a href="https://wa.me/8801744350705?text=Hi,%20I'm%20interested%20in%20your%20services" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: '#25D366', color: 'white', border: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', borderRadius: '4px', textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
+                                    Chat on WhatsApp
+                                </a>
                             </li>
                             <li className="contact-item">
                                 <a href="mailto:rashedulmr@gmail.com">rashedulmr@gmail.com</a>

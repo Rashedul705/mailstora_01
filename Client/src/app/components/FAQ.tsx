@@ -5,28 +5,28 @@ import './FAQ.css';
 
 const faqs = [
     {
-        q: "Do the emails work in Outlook?",
-        a: "Yes. Every template is rigorously tested in Outlook 2016, 2019, 2021, and Outlook 365, the most challenging email clients to code for. We use table-based layouts and inline CSS to ensure pixel-perfect rendering.",
+        q: "Which email and e-commerce platforms do you support?",
+        a: "We deeply specialize in Klaviyo and Shopify for e-commerce. For email templates, we support all major ESPs including Mailchimp, HubSpot, Campaign Monitor, ActiveCampaign, and Salesforce.",
     },
     {
-        q: "Which email platforms do you support?",
-        a: "All major platforms including Mailchimp, Klaviyo, HubSpot, Campaign Monitor, ActiveCampaign, Salesforce Marketing Cloud, and more. Templates are delivered as clean HTML ready for any ESP.",
+        q: "What is included in your Klaviyo Automation setups?",
+        a: "We set up complete, revenue-generating lifecycle flows. This includes Welcome Series, Abandoned Cart, Browse Abandonment, and Post-Purchase sequences, fully equipped with dynamic product logic and audience segmentation.",
+    },
+    {
+        q: "Do you offer custom Shopify store development?",
+        a: "Yes, we build fast, high-converting custom Shopify stores. We handle theme customization, speed optimization, seamless app integrations, and mobile-first checkout experiences.",
+    },
+    {
+        q: "How does your Social Media Management work?",
+        a: "We handle your social presence end-to-end. This includes a consistent posting schedule, branded content creation, hashtag optimization, community engagement, and detailed monthly performance reporting.",
     },
     {
         q: "How long does delivery take?",
-        a: "Most email templates are delivered within 24–48 hours. More complex templates or full design systems may take 3–5 business days. Turnaround time is always confirmed upfront.",
-    },
-    {
-        q: "Can I request revisions?",
-        a: "Absolutely. Each package includes revision rounds as specified. We work with you until you're 100% satisfied before final delivery.",
+        a: "HTML email templates and signatures are typically delivered within 24–48 hours. Comprehensive Klaviyo flow setups or ESP campaigns take 3–5 days, while full Shopify store development timelines depend on your specific project scope.",
     },
     {
         q: "Do you work from Figma or PSD designs?",
-        a: "Yes, we accept Figma, Adobe XD, PSD, or even simple PDF / image references. If you don't have a design, we can also create one based on your brand guidelines.",
-    },
-    {
-        q: "What file formats do you deliver?",
-        a: "You'll receive a clean .html file with all styles inlined, ready to import into your ESP. We also provide separate image assets and a quick-start guide for your platform.",
+        a: "Absolutely. We can convert your Figma, Adobe XD, or PSD files into pixel-perfect HTML emails or fully functional Shopify themes. If you don't have a design, we can create one for you!",
     },
 ];
 
