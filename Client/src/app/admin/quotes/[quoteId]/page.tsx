@@ -117,8 +117,10 @@ export default function QuoteDetailPage() {
                             }}
                         >
                             <option value="new">New</option>
-                            <option value="reviewed">Reviewed</option>
-                            <option value="replied">Replied</option>
+                            <option value="in review">In Review</option>
+                            <option value="quote sent">Quote Sent</option>
+                            <option value="accepted">Accepted</option>
+                            <option value="declined">Declined</option>
                             <option value="closed">Closed</option>
                         </select>
                     </div>
@@ -138,29 +140,63 @@ export default function QuoteDetailPage() {
 
                     {/* Service Info */}
                     <div style={{ background: '#f8f9fa', padding: '1.5rem', borderRadius: '8px' }}>
-                        <h3 style={{ color: 'var(--primary-dark)', fontSize: '1.1rem', marginTop: 0, marginBottom: '1rem' }}>Project Scope</h3>
+                        <h3 style={{ color: 'var(--primary-dark)', fontSize: '1.1rem', marginTop: 0, marginBottom: '1rem' }}>Requested Services</h3>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                            <div><span style={{ color: '#64748b', display: 'inline-block', width: '110px' }}>Service:</span> <strong style={{ color: '#1e293b' }}>{quote.service}</strong></div>
-                            <div>
-                                <span style={{ color: '#64748b', display: 'inline-block', width: '110px' }}>Email Types:</span> 
-                                <span style={{ color: '#1e293b' }}>{quote.emailTypes?.length ? quote.emailTypes.join(', ') : 'None'}</span>
-                            </div>
-                            <div>
-                                <span style={{ color: '#64748b', display: 'inline-block', width: '110px' }}>ESP Platform:</span> 
-                                <span style={{ color: '#1e293b' }}>{quote.esp?.length ? quote.esp.join(', ') : 'None'}</span>
-                            </div>
-                            <div>
-                                <span style={{ color: '#64748b', display: 'inline-block', width: '110px' }}>Design Status:</span> 
-                                <strong style={{ color: quote.designStatus === 'I have a design (PSD / Figma / Image)' ? '#059669' : '#d97706' }}>{quote.designStatus}</strong>
-                            </div>
+                            {(quote.services || []).map((srv: string) => {
+                                const details = quote.serviceDetails?.[srv];
+                                if (!details) return (
+                                    <div key={srv} style={{ borderBottom: '1px solid #e2e8f0', paddingBottom: '0.5rem' }}>
+                                        <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--primary-dark)' }}>{srv}</h4>
+                                        <span style={{ color: '#64748b' }}>No details provided.</span>
+                                    </div>
+                                );
+                                return (
+                                    <div key={srv} style={{ borderBottom: '1px solid #e2e8f0', paddingBottom: '1rem', marginBottom: '0.5rem' }}>
+                                        <h4 style={{ margin: '0 0 0.75rem 0', color: 'var(--primary-dark)' }}>{srv}</h4>
+                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                                            {Object.entries(details).map(([k, v]) => {
+                                                if (k === 'projectDetails' || k === 'overallProjectDetails') return null;
+                                                let displayV = v;
+                                                if (Array.isArray(v)) displayV = v.join(', ');
+                                                else if (typeof v === 'object' && v !== null) displayV = Object.entries(v).map(([sk, sv]) => `${sk}: ${sv}`).join(', ');
+                                                return (
+                                                    <div key={k}>
+                                                        <span style={{ color: '#64748b', fontSize: '0.85rem', display: 'block', textTransform: 'capitalize' }}>{k.replace(/([A-Z])/g, ' $1').trim()}</span>
+                                                        <strong style={{ color: '#1e293b', fontSize: '0.9rem' }}>{String(displayV || 'N/A')}</strong>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                        {details.projectDetails && (
+                                            <div style={{ marginTop: '0.75rem', fontSize: '0.9rem', color: '#475569' }}>
+                                                <strong>Specific Notes:</strong> {details.projectDetails}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
 
                 <div style={{ marginBottom: '2rem' }}>
-                    <h3 style={{ color: 'var(--primary-dark)', fontSize: '1.1rem', marginBottom: '0.5rem' }}>Project Description</h3>
+                    <h3 style={{ color: 'var(--primary-dark)', fontSize: '1.1rem', marginBottom: '0.5rem' }}>Project Specifications</h3>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', background: '#f8f9fa', padding: '1.5rem', borderRadius: '8px' }}>
+                        <div>
+                            <span style={{ color: '#64748b', fontSize: '0.85rem', display: 'block' }}>Estimated Budget</span>
+                            <strong style={{ color: '#1e293b', fontSize: '1.05rem' }}>{quote.budget || 'Not specified'}</strong>
+                        </div>
+                        <div>
+                            <span style={{ color: '#64748b', fontSize: '0.85rem', display: 'block' }}>Expected Timeline</span>
+                            <strong style={{ color: '#1e293b', fontSize: '1.05rem' }}>{quote.timeline || 'Not specified'}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div style={{ marginBottom: '2rem' }}>
+                    <h3 style={{ color: 'var(--primary-dark)', fontSize: '1.1rem', marginBottom: '0.5rem' }}>Overall Project Description</h3>
                     <div style={{ background: '#f8f9fa', padding: '1.5rem', borderRadius: '8px', color: '#334155', whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
-                        {quote.projectDetails}
+                        {quote.overallProjectDetails || 'No overall details provided.'}
                     </div>
                 </div>
 

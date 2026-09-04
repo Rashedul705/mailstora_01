@@ -12,6 +12,10 @@ export default function QuotesAdmin() {
     const [filterStatus, setFilterStatus] = useState('All');
     const [filterService, setFilterService] = useState('All');
     
+    const [searchQuery, setSearchQuery] = useState('');
+    const [dateFrom, setDateFrom] = useState('');
+    const [dateTo, setDateTo] = useState('');
+    
     const [replyText, setReplyText] = useState('');
     const [replying, setReplying] = useState(false);
     
@@ -116,17 +120,34 @@ export default function QuotesAdmin() {
     // Calculate Stats
     const totalQuotes = quotes.length;
     const newQuotes = quotes.filter(q => q.status === 'new').length;
-    const repliedQuotes = quotes.filter(q => q.status === 'replied').length;
+    const sentQuotes = quotes.filter(q => q.status === 'quote sent').length;
     const closedQuotes = quotes.filter(q => q.status === 'closed').length;
 
     // Filtering
     const filteredQuotes = quotes.filter(q => {
         if (filterStatus !== 'All' && q.status !== filterStatus.toLowerCase()) return false;
-        if (filterService !== 'All' && q.service !== filterService) return false;
+        if (filterService !== 'All' && !(q.services || []).includes(filterService)) return false;
+        
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            const matchName = q.client?.name?.toLowerCase().includes(query);
+            const matchId = q.quoteId?.toLowerCase().includes(query);
+            if (!matchName && !matchId) return false;
+        }
+
+        if (dateFrom) {
+            if (new Date(q.submittedAt) < new Date(dateFrom)) return false;
+        }
+        if (dateTo) {
+            const to = new Date(dateTo);
+            to.setHours(23, 59, 59, 999);
+            if (new Date(q.submittedAt) > to) return false;
+        }
+
         return true;
     });
 
-    const uniqueServices = Array.from(new Set(quotes.map(q => q.service).filter(Boolean)));
+    const uniqueServices = Array.from(new Set(quotes.flatMap(q => q.services || []).filter(Boolean)));
 
     return (
         <div className="quotes-admin-container">
@@ -144,8 +165,8 @@ export default function QuotesAdmin() {
                     <span>New</span>
                 </div>
                 <div className="stat-card stat-replied">
-                    <h3>{repliedQuotes}</h3>
-                    <span>Replied</span>
+                    <h3>{sentQuotes}</h3>
+                    <span>Quote Sent</span>
                 </div>
                 <div className="stat-card stat-closed">
                     <h3>{closedQuotes}</h3>
@@ -158,12 +179,21 @@ export default function QuotesAdmin() {
             </div>
 
             {/* Filters Row */}
-            <div className="filters-row">
+            <div className="filters-row" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
+                <input 
+                    type="text" 
+                    placeholder="Search name or ID..." 
+                    className="admin-filter-select"
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                />
                 <select className="admin-filter-select" value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
                     <option value="All">All Statuses</option>
                     <option value="New">New</option>
-                    <option value="Reviewed">Reviewed</option>
-                    <option value="Replied">Replied</option>
+                    <option value="In Review">In Review</option>
+                    <option value="Quote Sent">Quote Sent</option>
+                    <option value="Accepted">Accepted</option>
+                    <option value="Declined">Declined</option>
                     <option value="Closed">Closed</option>
                 </select>
                 <select className="admin-filter-select" value={filterService} onChange={e => setFilterService(e.target.value)}>
@@ -172,6 +202,14 @@ export default function QuotesAdmin() {
                         <option key={srv} value={srv}>{srv}</option>
                     ))}
                 </select>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'white', padding: '0.25rem 0.5rem', border: '1px solid #cbd5e1', borderRadius: '6px' }}>
+                    <span style={{ fontSize: '0.85rem', color: '#64748b' }}>From:</span>
+                    <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} style={{ border: 'none', outline: 'none', color: '#334155', fontSize: '0.9rem' }} />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'white', padding: '0.25rem 0.5rem', border: '1px solid #cbd5e1', borderRadius: '6px' }}>
+                    <span style={{ fontSize: '0.85rem', color: '#64748b' }}>To:</span>
+                    <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} style={{ border: 'none', outline: 'none', color: '#334155', fontSize: '0.9rem' }} />
+                </div>
             </div>
 
             <div className="split-layout">
@@ -197,10 +235,9 @@ export default function QuotesAdmin() {
                                 </div>
                                 <div className="quote-badges">
                                     <span className={`badge badge-status-${quote.status}`}>{quote.status}</span>
-                                    <span className="badge badge-service">{quote.service}</span>
-                                    {quote.esp && quote.esp.length > 0 && (
-                                        <span className="badge badge-esp">{Array.isArray(quote.esp) ? quote.esp.join(', ') : quote.esp}</span>
-                                    )}
+                                    {(quote.services || []).map((srv: string) => (
+                                        <span key={srv} className="badge badge-service" style={{ marginRight: '4px' }}>{srv}</span>
+                                    ))}
                                     {quote.attachmentUrl && (
                                         <span className="badge badge-attachment">📎 Attachment</span>
                                     )}
@@ -231,8 +268,10 @@ export default function QuotesAdmin() {
                                         style={{ width: 'auto' }}
                                     >
                                         <option value="new">New</option>
-                                        <option value="reviewed">Reviewed</option>
-                                        <option value="replied">Replied</option>
+                                        <option value="in review">In Review</option>
+                                        <option value="quote sent">Quote Sent</option>
+                                        <option value="accepted">Accepted</option>
+                                        <option value="declined">Declined</option>
                                         <option value="closed">Closed</option>
                                     </select>
                                     <button 
@@ -266,29 +305,46 @@ export default function QuotesAdmin() {
                                     </div>
                                 </div>
 
-                                <h3 style={{ fontSize: '1rem', marginBottom: '1rem', color: '#1e293b' }}>Project Details</h3>
-                                <div className="info-grid">
-                                    <div className="info-box">
-                                        <h4>Service Required</h4>
-                                        <p>{selectedQuoteDetail.service}</p>
-                                    </div>
-                                    <div className="info-box">
-                                        <h4>Email Platform (ESP)</h4>
-                                        <p>{Array.isArray(selectedQuoteDetail.esp) ? selectedQuoteDetail.esp.join(', ') : (selectedQuoteDetail.esp || 'None selected')}</p>
-                                    </div>
-                                    <div className="info-box">
-                                        <h4>Email Types</h4>
-                                        <p>{Array.isArray(selectedQuoteDetail.emailTypes) ? selectedQuoteDetail.emailTypes.join(', ') : (selectedQuoteDetail.emailTypes || 'None selected')}</p>
-                                    </div>
-                                    <div className="info-box">
-                                        <h4>Design Status</h4>
-                                        <p>{selectedQuoteDetail.designStatus}</p>
-                                    </div>
-                                </div>
+                                <h3 style={{ fontSize: '1rem', marginBottom: '1rem', color: '#1e293b' }}>Requested Services</h3>
+                                {(selectedQuoteDetail.services || []).map((srv: string) => {
+                                    const details = selectedQuoteDetail.serviceDetails?.[srv];
+                                    if (!details) return (
+                                        <div key={srv} style={{ marginBottom: '1rem', padding: '1rem', background: '#f8fafc', borderRadius: '8px' }}>
+                                            <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--primary-dark)' }}>{srv}</h4>
+                                            <p style={{ margin: 0, fontSize: '0.9rem', color: '#64748b' }}>No details provided.</p>
+                                        </div>
+                                    );
+                                    
+                                    return (
+                                        <div key={srv} style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                                            <h4 style={{ margin: '0 0 1rem 0', color: 'var(--primary-dark)', borderBottom: '1px solid #cbd5e1', paddingBottom: '0.5rem' }}>{srv}</h4>
+                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                                                {Object.entries(details).map(([k, v]) => {
+                                                    if (k === 'projectDetails' || k === 'overallProjectDetails') return null;
+                                                    let displayV = v;
+                                                    if (Array.isArray(v)) displayV = v.join(', ');
+                                                    else if (typeof v === 'object' && v !== null) displayV = Object.entries(v).map(([sk, sv]) => `${sk}: ${sv}`).join(', ');
+                                                    return (
+                                                        <div key={k}>
+                                                            <strong style={{ fontSize: '0.85rem', color: '#64748b', textTransform: 'capitalize' }}>{k.replace(/([A-Z])/g, ' $1').trim()}</strong>
+                                                            <div style={{ fontSize: '0.95rem', color: '#0f172a', marginTop: '0.25rem' }}>{String(displayV || 'N/A')}</div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                            {details.projectDetails && (
+                                                <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #e2e8f0' }}>
+                                                    <strong style={{ fontSize: '0.85rem', color: '#64748b' }}>Specific Project Details</strong>
+                                                    <div style={{ fontSize: '0.95rem', color: '#0f172a', marginTop: '0.25rem', whiteSpace: 'pre-wrap' }}>{details.projectDetails}</div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
 
-                                <h3 style={{ fontSize: '1rem', marginBottom: '1rem', color: '#1e293b' }}>Project Description</h3>
+                                <h3 style={{ fontSize: '1rem', marginBottom: '1rem', color: '#1e293b' }}>Overall Project Description</h3>
                                 <div className="description-box">
-                                    {selectedQuoteDetail.projectDetails}
+                                    {selectedQuoteDetail.overallProjectDetails || 'No overall details provided.'}
                                 </div>
 
                                 <h3 style={{ fontSize: '1rem', marginBottom: '1rem', color: '#1e293b' }}>Attachment</h3>

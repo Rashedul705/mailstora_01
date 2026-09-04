@@ -1,7 +1,7 @@
 /* Global overrides for quote page */
 .bg-gray-50 {
     background-color: #f8f9fa;
-    padding: 80px 0;
+    padding-bottom: 80px;
 }
 
 /* Quote Hero Section */
@@ -9,6 +9,7 @@
     background-color: #2d287b;
     padding: 4rem 1rem 3rem 1rem;
     color: white;
+    text-align: center;
 }
 
 .quote-breadcrumbs {
@@ -656,4 +657,90 @@
     align-items: center;
     gap: 0.5rem;
     font-weight: 500;
+}
+
+/* Modern Service Cards */
+.service-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 640px) {
+    .service-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.service-card-modern {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card-modern:hover {
+    border-color: #f97316;
+    box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.1);
+    transform: translateY(-2px);
+}
+
+.service-card-modern.active {
+    border-color: #f97316;
+    background-color: #fffaf5;
+    box-shadow: 0 0 0 1px #f97316;
+}
+
+.scm-icon {
+    width: 48px;
+    height: 48px;
+    background: #f3f4f6;
+    color: #4b5563;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.service-card-modern:hover .scm-icon,
+.service-card-modern.active .scm-icon {
+    background: #f97316;
+    color: #ffffff;
+}
+
+.scm-content h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.scm-content p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.scm-check {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: #f97316;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.service-card-modern.active .scm-check {
+    opacity: 1;
+    transform: scale(1);
 }

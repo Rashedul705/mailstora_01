@@ -37,7 +37,7 @@ const portfolioItemSchema = new mongoose.Schema({
   metaDescription: { type: String }
 }, { timestamps: true, collection: 'portfolioItems' });
 
-portfolioItemSchema.index({ slug: 1 }, { unique: true });
+
 portfolioItemSchema.index({ status: 1, sortOrder: 1 });
 
 module.exports = mongoose.models.PortfolioItem || mongoose.model('PortfolioItem', portfolioItemSchema);

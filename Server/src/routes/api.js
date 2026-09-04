@@ -30,8 +30,14 @@ router.get('/file/:id', async (req, res) => {
     try {
         const fileId = req.params.id;
 
-        // Check Redis cache
-        const cachedFile = await client.get(`file:${fileId}`);
+        let cachedFile = null;
+        if (client.isOpen) {
+            try {
+                cachedFile = await client.get(`file:${fileId}`);
+            } catch (err) {
+                console.error("Redis get error:", err.message);
+            }
+        }
         if (cachedFile) {
             const fileData = JSON.parse(cachedFile);
             res.set('Content-Type', fileData.contentType);
@@ -41,12 +47,18 @@ router.get('/file/:id', async (req, res) => {
         const file = await getFile(fileId);
 
         // Cache the file in Redis (expires in 1 hour)
-        await client.set(`file:${fileId}`, JSON.stringify({
-            contentType: file.contentType,
-            data: file.data.toString('base64')
-        }), {
-            EX: 3600
-        });
+        if (client.isOpen) {
+            try {
+                await client.set(`file:${fileId}`, JSON.stringify({
+                    contentType: file.contentType,
+                    data: file.data.toString('base64')
+                }), {
+                    EX: 3600
+                });
+            } catch (err) {
+                console.error("Redis set error:", err.message);
+            }
+        }
 
         res.set('Content-Type', file.contentType);
         res.send(file.data);

@@ -36,21 +36,42 @@ exports.create = async (req, res) => {
                 whatsapp: req.body.whatsapp,
                 company: req.body.company || ''
             },
-            service: req.body.service_type,
-            emailTypes: Array.isArray(req.body.email_types) ? req.body.email_types : (req.body.email_types ? JSON.parse(req.body.email_types) : []),
-            esp: Array.isArray(req.body.esp) ? req.body.esp : (req.body.esp ? JSON.parse(req.body.esp) : []),
-            designStatus: req.body.design_status,
+            services: Array.isArray(req.body.services) ? req.body.services : [],
+            serviceDetails: req.body.serviceDetails || {},
+            budget: req.body.budget || '',
+            timeline: req.body.timeline || '',
+            overallProjectDetails: req.body.overallProjectDetails || '',
             attachmentUrl: req.body.attachmentUrl || '',
-            projectDetails: req.body.project_description,
             conversation: []
         });
 
         // Prepare template variables
-        const emailTypesStr = newQuote.emailTypes.join(', ') || 'None';
-        const espStr = newQuote.esp.join(', ') || 'None';
         const attachmentLink = newQuote.attachmentUrl ? `<a href="${newQuote.attachmentUrl}" target="_blank">View Attachment</a>` : 'None';
         const adminReplyUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/admin/quotes/${quoteId}`;
         const adminWhatsapp = '+8801744350705';
+
+        let servicesHtml = '';
+        newQuote.services.forEach(srv => {
+            servicesHtml += `<h4>${srv}</h4><ul>`;
+            const details = newQuote.serviceDetails[srv];
+            if (details) {
+                for (const [key, val] of Object.entries(details)) {
+                    // handle objects like social handles elegantly if needed
+                    let displayVal = val;
+                    if (Array.isArray(val)) {
+                        displayVal = val.join(', ');
+                    } else if (typeof val === 'object' && val !== null) {
+                        displayVal = Object.entries(val).map(([k, v]) => `${k}: ${v}`).join(', ');
+                    }
+                    // pretty print keys
+                    const prettyKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                    servicesHtml += `<li><strong>${prettyKey}:</strong> ${displayVal || 'N/A'}</li>`;
+                }
+            } else {
+                servicesHtml += `<li>No specific details provided.</li>`;
+            }
+            servicesHtml += `</ul>`;
+        });
 
         // 1. Send Email to Admin
         const adminSubject = `New Quote Request — ${newQuote.client.name} — ${quoteId}`;
@@ -67,16 +88,15 @@ exports.create = async (req, res) => {
                 <li><strong>Company:</strong> ${newQuote.client.company || 'N/A'}</li>
             </ul>
             <hr />
-            <h3>Project Details</h3>
-            <ul>
-                <li><strong>Service:</strong> ${newQuote.service}</li>
-                <li><strong>Email Types:</strong> ${emailTypesStr}</li>
-                <li><strong>ESP:</strong> ${espStr}</li>
-                <li><strong>Design Status:</strong> ${newQuote.designStatus}</li>
-                <li><strong>Attachment:</strong> ${attachmentLink}</li>
-            </ul>
-            <h4>Description:</h4>
-            <p style="background:#f3f4f6;padding:15px;border-radius:8px;">${newQuote.projectDetails}</p>
+            <h3>Requested Services</h3>
+            ${servicesHtml}
+            <hr />
+            <h4>Project Details</h4>
+            <p><strong>Budget:</strong> ${newQuote.budget || 'Not specified'}</p>
+            <p><strong>Timeline:</strong> ${newQuote.timeline || 'Not specified'}</p>
+            <h4>Overall Project Details:</h4>
+            <p style="background:#f3f4f6;padding:15px;border-radius:8px;">${newQuote.overallProjectDetails || 'N/A'}</p>
+            <p><strong>Attachment:</strong> ${attachmentLink}</p>
         `;
 
         sendEmail(
@@ -88,10 +108,10 @@ exports.create = async (req, res) => {
         ).catch(e => console.error('Failed to send admin email:', e));
 
         // 2. Send Email to Client
-        const clientSubject = `We received your quote request — MailStora`;
+        const clientSubject = `We received your quote request (ID: ${quoteId})`;
         const clientContent = `
             <p>Hi ${newQuote.client.name},</p>
-            <p>Thank you for reaching out! We've received your quote request (<strong>${quoteId}</strong>) for <strong>${newQuote.service}</strong> and will get back to you within 2–4 hours on your email and WhatsApp.</p>
+            <p>Thank you for reaching out! We've received your quote request (<strong>${quoteId}</strong>) for <strong>${newQuote.services.join(', ')}</strong> and will get back to you within 2–4 hours on your email and WhatsApp.</p>
         `;
 
         sendEmail(
@@ -113,7 +133,7 @@ exports.create = async (req, res) => {
 exports.updateStatus = async (req, res) => {
     try {
         const { status } = req.body;
-        if (!['new', 'reviewed', 'replied', 'closed'].includes(status)) {
+        if (!['new', 'in review', 'quote sent', 'accepted', 'declined', 'closed'].includes(status)) {
             return res.status(400).json({ message: 'Invalid status' });
         }
 
