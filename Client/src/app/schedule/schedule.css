@@ -389,10 +389,12 @@
 
 .form-group input,
 .form-group textarea {
-    padding: 11px 14px;
+    padding: 14px 16px !important;
     border: 1.5px solid #e2e8f0;
     border-radius: 10px;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    color: #1e1b4b !important;
+    background-color: #ffffff;
     transition: border-color 0.15s;
     outline: none;
     font-family: inherit;
