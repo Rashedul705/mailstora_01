@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import './schedule.css';
+import { COUNTRY_CODES } from '../quote/countries';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
 const ET_ZONE  = 'America/New_York';
@@ -258,7 +259,7 @@ export default function SchedulePage() {
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedSlot, setSelectedSlot] = useState('');
     const [selectedMethod, setSelectedMethod] = useState('');
-    const [formData, setFormData] = useState({ name: '', email: '', whatsapp: '', company: '', projectNotes: '' });
+    const [formData, setFormData] = useState({ name: '', email: '', countryCode: '+1', whatsapp: '', company: '', projectNotes: '' });
     const [loading, setLoading] = useState(false);
     const [error, setError]     = useState('');
 
@@ -283,7 +284,7 @@ export default function SchedulePage() {
                     date: selectedDate,
                     timeSlot: selectedSlot,
                     meetingMethod: selectedMethod,
-                    client: { name: formData.name, email: formData.email, whatsapp: formData.whatsapp, company: formData.company },
+                    client: { name: formData.name, email: formData.email, whatsapp: `${formData.countryCode} ${formData.whatsapp}`, company: formData.company },
                     projectNotes: formData.projectNotes,
                 }),
             });
@@ -400,7 +401,28 @@ export default function SchedulePage() {
                                 <div className="form-row">
                                     <div className="form-group">
                                         <label>WhatsApp Number <span className="req">*</span></label>
-                                        <input type="tel" placeholder="+1 234 567 8900" value={formData.whatsapp} onChange={e => setFormData(f => ({ ...f, whatsapp: e.target.value }))} required />
+                                        <div style={{ display: 'flex', border: '1.5px solid #e2e8f0', borderRadius: '10px', overflow: 'hidden', backgroundColor: '#ffffff' }}>
+                                            <select 
+                                                name="countryCode" 
+                                                value={formData.countryCode} 
+                                                onChange={e => setFormData(f => ({ ...f, countryCode: e.target.value }))} 
+                                                style={{ border: 'none', background: '#f8fafc', padding: '14px 10px 14px 16px', width: '90px', borderRight: '1.5px solid #e2e8f0', outline: 'none', color: '#1e1b4b', fontSize: '0.95rem', cursor: 'pointer', appearance: 'none' }}
+                                            >
+                                                {COUNTRY_CODES.map(c => (
+                                                    <option key={`${c.code}-${c.country}`} value={c.code}>
+                                                        {c.code} ({c.country})
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <input 
+                                                type="tel" 
+                                                placeholder="234 567 8900" 
+                                                value={formData.whatsapp} 
+                                                onChange={e => setFormData(f => ({ ...f, whatsapp: e.target.value }))} 
+                                                required 
+                                                style={{ border: 'none', flex: 1, borderRadius: 0, outline: 'none', backgroundColor: 'transparent' }} 
+                                            />
+                                        </div>
                                     </div>
                                     <div className="form-group">
                                         <label>Company / Website <span className="opt">(optional)</span></label>
