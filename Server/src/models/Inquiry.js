@@ -6,8 +6,14 @@ const inquirySchema = new mongoose.Schema({
     email: { type: String, required: true },
     phone: { type: String, default: '' },
     company: { type: String, default: '' },
+    service: { type: String, default: '' },
     message: { type: String, required: true },
-    status: { type: String, enum: ['Pending', 'Replied', 'Resolved'], default: 'Pending' }
+    status: { type: String, enum: ['Pending', 'Replied', 'Resolved'], default: 'Pending' },
+    conversation: [{
+        from: { type: String, enum: ['admin', 'client'] },
+        message: String,
+        sentAt: { type: Date, default: Date.now }
+    }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Inquiry', inquirySchema);

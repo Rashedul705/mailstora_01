@@ -1,8 +1,49 @@
 "use client";
 
+import { useState } from 'react';
 import './Contact.css';
 
 export default function Contact() {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        service: '',
+        message: ''
+    });
+    const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus('submitting');
+        setErrorMessage('');
+
+        try {
+            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+            const res = await fetch(`${API_BASE}/api/inquiries`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            if (!res.ok) {
+                const errJson = await res.json().catch(() => ({}));
+                throw new Error(errJson.error || 'Failed to send message.');
+            }
+
+            setStatus('success');
+            setFormData({ name: '', email: '', service: '', message: '' });
+        } catch (error: any) {
+            console.error('Submission error:', error);
+            setStatus('error');
+            setErrorMessage(error.message || 'An error occurred while submitting your message.');
+        }
+    };
+
     return (
         <section className="contact-section section" id="contact">
             <div className="container">
@@ -14,36 +55,50 @@ export default function Contact() {
                 </div>
                 <div className="contact-grid">
                     <div className="contact-form-container">
-                        <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
-                            <div className="form-group">
-                                <label htmlFor="name">Name</label>
-                                <input type="text" id="name" name="name" placeholder="John Doe" required />
+                        {status === 'success' ? (
+                            <div className="contact-success-message" style={{ textAlign: 'center', padding: '2rem', background: '#f0fdf4', borderRadius: '8px', border: '1px solid #bbf7d0' }}>
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 1rem' }}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                <h3 style={{ color: '#166534', marginBottom: '0.5rem' }}>Message Sent!</h3>
+                                <p style={{ color: '#15803d' }}>Thank you for reaching out. We will get back to you within 2-4 hours.</p>
+                                <button onClick={() => setStatus('idle')} className="btn btn-primary" style={{ marginTop: '1rem', background: '#16a34a', borderColor: '#16a34a' }}>Send Another</button>
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <input type="email" id="email" name="email" placeholder="john@company.com" required />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="service">Service Needed</label>
-                                <select id="service" name="service" required defaultValue="">
-                                    <option value="" disabled>Select a service…</option>
-                                    <option value="template">HTML Email Templates</option>
-                                    <option value="signature">HTML Email Signatures</option>
-                                    <option value="klaviyo_flow">Klaviyo Automation Flow</option>
-                                    <option value="esp_campaign">Klaviyo & ESP Campaign Setup</option>
-                                    <option value="shopify">Shopify Store Development</option>
-                                    <option value="social_media">Social Media Management</option>
-                                    <option value="other">Other / Custom Request</option>
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="message">Message</label>
-                                <textarea id="message" name="message" rows={4} placeholder="Tell us about your project…" required></textarea>
-                            </div>
-                            <button type="submit" className="btn btn-primary full-width form-submit">
-                                Send Message
-                            </button>
-                        </form>
+                        ) : (
+                            <form className="contact-form" onSubmit={handleSubmit}>
+                                {status === 'error' && (
+                                    <div style={{ padding: '0.75rem', marginBottom: '1rem', background: '#fef2f2', color: '#b91c1c', border: '1px solid #fecaca', borderRadius: '4px' }}>
+                                        ⚠️ {errorMessage}
+                                    </div>
+                                )}
+                                <div className="form-group">
+                                    <label htmlFor="name">Name</label>
+                                    <input type="text" id="name" name="name" placeholder="John Doe" required value={formData.name} onChange={handleChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="email">Email</label>
+                                    <input type="email" id="email" name="email" placeholder="john@company.com" required value={formData.email} onChange={handleChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="service">Service Needed</label>
+                                    <select id="service" name="service" required value={formData.service} onChange={handleChange}>
+                                        <option value="" disabled>Select a service…</option>
+                                        <option value="template">HTML Email Templates</option>
+                                        <option value="signature">HTML Email Signatures</option>
+                                        <option value="klaviyo_flow">Klaviyo Automation Flow</option>
+                                        <option value="esp_campaign">Klaviyo & ESP Campaign Setup</option>
+                                        <option value="shopify">Shopify Store Development</option>
+                                        <option value="social_media">Social Media Management</option>
+                                        <option value="other">Other / Custom Request</option>
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="message">Message</label>
+                                    <textarea id="message" name="message" rows={4} placeholder="Tell us about your project…" required value={formData.message} onChange={handleChange}></textarea>
+                                </div>
+                                <button type="submit" className="btn btn-primary full-width form-submit" disabled={status === 'submitting'}>
+                                    {status === 'submitting' ? 'Sending...' : 'Send Message'}
+                                </button>
+                            </form>
+                        )}
                     </div>
 
                     <div className="contact-direct">
