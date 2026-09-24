@@ -17,11 +17,11 @@ export default function Footer() {
                         <h4 className="footer-heading">SERVICES</h4>
                         <ul className="footer-list">
                             <li><Link href="/html-email-template-development/">HTML Email Templates</Link></li>
-                            <li><Link href="/html-email-signature-design/">Email Signatures</Link></li>
-                            <li><Link href="/klaviyo-flow-setup/">Klaviyo Flows</Link></li>
+                            <li><Link href="/html-email-signature-design/">HTML Email Signatures</Link></li>
+                            <li><Link href="/klaviyo-flow-setup/">Klaviyo Automation Flows</Link></li>
                             <li><Link href="/klaviyo-campaign-management/">Klaviyo Campaigns</Link></li>
-                            <li><Link href="/white-label-email-development/">White-Label for Agencies</Link></li>
-                            <li><Link href="/shopify-development/">Shopify Development</Link></li>
+                            <li><Link href="/white-label-email-development/">White-Label Email Development</Link></li>
+                            <li><Link href="/shopify-development/">Shopify Store Development</Link></li>
                             <li><Link href="/social-media-management/">Social Media Management</Link></li>
                         </ul>
                     </div>

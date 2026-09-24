@@ -1,178 +1,312 @@
 import { Metadata } from 'next';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import FAQ from "../components/FAQ";
 import Contact from "../components/Contact";
-import Breadcrumb from "../components/Breadcrumb";
+import FAQ from "../components/FAQ";
+import Portfolio from "../components/Portfolio";
+import Testimonials from "../components/Testimonials";
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-    title: "Custom HTML Email Signature Design & Coding | Freelance Expert",
-    description: "Professional, clickable HTML email signatures that work in Outlook, Gmail & Apple Mail. Single or company-wide rollout without the paperclip attachment icon.",
+    title: "Custom HTML Email Signature Design | MailStora",
+    description: "Professional, clickable HTML email signatures that work in Outlook, Gmail & Apple Mail. Single or company-wide rollout. Fast delivery.",
     alternates: {
         canonical: "https://mailstora.com/html-email-signature-design/"
     }
 };
 
-const breadcrumbItems = [
-    { label: 'Home', url: '/' },
-    { label: 'HTML Email Signature Design', url: '/html-email-signature-design/' }
-];
-
-const signatureFaqs = [
+const customFaqs = [
     {
-        q: "Will the images show up as attachments?",
-        a: "No. I host all images (headshots, logos, social icons) on a secure, fast CDN. This prevents the dreaded 'paperclip' attachment icon from appearing on every email you send."
+        q: "How much does a custom email signature cost?",
+        a: "Single signatures start at [$XX]. Team rollouts are priced by headcount — check out the pricing page for details."
     },
     {
-        q: "Do your signatures work in Dark Mode?",
-        a: "Yes. I optimize all assets—such as using transparent PNGs with subtle white strokes for dark logos—to ensure they remain completely legible and premium when your recipient's OS is in Dark Mode."
+        q: "Will it work in Outlook?",
+        a: "Yes — Outlook is one of the trickiest clients for signatures specifically (image handling and spacing issues), and it's part of my standard testing."
     },
     {
-        q: "Can I edit the signature later?",
-        a: "Yes, I provide the raw HTML file. You can edit the text (like a phone number or job title) using any basic text editor before pasting it into your email client."
+        q: "Can I add a photo or company logo?",
+        a: "Yes, both are common and I'll size and optimize them properly so they load fast and stay sharp."
     },
     {
-        q: "How do I install the signature?",
-        a: "I provide step-by-step installation guides tailored for Outlook, Gmail, Apple Mail, and Office 365. For most clients, it is as simple as opening the HTML file in a browser, copying the rendered design, and pasting it into your settings."
+        q: "Do you handle company-wide rollout for a whole team?",
+        a: "Yes — I can set up one design system and personalize it per employee, deployed through Microsoft 365/Exchange or Google Workspace."
     },
     {
-        q: "Do you offer company-wide signature management?",
-        a: "Yes! If you have a team, I can design a master template and either generate individual HTML files for each employee, or help you deploy it centrally via Google Workspace or Microsoft 365 Exchange rules."
+        q: "Can I update it myself later?",
+        a: "Yes, I'll give you clear instructions for updating text fields. For bigger design changes, just message me."
+    },
+    {
+        q: "How long does it take?",
+        a: "Most single signatures are delivered in 24–48 hours."
+    },
+    {
+        q: "Do you host the images?",
+        a: "Yes — I don't rely on attachments or personal drive links, which is one of the most common reasons signatures break."
+    },
+    {
+        q: "What if my logo or branding needs some design work first?",
+        a: "If you have a brand guide, I can adjust the artwork to fit the signature layout."
     }
 ];
 
-export default async function HtmlEmailSignaturePillarPage() {
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "@id": "https://mailstora.com/html-email-signature-design/#service",
-        "name": "HTML Email Signature Design",
-        "serviceType": "HTML email signature design",
-        "description": "Custom HTML email signature design and coding for individuals and teams.",
-        "provider": { "@id": "https://mailstora.com/#rashedul" },
-        "areaServed": "Worldwide",
-        "audience": { "@type": "BusinessAudience", "audienceType": "Professionals and Corporations" },
-        "offers": {
-            "@type": "Offer",
-            "priceCurrency": "USD",
-            "url": "https://mailstora.com/html-email-signature-design/"
+async function getPageData() {
+    const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    
+    try {
+        const [portfolioRes, testimonialsRes] = await Promise.all([
+            fetch(`${API_BASE}/api/portfolio`, { cache: 'no-store' }).catch(() => null),
+            fetch(`${API_BASE}/api/testimonials?status=published`, { cache: 'no-store' }).catch(() => null)
+        ]);
+
+        let portfolioData = portfolioRes && portfolioRes.ok ? await portfolioRes.json() : null;
+        if (portfolioData && portfolioData.items) {
+            // Filter only Email Signatures
+            portfolioData.items = portfolioData.items.filter((item: any) => item.type === 'Email Signature');
         }
-    };
+
+        return {
+            portfolio: portfolioData,
+            testimonials: testimonialsRes && testimonialsRes.ok ? await testimonialsRes.json() : null
+        };
+    } catch (e) {
+        return { portfolio: null, testimonials: null };
+    }
+}
+
+export default async function HtmlEmailSignatureDesignPage() {
+    const data = await getPageData();
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
             <Navbar />
             
+            {/* Hero */}
             <section className="sp-hero" style={{ paddingTop: '140px', paddingBottom: '80px', background: '#0f172a', color: '#fff' }}>
                 <div className="container">
-                    <Breadcrumb items={breadcrumbItems} />
-                    <div className="text-center" style={{ maxWidth: '900px', margin: '0 auto', marginTop: '2rem' }}>
-                        <div className="section-pill" style={{ display: 'inline-block', marginBottom: '1.5rem', background: 'rgba(99, 102, 241, 0.1)', color: '#818cf8', padding: '6px 16px', borderRadius: '30px', fontWeight: 'bold' }}>PILLAR SERVICE</div>
+                    <div className="text-center" style={{ maxWidth: '900px', margin: '0 auto' }}>
                         <h1 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', lineHeight: '1.2', fontWeight: 800 }}>
-                            Premium HTML Email Signatures Without the "Paperclip" Issue
+                            A Professional Email Signature, Coded to Actually Work
                         </h1>
                         <p style={{ fontSize: '1.25rem', color: '#94a3b8', marginBottom: '2rem', lineHeight: 1.6 }}>
-                            A broken, amateur email signature destroys your brand credibility with every message you send. I design and hand-code professional, fully clickable signatures that render flawlessly across Outlook, Gmail, and Apple Mail—whether for you or your entire company.
+                            I design and hand-code HTML email signatures that look right and click right — in Outlook, Gmail, Apple Mail, and everywhere else your emails land. Built by me personally, not spat out of a signature generator.
                         </p>
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                            <Link href="/quote" className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '1.1rem', fontWeight: 600 }}>Get Your Signature</Link>
-                            <Link href="/portfolio" className="btn btn-outline-light" style={{ padding: '16px 32px', fontSize: '1.1rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', fontWeight: 600 }}>View Examples</Link>
+                            <Link href="/quote" className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '1.1rem', fontWeight: 600 }}>Get My Signature Built →</Link>
+                        </div>
+                        <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: '2rem', color: '#64748b', fontSize: '0.95rem' }}>
+                            <span>✓ Hand-coded, not template-generated</span>
+                            <span>✓ Tested in Outlook, Gmail & Apple Mail</span>
+                            <span>✓ Single or company-wide rollout</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* The Paperclip Issue & Broken Signatures */}
+            {/* What You Get */}
             <section className="section" style={{ background: '#fff', padding: '80px 0' }}>
                 <div className="container">
                     <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Stop Sending the "Paperclip"</h2>
-                        <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '1.5rem', lineHeight: 1.7 }}>
-                            Have you ever noticed that some email signatures cause a "paperclip" attachment icon to appear on every email sent? This happens when your logo or headshot is physically embedded into the email as a Base64 string or an attached file, rather than being properly hosted.
-                        </p>
-                        <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '1.5rem', lineHeight: 1.7 }}>
-                            This isn't just an aesthetic annoyance—it frustrates your recipients when they are trying to search their inbox for an actual file attachment you sent them, only to find hundreds of emails flagged with a paperclip because of your logo.
-                        </p>
-                        <div style={{ background: '#f8fafc', borderLeft: '4px solid #0ea5e9', padding: '1.5rem', margin: '2rem 0' }}>
-                            <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem', color: '#0f172a' }}>My Solution: Dedicated Image Hosting</h3>
-                            <p style={{ color: '#475569', margin: 0, lineHeight: 1.6 }}>
-                                I host all of your signature assets (logos, banners, social icons, headshots) on a high-speed CDN. Your signature loads instantly, looks crisp, and never triggers the false attachment icon.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Dark Mode Challenges */}
-            <section className="section" style={{ background: '#f8fafc', padding: '80px 0' }}>
-                <div className="container">
-                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Surviving the Dark Mode Shift</h2>
-                        <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '1.5rem', lineHeight: 1.7 }}>
-                            Dark mode is now the default for millions of users across iOS, Android, macOS, and Windows. When an email client switches to dark mode, it aggressively inverts background colors and text colors to reduce eye strain. 
-                        </p>
-                        <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '1.5rem', lineHeight: 1.7 }}>
-                            If your signature isn't coded for this, disaster strikes. Black text disappears into dark backgrounds. Logos with white backgrounds look like ugly, jagged squares. Dark logos completely vanish.
-                        </p>
-                        <h3 style={{ fontSize: '1.5rem', marginTop: '2rem', marginBottom: '1rem', color: '#0f172a' }}>How I Engineer for Dark Mode:</h3>
-                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, color: '#475569', fontSize: '1.1rem' }}>
-                            <li style={{ marginBottom: '1rem', display: 'flex' }}>
-                                <span style={{ color: '#0ea5e9', marginRight: '10px' }}>✓</span> 
-                                <span><strong>Asset Optimization:</strong> I apply subtle, imperceptible white strokes or glows to dark logos so they pop on dark backgrounds while remaining invisible on light ones.</span>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>What You Get</h2>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, color: '#475569', fontSize: '1.15rem', lineHeight: 1.7 }}>
+                            <li style={{ marginBottom: '1rem', display: 'flex', alignItems: 'flex-start' }}>
+                                <span style={{ color: '#0ea5e9', marginRight: '12px', marginTop: '4px' }}>✓</span>
+                                <div><strong>A signature designed to match your brand</strong></div>
                             </li>
-                            <li style={{ marginBottom: '1rem', display: 'flex' }}>
-                                <span style={{ color: '#0ea5e9', marginRight: '10px' }}>✓</span> 
-                                <span><strong>CSS Media Queries:</strong> I implement <code>@media (prefers-color-scheme: dark)</code> to explicitly control text colors and prevent Apple Mail or Outlook from ruining your brand colors.</span>
+                            <li style={{ marginBottom: '1rem', display: 'flex', alignItems: 'flex-start' }}>
+                                <span style={{ color: '#0ea5e9', marginRight: '12px', marginTop: '4px' }}>✓</span>
+                                <div><strong>Hand-coded HTML</strong> — not a generic signature-generator export</div>
                             </li>
-                            <li style={{ marginBottom: '1rem', display: 'flex' }}>
-                                <span style={{ color: '#0ea5e9', marginRight: '10px' }}>✓</span> 
-                                <span><strong>Transparent PNGs:</strong> All graphic elements are carefully exported to prevent ugly white bounding boxes when the background inverts.</span>
+                            <li style={{ marginBottom: '1rem', display: 'flex', alignItems: 'flex-start' }}>
+                                <span style={{ color: '#0ea5e9', marginRight: '12px', marginTop: '4px' }}>✓</span>
+                                <div><strong>Self-hosted images</strong>, so nothing shows up as a broken red X</div>
+                            </li>
+                            <li style={{ marginBottom: '1rem', display: 'flex', alignItems: 'flex-start' }}>
+                                <span style={{ color: '#0ea5e9', marginRight: '12px', marginTop: '4px' }}>✓</span>
+                                <div><strong>Clickable social icons and links</strong></div>
+                            </li>
+                            <li style={{ marginBottom: '1rem', display: 'flex', alignItems: 'flex-start' }}>
+                                <span style={{ color: '#0ea5e9', marginRight: '12px', marginTop: '4px' }}>✓</span>
+                                <div><strong>An optional banner or CTA button</strong></div>
+                            </li>
+                            <li style={{ display: 'flex', alignItems: 'flex-start' }}>
+                                <span style={{ color: '#0ea5e9', marginRight: '12px', marginTop: '4px' }}>✓</span>
+                                <div><strong>A simple install guide</strong>, or I can walk you through setup myself</div>
                             </li>
                         </ul>
                     </div>
                 </div>
             </section>
 
-            {/* Manual vs Central Deployment */}
-            <section className="section" style={{ background: '#0f172a', padding: '80px 0', color: '#fff' }}>
+            {/* Signature Styles I Build */}
+            <section className="section" style={{ background: '#f8fafc', padding: '80px 0' }}>
                 <div className="container">
                     <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                        <div style={{ color: '#818cf8', fontWeight: 700, marginBottom: '1rem', letterSpacing: '1px' }}>SCALABILITY</div>
-                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', fontWeight: 700 }}>Single Employee vs. Company-Wide Rollouts</h2>
-                        <p style={{ fontSize: '1.15rem', color: '#cbd5e1', marginBottom: '1.5rem', lineHeight: 1.7 }}>
-                            When you have 3 employees, emailing them a file to copy-paste into their settings is easy. When you have 50 employees, it's a nightmare. Someone will mess up the formatting, someone will use an old logo, and someone will link to their personal Twitter instead of the company one.
-                        </p>
-                        
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '3rem' }}>
-                            <div style={{ background: 'rgba(255,255,255,0.05)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                                <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', color: '#fff' }}>Manual Installation (1-10 Users)</h3>
-                                <p style={{ color: '#94a3b8', lineHeight: 1.6, marginBottom: '1rem' }}>
-                                    I provide individualized HTML files for each team member. They simply open the file in Chrome, hit CTRL+A (Select All), CTRL+C (Copy), and paste it directly into the signature box in Gmail or Outlook.
-                                </p>
-                                <p style={{ color: '#818cf8', fontWeight: 600, margin: 0, fontSize: '0.9rem' }}>Fast, simple, no IT required.</p>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Signature Styles I Build</h2>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                            <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>Minimal</h4>
+                                <p style={{ color: '#64748b', margin: 0 }}>Name, title, contact details, one clean divider line.</p>
                             </div>
-                            <div style={{ background: 'rgba(255,255,255,0.05)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                                <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', color: '#fff' }}>Central Deployment (10+ Users)</h3>
-                                <p style={{ color: '#94a3b8', lineHeight: 1.6, marginBottom: '1rem' }}>
-                                    I build a master HTML template containing Active Directory variables (like <code>%%FirstName%%</code>). We then deploy this template at the server level via Microsoft 365 Exchange rules or Google Workspace.
-                                </p>
-                                <p style={{ color: '#818cf8', fontWeight: 600, margin: 0, fontSize: '0.9rem' }}>100% brand consistency. No user action required.</p>
+                            <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>Corporate</h4>
+                                <p style={{ color: '#64748b', margin: 0 }}>Logo, full contact block, social icons.</p>
                             </div>
-                        </div>
-                        
-                        <div style={{ marginTop: '3rem', textAlign: 'center' }}>
-                            <Link href="/company-email-signature-deployment/" className="btn btn-primary" style={{ padding: '12px 24px' }}>Learn more about Company Rollouts</Link>
+                            <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>With photo</h4>
+                                <p style={{ color: '#64748b', margin: 0 }}>A professional headshot alongside your details.</p>
+                            </div>
+                            <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>With banner or CTA</h4>
+                                <p style={{ color: '#64748b', margin: 0 }}>A promotional banner or button linking to your site, an offer, or your calendar link.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
-            
-            <FAQ data={signatureFaqs} />
+
+            {/* Email Clients I Test In */}
+            <section className="section" style={{ background: '#fff', padding: '80px 0' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Email Clients I Test In</h2>
+                        <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '2rem', lineHeight: 1.7 }}>
+                            Every signature is tested to display correctly in:
+                        </p>
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+                            {['Outlook (classic and new)', 'Gmail', 'Apple Mail', 'Outlook.com', 'Yahoo Mail'].map((client) => (
+                                <span key={client} style={{ background: '#f1f5f9', color: '#334155', padding: '8px 16px', borderRadius: '30px', fontWeight: 500 }}>{client}</span>
+                            ))}
+                        </div>
+                        <p style={{ fontSize: '1.1rem', color: '#475569', marginBottom: '1rem', lineHeight: 1.7 }}>
+                            Using Outlook specifically? <Link href="/outlook-email-signature" style={{ color: '#0ea5e9', fontWeight: 600 }}>See the Outlook signature page →</Link>
+                        </p>
+                        <p style={{ fontSize: '1.1rem', color: '#475569', lineHeight: 1.7 }}>
+                            Using Gmail or Google Workspace? <Link href="/gmail-email-signature" style={{ color: '#0ea5e9', fontWeight: 600 }}>See the Gmail signature page →</Link>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Single Signature or Company-Wide Rollout */}
+            <section className="section" style={{ background: '#0f172a', padding: '80px 0', color: '#fff' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '2rem', fontWeight: 700, textAlign: 'center' }}>Single Signature or Company-Wide Rollout</h2>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                            <div style={{ background: 'rgba(255,255,255,0.05)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>Single signature</h4>
+                                <p style={{ color: '#cbd5e1', margin: 0 }}>One signature, designed and coded just for you.</p>
+                            </div>
+                            <div style={{ background: 'rgba(255,255,255,0.05)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>Company-wide deployment</h4>
+                                <p style={{ color: '#cbd5e1', margin: 0, marginBottom: '1rem' }}>One design system, personalized per employee (name, title, phone), rolled out across your whole team through Microsoft 365/Exchange or Google Workspace.</p>
+                                <Link href="/company-email-signature-deployment" style={{ color: '#38bdf8', fontWeight: 600 }}>See how company-wide rollout works →</Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Technical Standards I Build To */}
+            <section className="section" style={{ background: '#fff', padding: '80px 0' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Technical Standards I Build To</h2>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, color: '#475569', fontSize: '1.15rem', lineHeight: 1.8 }}>
+                            <li>✓ Hosted images, not linked to a personal drive or email attachment</li>
+                            <li>✓ Retina-ready graphics so it looks sharp on any screen</li>
+                            <li>✓ Dark mode considered, not ignored</li>
+                            <li>✓ Mobile-safe width, so nothing breaks on a phone</li>
+                            <li>✓ Small file size, so it doesn't slow down your emails</li>
+                            <li>✓ Tested for broken links or missing assets before I send it to you</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            {/* Industries I've Built Signatures For */}
+            <section className="section" style={{ background: '#f8fafc', padding: '80px 0' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Industries I've Built Signatures For</h2>
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+                            {['Insurance', 'Real estate', 'Law firms', 'Marketing agencies', 'SaaS companies'].map((ind) => (
+                                <span key={ind} style={{ background: '#fff', color: '#334155', padding: '10px 20px', borderRadius: '8px', border: '1px solid #e2e8f0', fontWeight: 500 }}>{ind}</span>
+                            ))}
+                        </div>
+                        <Link href="/portfolio" style={{ color: '#0ea5e9', fontWeight: 600, fontSize: '1.15rem' }}>See examples in my portfolio →</Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* My Process */}
+            <section className="section" style={{ background: '#fff', padding: '80px 0' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '3rem', color: '#0f172a', fontWeight: 700, textAlign: 'center' }}>My Process</h2>
+                        
+                        <div style={{ position: 'relative', paddingLeft: '40px' }}>
+                            <div style={{ position: 'absolute', left: '15px', top: '10px', bottom: '10px', width: '2px', background: '#e2e8f0' }}></div>
+                            
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>1</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>You tell me what you want included</strong> — name, title, photo, banner, links.</p>
+                            </div>
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>2</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>I design a draft matching your brand.</strong></p>
+                            </div>
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>3</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>Once you approve it, I hand-code it</strong> and test it across the major clients.</p>
+                            </div>
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>4</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>You get the final file plus install instructions</strong> — or I set it up for you directly.</p>
+                            </div>
+                        </div>
+                        <p style={{ fontSize: '1.15rem', color: '#0f172a', fontWeight: 600, marginTop: '2rem' }}>
+                            Typical turnaround: 24–48 hours.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Pricing */}
+            <section className="section" style={{ background: '#f8fafc', padding: '80px 0' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Pricing</h2>
+                        <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '1.5rem', lineHeight: 1.7 }}>
+                            Starting at <strong>[$XX]</strong> per signature. Team rollouts are priced per number of employees.
+                        </p>
+                        <Link href="/pricing" style={{ color: '#0ea5e9', fontWeight: 600, fontSize: '1.15rem' }}>See full pricing →</Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* Recent Work / Portfolio */}
+            <Portfolio data={data.portfolio} />
+
+            {/* What Clients Say / Testimonials */}
+            <Testimonials data={data.testimonials} />
+
+            {/* FAQs */}
+            <FAQ data={customFaqs} />
+
+            {/* Final CTA */}
+            <section className="section" style={{ background: '#fff', padding: '80px 0', textAlign: 'center' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Ready for a signature that actually works?</h2>
+                        <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '2rem', lineHeight: 1.7 }}>
+                            Tell me what you want included and I'll send you a draft.
+                        </p>
+                        <Link href="/quote" className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '1.15rem', fontWeight: 600 }}>Get My Signature Built →</Link>
+                    </div>
+                </div>
+            </section>
 
             <Contact />
             <Footer />

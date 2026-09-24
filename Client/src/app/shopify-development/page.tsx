@@ -1,125 +1,179 @@
 import { Metadata } from 'next';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Pricing from "../components/Pricing";
-import FAQ from "../components/FAQ";
 import Contact from "../components/Contact";
-import Breadcrumb from "../components/Breadcrumb";
+import FAQ from "../components/FAQ";
+import Portfolio from "../components/Portfolio";
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-    title: "Shopify Store Development & Customization | MailStora",
-    description: "Custom Shopify store development, theme customization, and optimization. Seamless integration with Klaviyo for maximum ecommerce growth.",
+    title: "Shopify Store Development & Theme Customization | MailStora",
+    description: "Shopify theme customization, speed optimization and conversion-focused product pages — connected to your Klaviyo email setup.",
     alternates: {
-        canonical: "https://mailstora.com/shopify-development"
+        canonical: "https://mailstora.com/shopify-development/"
     }
 };
 
-const breadcrumbItems = [
-    { label: 'Home', url: '/' },
-    { label: 'Shopify Store Development', url: '/shopify-development' }
-];
-
-const shopifyFaqs = [
+const customFaqs = [
     {
-        q: "Do you build Shopify stores from scratch?",
-        a: "Yes. We can take your brand from concept to a fully functional Shopify store, including theme selection, custom liquid coding, and app integration."
+        q: "Do you build stores from scratch, or only customize existing ones?",
+        a: "Both — tell me where you're starting from and I'll scope the right approach."
     },
     {
-        q: "Can you customize my existing theme?",
-        a: "Absolutely. If you love your current theme but need custom sections, a new mega-menu, or specific product page layouts, we can write the custom Liquid and CSS."
+        q: "Can you fix a slow store without a full redesign?",
+        a: "Often, yes. Speed issues are usually fixable without touching the whole design."
     },
     {
-        q: "Do you optimize for page speed?",
-        a: "Yes. Fast loading times are critical for conversion. We audit apps, compress assets, and defer off-screen Javascript to improve your core web vitals."
+        q: "Will this affect my existing Klaviyo flows?",
+        a: "If anything, it should help — a clean store setup means more reliable data feeding into your flows."
     },
     {
-        q: "How does this tie into your email services?",
-        a: "We ensure your Shopify store is perfectly integrated with Klaviyo. We set up onsite tracking, custom 'Added to Cart' snippets, and ensure your newsletter pop-ups fire at the exact right moment."
+        q: "Do you handle custom Liquid code, or just theme settings?",
+        a: "I work with custom Liquid sections when the theme's built-in options aren't enough."
+    },
+    {
+        q: "Can you connect my store to other apps I use?",
+        a: "Yes — app setup and configuration is part of what I offer."
     }
 ];
 
-export default async function ShopifyDevelopmentPage() {
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "@id": "https://mailstora.com/shopify-development/#service",
-        "name": "Shopify Store Development",
-        "serviceType": "Shopify website development",
-        "description": "Custom Shopify development, theme customization, and ecommerce optimization.",
-        "provider": { "@id": "https://mailstora.com/#organization" },
-        "areaServed": "Worldwide",
-        "audience": { "@type": "BusinessAudience", "audienceType": "Ecommerce Brands" },
-        "offers": {
-            "@type": "Offer",
-            "priceCurrency": "USD",
-            "price": "500",
-            "url": "https://mailstora.com/shopify-development/"
+async function getPageData() {
+    const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    
+    try {
+        const portfolioRes = await fetch(`${API_BASE}/api/portfolio`, { cache: 'no-store' }).catch(() => null);
+        let portfolioData = portfolioRes && portfolioRes.ok ? await portfolioRes.json() : null;
+        if (portfolioData && portfolioData.items) {
+            // Filter only Shopify if possible
+            portfolioData.items = portfolioData.items.filter((item: any) => item.type === 'Shopify');
         }
-    };
+
+        return { portfolio: portfolioData };
+    } catch (e) {
+        return { portfolio: null };
+    }
+}
+
+export default async function ShopifyDevelopmentPage() {
+    const data = await getPageData();
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
             <Navbar />
             
+            {/* Hero */}
             <section className="sp-hero" style={{ paddingTop: '140px', paddingBottom: '80px', background: '#0f172a', color: '#fff' }}>
                 <div className="container">
-                    <Breadcrumb items={breadcrumbItems} />
-                    <div className="text-center" style={{ maxWidth: '800px', margin: '0 auto', marginTop: '2rem' }}>
-                        <h1 style={{ fontSize: '3rem', marginBottom: '1.5rem', lineHeight: '1.2' }}>Shopify Store Development & Customization</h1>
-                        <p style={{ fontSize: '1.2rem', color: '#94a3b8', marginBottom: '2rem' }}>
-                            Fast, conversion-optimized Shopify stores tailored to your brand. From minor theme tweaks to complete ground-up builds.
+                    <div className="text-center" style={{ maxWidth: '900px', margin: '0 auto' }}>
+                        <h1 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', lineHeight: '1.2', fontWeight: 800 }}>
+                            A Shopify Store That's Built to Work With Your Emails, Not Separately From Them
+                        </h1>
+                        <p style={{ fontSize: '1.25rem', color: '#94a3b8', marginBottom: '2rem', lineHeight: 1.6 }}>
+                            I build and customize Shopify stores with an eye on how your store and your email marketing connect — because a great-looking store still leaves money on the table if it's not feeding clean data into flows like abandoned cart and back-in-stock.
                         </p>
-                        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-                            <Link href="/quote" className="btn btn-primary" style={{ padding: '15px 30px', fontSize: '1.1rem' }}>Start Your Shopify Project</Link>
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                            <Link href="/quote" className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '1.1rem', fontWeight: 600 }}>Tell Me About Your Store →</Link>
+                        </div>
+                        <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: '2rem', color: '#64748b', fontSize: '0.95rem' }}>
+                            <span>✓ Theme customization</span>
+                            <span>✓ Speed optimization</span>
+                            <span>✓ Klaviyo-integrated setup</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section className="section">
+            {/* What I Build */}
+            <section className="section" style={{ background: '#fff', padding: '80px 0' }}>
                 <div className="container">
-                    <div className="row" style={{ maxWidth: '900px', margin: '0 auto' }}>
-                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>Beyond the Basic Theme</h2>
-                        <p style={{ fontSize: '1.1rem', color: '#475569', marginBottom: '1.5rem' }}>
-                            Premium Shopify themes are great starting points, but they rarely fit your exact vision out of the box. We specialize in Liquid coding, allowing us to build custom sections, unique product page layouts, and tailored checkout experiences that set your brand apart.
-                        </p>
-                        
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '3rem', marginTop: '3rem' }}>
-                            <div style={{ padding: '1.5rem', background: '#f8fafc', borderRadius: '8px', borderLeft: '4px solid #95bf47' }}>
-                                <h3 style={{ marginBottom: '0.5rem' }}>Custom Theme Development</h3>
-                                <p style={{ color: '#64748b', margin: 0 }}>Building completely unique storefronts from scratch or heavily modifying premium themes to match your Figma designs.</p>
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>What I Build</h2>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                            <div style={{ background: '#f8fafc', padding: '2rem', borderRadius: '12px', borderLeft: '4px solid #0ea5e9' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700, color: '#0f172a' }}>Theme customization</h4>
+                                <p style={{ color: '#475569', margin: 0, fontSize: '1.1rem' }}>Adjusting an existing theme to match your brand and layout needs.</p>
                             </div>
-                            <div style={{ padding: '1.5rem', background: '#f8fafc', borderRadius: '8px', borderLeft: '4px solid #95bf47' }}>
-                                <h3 style={{ marginBottom: '0.5rem' }}>Speed Optimization</h3>
-                                <p style={{ color: '#64748b', margin: 0 }}>Auditing bloated code, compressing images, and lazy-loading assets to ensure lightning-fast load times on mobile devices.</p>
+                            <div style={{ background: '#f8fafc', padding: '2rem', borderRadius: '12px', borderLeft: '4px solid #0ea5e9' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700, color: '#0f172a' }}>Speed optimization</h4>
+                                <p style={{ color: '#475569', margin: 0, fontSize: '1.1rem' }}>Cleaning up what's slowing your store down.</p>
                             </div>
-                            <div style={{ padding: '1.5rem', background: '#f8fafc', borderRadius: '8px', borderLeft: '4px solid #95bf47' }}>
-                                <h3 style={{ marginBottom: '0.5rem' }}>App Integration & Audits</h3>
-                                <p style={{ color: '#64748b', margin: 0 }}>Installing and configuring essential apps (reviews, subscriptions, upsells) and removing leftover code from deleted apps.</p>
+                            <div style={{ background: '#f8fafc', padding: '2rem', borderRadius: '12px', borderLeft: '4px solid #0ea5e9' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700, color: '#0f172a' }}>Product page layout</h4>
+                                <p style={{ color: '#475569', margin: 0, fontSize: '1.1rem' }}>Structuring product pages to actually convert.</p>
                             </div>
-                            <div style={{ padding: '1.5rem', background: '#f8fafc', borderRadius: '8px', borderLeft: '4px solid #95bf47' }}>
-                                <h3 style={{ marginBottom: '0.5rem' }}>Klaviyo Deep Integration</h3>
-                                <p style={{ color: '#64748b', margin: 0 }}>We ensure your Shopify store talks perfectly to your email marketing, capturing the right events for triggered flows.</p>
+                            <div style={{ background: '#f8fafc', padding: '2rem', borderRadius: '12px', borderLeft: '4px solid #0ea5e9' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700, color: '#0f172a' }}>App setup</h4>
+                                <p style={{ color: '#475569', margin: 0, fontSize: '1.1rem' }}>Connecting and configuring the apps your store depends on.</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
 
-                        <div style={{ background: '#0f172a', padding: '2.5rem', borderRadius: '12px', textAlign: 'center', marginTop: '3rem', color: '#fff' }}>
-                            <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Need ongoing development support?</h2>
-                            <p style={{ fontSize: '1.1rem', color: '#94a3b8', marginBottom: '1.5rem' }}>
-                                We offer monthly retainers for growing brands that need continuous optimization, A/B testing, and new feature rollouts.
-                            </p>
-                            <Link href="/schedule" className="btn btn-outline-light" style={{ borderColor: 'rgba(255,255,255,0.2)', color: '#fff' }}>Discuss Retainer Options</Link>
+            {/* Where Email Fits In */}
+            <section className="section" style={{ background: '#0f172a', padding: '80px 0', color: '#fff' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', fontWeight: 700 }}>Where Email Fits In</h2>
+                        <p style={{ fontSize: '1.15rem', color: '#cbd5e1', lineHeight: 1.7, marginBottom: '2rem' }}>
+                            This is where my background actually helps: I make sure your Shopify events (cart, checkout, purchase, back-in-stock) are set up cleanly so your Klaviyo flows trigger correctly. A lot of "broken" flows aren't a Klaviyo problem — they're a store-setup problem.
+                        </p>
+                        <Link href="/klaviyo-flow-setup" style={{ color: '#38bdf8', fontWeight: 600, fontSize: '1.15rem' }}>See my Klaviyo flow work →</Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* My Process */}
+            <section className="section" style={{ background: '#fff', padding: '80px 0' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '3rem', color: '#0f172a', fontWeight: 700, textAlign: 'center' }}>My Process</h2>
+                        
+                        <div style={{ position: 'relative', paddingLeft: '40px' }}>
+                            <div style={{ position: 'absolute', left: '15px', top: '10px', bottom: '10px', width: '2px', background: '#e2e8f0' }}></div>
+                            
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>1</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>You tell me what needs work</strong> — a full build, a redesign, or specific fixes.</p>
+                            </div>
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>2</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>I review your current setup</strong> and flag anything affecting speed or email integration.</p>
+                            </div>
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>3</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>I build or customize,</strong> testing as I go.</p>
+                            </div>
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>4</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>You review and I make adjustments</strong> before we call it done.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
             
-            <FAQ data={shopifyFaqs} />
+            {/* Recent Work */}
+            <Portfolio data={data.portfolio} />
+            <section style={{ textAlign: 'center', paddingBottom: '80px', background: '#f8fafc', marginTop: '-80px', position: 'relative', zIndex: 10 }}>
+                <Link href="/portfolio" style={{ color: '#0ea5e9', fontWeight: 600, fontSize: '1.15rem' }}>See the full portfolio →</Link>
+            </section>
+
+            {/* FAQs */}
+            <FAQ data={customFaqs} />
+
+            {/* Final CTA */}
+            <section className="section" style={{ background: '#fff', padding: '80px 0', textAlign: 'center' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Want a store that actually supports your email marketing?</h2>
+                        <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '2rem', lineHeight: 1.7 }}>
+                            Tell me what you're working with and what's not working.
+                        </p>
+                        <Link href="/quote" className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '1.15rem', fontWeight: 600 }}>Tell Me About Your Store →</Link>
+                    </div>
+                </div>
+            </section>
 
             <Contact />
             <Footer />

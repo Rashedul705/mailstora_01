@@ -1,140 +1,239 @@
 import { Metadata } from 'next';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Pricing from "../components/Pricing";
-import FAQ from "../components/FAQ";
 import Contact from "../components/Contact";
-import Breadcrumb from "../components/Breadcrumb";
+import FAQ from "../components/FAQ";
 import Link from 'next/link';
 
 export const metadata: Metadata = {
     title: "Klaviyo Flow Setup — Welcome, Cart & Browse Flows | MailStora",
     description: "Klaviyo flows built and designed for you: welcome series, abandoned cart, browse abandonment, post-purchase and win-back. Custom-coded emails included.",
     alternates: {
-        canonical: "https://mailstora.com/klaviyo-flow-setup"
+        canonical: "https://mailstora.com/klaviyo-flow-setup/"
     }
 };
 
-const breadcrumbItems = [
-    { label: 'Home', url: '/' },
-    { label: 'Klaviyo Flow Setup', url: '/klaviyo-flow-setup' }
-];
-
-const klaviyoFlowFaqs = [
+const customFaqs = [
     {
-        q: "What is the difference between this and Klaviyo Email Templates?",
-        a: "Our Templates service is just for design and coding. This Flow Setup service is comprehensive: we build the automation logic, configure the triggers and splits in Klaviyo, AND design/code the emails."
+        q: "How many flows do I actually need to start?",
+        a: "Most stores see the most impact starting with welcome, abandoned cart, and post-purchase — I can recommend a starting set based on your store."
     },
     {
-        q: "Do you integrate this with Shopify?",
-        a: "Yes. Klaviyo's power comes from its deep integration with Shopify. We utilize Shopify events (like 'Added to Cart' or 'Placed Order') to trigger specific emails with dynamic product blocks."
+        q: "Do you also build the email designs, or just the automation logic?",
+        a: "Both. I design and hand-code the emails and build the flow logic in Klaviyo."
     },
     {
-        q: "Do you provide the copywriting?",
-        a: "We can provide structural copy and subject lines based on ecommerce best practices. However, for highly specialized brand voices, we recommend you provide the raw copy and we will adapt it to the email design."
+        q: "Can you work with my existing Klaviyo account?",
+        a: "Yes — I'll work inside your existing account and match your current brand and template style."
     },
     {
-        q: "How long does a full setup take?",
-        a: "A standard setup covering the core flows (Welcome, Cart, Checkout, Post-Purchase) typically takes 5 to 7 days from strategy approval to going live."
+        q: "Do I need Shopify for this?",
+        a: "Most of my flow work is for Shopify stores, but the same setup works with other platforms Klaviyo integrates with."
+    },
+    {
+        q: "How is this different from your Klaviyo template page?",
+        a: "This page covers the strategy and automation setup. The template page covers standalone template design if you just need the emails, not the flow logic."
+    },
+    {
+        q: "How long until a flow is live?",
+        a: "Depends on how many flows and how much customization — I'll give you a timeline once I know what you need."
     }
 ];
 
-export default async function KlaviyoFlowSetupPage() {
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "@id": "https://mailstora.com/klaviyo-flow-setup/#service",
-        "name": "Klaviyo Flow Setup",
-        "serviceType": "Klaviyo email automation setup",
-        "description": "Comprehensive Klaviyo automation setup including strategy, triggers, design, and coding.",
-        "provider": { "@id": "https://mailstora.com/#organization" },
-        "areaServed": "Worldwide",
-        "audience": { "@type": "BusinessAudience", "audienceType": "Shopify Ecommerce Brands" },
-        "offers": {
-            "@type": "Offer",
-            "priceCurrency": "USD",
-            "price": "300",
-            "url": "https://mailstora.com/klaviyo-flow-setup/"
-        }
-    };
-
+export default function KlaviyoFlowSetupPage() {
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
             <Navbar />
             
+            {/* Hero */}
             <section className="sp-hero" style={{ paddingTop: '140px', paddingBottom: '80px', background: '#0f172a', color: '#fff' }}>
                 <div className="container">
-                    <Breadcrumb items={breadcrumbItems} />
-                    <div className="text-center" style={{ maxWidth: '800px', margin: '0 auto', marginTop: '2rem' }}>
-                        <div className="section-pill" style={{ display: 'inline-block', marginBottom: '1.5rem', background: 'rgba(255, 107, 0, 0.1)', color: '#ff6b00', padding: '6px 16px', borderRadius: '30px', fontWeight: 'bold' }}>SHOPIFY INTEGRATION</div>
-                        <h1 style={{ fontSize: '3rem', marginBottom: '1.5rem', lineHeight: '1.2' }}>Klaviyo Flow Setup for Shopify Brands</h1>
-                        <p style={{ fontSize: '1.2rem', color: '#94a3b8', marginBottom: '2rem' }}>
-                            Turn your store's traffic into recurring revenue. We strategize, design, code, and configure your core Klaviyo automation flows from scratch.
+                    <div className="text-center" style={{ maxWidth: '900px', margin: '0 auto' }}>
+                        <h1 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', lineHeight: '1.2', fontWeight: 800 }}>
+                            Klaviyo Flows That Actually Recover Revenue
+                        </h1>
+                        <p style={{ fontSize: '1.25rem', color: '#94a3b8', marginBottom: '2rem', lineHeight: 1.6 }}>
+                            I build and design the automated flows that run in the background of your Klaviyo account — welcome series, abandoned cart, browse abandonment, win-back — so you make sales while you sleep. Strategy, design, and hand-coded emails, all from me.
                         </p>
-                        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-                            <Link href="/quote" className="btn btn-primary" style={{ padding: '15px 30px', fontSize: '1.1rem' }}>Get a Free Quote</Link>
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                            <Link href="/quote" className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '1.1rem', fontWeight: 600 }}>Get My Flows Built →</Link>
+                        </div>
+                        <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: '2rem', color: '#64748b', fontSize: '0.95rem' }}>
+                            <span>✓ Built for Shopify and other ecommerce platforms</span>
+                            <span>✓ Custom-coded emails included</span>
+                            <span>✓ Set up once, runs continuously</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section className="section">
+            {/* Why Flows Matter */}
+            <section className="section" style={{ background: '#fff', padding: '80px 0' }}>
                 <div className="container">
-                    <div className="row" style={{ maxWidth: '900px', margin: '0 auto' }}>
-                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>Why Automations Matter More Than Campaigns</h2>
-                        <p style={{ fontSize: '1.1rem', color: '#475569', marginBottom: '1.5rem' }}>
-                            While sending newsletter blasts is important, the highest ROI in email marketing comes from behavior-triggered automations (flows). A well-optimized Welcome Series and Abandoned Cart flow can passively generate 15-30% of your store's total revenue while you sleep.
+                    <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Why Flows Matter</h2>
+                        <p style={{ fontSize: '1.15rem', color: '#475569', lineHeight: 1.7 }}>
+                            Campaigns are the emails you send when you decide to send them. Flows are the emails that go out automatically, triggered by what a customer does — and in most Klaviyo accounts I've worked in, flows quietly generate a disproportionate share of email revenue because they catch people at the exact moment they're most likely to buy.
                         </p>
-                        
-                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', marginTop: '3rem' }}>Core Flows We Build</h2>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '3rem' }}>
-                            <div style={{ background: '#f8fafc', padding: '1.5rem', borderLeft: '4px solid #ff6b00', borderRadius: '8px' }}>
-                                <h3>Welcome Series</h3>
-                                <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Convert new subscribers into first-time buyers with targeted incentives and brand storytelling.</p>
-                            </div>
-                            <div style={{ background: '#f8fafc', padding: '1.5rem', borderLeft: '4px solid #ff6b00', borderRadius: '8px' }}>
-                                <h3>Abandoned Checkout</h3>
-                                <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Recover lost revenue by reminding customers what they left behind with dynamic product feeds.</p>
-                            </div>
-                            <div style={{ background: '#f8fafc', padding: '1.5rem', borderLeft: '4px solid #ff6b00', borderRadius: '8px' }}>
-                                <h3>Abandoned Cart</h3>
-                                <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Triggered specifically on "Added to Cart" (before checkout), capturing higher funnel intent.</p>
-                            </div>
-                            <div style={{ background: '#f8fafc', padding: '1.5rem', borderLeft: '4px solid #ff6b00', borderRadius: '8px' }}>
-                                <h3>Browse Abandonment</h3>
-                                <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Engage window shoppers who viewed a product but didn't add it to their cart.</p>
-                            </div>
-                            <div style={{ background: '#f8fafc', padding: '1.5rem', borderLeft: '4px solid #ff6b00', borderRadius: '8px' }}>
-                                <h3>Post-Purchase</h3>
-                                <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Upsell, cross-sell, and request reviews from customers exactly when they are most excited.</p>
-                            </div>
-                            <div style={{ background: '#f8fafc', padding: '1.5rem', borderLeft: '4px solid #ff6b00', borderRadius: '8px' }}>
-                                <h3>Win-Back & Sunset</h3>
-                                <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Re-engage lapsed customers, and clean your list by filtering out those who never open.</p>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+            </section>
 
-                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>Segmentation & Triggers</h2>
-                        <p style={{ fontSize: '1.1rem', color: '#475569', marginBottom: '1.5rem' }}>
-                            We don't just set up linear emails. We configure conditional splits within your flows. For example, a customer who has purchased before receives a different Abandoned Cart discount than a first-time buyer. We use Shopify's custom events and Klaviyo's profile properties to make the messaging hyper-relevant.
-                        </p>
-
-                        <div style={{ background: '#0f172a', padding: '2.5rem', borderRadius: '12px', color: '#fff', textAlign: 'center', marginTop: '3rem' }}>
-                            <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Design + Code Included</h2>
-                            <p style={{ fontSize: '1.1rem', color: '#94a3b8', marginBottom: '1.5rem' }}>
-                                Unlike agencies that just handle the strategy, we actually design the UI in Figma and code the custom HTML templates for every email in your flow.
-                            </p>
-                            <Link href="/klaviyo-email-templates" className="btn btn-outline-light" style={{ borderColor: 'rgba(255,255,255,0.2)', color: '#fff' }}>See Our Klaviyo Design Work</Link>
+            {/* Core Flows I Build */}
+            <section className="section" style={{ background: '#f8fafc', padding: '80px 0' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Core Flows I Build</h2>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                            <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>Welcome series</h4>
+                                <p style={{ color: '#64748b', margin: 0 }}>The first few emails a new subscriber gets, setting expectations and nudging toward a first purchase.</p>
+                            </div>
+                            <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>Abandoned checkout</h4>
+                                <p style={{ color: '#64748b', margin: 0 }}>Recovering the person who started checkout but didn't finish.</p>
+                            </div>
+                            <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>Abandoned cart</h4>
+                                <p style={{ color: '#64748b', margin: 0 }}>Recovering the person who added to cart but never reached checkout.</p>
+                            </div>
+                            <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>Browse abandonment</h4>
+                                <p style={{ color: '#64748b', margin: 0 }}>Following up when someone views a product but doesn't add it to cart.</p>
+                            </div>
+                            <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>Post-purchase</h4>
+                                <p style={{ color: '#64748b', margin: 0 }}>Thank you, shipping updates, and cross-sell timed after the sale.</p>
+                            </div>
+                            <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>Win-back</h4>
+                                <p style={{ color: '#64748b', margin: 0 }}>Re-engaging subscribers who've gone quiet.</p>
+                            </div>
+                            <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>Back in stock</h4>
+                                <p style={{ color: '#64748b', margin: 0 }}>Alerting customers when a sold-out item is available again.</p>
+                            </div>
+                            <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>Sunset flow</h4>
+                                <p style={{ color: '#64748b', margin: 0 }}>Cleanly retiring unengaged subscribers to protect your sender reputation.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
-            
-            <FAQ data={klaviyoFlowFaqs} />
+
+            {/* Features (Segmentation, Dynamic Content, Design, Testing) */}
+            <section className="section" style={{ background: '#0f172a', padding: '80px 0', color: '#fff' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
+                            <div>
+                                <h3 style={{ fontSize: '2rem', marginBottom: '1rem', fontWeight: 700 }}>Segmentation & Triggers</h3>
+                                <p style={{ color: '#cbd5e1', fontSize: '1.15rem', lineHeight: 1.7 }}>
+                                    I set up the logic behind each flow — profile properties, Shopify events (or your platform's equivalent), and conditional splits — so the right email reaches the right person at the right moment, not a one-size-fits-all sequence.
+                                </p>
+                            </div>
+                            <div>
+                                <h3 style={{ fontSize: '2rem', marginBottom: '1rem', fontWeight: 700 }}>Dynamic Content</h3>
+                                <p style={{ color: '#cbd5e1', fontSize: '1.15rem', lineHeight: 1.7 }}>
+                                    Where it makes sense, I build in dynamic product feeds and recommendations (using Klaviyo's template logic) so a cart-recovery email shows the actual items someone left behind, not a generic banner.
+                                </p>
+                            </div>
+                            <div>
+                                <h3 style={{ fontSize: '2rem', marginBottom: '1rem', fontWeight: 700 }}>Design + Code Included</h3>
+                                <p style={{ color: '#cbd5e1', fontSize: '1.15rem', lineHeight: 1.7 }}>
+                                    Every flow comes with fully designed, hand-coded emails — not a drag-and-drop placeholder. If you already have a template system in place, I'll match it. If you need templates built from scratch, <Link href="/klaviyo-email-templates" style={{ color: '#38bdf8', fontWeight: 600 }}>see my Klaviyo template page →</Link>
+                                </p>
+                            </div>
+                            <div>
+                                <h3 style={{ fontSize: '2rem', marginBottom: '1rem', fontWeight: 700 }}>Testing & Reporting</h3>
+                                <p style={{ color: '#cbd5e1', fontSize: '1.15rem', lineHeight: 1.7 }}>
+                                    Once a flow is live, I keep an eye on how it performs and can set up A/B tests on subject lines, send timing, or content — so we're not just launching flows, we're improving them.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* My Process */}
+            <section className="section" style={{ background: '#fff', padding: '80px 0' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '3rem', color: '#0f172a', fontWeight: 700, textAlign: 'center' }}>My Process</h2>
+                        
+                        <div style={{ position: 'relative', paddingLeft: '40px' }}>
+                            <div style={{ position: 'absolute', left: '15px', top: '10px', bottom: '10px', width: '2px', background: '#e2e8f0' }}></div>
+                            
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>1</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>You tell me which flows you need</strong> — or I recommend a starting set based on your store.</p>
+                            </div>
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>2</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>I map the logic</strong> — triggers, timing, segmentation.</p>
+                            </div>
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>3</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>I design and code the emails</strong> for each step.</p>
+                            </div>
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>4</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>I build the flow in Klaviyo, test it, and turn it live.</strong></p>
+                            </div>
+                            <div style={{ position: 'relative', marginBottom: '2rem' }}>
+                                <div style={{ position: 'absolute', left: '-40px', width: '32px', height: '32px', background: '#0ea5e9', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', zIndex: 2 }}>5</div>
+                                <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '1.1rem', margin: 0, paddingTop: '4px' }}><strong>You get a rundown of what was built and how to read the results.</strong></p>
+                            </div>
+                        </div>
+                        <p style={{ fontSize: '1.15rem', color: '#0f172a', fontWeight: 600, marginTop: '2rem' }}>
+                            Typical timeline: [X business days] per flow, depending on complexity.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Pricing */}
+            <section className="section" style={{ background: '#f8fafc', padding: '80px 0' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Pricing</h2>
+                        <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '1.5rem', lineHeight: 1.7 }}>
+                            Starting at <strong>[$XXX]</strong> per flow, or <strong>[$X,XXX]</strong> for a full core flow package (welcome, abandoned cart, browse abandonment, post-purchase).
+                        </p>
+                        <Link href="/pricing" style={{ color: '#0ea5e9', fontWeight: 600, fontSize: '1.15rem' }}>See full pricing →</Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* Results */}
+            <section className="section" style={{ background: '#fff', padding: '80px 0' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Results</h2>
+                        <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '2rem', lineHeight: 1.7 }}>
+                            Ready to see how automated flows have transformed revenue for other brands?
+                        </p>
+                        <Link href="/case-studies" style={{ color: '#0ea5e9', fontWeight: 600, fontSize: '1.15rem' }}>See case studies →</Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* FAQs */}
+            <FAQ data={customFaqs} />
+
+            {/* Final CTA */}
+            <section className="section" style={{ background: '#fff', padding: '80px 0', textAlign: 'center' }}>
+                <div className="container">
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#0f172a', fontWeight: 700 }}>Ready to put your Klaviyo account on autopilot?</h2>
+                        <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '2rem', lineHeight: 1.7 }}>
+                            Tell me about your store and which flows you're missing.
+                        </p>
+                        <Link href="/quote" className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '1.15rem', fontWeight: 600 }}>Get My Flows Built →</Link>
+                    </div>
+                </div>
+            </section>
 
             <Contact />
             <Footer />
