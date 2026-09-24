@@ -9,61 +9,53 @@ export default function Footer() {
                 <div className="footer-content">
                     <div className="footer-brand">
                         <Link href="/" className="footer-logo-link">
-                            <Image src="https://i.ibb.co/ZRyRSNND/e37672fd303e.png" alt="MailStora Logo" width={180} height={38} style={{ objectFit: 'contain' }} />
+                            <Image src="/images/e37672fd303e.png" alt="MailStora Logo" width={180} height={38} style={{ objectFit: 'contain' }} />
                         </Link>
                         <p>Premium omnichannel digital <br /> solutions for modern brands.</p>
                     </div>
                     <div className="footer-links-group">
                         <h4 className="footer-heading">SERVICES</h4>
                         <ul className="footer-list">
-                            <li><a href="#services">HTML Email Templates</a></li>
-                            <li><a href="#services">HTML Email Signatures</a></li>
-                            <li><a href="#services">Klaviyo Automation Flow</a></li>
-                            <li><a href="#services">Klaviyo & ESP Campaign</a></li>
-                            <li><a href="#services">Shopify Store Development</a></li>
-                            <li><a href="#services">Social Media Management</a></li>
+                            <li><Link href="/html-email-template-development/">HTML Email Templates</Link></li>
+                            <li><Link href="/html-email-signature-design/">Email Signatures</Link></li>
+                            <li><Link href="/klaviyo-flow-setup/">Klaviyo Flows</Link></li>
+                            <li><Link href="/klaviyo-campaign-management/">Klaviyo Campaigns</Link></li>
+                            <li><Link href="/white-label-email-development/">White-Label for Agencies</Link></li>
+                            <li><Link href="/shopify-development/">Shopify Development</Link></li>
+                            <li><Link href="/social-media-management/">Social Media Management</Link></li>
                         </ul>
                     </div>
                     <div className="footer-links-group">
-                        <h4 className="footer-heading">LEGAL</h4>
+                        <h4 className="footer-heading">COMPANY</h4>
                         <ul className="footer-list">
-                            <li><Link href="/terms">Terms & Conditions</Link></li>
-                            <li><Link href="/privacy">Privacy Policy</Link></li>
+                            <li><Link href="/about/">About Me</Link></li>
+                            <li><Link href="/pricing/">Pricing</Link></li>
+                            <li><Link href="/portfolio/">Portfolio</Link></li>
+                            <li><Link href="/process/">How I Work</Link></li>
+                            <li><Link href="/reviews/">Client Reviews</Link></li>
+                            <li><Link href="/blog/">Blog</Link></li>
+                            <li><Link href="/faq/">FAQ</Link></li>
                         </ul>
                     </div>
                     <div className="footer-links-group">
-                        <h4 className="footer-heading">CONTACT</h4>
+                        <h4 className="footer-heading">GET IN TOUCH</h4>
                         <ul className="footer-list">
-                            <li className="contact-item" style={{ marginBottom: '15px' }}>
-                                <a href="https://wa.me/8801744350705?text=Hi,%20I'm%20interested%20in%20your%20services" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: '#25D366', color: 'white', border: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', borderRadius: '4px', textDecoration: 'none', fontWeight: 600, fontSize: '14px' }}>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
-                                    Chat on WhatsApp
-                                </a>
-                            </li>
-                            <li className="contact-item">
-                                <a href="mailto:rashedulmr@gmail.com">rashedulmr@gmail.com</a>
-                            </li>
-                            <li className="footer-social-wrapper">
-                                <div className="footer-social">
-                                    <a href="mailto:rashedulmr@gmail.com" aria-label="Email">
-                                        <i className="fas fa-envelope"></i>
-                                    </a>
-                                    <a href="https://wa.me/+8801744350705" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-                                        <i className="fab fa-whatsapp"></i>
-                                    </a>
-                                    <a href="https://www.facebook.com/Rashedul7050" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                                        <i className="fab fa-facebook-f"></i>
-                                    </a>
-                                    <a href="https://www.linkedin.com/in/rislam05/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                                        <i className="fab fa-linkedin-in"></i>
-                                    </a>
-                                </div>
-                            </li>
+                            <li><Link href="/quote/">Get a Free Quote</Link></li>
+                            <li><Link href="/contact/">Contact Me</Link></li>
+                            <li><a href="https://www.upwork.com/freelancers/rashedul705" target="_blank" rel="noopener">My Upwork Profile</a></li>
+                            <li><a href="https://pro.fiverr.com/freelancers/rashedul_mr" target="_blank" rel="noopener">My Fiverr Profile</a></li>
+                            <li><a href="https://www.linkedin.com/in/rashedulafl/" target="_blank" rel="noopener">LinkedIn</a></li>
+                            <li><a href="mailto:rashedulmr@gmail.com">Email</a></li>
                         </ul>
                     </div>
                 </div>
                 <div className="footer-bottom">
-                    <p>&copy; {new Date().getFullYear()} MailStora. All rights reserved.</p>
+                    <div className="footer-legal">
+                        <Link href="/terms/">Terms</Link>
+                        <span>|</span>
+                        <Link href="/privacy/">Privacy</Link>
+                    </div>
+                    <p>&copy; {new Date().getFullYear()} MailStora — Rashedul Islam</p>
                 </div>
             </div>
         </footer>

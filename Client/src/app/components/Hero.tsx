@@ -5,17 +5,19 @@ import Link from "next/link";
 import BookingModal from "./BookingModal";
 import "./Hero.css";
 
+import { siteConfig } from "../../utils/siteConfig";
+
 const DEFAULT_HERO = {
-    badge: "EMAIL · KLAVIYO · SHOPIFY · SOCIAL",
-    title: "<span>HTML Email</span> Development, <span>Klaviyo</span>, <span>Shopify</span> & Social. Handled by One Person.",
-    subtitle: "Custom email templates and signatures, Klaviyo campaigns and flows, Shopify store development, and social media management, all done by someone who ships them daily.",
-    cta_text: "Get a Free Quote",
-    cta_link: "#contact",
+    badge: "EMAIL TEMPLATES · SIGNATURES · KLAVIYO",
+    title: "Custom HTML Email Templates, <span>Coded and Tested by Me</span> — Not a Team.",
+    subtitle: "I build responsive, bug-free HTML emails and Klaviyo templates myself. Direct access to the developer, agency quality, and transparent pricing.",
+    cta_text: "Get a Quote from Me",
+    cta_link: "/quote/",
     background_image: "/consultation-photo-v2.png"
 };
 
 export default function Hero({ data }: { data?: any }) {
-    const heroData = data ? { ...data, badge: DEFAULT_HERO.badge, title: DEFAULT_HERO.title, subtitle: DEFAULT_HERO.subtitle } : DEFAULT_HERO;
+    const heroData = data ? { ...data, badge: DEFAULT_HERO.badge, title: DEFAULT_HERO.title, subtitle: DEFAULT_HERO.subtitle, cta_text: DEFAULT_HERO.cta_text, cta_link: DEFAULT_HERO.cta_link } : DEFAULT_HERO;
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
@@ -37,16 +39,16 @@ export default function Hero({ data }: { data?: any }) {
                     </p>
 
                     <div className="hero-buttons">
-                        <Link href="/quote" className="btn btn-primary">{heroData.cta_text}</Link>
-                        <a href="https://wa.me/8801744350705?text=Hi,%20I'm%20interested%20in%20your%20email%20template%20services" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{display: 'inline-flex', gap: '8px', alignItems: 'center'}}>
+                        <Link href={heroData.cta_link} className="btn btn-primary">{heroData.cta_text}</Link>
+                        <a href={`https://wa.me/${siteConfig.founder.whatsapp}?text=Hi,%20I'm%20interested%20in%20your%20email%20template%20services`} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{display: 'inline-flex', gap: '8px', alignItems: 'center'}}>
                             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.487-1.761-1.66-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
                             </svg>
-                            Chat on WhatsApp
+                            Message Me
                         </a>
-                        <a href="/#portfolio" className="btn btn-secondary">View Portfolio</a>
+                        <a href="/portfolio/" className="btn btn-secondary">My Portfolio</a>
                         <a
-                            href="https://www.upwork.com/freelancers/~01e77f8c3283919883"
+                            href={siteConfig.founder.socials.upwork}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn btn-upwork"
@@ -142,29 +144,29 @@ export default function Hero({ data }: { data?: any }) {
                         <div className="hero-stats">
                             <div className="hero-stat-row">
                                 <div className="hero-stat">
-                                    <span className="hero-stat-number">13+</span>
+                                    <span className="hero-stat-number">{siteConfig.stats.yearsExperience}</span>
                                     <span className="hero-stat-label">Years Exp</span>
                                 </div>
                                 <div className="hero-stat-divider" />
                                 <div className="hero-stat">
-                                    <span className="hero-stat-number">16k+</span>
+                                    <span className="hero-stat-number">{siteConfig.stats.upworkHours}</span>
                                     <span className="hero-stat-label">Upwork Hours</span>
                                 </div>
                             </div>
                             <div className="hero-stat-row">
                                 <div className="hero-stat">
-                                    <span className="hero-stat-number">400+</span>
+                                    <span className="hero-stat-number">{siteConfig.stats.templatesBuilt}</span>
                                     <span className="hero-stat-label">Templates Built</span>
                                 </div>
                                 <div className="hero-stat-divider" />
                                 <div className="hero-stat">
-                                    <span className="hero-stat-number">24h</span>
-                                    <span className="hero-stat-label">Fast Turnaround</span>
+                                    <span className="hero-stat-number">{siteConfig.stats.turnaround}</span>
+                                    <span className="hero-stat-label">Delivery</span>
                                 </div>
                             </div>
                         </div>
 
-                        <Link href="/schedule" className="hero-schedule-btn">
+                        <Link href={siteConfig.links.schedule} className="hero-schedule-btn">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                                 <line x1="16" y1="2" x2="16" y2="6" />

@@ -27,22 +27,28 @@ const AVATAR_PALETTE = ['#ede9fe','#dcfce7','#fef9c3','#fee2e2','#dbeafe','#fce7
 const TEXT_PALETTE = ['#4c1d95','#14532d','#713f12','#7f1d1d','#1e3a8a','#831843'];
 
 function getAvatarColors(name: string) {
+    const safeName = name || 'Anonymous';
     let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    for (let i = 0; i < safeName.length; i++) {
+        hash = safeName.charCodeAt(i) + ((hash << 5) - hash);
     }
     const index = Math.abs(hash) % AVATAR_PALETTE.length;
     return { bg: AVATAR_PALETTE[index], color: TEXT_PALETTE[index] };
 }
 
-export default function Testimonials() {
-    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-    const [stats, setStats] = useState<Stats | null>(null);
-    const [loading, setLoading] = useState(true);
+export default function Testimonials({ data }: { data?: any }) {
+    const testimonialsData: Testimonial[] = data?.data || [];
+    const statsData: Stats | null = data?.stats || null;
+    
+    const [testimonials, setTestimonials] = useState<Testimonial[]>(testimonialsData);
+    const [stats, setStats] = useState<Stats | null>(statsData);
     const [currentIndex, setCurrentIndex] = useState(0);
     const trackRef = useRef<HTMLDivElement>(null);
 
+    // If no data was passed from server, fallback to client fetch (optional, but requested SSR)
     useEffect(() => {
+        if (testimonialsData.length > 0) return; // Already have server data
+        
         const fetchTestimonials = async () => {
             try {
                 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
@@ -53,12 +59,10 @@ export default function Testimonials() {
                 setStats(json.stats || null);
             } catch (err) {
                 console.error(err);
-            } finally {
-                setLoading(false);
             }
         };
         fetchTestimonials();
-    }, []);
+    }, [testimonialsData]);
 
     const scrollTo = (index: number) => {
         if (!trackRef.current) return;
@@ -67,14 +71,14 @@ export default function Testimonials() {
         setCurrentIndex(index);
     };
 
-    if (!loading && testimonials.length === 0) return null; // Graceful hide
+    if (testimonials.length === 0) return null; // Graceful hide
 
     return (
         <section className="testimonials-section" id="testimonials">
             <div className="testimonials-container">
                 {/* Header */}
                 <p className="testimonials-label">CLIENT REVIEWS</p>
-                <h2 className="testimonials-heading">What Our Clients Say</h2>
+                <h2 className="testimonials-heading">What My Clients Say</h2>
                 <p className="testimonials-subtitle">Real feedback from real businesses — no copy-paste marketing fluff.</p>
                 <div className="testimonials-divider" />
 
@@ -126,17 +130,10 @@ export default function Testimonials() {
                     )}
 
                     <div className="testi-grid" ref={trackRef}>
-                        {loading ? (
-                            <>
-                                <div className="testi-skeleton" />
-                                <div className="testi-skeleton" />
-                                <div className="testi-skeleton" />
-                            </>
-                        ) : (
-                            testimonials.map((testi) => {
-                                const colors = getAvatarColors(testi.name);
-                                return (
-                                    <div key={testi._id} className={`testi-card ${testi.featured ? 'featured' : ''}`}>
+                        {testimonials.map((testi) => {
+                            const colors = getAvatarColors(testi.name);
+                            return (
+                                <div key={testi._id} className={`testi-card ${testi.featured ? 'featured' : ''}`}>
                                         {testi.featured && <div className="testi-featured-badge">Top Review</div>}
                                         <div className="testi-quote-mark">“</div>
                                         <p className="testi-text">{testi.text}</p>
@@ -158,14 +155,13 @@ export default function Testimonials() {
                                             <div className="testi-platform-badge">{testi.platform}</div>
                                         </div>
                                     </div>
-                                );
-                            })
-                        )}
+                            );
+                        })}
                     </div>
                 </div>
 
                 {/* Pagination Dots (Mobile) */}
-                {!loading && testimonials.length > 1 && (
+                {testimonials.length > 1 && (
                     <div className="testi-pagination">
                         {testimonials.map((_, i) => (
                             <button

@@ -14,7 +14,7 @@ export default function Navbar() {
                 {/* Multi-color Logo */}
                 <div className="navbar-brand">
                     <Link href="/" style={{ marginLeft: '-15px' }}>
-                        <Image src="https://i.ibb.co/ZRyRSNND/e37672fd303e.png" alt="MailStora Logo" width={180} height={36} style={{ objectFit: 'contain' }} priority />
+                        <Image src="/images/e37672fd303e.png" alt="MailStora Logo" width={180} height={36} style={{ objectFit: 'contain' }} priority />
                     </Link>
                 </div>
 
@@ -22,9 +22,9 @@ export default function Navbar() {
                 <div className="navbar-links">
                     <Link href="/#services" className="nav-link">Services</Link>
                     <Link href="/#portfolio" className="nav-link">Portfolio</Link>
-                    <Link href="/#prices" className="nav-link">Pricing</Link>
+                    <Link href="/pricing" className="nav-link">Pricing</Link>
                     <Link href="/blog" className="nav-link">Blog</Link>
-                    <Link href="/#contact" className="nav-link">Contact</Link>
+                    <Link href="/quote" className="nav-link">Contact</Link>
                 </div>
 
                 {/* Right Actions */}
@@ -54,9 +54,9 @@ export default function Navbar() {
                 <div className="mobile-menu">
                     <Link href="/#services" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Services</Link>
                     <Link href="/#portfolio" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Portfolio</Link>
-                    <Link href="/#prices" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Pricing</Link>
+                    <Link href="/pricing" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Pricing</Link>
                     <Link href="/blog" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Blog</Link>
-                    <Link href="/#contact" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Contact</Link>
+                    <Link href="/quote" className="mobile-nav-link" onClick={() => setMenuOpen(false)}>Contact</Link>
                     <Link href="/quote" className="btn btn-primary mobile-signup-btn" onClick={() => setMenuOpen(false)}>Get a Free Quote</Link>
                 </div>
             )}

@@ -11,6 +11,15 @@ import WhyChooseUs from "./components/WhyChooseUs";
 import FAQ from "./components/FAQ";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "HTML Email Template Developer — Custom Coded, Outlook-Tested | MailStora",
+  description: "Freelance HTML email developer providing custom, hand-coded, and Outlook-tested responsive email templates. 24-48h delivery.",
+  alternates: {
+    canonical: "https://mailstora.com"
+  }
+};
 
 async function getLandingData() {
   const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
@@ -56,8 +65,30 @@ export default async function Home() {
   const data = await getLandingData();
   const activeHero = data.hero?.find((h: any) => h.is_active) || data.hero?.[0] || null;
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': ['Organization', 'ProfessionalService'],
+    name: 'MailStora',
+    url: 'https://mailstora.com',
+    logo: 'https://mailstora.com/logo.png',
+    sameAs: [
+      'https://www.upwork.com/freelancers/~01b606ebbf402120db',
+      'https://www.linkedin.com/in/rashedulafl/'
+    ],
+    founder: {
+      '@type': 'Person',
+      name: 'Rashedul Islam',
+      jobTitle: 'Founder & Lead Developer',
+      knowsAbout: ['HTML Email', 'Klaviyo', 'Outlook Rendering']
+    }
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <main className="main">
         <Hero data={activeHero} />
@@ -67,7 +98,7 @@ export default async function Home() {
       <Services data={data.services} />
       <Platforms />
       <Portfolio data={data.portfolio} />
-      <Testimonials />
+      <Testimonials data={data.testimonials} />
       <WhyChooseUs />
 
       <FAQ data={data.faq} />

@@ -46,7 +46,7 @@ export default function AdminLogin() {
         <div className="login-page">
             <div className="login-card">
                 <div className="login-header">
-                    <img src="https://i.ibb.co/ZRyRSNND/e37672fd303e.png" alt="MailStora" style={{ maxWidth: '220px', height: 'auto', marginBottom: '1.5rem' }} />
+                    <img src="/images/e37672fd303e.png" alt="MailStora" style={{ maxWidth: '220px', height: 'auto', marginBottom: '1.5rem' }} />
                     <h1 style={{ fontSize: '1.5rem' }}>Admin Dashboard</h1>
                     <p>Enter your credentials to manage the platform</p>
                 </div>

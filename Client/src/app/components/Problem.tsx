@@ -49,7 +49,7 @@ export default function Problem() {
                         <span className="problem-heading-accent">Until You Try to Make It Work Together?</span>
                     </h2>
                     <p className="problem-subtitle">
-                        A broken template, a flow that never fires, a store that doesn't convert, or a feed nobody's posted to in weeks — each one quietly costs you customers. Skip the patchwork of freelancers and get every piece built to work as one system.
+                        A broken template, a flow that never fires, a store that doesn't convert, or a feed nobody's posted to in weeks — each one quietly costs you customers. Skip the patchwork of freelancers and let me build every piece to work as one connected system.
                     </p>
                 </div>
 

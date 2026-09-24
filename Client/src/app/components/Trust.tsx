@@ -3,15 +3,17 @@
 import { useEffect, useState } from 'react';
 import './Trust.css';
 
+import { siteConfig } from '../../utils/siteConfig';
+
 interface Logo { _id: string; name: string; url: string; logoUrl: string; active: boolean; order: number; }
 interface Settings { speed: 'Slow' | 'Normal' | 'Fast'; showStats: boolean; }
 
 const SPEED_MAP: Record<string, number> = { Slow: 40, Normal: 25, Fast: 14 };
 
 const STATS = [
-    { number: '180+', label: 'Happy Clients' },
-    { number: '400+', label: 'Templates Built' },
-    { number: '15k+', label: 'Hours on Upwork' },
+    { number: siteConfig.stats.clientsServed, label: 'Happy Clients' },
+    { number: siteConfig.stats.templatesBuilt, label: 'Templates Built' },
+    { number: siteConfig.stats.upworkHours, label: 'Hours on Upwork' },
 ];
 
 export default function Trust() {
@@ -43,7 +45,7 @@ export default function Trust() {
         <section className="trust-section" id="trust">
             <div className="trust-container">
                 <p className="trust-label">TRUSTED PARTNERS</p>
-                <h2 className="trust-heading">Businesses That Trust Us</h2>
+                <h2 className="trust-heading">Businesses That Trust Me</h2>
                 <p className="trust-subtitle">Helping companies worldwide send emails that actually get read.</p>
                 <div className="trust-divider" />
 
@@ -74,7 +76,7 @@ export default function Trust() {
                             ))}
                         </div>
                         <a
-                            href="https://www.upwork.com/freelancers/~01e77f8c3283919883"
+                            href={siteConfig.founder.socials.upwork}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="trust-upwork-btn"

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import "./Portfolio.css";
+import { siteConfig } from "../../utils/siteConfig";
 
 export default function Portfolio({ data }: { data?: any }) {
     const [items, setItems] = useState<any[]>(data?.items || []);
@@ -67,7 +68,7 @@ export default function Portfolio({ data }: { data?: any }) {
                         <span className="stat-label">Templates Built</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-value text-orange">180+</span>
+                        <span className="stat-value text-orange">200+</span>
                         <span className="stat-label">Happy Clients</span>
                     </div>
                     <div className="stat-item">
@@ -149,7 +150,7 @@ export default function Portfolio({ data }: { data?: any }) {
                 </div>
 
                 <div className="portfolio-action-bottom text-center">
-                    <p className="cta-text">Want to see more? We have {stats.totalTemplates}+ templates across every industry and ESP.</p>
+                    <p className="cta-text">Want to see more? I've built {siteConfig.stats.templatesBuilt} templates across every industry and ESP.</p>
                     <div className="cta-buttons">
                         <Link href="/portfolio" className="btn-navy">View Full Portfolio →</Link>
                         <Link href="/quote" className="btn-orange">Get a Free Quote</Link>

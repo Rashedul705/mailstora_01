@@ -9,10 +9,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://mailstora.com"),
   title: "MailStora - Professional HTML Email Templates & Signatures",
   description: "Custom HTML Email Templates & Signatures. Responsive, tested, and compatible with Outlook, Gmail, and major email platforms.",
   icons: {
-    icon: "https://i.ibb.co/ZRyRSNND/e37672fd303e.png",
+    icon: "/images/e37672fd303e.png",
   },
 };
 
@@ -25,6 +26,52 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Person",
+                  "@id": "https://mailstora.com/#rashedul",
+                  "name": "Rashedul Islam",
+                  "jobTitle": "Freelance HTML Email Developer",
+                  "email": "rashedulmr@gmail.com",
+                  "image": "https://mailstora.com/consultation-photo-v2.png",
+                  "sameAs": [
+                    "https://www.upwork.com/freelancers/rashedul705",
+                    "https://www.linkedin.com/in/rashedulafl/",
+                    "https://www.facebook.com/Rashedul7050",
+                    "https://pro.fiverr.com/freelancers/rashedul_mr"
+                  ],
+                  "knowsAbout": [
+                    "HTML email development",
+                    "Klaviyo",
+                    "Outlook email rendering",
+                    "email signatures"
+                  ]
+                },
+                {
+                  "@type": "ProfessionalService",
+                  "@id": "https://mailstora.com/#mailstora",
+                  "name": "MailStora",
+                  "url": "https://mailstora.com/",
+                  "logo": "https://mailstora.com/images/e37672fd303e.png",
+                  "founder": { "@id": "https://mailstora.com/#rashedul" },
+                  "employee": { "@id": "https://mailstora.com/#rashedul" }
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://mailstora.com/#website",
+                  "url": "https://mailstora.com/",
+                  "name": "MailStora",
+                  "publisher": { "@id": "https://mailstora.com/#mailstora" }
+                }
+              ]
+            })
+          }}
+        />
       </head>
       <body className={inter.variable} suppressHydrationWarning>
         {children}

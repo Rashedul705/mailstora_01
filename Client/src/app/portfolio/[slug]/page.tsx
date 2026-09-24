@@ -1,87 +1,75 @@
-'use client';
-import { useState, useEffect, use } from 'react';
+import { Metadata } from 'next';
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import "./SinglePortfolio.css";
+import HeroViewerClient from "./HeroViewerClient";
+import GalleryClient from "./GalleryClient";
 
-export default function SinglePortfolioPage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = use(params);
-    const [item, setItem] = useState<any>(null);
-    const [deviceView, setDeviceView] = useState<'desktop' | 'mobile'>('desktop');
-    const [galleryTab, setGalleryTab] = useState('All');
-    const [activeGalleryImage, setActiveGalleryImage] = useState<any>(null);
-    const [relatedItems, setRelatedItems] = useState<any[]>([]);
-
-    useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/portfolio/${slug}`)
-            .then(res => res.json())
-            .then(data => {
-                setItem(data);
-                
-                // Set initial gallery image
-                const allImages: any[] = [];
-                if (data.angleViews) {
-                    allImages.push(...data.angleViews.filter((a: any) => a.imageUrl && a.imageUrl.trim() !== ''));
-                }
-                if (data.desktopImages) {
-                    data.desktopImages.forEach((url: string) => {
-                        if (url && url.trim() !== '') {
-                            allImages.push({ label: 'Desktop View', device: 'desktop', imageUrl: url });
-                        }
-                    });
-                }
-                if (data.mobileImages) {
-                    data.mobileImages.forEach((url: string) => {
-                        if (url && url.trim() !== '') {
-                            allImages.push({ label: 'Mobile View', device: 'mobile', imageUrl: url });
-                        }
-                    });
-                }
-                
-                if (allImages.length > 0) setActiveGalleryImage(allImages[0]);
-
-                // Fetch related
-                fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/portfolio?type=${data.type}&limit=3`)
-                    .then(res => res.json())
-                    .then(relData => {
-                        if (relData.items) {
-                            setRelatedItems(relData.items.filter((r: any) => r._id !== data._id).slice(0, 3));
-                        }
-                    });
-            })
-            .catch(err => console.error(err));
-    }, [slug]);
-
-    if (!item) return <div className="loading-state">Loading...</div>;
-
-    const allGalleryItems: any[] = [];
-    if (item.angleViews) {
-        allGalleryItems.push(...item.angleViews.filter((a: any) => a.imageUrl && a.imageUrl.trim() !== ''));
+async function getPortfolioItem(slug: string) {
+    const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    try {
+        const res = await fetch(`${API_BASE}/api/portfolio/${slug}`, { cache: 'no-store' });
+        if (!res.ok) return null;
+        return res.json();
+    } catch (e) {
+        return null;
     }
-    if (item.desktopImages) {
-        item.desktopImages.forEach((url: string, i: number) => {
-            if (url && url.trim() !== '') {
-                allGalleryItems.push({ label: `Desktop View ${i+1}`, device: 'desktop', imageUrl: url });
-            }
-        });
+}
+
+async function getRelatedItems(type: string, currentId: string) {
+    const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    try {
+        const res = await fetch(`${API_BASE}/api/portfolio?type=${encodeURIComponent(type)}&limit=4`, { cache: 'no-store' });
+        if (!res.ok) return [];
+        const data = await res.json();
+        return (data.items || []).filter((r: any) => r._id !== currentId).slice(0, 3);
+    } catch (e) {
+        return [];
     }
-    if (item.mobileImages) {
-        item.mobileImages.forEach((url: string, i: number) => {
-            if (url && url.trim() !== '') {
-                allGalleryItems.push({ label: `Mobile View ${i+1}`, device: 'mobile', imageUrl: url });
-            }
-        });
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
+    const item = await getPortfolioItem(slug);
+    
+    if (!item) {
+        return { title: 'Portfolio Item Not Found' };
+    }
+    
+    return {
+        title: `${item.title} - MailStora Portfolio`,
+        description: item.shortDescription || `View our recent ${item.type} project for ${item.clientName}.`,
+        alternates: {
+            canonical: `https://mailstora.com/portfolio/${slug}`
+        },
+        openGraph: {
+            title: `${item.title} - MailStora Portfolio`,
+            description: item.shortDescription || `View our recent ${item.type} project for ${item.clientName}.`,
+            images: item.coverImage ? [item.coverImage] : []
+        }
+    };
+}
+
+export default async function SinglePortfolioPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const item = await getPortfolioItem(slug);
+
+    if (!item) {
+        return (
+            <div className="single-portfolio-page">
+                <Navbar />
+                <div style={{ textAlign: 'center', padding: '100px 20px' }}>
+                    <h1>Item Not Found</h1>
+                    <Link href="/portfolio">← Back to Portfolio</Link>
+                </div>
+                <Footer />
+            </div>
+        );
     }
 
-    const filteredGalleryItems = allGalleryItems.filter(img => {
-        if (galleryTab === 'All') return true;
-        if (galleryTab === 'Desktop' && img.device === 'desktop') return true;
-        if (galleryTab === 'Mobile' && img.device === 'mobile') return true;
-        if (galleryTab === 'Sections' && img.device !== 'desktop' && img.device !== 'mobile') return true; // assuming specific angles might not be purely "desktop"/"mobile" or have specific labels
-        return false;
-    });
+    const relatedItems = await getRelatedItems(item.type, item._id);
 
     return (
         <div className="single-portfolio-page">
@@ -109,136 +97,12 @@ export default function SinglePortfolioPage({ params }: { params: Promise<{ slug
                             </div>
                         </div>
                         
-                        <div className="sp-hero-viewer">
-                            <div className="viewer-controls">
-                                <button 
-                                    className={`viewer-btn ${deviceView === 'desktop' ? 'active' : ''}`}
-                                    onClick={() => setDeviceView('desktop')}
-                                >🖥 Desktop</button>
-                                <button 
-                                    className={`viewer-btn ${deviceView === 'mobile' ? 'active' : ''}`}
-                                    onClick={() => setDeviceView('mobile')}
-                                >📱 Mobile</button>
-                            </div>
-                            
-                            <div className="device-frame">
-                                {deviceView === 'desktop' ? (
-                                    <div className="laptop-mockup">
-                                        <div className="screen">
-                                            <Image 
-                                                src={(item.desktopImages && item.desktopImages[0]) || item.coverImage || "/mockup.png"} 
-                                                alt="Desktop View" 
-                                                width={600} 
-                                                height={400} 
-                                                priority
-                                                className="mockup-inner-img"
-                                            />
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="phone-mockup">
-                                        <div className="screen">
-                                            <Image 
-                                                src={(item.mobileImages && item.mobileImages[0]) || item.coverImage || "/mockup.png"} 
-                                                alt="Mobile View" 
-                                                width={300} 
-                                                height={600} 
-                                                priority
-                                                className="mockup-inner-img"
-                                            />
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+                        <HeroViewerClient item={item} />
                     </div>
                 </div>
             </section>
 
-            <section className="sp-gallery container">
-                <div className="gallery-header">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
-                        <h2>🖼 Template Gallery</h2>
-                    </div>
-                    <div className="gallery-tabs">
-                        {['All', 'Desktop', 'Mobile'].map(tab => (
-                            <button 
-                                key={tab} 
-                                className={`g-tab-btn ${galleryTab === tab ? 'active' : ''}`}
-                                onClick={() => setGalleryTab(tab)}
-                            >
-                                {tab}
-                            </button>
-                        ))}
-                        {item.fullTemplateFile && (
-                            <button 
-                                className={`g-tab-btn ${galleryTab === 'Full Template' ? 'active' : ''}`}
-                                onClick={() => setGalleryTab('Full Template')}
-                            >
-                                Full Template
-                            </button>
-                        )}
-                    </div>
-                </div>
-                
-                <div className="main-preview-box">
-                    {galleryTab === 'Full Template' ? (
-                        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-                            <img 
-                                src={item.fullTemplateFile} 
-                                alt="Full Template" 
-                                style={{ maxWidth: '100%', height: 'auto', display: 'block' }}
-                            />
-                        </div>
-                    ) : (
-                        <>
-                            {activeGalleryImage && activeGalleryImage.imageUrl ? (
-                                <img 
-                                    src={activeGalleryImage.imageUrl} 
-                                    alt={activeGalleryImage.label} 
-                                    style={{ width: '100%', height: 'auto', display: 'block' }}
-                                />
-                            ) : (
-                                <div className="placeholder-preview">No image selected</div>
-                            )}
-                            <div className="preview-overlay">
-                                <div className="preview-label">{activeGalleryImage?.label || ''}</div>
-                                <div className="preview-nav">
-                                    <button className="nav-arrow">←</button>
-                                    <button className="nav-arrow">→</button>
-                                </div>
-                            </div>
-                        </>
-                    )}
-                </div>
-
-                {galleryTab !== 'Full Template' && (
-                    <div className="thumbnail-strip">
-                    {filteredGalleryItems.map((img, idx) => (
-                        <div 
-                            key={idx} 
-                            className={`thumbnail ${activeGalleryImage?.imageUrl === img.imageUrl ? 'active' : ''}`}
-                            onClick={() => setActiveGalleryImage(img)}
-                        >
-                            <div className="thumb-img-wrapper">
-                                {img.imageUrl && (
-                                    <Image 
-                                        src={img.imageUrl} 
-                                        alt={img.label} 
-                                        fill 
-                                        sizes="120px"
-                                        className="thumb-img" 
-                                    />
-                                )}
-                            </div>
-                            <div className={`thumb-label ${img.device === 'mobile' ? 'mobile-lbl' : 'desktop-lbl'}`}>
-                                {img.label}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                )}
-            </section>
+            <GalleryClient item={item} />
 
             <section className="sp-content container">
                 <div className="sp-main-col">
@@ -317,7 +181,7 @@ export default function SinglePortfolioPage({ params }: { params: Promise<{ slug
                         <h3>Need Something Similar?</h3>
                         <p>Custom HTML email template tested across all clients. 24-48hr delivery.</p>
                         <Link href="/quote" className="btn-quote">Get Free Quote →</Link>
-                        <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="btn-wa">💬 WhatsApp</a>
+                        <a href="https://wa.me/8801744350705" target="_blank" rel="noopener noreferrer" className="btn-wa">💬 WhatsApp</a>
                     </div>
                 </div>
             </section>
@@ -326,8 +190,7 @@ export default function SinglePortfolioPage({ params }: { params: Promise<{ slug
                 <section className="related-items container">
                     <h2>More Portfolio Items</h2>
                     <div className="portfolio-items grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
-                        {/* We reuse the portfolio card design here briefly */}
-                        {relatedItems.map((rel, idx) => (
+                        {relatedItems.map((rel: any, idx: number) => (
                             <div key={idx} className="portfolio-card" style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '13px' }}>
                                 <div className="portfolio-preview" style={{ height: '150px', background: '#2d287b', position: 'relative', overflow: 'hidden' }}>
                                     <Image 

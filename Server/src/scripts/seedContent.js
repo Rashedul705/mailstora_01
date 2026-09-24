@@ -88,7 +88,7 @@ const seedData = async () => {
                 client_name: 'Sarah Johnson',
                 client_position: 'Marketing Director',
                 company_name: 'TechFlow',
-                client_photo: 'https://i.ibb.co/Ltb2K25/client1.jpg',
+                client_photo: '/images/client1.jpg',
                 rating: 5,
                 testimonial_text: 'Rashedul delivered exactly what we needed. The templates are flawless across every email client we tested.'
             },
@@ -96,7 +96,7 @@ const seedData = async () => {
                 client_name: 'Michael Chen',
                 client_position: 'Founder',
                 company_name: 'GrowthStudio',
-                client_photo: 'https://i.ibb.co/q1tPq0d/client2.jpg',
+                client_photo: '/images/client2.jpg',
                 rating: 5,
                 testimonial_text: 'Best email developer I have worked with. Fast communication and perfect execution.'
             }
@@ -133,7 +133,7 @@ const seedData = async () => {
             category: 'Newsletter',
             description: 'A highly converting monthly newsletter matching brand identity.',
             company_name: 'ShopTrend',
-            main_image: 'https://i.ibb.co/D8d3wG6/portfolio1.jpg'
+            main_image: '/images/portfolio1.jpg'
         });
         console.log('Portfolio Seeded');
 

@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  trailingSlash: true,
   // Allow images from your backend and external services
   images: {
     remotePatterns: [
@@ -10,6 +11,16 @@ const nextConfig: NextConfig = {
       // Add your Render backend hostname here after deploying:
       // { protocol: 'https', hostname: 'mailstora-server.onrender.com' },
     ],
+  },
+
+  async redirects() {
+    return [
+      {
+        source: '/portfolio/investment-programes/',
+        destination: '/portfolio/investment-programs/',
+        permanent: true,
+      },
+    ];
   },
 
   async rewrites() {

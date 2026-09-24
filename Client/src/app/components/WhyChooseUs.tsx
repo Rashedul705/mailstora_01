@@ -4,7 +4,7 @@ export default function WhyChooseUs() {
     const features = [
         {
             title: "Custom-Built & Optimized",
-            description: "No generic drag-and-drop. Whether it's hand-coded HTML emails or a custom Shopify theme, we build clean, scalable solutions from scratch.",
+            description: "No generic drag-and-drop. Whether it's hand-coded HTML emails or a custom Shopify theme, I build clean, scalable solutions from scratch.",
             icon: (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="16 18 22 12 16 6"></polyline>
@@ -14,7 +14,7 @@ export default function WhyChooseUs() {
         },
         {
             title: "Platform-Perfect Rendering",
-            description: "From Outlook dark-mode testing to mobile-first Shopify checkouts, we rigorously QA everything to ensure flawless cross-device performance.",
+            description: "From Outlook dark-mode testing to mobile-first Shopify checkouts, I rigorously QA everything to ensure flawless cross-device performance.",
             icon: (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -23,7 +23,7 @@ export default function WhyChooseUs() {
         },
         {
             title: "Data-Driven Strategies",
-            description: "We don't just design; we optimize. Our Klaviyo automations and social media campaigns are engineered with A/B testing and analytics to drive revenue.",
+            description: "I don't just design; I optimize. My Klaviyo automations and social media campaigns are engineered with A/B testing and analytics to drive revenue.",
             icon: (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12"></polyline>
@@ -32,7 +32,7 @@ export default function WhyChooseUs() {
         },
         {
             title: "Fast Turnaround",
-            description: "Get your coded email templates delivered within 24–48 hours. Even for larger e-commerce and marketing setups, we work efficiently without compromising quality.",
+            description: "Get your coded email templates delivered within 24–48 hours. Even for larger e-commerce and marketing setups, I work efficiently without compromising quality.",
             icon: (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -42,7 +42,7 @@ export default function WhyChooseUs() {
         },
         {
             title: "Agency Ready",
-            description: "White-label support available. We seamlessly integrate with your agency's workflow to deliver premium results directly to your clients under your banner.",
+            description: "White-label support available. I seamlessly integrate with your agency's workflow to deliver premium results directly to your clients under your banner.",
             icon: (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -54,7 +54,7 @@ export default function WhyChooseUs() {
         },
         {
             title: "Omnichannel Excellence",
-            description: "From your customer's inbox to your Shopify storefront and Instagram feed, we ensure your brand experience is cohesive, premium, and high-converting.",
+            description: "From your customer's inbox to your Shopify storefront and Instagram feed, I ensure your brand experience is cohesive, premium, and high-converting.",
             icon: (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
@@ -69,9 +69,9 @@ export default function WhyChooseUs() {
         <section className="why-choose-section section section-alt" id="why-choose">
             <div className="container">
                 <div className="why-choose-header text-center">
-                    <h2 className="section-title">Why Choose MailStora?</h2>
+                    <h2 className="section-title">Why Work With Me?</h2>
                     <p className="section-subtitle">
-                        We build robust, omnichannel digital solutions that look great and convert effortlessly, so you can focus on growing your business.
+                        I build robust, omnichannel digital solutions that look great and convert effortlessly, so you can focus on growing your business.
                     </p>
                 </div>
                 
