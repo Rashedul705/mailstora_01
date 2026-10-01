@@ -1,0 +1,91 @@
+<p><strong>Short answer:</strong> Klaviyo emails break in Outlook mainly because classic Outlook uses Microsoft Word to render HTML and ignores much modern CSS. Common symptoms are images at full size, misaligned columns, Times New Roman text, cut-off lines and square buttons. Most can be fixed inside Klaviyo with set image widths, simpler blocks and web-safe fallback fonts; persistent problems need a custom-coded template.</p>
+
+<h2>Why Outlook Is Different</h2>
+<p>Gmail, Apple Mail and most phone apps use browser-like engines. Classic Outlook for Windows does not. It uses the Word rendering engine, which supports only a small part of CSS. It ignores things like <code>max-width</code>, <code>border-radius</code>, background images set in CSS, and many margin and padding rules on non-table elements. Klaviyo's drag-and-drop blocks try to handle this, but some settings and custom content still slip through.</p>
+<p>New Outlook and Outlook on the web use a browser engine, so they behave better, but they have their own quirks. For the full background, see <a href="/blog/new-outlook-vs-classic-outlook-email-rendering/">new vs classic Outlook</a> and <a href="/blog/new-outlook-breaking-html-email/">why new Outlook breaks HTML email</a>.</p>
+
+<h2>Common Symptoms and Fixes</h2>
+<table>
+<thead><tr><th>Symptom in Outlook</th><th>Cause</th><th>Fix</th></tr></thead>
+<tbody>
+<tr><td>Images huge or stretched</td><td>No fixed width</td><td>Set a width in the image block and resize the file</td></tr>
+<tr><td>Columns misaligned</td><td>Nested split blocks</td><td>Use one split block per row, avoid nesting</td></tr>
+<tr><td>Times New Roman text</td><td>Web font not supported</td><td>Set Arial or Helvetica as the fallback</td></tr>
+<tr><td>Text cut or overlapping</td><td>Custom line heights</td><td>Use line heights in pixels or 1.4 to 1.6</td></tr>
+<tr><td>Square, broken buttons</td><td>CSS-only button styles</td><td>Use Klaviyo's button block, not a text link styled as a button</td></tr>
+<tr><td>Gaps between images</td><td>Image line spacing</td><td>Set image blocks to display as block, remove padding</td></tr>
+</tbody>
+</table>
+
+<h3>Images at full size</h3>
+<p>If you upload a 2400px wide image and don't set a width, Outlook may show it at its real size, far wider than the email. In the image block, set a fixed width (for example 600px for full width or 280px in a two-column row). Also resize the file before you upload. A smaller file loads faster and Outlook respects the width attribute more reliably. In custom code it should look like <code>&lt;img src="hero.jpg" width="600" style="display:block; width:100%; max-width:600px; height:auto" alt="New spring collection"&gt;</code>.</p>
+
+<h3>Times New Roman fallback</h3>
+<p>Outlook does not load most web fonts. When the font stack is wrong, it falls back to Times New Roman. Always end your font stack with a safe font, for example <code>font-family: 'Poppins', Arial, Helvetica, sans-serif</code>. In custom templates, some developers also add an MSO-only style so Outlook uses Arial directly.</p>
+
+<h3>Cut-off or overlapping text</h3>
+<p>Outlook handles unitless or very tight line heights badly. Use pixel values that are at least 1.4 times the font size, for example 16px text with 24px line height. Avoid negative margins and very small padding around headlines.</p>
+
+<h3>Buttons that lose their shape</h3>
+<p>Rounded corners and padding on a link do not work in classic Outlook. Klaviyo's button block uses Outlook-safe code, so use it rather than styling a text link. In a custom template, use a <a href="/blog/bulletproof-email-buttons/">bulletproof email button</a> built with a table cell or VML.</p>
+
+<h2>Tips Inside Klaviyo</h2>
+<ul>
+<li>Preview with Klaviyo's inbox preview and send a real test to an Outlook account. Previews help, but a real send catches things previews miss.</li>
+<li>Avoid pasting HTML into text blocks; it can carry styles Outlook can't read. Paste as plain text and style inside the editor.</li>
+<li>Keep image text minimal; Outlook may block images by default. See <a href="/blog/email-images-not-showing/">why email images don't show</a>.</li>
+<li>Check <a href="/blog/dark-mode-email-design/">dark mode</a>, which Outlook applies aggressively. Use logos with a transparent background and a light outline if needed.</li>
+<li>Avoid background images in blocks when the message depends on them. Classic Outlook may drop them. See <a href="/blog/outlook-background-images-vml/">Outlook background images</a>.</li>
+<li>Keep section widths consistent. Mixing 600px and 640px sections can cause odd gaps.</li>
+</ul>
+
+<h2>A Simple Testing Routine</h2>
+<ol>
+<li>Build the email in Klaviyo and check the web preview.</li>
+<li>Run Klaviyo's inbox preview for Outlook 2016, 2019 and Microsoft 365 on Windows.</li>
+<li>Send a real test to a classic Outlook for Windows account and to new Outlook.</li>
+<li>Check at 100% and 125% Windows display scaling, as scaling can change spacing.</li>
+<li>Turn images off and check the email still makes sense.</li>
+<li>Switch Outlook to dark mode and check logos, text and buttons.</li>
+</ol>
+<p>Our full <a href="/blog/email-testing-checklist/">email testing checklist</a> covers the other clients too.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Fixing Outlook by trial and error in every new campaign instead of fixing the saved template.</li>
+<li>Using a custom HTML block inside a drag-and-drop template with div-based code.</li>
+<li>Testing only on a Mac, where Outlook uses a different engine from Windows.</li>
+<li>Assuming that if Gmail looks right, Outlook will too.</li>
+</ul>
+
+<h2>A Real-World Scenario</h2>
+<p>A skincare brand sends a weekly product email from Klaviyo. Their B2B stockists mostly read email in Outlook at work. Each week the product grid breaks: the two-column split block has another split block nested inside it, so Outlook squeezes the text and pushes one product below the other. The fix was to flatten the layout to one split block per row, set fixed image widths and swap a styled text link for Klaviyo's button block. After that, the saved template stayed stable and the team stopped patching it every week.</p>
+
+<h2>When a Custom Template Is the Better Fix</h2>
+<p>If you keep fixing the same issues every campaign, the template itself is the problem. A hand-coded, editable template solves it once. Learn how in <a href="/blog/klaviyo-custom-html-template/">custom HTML templates in Klaviyo</a>, or let us build it: our <a href="/klaviyo-email-templates/">Klaviyo email templates</a> are tested in every Outlook version and stay editable in the Klaviyo editor. If you already have templates you like, our <a href="/outlook-email-rendering-fix/">Outlook rendering fix service</a> can repair them instead.</p>
+
+<h2>What a Coded Outlook Fix Looks Like</h2>
+<p>When a template is coded by hand, a developer adds a few Outlook-only pieces that Klaviyo's blocks cannot always add for you. These sit inside conditional comments, so only classic Outlook reads them:</p>
+<ul>
+<li><strong>Ghost tables</strong> that hold columns at fixed widths, so a two-column row stays side by side.</li>
+<li><strong>VML code</strong> for background images and rounded buttons.</li>
+<li><strong>An MSO font rule</strong> that forces Arial when a web font is used elsewhere.</li>
+<li><strong>Line-height rules</strong> such as <code>mso-line-height-rule:exactly</code>, so text is not clipped.</li>
+<li><strong>Table cell padding</strong> instead of margins, since Outlook ignores most margins.</li>
+</ul>
+<p>For example, a DPI fix helps when Windows display scaling is set above 100%, which can make images and tables grow unevenly. A developer adds an <code>&lt;o:OfficeDocumentSettings&gt;</code> block in the head with a <code>PixelsPerInch</code> value of 96. It is invisible to other clients and fixes a problem that is hard to spot until a customer reports it.</p>
+<p>None of this is something you should need to think about every week. Once it is inside a saved template, every campaign built from it gets the same protection.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Why does my Klaviyo email look fine in Gmail but not Outlook?</h3>
+<p>Classic Outlook uses Microsoft Word to render emails, which ignores much of the CSS that Klaviyo's blocks and custom code rely on.</p>
+<h3>How do I test Klaviyo emails in Outlook?</h3>
+<p>Use Klaviyo's inbox preview and send a test to a real classic Outlook for Windows account. Also check new Outlook and Outlook on the web.</p>
+<h3>Can I fix Outlook issues without coding?</h3>
+<p>Many, yes: set image widths, simplify split blocks, use fallback fonts and Klaviyo's button block. Deeper issues need a coded template.</p>
+<h3>Why is my text showing in Times New Roman in Outlook?</h3>
+<p>Outlook can't load your web font and has no safe fallback. Add Arial or Helvetica at the end of your font stack.</p>
+<h3>Does Outlook on Mac have the same problems?</h3>
+<p>No. Outlook for Mac uses a browser-like engine, so it usually renders closer to Apple Mail. Classic Outlook for Windows is the main problem.</p>
+<h3>Can MailStora fix my Klaviyo templates for Outlook?</h3>
+<p>Yes. We fix existing templates or build new editable ones tested in 50+ clients. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

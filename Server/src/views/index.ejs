@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mailsota | Server Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --bg: #050505;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+            --text-dim: #b0b0b0;
+            --success: #00ff88;
+            --error: #ff4d4d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #050505 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-color: var(--primary);
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .status-online {
+            color: var(--success);
+            background-color: var(--success);
+        }
+
+        .status-offline {
+            color: var(--error);
+            background-color: var(--error);
+        }
+
+        .stat-group {
+            margin-bottom: 15px;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .endpoints {
+            grid-column: 1 / -1;
+        }
+
+        .endpoint-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .endpoint-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .method {
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            width: fit-content;
+        }
+
+        .method.get {
+            background: #61affe;
+            color: #fff;
+        }
+
+        .method.post {
+            background: #49cc90;
+            color: #fff;
+        }
+
+        .path {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .desc {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glow {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--primary), transparent);
+            filter: blur(80px);
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .glow-1 {
+            top: -50px;
+            left: -50px;
+        }
+
+        .glow-2 {
+            bottom: -50px;
+            right: -50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mailsota Server</h1>
+            <p>ADVANCED BACKEND INFRASTRUCTURE</p>
+        </div>
+
+        <div class="dashboard">
+            <!-- Server Status -->
+            <div class="card">
+                <div class="glow glow-1"></div>
+                <h2><span class="status-indicator status-online"></span> Core Engine</h2>
+                <div class="stat-group">
+                    <span class="stat-label">Uptime</span>
+                    <span class="stat-value" id="uptime">
+                        <%= uptime %>
+                    </span>
+                </div>
+                <div class="stat-group">
+                    <span class="stat-label">Environment</span>
+                    <span class="stat-value">
+                        <%= env %>
+                    </span>
+                </div>
+                <div class="stat-group">
+                    <span class="stat-label">Port</span>
+                    <span class="stat-value">
+                        <%= port %>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Database Status -->
+            <div class="card">
+                <h2><span class="status-indicator <%= dbConnected ? 'status-online' : 'status-offline' %>"></span>
+                    Database</h2>
+                <div class="stat-group">
+                    <span class="stat-label">System</span>
+                    <span class="stat-value">MongoDB Atlas</span>
+                </div>
+                <div class="stat-group">
+                    <span class="stat-label">Connection</span>
+                    <span class="stat-value">
+                        <%= dbConnected ? 'Stable' : 'Disconnected' %>
+                    </span>
+                </div>
+                <div class="stat-group">
+                    <span class="stat-label">Persistence</span>
+                    <span class="stat-value">Buffer / Binary</span>
+                </div>
+            </div>
+
+            <!-- Cache Status -->
+            <div class="card">
+                <div class="glow glow-2"></div>
+                <h2><span class="status-indicator <%= redisConnected ? 'status-online' : 'status-offline' %>"></span>
+                    Cache Logic</h2>
+                <div class="stat-group">
+                    <span class="stat-label">Engine</span>
+                    <span class="stat-value">Redis In-Memory</span>
+                </div>
+                <div class="stat-group">
+                    <span class="stat-label">Status</span>
+                    <span class="stat-value">
+                        <%= redisConnected ? 'Active' : 'Offline' %>
+                    </span>
+                </div>
+                <div class="stat-group">
+                    <span class="stat-label">Mechanism</span>
+                    <span class="stat-value">JSON Caching</span>
+                </div>
+            </div>
+
+            <!-- API Endpoints -->
+            <div class="card endpoints">
+                <h2>API Registry</h2>
+                <div class="endpoint-list">
+                    <div class="endpoint-item">
+                        <span class="method post">POST</span>
+                        <span class="path">/api/upload-file</span>
+                        <span class="desc">Upload binary file to MongoDB Buffer</span>
+                    </div>
+                    <div class="endpoint-item">
+                        <span class="method get">GET</span>
+                        <span class="path">/api/file/:id</span>
+                        <span class="desc">Retrieve file with Redis caching</span>
+                    </div>
+                    <div class="endpoint-item">
+                        <span class="method post">POST</span>
+                        <span class="path">/api/upload-imgbb</span>
+                        <span class="desc">Image hosting via ImgBB API</span>
+                    </div>
+                    <div class="endpoint-item">
+                        <span class="method post">POST</span>
+                        <span class="path">/api/send-email</span>
+                        <span class="desc">SMTP Email with attachments</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple uptime counter simulation
+        const startTime = Date.now();
+        const uptimeEl = document.getElementById('uptime');
+
+        // This is a placeholder, usually we'd pass the actual formatted uptime from server
+        // but for now we'll just keep the one passed by EJS or update locally for effect
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,401 @@
+:root {
+  --background: #ffffff;
+  --foreground: #020617;
+  --primary: #4338CA;
+  --primary-hover: #3730A3;
+  --secondary: #6366F1;
+  --hero-bg: linear-gradient(135deg, #4338CA 0%, #1E1B4B 100%);
+  --card-bg: #FFFFFF;
+  --card-border: #E2E8F0;
+  --text-muted: #64748B;
+  --section-alt: #F8FAFC;
+  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --accent-orange: #f97316;
+  --accent-orange-hover: #ea580c;
+  --shadow-orange: 0 10px 15px -3px rgba(249, 115, 22, 0.3);
+  --orange: var(--accent-orange);
+  --navy: var(--primary);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-weight: 400;
+  line-height: 1.6;
+  /* clip (not hidden) so body is not a scroll container and position: sticky works */
+  overflow-x: clip;
+  max-width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Typography Clamps */
+h1 { font-size: clamp(2rem, 4vw, 3.5rem); }
+h2 { font-size: clamp(1.6rem, 3vw, 2.5rem); }
+h3 { font-size: clamp(1.2rem, 2vw, 1.8rem); }
+p  { font-size: clamp(0.9rem, 1.5vw, 1rem); }
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+.bg-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Flexbox Fallback Pattern */
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin: -8px; /* Safari fallback */
+}
+.flex-container > * {
+  margin: 8px; /* Safari fallback */
+}
+
+/* CSS Grid 3 Col Safe Pattern */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .section-title,
+  .section-subtitle,
+  .section-header {
+    text-align: center !important;
+  }
+}
+
+.grid-3-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 900px) { .grid-3-col { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .grid-3-col { grid-template-columns: 1fr; } }
+
+/* Sections */
+section, .section-problem, .section-services, .section-pricing {
+  width: 100%;
+  padding: 80px 0 !important;
+}
+
+/* Safari 100vh Bug */
+.full-height {
+  min-height: 100svh;
+  height: -webkit-fill-available;
+}
+
+.main {
+  position: relative;
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+.btn, .cta-btn,
+[class*="btn"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1;
+  padding: 12px 24px;
+  border-radius: 6px;
+}
+
+.container, .wrapper, .section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 480px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+.section {
+  padding: 3rem 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05), 0 4px 20px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 5rem 0;
+  }
+}
+
+.section-alt {
+  background-color: var(--section-alt);
+}
+
+/* Button Variants */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.full-width {
+  width: 100%;
+}
+
+
+.btn-primary {
+  background-color: var(--accent-orange);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-orange);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-orange-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(249, 115, 22, 0.4);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--accent-orange);
+  border: 2px solid var(--accent-orange);
+  backdrop-filter: blur(4px);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(249, 115, 22, 0.1);
+  border-color: var(--accent-orange-hover);
+  color: var(--accent-orange-hover);
+}
+
+/* Upwork brand button */
+.btn-upwork {
+  background-color: #14a800;
+  color: #ffffff;
+  border: 2px solid #14a800;
+  gap: 7px;
+}
+
+.btn-upwork:hover {
+  background-color: #0d8a00;
+  border-color: #0d8a00;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(20, 168, 0, 0.35);
+}
+
+.floating-wa-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 56px;
+  padding: 0 22px 0 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  box-shadow: 0 12px 28px -8px rgba(18, 140, 126, 0.55), 0 0 0 4px rgba(37, 211, 102, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.floating-wa-btn svg { width: 26px; height: 26px; flex-shrink: 0; }
+.floating-wa-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid #25D366;
+  animation: wa-pulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+.floating-wa-btn:hover {
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -8px rgba(18, 140, 126, 0.65), 0 0 0 6px rgba(37, 211, 102, 0.2);
+}
+body.is-admin .floating-wa-btn { display: none; }
+@keyframes wa-pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  70%, 100% { transform: scale(1.25); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .floating-wa-btn::before { animation: none; }
+}
+@media (max-width: 768px) {
+  .floating-wa-btn {
+    bottom: 16px;
+    right: 16px;
+    width: 54px;
+    height: 54px;
+    padding: 0;
+    justify-content: center;
+  }
+  .floating-wa-btn .floating-wa-label { display: none; }
+}
+
+/* --- Round 2 Browser Fixes (Overrides for Firefox/Windows constraints) --- */
+
+/* Issue 1 — Hero Section Text Still Too Large */
+.hero h1,
+.hero-title,
+.hero-heading {
+  font-size: 2.4rem !important;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+@media (max-width: 991px) {
+  .hero h1,
+  .hero-title,
+  .hero-heading {
+    font-size: 2rem !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero h1,
+  .hero-title,
+  .hero-heading {
+    font-size: 1.6rem !important;
+  }
+}
+
+/* Issue 2 — "Tired of Emails" Section Still Too Tall */
+.problem-section {
+  padding: 60px 0 !important;
+  min-height: unset !important;
+  height: auto !important;
+}
+
+.problem-section .problem-card {
+  height: auto !important;
+  min-height: unset !important;
+  padding: 20px !important;
+}
+
+/* Issue 3 — Services Section Cards Are Stretching Vertically */
+.services-section {
+  padding: 60px 0 !important;
+  min-height: unset !important;
+}
+
+.services-section .service-card {
+  height: auto !important;
+  min-height: unset !important;
+  padding: 24px !important;
+}
+
+.services-section .services-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 24px !important;
+  align-items: start !important;
+}
+
+@media (max-width: 900px) {
+  .services-section .services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .services-section .services-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Issue 4 — Pricing Section Still Too Tall */
+.pricing-section {
+  padding: 60px 0 !important;
+  min-height: unset !important;
+  height: auto !important;
+}
+
+.pricing-section .pricing-card {
+  height: auto !important;
+  min-height: unset !important;
+  padding: 28px 20px !important;
+}
+
+.pricing-section .package-features li {
+  padding: 6px 0 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.4 !important;
+}
+
+.pricing-section .pricing-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 24px !important;
+  align-items: start !important;
+}
+
+@media (max-width: 900px) {
+  .pricing-section .pricing-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .pricing-section .pricing-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Issue 6 — Make Cards Use align-items: start Not stretch */
+.problem-grid,
+.services-grid,
+.pricing-grid {
+  align-items: start !important;
+}

@@ -1,0 +1,77 @@
+[
+  {
+    "_id": {
+      "$oid": "6ab7d15d09a9915fcb6ebd35"
+    },
+    "name": "Canadian Choice",
+    "url": "https://www.windowscanada.com/",
+    "logoUrl": "https://i.ibb.co/XrFy1Fw1/b1db1a032cf8.png",
+    "active": true,
+    "order": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790431581350"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790431581350"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7d15d09a9915fcb6ebd38"
+    },
+    "name": "Equipple",
+    "url": "https://equipple.com/",
+    "logoUrl": "https://i.ibb.co/0pnTR8sY/1a461a0a0e47.png",
+    "active": true,
+    "order": {
+      "$numberInt": "1"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790431581766"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790431581766"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7d15e09a9915fcb6ebd3b"
+    },
+    "name": "Passport Legacy",
+    "url": "https://www.passportlegacy.com/",
+    "logoUrl": "",
+    "active": true,
+    "order": {
+      "$numberInt": "2"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790431582110"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790431582110"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

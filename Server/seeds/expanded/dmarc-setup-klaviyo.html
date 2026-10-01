@@ -1,0 +1,107 @@
+<p><strong>Short answer:</strong> In Klaviyo, set up a <strong>branded sending domain</strong> (for example <code>send.yourstore.com</code>) under Settings, Domains, and add the DNS records Klaviyo gives you at your domain host to verify SPF and DKIM. Then add a DMARC TXT record at <code>_dmarc.yourstore.com</code>, starting with <code>v=DMARC1; p=none; rua=mailto:you@yourstore.com</code>. Monitor reports for a few weeks before moving to a stricter policy.</p>
+
+<h2>Why It Matters</h2>
+<p>Gmail and Yahoo require bulk senders to authenticate and publish a DMARC record. Without it, more of your emails land in spam or get rejected. Read the wider picture in <a href="/blog/why-emails-go-to-spam/">why emails go to spam</a>.</p>
+<p>There are three pieces that work together:</p>
+<ul>
+<li><strong>SPF</strong> lists the servers allowed to send for your domain.</li>
+<li><strong>DKIM</strong> adds a digital signature so receivers can check the email was not changed and came from your domain.</li>
+<li><strong>DMARC</strong> tells receivers what to do when SPF or DKIM fail, and sends you reports. It also checks <em>alignment</em>: the domain in your From address must match the domain that passed SPF or DKIM.</li>
+</ul>
+<p>Alignment is why the branded sending domain matters. If Klaviyo signs your email with its own shared domain, DKIM can pass but not align with your From address. A branded sending domain on your own domain fixes that.</p>
+
+<h2>Before You Start</h2>
+<ul>
+<li>Access to your Klaviyo account with admin rights.</li>
+<li>Login for your DNS host (Shopify, Cloudflare, GoDaddy, Namecheap and so on).</li>
+<li>A list of every tool that sends email as your domain: Klaviyo, Google Workspace or Microsoft 365, Shopify notifications, helpdesk, review apps.</li>
+<li>An inbox to receive DMARC reports, ideally a dedicated address.</li>
+</ul>
+
+<h2>Step 1: Set Up a Branded Sending Domain</h2>
+<ol>
+<li>In Klaviyo, open <strong>Settings, Domains</strong> and start the sending domain setup. Menu names can change, so check Klaviyo's help centre if yours looks different.</li>
+<li>Choose a subdomain such as <code>send.</code> or <code>mail.</code> so your main domain's email is separate. This protects your staff inboxes if marketing reputation dips.</li>
+<li>Klaviyo shows several DNS records (CNAME and TXT). Copy them exactly. A single missing character stops verification.</li>
+</ol>
+
+<h2>Step 2: Add the Records at Your DNS Host</h2>
+<ol>
+<li>Log in to where your domain's DNS is managed (Shopify, Cloudflare, GoDaddy and so on).</li>
+<li>Add each record. Many hosts add your domain automatically, so enter only the host part if asked. For example, enter <code>send</code> rather than <code>send.yourstore.com</code>, or you may end up with <code>send.yourstore.com.yourstore.com</code>.</li>
+<li>On Cloudflare, set CNAME records to <strong>DNS only</strong> (grey cloud), not proxied, unless Klaviyo says otherwise.</li>
+<li>Return to Klaviyo and click verify. DNS can take from minutes to 48 hours.</li>
+</ol>
+
+<h2>Step 3: Add DMARC</h2>
+<ol>
+<li>Check if a DMARC record already exists at <code>_dmarc.yourdomain.com</code>. Only one is allowed. You can look it up with any free DNS lookup tool.</li>
+<li>If none exists, add a TXT record: host <code>_dmarc</code>, value <code>v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.com</code>.</li>
+<li>Read the reports (a free DMARC report tool makes them readable) to confirm all your senders pass.</li>
+<li>After a few clean weeks, consider <code>p=quarantine</code>, then <code>p=reject</code>.</li>
+</ol>
+
+<h3>DMARC tags explained</h3>
+<table>
+<thead><tr><th>Tag</th><th>Example</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td>v</td><td><code>v=DMARC1</code></td><td>Version. Must be first.</td></tr>
+<tr><td>p</td><td><code>p=none</code></td><td>Policy: none, quarantine or reject.</td></tr>
+<tr><td>rua</td><td><code>rua=mailto:dmarc@yourdomain.com</code></td><td>Where daily summary reports go.</td></tr>
+<tr><td>pct</td><td><code>pct=25</code></td><td>Apply the policy to part of failing mail, useful when tightening slowly.</td></tr>
+<tr><td>sp</td><td><code>sp=none</code></td><td>Policy for subdomains, if different.</td></tr>
+</tbody>
+</table>
+<p>A staged rollout might look like: <code>p=none</code> for a few weeks, then <code>p=quarantine; pct=25</code>, then <code>p=quarantine</code>, then <code>p=reject</code>. Only move on when reports show your real senders pass.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li><strong>Two DMARC records.</strong> Receivers treat this as invalid. Edit the existing one.</li>
+<li><strong>Jumping straight to p=reject.</strong> A forgotten sender, like your helpdesk, will have its email rejected.</li>
+<li><strong>Two SPF records.</strong> Like DMARC, you can only have one SPF record per host. Merge them.</li>
+<li><strong>Typing the full domain in the host field</strong> on hosts that add it for you.</li>
+<li><strong>Setting up DMARC but still sending from the shared Klaviyo domain.</strong> Your emails may pass but not align.</li>
+<li><strong>Using a free email address as the From address,</strong> such as a Gmail address. You can't authenticate a domain you don't own.</li>
+</ul>
+
+<h2>Step 4: Warm Up and Monitor</h2>
+<p>A new sending domain needs a gradual warm-up. Start with your most engaged subscribers and grow volume over a few weeks. Follow our <a href="/blog/klaviyo-sending-domain-warm-up/">Klaviyo domain warm-up plan</a>. Then keep your list clean; see <a href="/blog/klaviyo-fake-signups-bots/">how to stop fake signups</a>. Keep an eye on open rates with care, since Apple Mail Privacy Protection can inflate them; see <a href="/blog/email-open-rates-apple-mail-privacy/">email open rates and Apple Mail privacy</a>.</p>
+
+<h2>A Real-World Scenario</h2>
+<p>A Shopify store sets up DMARC with <code>p=reject</code> in one go after reading about the Gmail rules. A week later, customers stop getting replies from the support team. The DMARC reports show why: the helpdesk tool was sending as the main domain without DKIM set up. Moving back to <code>p=none</code>, adding DKIM for the helpdesk and waiting for clean reports solved it. Then they tightened the policy step by step.</p>
+
+<h2>Quick Checklist</h2>
+<ul>
+<li>Branded sending domain verified in Klaviyo.</li>
+<li>One SPF record, one DMARC record.</li>
+<li>DMARC starts at <code>p=none</code> with a report address.</li>
+<li>Every sending tool listed and passing in reports.</li>
+<li>Warm-up plan in place for the new domain.</li>
+</ul>
+<p>Our <a href="/klaviyo-campaign-management/">Klaviyo campaign management</a> and <a href="/klaviyo-flow-setup/">flow setup</a> services include sending-domain setup and deliverability checks. Good authentication also pairs well with clean, light templates like our <a href="/klaviyo-email-templates/">Klaviyo email templates</a>.</p>
+
+<h2>How to Read DMARC Reports</h2>
+<p>Raw DMARC reports are XML files sent as email attachments. They are hard to read by hand, which is why most people use a free or paid report tool that turns them into a simple dashboard. When you look at the reports, focus on a few questions:</p>
+<ul>
+<li><strong>Which sources send as my domain?</strong> You should recognise every one: Klaviyo, your office email, Shopify and any helpdesk or review app.</li>
+<li><strong>Do they pass SPF or DKIM with alignment?</strong> For DMARC to pass, at least one of them must pass and align with your From domain.</li>
+<li><strong>Is there traffic I don't recognise?</strong> Unknown sources may be spoofing, or a tool someone on your team set up without telling you.</li>
+</ul>
+<p>Fix each legitimate sender that fails, usually by adding its DKIM records or including it in your SPF record. Only when the reports are clean for a few weeks should you tighten the policy.</p>
+
+<h2>SPF Lookup Limit</h2>
+<p>SPF records can only trigger 10 DNS lookups. Every <code>include:</code> counts, and some includes contain more lookups inside them. If you add too many services, SPF can fail with a "too many lookups" error. Remove services you no longer use, and rely on DKIM alignment where you can. Klaviyo's branded sending domain handles its own SPF on the subdomain, so it does not add to the main domain's SPF record in most setups.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Does Klaviyo require DMARC?</h3>
+<p>Gmail and Yahoo require bulk senders to have DMARC, so in practice you need it. Klaviyo recommends a branded sending domain plus DMARC.</p>
+<h3>What DMARC policy should I start with?</h3>
+<p>Start with p=none to monitor. Move to quarantine and then reject only after reports show all legitimate senders pass.</p>
+<h3>Can I have two DMARC records?</h3>
+<p>No. Only one DMARC record per domain is valid. Edit the existing record instead of adding a second one.</p>
+<h3>How long does Klaviyo domain verification take?</h3>
+<p>Often minutes, but DNS changes can take up to 48 hours. If it still fails, check for typos and doubled domain names in the host field.</p>
+<h3>Should I use a subdomain for Klaviyo?</h3>
+<p>Yes. A subdomain like send.yourstore.com keeps marketing reputation separate from your main domain's day-to-day email.</p>
+<h3>Can MailStora set up my Klaviyo sending domain?</h3>
+<p>Yes. We set up branded sending, check authentication and warm up the domain. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

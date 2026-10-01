@@ -1,0 +1,123 @@
+<p><strong>Short answer:</strong> a Klaviyo abandoned cart flow is an automated series of emails sent to shoppers who start checkout but do not buy. Build it on the <em>Started Checkout</em> metric, add a flow filter that stops it once the person places an order, send the first email within a few hours, and show the exact products they left behind with a dynamic block.</p>
+
+<p>It is usually one of the highest-earning flows in any ecommerce store, because it reaches people who were seconds away from buying. Here is how to set it up properly. If you want it done for you, our <a href="/klaviyo-flow-setup/">Klaviyo flow setup service</a> builds the full flow with branded templates.</p>
+
+<h2>Abandoned Cart vs Abandoned Checkout vs Browse Abandonment</h2>
+<ul>
+<li><strong>Abandoned checkout:</strong> the shopper entered checkout (and usually their email) but did not pay. Triggered by <em>Started Checkout</em>. This is what most stores call the "abandoned cart flow".</li>
+<li><strong>Added to cart:</strong> the shopper added a product but never reached checkout. Needs an <em>Added to Cart</em> event, which Shopify stores send through the Klaviyo onsite tracking.</li>
+<li><strong>Browse abandonment:</strong> the shopper viewed products without adding them. Triggered by <em>Viewed Product</em>. Lower intent, softer emails.</li>
+</ul>
+<p>Start with abandoned checkout. It has the highest intent and the clearest win. Once it runs well, add the other two as separate flows, and use filters so one shopper is not in all three at once.</p>
+
+<h2>Before You Build: Quick Checks</h2>
+<ul>
+<li>Your store integration is connected and <em>Started Checkout</em> events appear in <strong>Analytics &gt; Metrics</strong>.</li>
+<li>Onsite tracking is active if you plan an <em>Added to Cart</em> flow. On Shopify, check the Klaviyo app embed is turned on in your theme.</li>
+<li>Your sending domain is set up. A branded sending domain with SPF, DKIM and DMARC helps flows reach the inbox; see <a href="/blog/dmarc-setup-klaviyo/">how to set up DMARC for Klaviyo</a>.</li>
+<li>You have a welcome flow live too, since new subscribers and cart abandoners often overlap. Our <a href="/blog/klaviyo-welcome-series/">Klaviyo welcome series guide</a> covers that setup.</li>
+</ul>
+
+<h2>Step 1: Create the Flow and Choose the Trigger</h2>
+<ol>
+<li>In Klaviyo, go to <strong>Flows</strong> and create a flow from scratch, or start from the abandoned cart template in the flow library.</li>
+<li>Choose a <strong>metric</strong> trigger and select <strong>Started Checkout</strong> from your store integration.</li>
+<li>Name it clearly, for example "Abandoned Checkout: 3 emails".</li>
+</ol>
+
+<h2>Step 2: Add Flow Filters So You Never Email Buyers</h2>
+<p>Filters are checked before every email, so they stop the flow the moment someone buys. Add:</p>
+<ul>
+<li><strong>Placed Order zero times since starting this flow.</strong> This is the most important filter.</li>
+<li><strong>Has not been in this flow in the last 7 to 14 days</strong>, so repeat visitors are not flooded with reminders.</li>
+</ul>
+<p>Optionally add a <strong>trigger filter</strong> for cart value (for example, only carts above a minimum amount) if you plan to include discounts.</p>
+
+<h2>Step 3: Set the Timing</h2>
+<p>A proven starting point for three emails:</p>
+<table>
+<thead><tr><th>Email</th><th>Delay</th><th>Goal</th></tr></thead>
+<tbody>
+<tr><td>1. Reminder</td><td>2 to 4 hours after checkout started</td><td>Help them finish while the purchase is fresh</td></tr>
+<tr><td>2. Reassurance</td><td>24 hours later</td><td>Answer doubts: reviews, delivery, returns</td></tr>
+<tr><td>3. Last nudge</td><td>48 to 72 hours later</td><td>Final reminder, optional incentive</td></tr>
+</tbody>
+</table>
+<p>Test your own timing after a few weeks. Stores with expensive products often need longer gaps; fast-moving products can go quicker. Consider turning on smart sending carefully: it can skip a flow email if the person just received a campaign, which is usually fine, but check it does not skip the first reminder.</p>
+
+<h2>Step 4: Show the Cart With a Dynamic Product Block</h2>
+<p>The email should show exactly what they left behind: product image, name, variant, price and a button back to checkout. In Klaviyo's editor, use the <strong>Table</strong> or <strong>Product</strong> block with the event's line items, or the store's built-in abandoned cart block. Link the main button to the checkout URL from the event, so the cart is restored in one click.</p>
+<p>In a custom HTML template, the same idea uses Klaviyo's template tags. A simplified loop looks like this:</p>
+<p><code>{% for item in event.extra.line_items %}&lt;tr&gt;&lt;td&gt;&lt;img src="{{ item.product.images.0.src }}" width="120" alt="{{ item.product.title }}"&gt;&lt;/td&gt;&lt;td&gt;{{ item.product.title }}&lt;br&gt;{{ item.line_price|floatformat:2 }}&lt;/td&gt;&lt;/tr&gt;{% endfor %}</code></p>
+<p>The exact property names depend on your store integration, so preview with a real event and adjust. The checkout button usually links to <code>{{ event.extra.checkout_url }}</code>.</p>
+<p>Custom-coded templates make this block look on-brand in every inbox, including Outlook. Our <a href="/klaviyo-email-templates/">custom Klaviyo email templates</a> keep dynamic product areas editable in Klaviyo's drag-and-drop editor.</p>
+
+<h2>Step 5: Write the Three Emails</h2>
+<h3>Email 1: A friendly reminder (no discount)</h3>
+<ul>
+<li>Subject line ideas: "You left something behind", "Still thinking it over?"</li>
+<li>Show the cart, one short line of copy and a clear "Complete my order" button.</li>
+<li>Keep it short. Most recoveries happen from this email.</li>
+</ul>
+<h3>Email 2: Remove the doubts</h3>
+<ul>
+<li>Add social proof: star ratings, one or two short reviews.</li>
+<li>Answer common objections: delivery time, free returns, secure payment, support contact.</li>
+</ul>
+<h3>Email 3: The last nudge</h3>
+<ul>
+<li>Create gentle urgency: low stock or "your cart will expire soon", only if it is true.</li>
+<li>If your margins allow, add a small incentive such as free shipping. Use a conditional split so only first-time buyers or high-value carts get it, which protects your margin.</li>
+</ul>
+
+<h2>Step 6: Add Smart Splits</h2>
+<ul>
+<li><strong>New vs returning customers:</strong> returning customers rarely need a discount; new customers may need more reassurance.</li>
+<li><strong>Cart value:</strong> high-value carts can get a personal touch, such as a reply-to address for questions.</li>
+</ul>
+<p>In Klaviyo, a split for new customers can use the condition "Placed Order zero times over all time". Keep splits few at first; each one doubles the emails you have to maintain.</p>
+
+<h2>Step 7: Test, Launch and Measure</h2>
+<ol>
+<li>Preview each email with a real profile and event so the product block shows real items.</li>
+<li>Send tests to Gmail, Outlook and a phone, and check dark mode.</li>
+<li>Set the flow to <strong>Live</strong>.</li>
+<li>After two to four weeks, compare placed order rate and revenue per recipient for each email, and adjust timing, subject lines and incentives.</li>
+</ol>
+<p>Our <a href="/blog/email-testing-checklist/">email testing checklist</a> lists everything to check before you switch a flow to Live.</p>
+
+<h2>Common Mistakes to Avoid</h2>
+<ul>
+<li>No "Placed Order" filter, so buyers get "you forgot something" emails.</li>
+<li>Giving a discount in the first email, which trains shoppers to abandon on purpose.</li>
+<li>Generic emails without the actual products.</li>
+<li>Templates that break in Outlook or on mobile. Read our guide on <a href="/blog/fix-html-emails-breaking-in-outlook/">fixing emails that break in Outlook</a>, and <a href="/blog/klaviyo-email-looks-different-in-outlook/">why a Klaviyo email looks different in Outlook</a>.</li>
+<li>Leaving the flow in Manual mode after testing, so emails queue but never send.</li>
+</ul>
+
+<h2>A Short Real-World Scenario</h2>
+<p>A Shopify store runs a single abandoned cart email with a generic "Come back!" message and a 10% code. Customers who already bought sometimes receive it, because there is no Placed Order filter. The rebuild adds the filter, splits the flow into three emails with the timing above, shows the real cart items, and moves the incentive to email 3 for first-time buyers only. The team then reviews revenue per recipient each month and tests one change at a time. Stores that also want theme or checkout changes can pair this with our <a href="/shopify-development/">Shopify development</a> work.</p>
+<p>Want to see a flow redesign in action? Read how we helped TechFlow <a href="/case-studies/saas-onboarding-sequence/">raise onboarding completion by 121% with a redesigned Klaviyo flow</a>, or browse our <a href="/portfolio/abandoned-cart-recovery-email/">abandoned cart email design</a>.</p>
+
+<h2>Related Guides</h2>
+<p>Keep reading with these guides on related problems:</p>
+<ul>
+<li><a href="/blog/klaviyo-custom-html-template/">Custom HTML templates in Klaviyo that stay editable</a></li>
+<li><a href="/blog/klaviyo-fake-signups-bots/">How to stop fake and bot signups in Klaviyo</a></li>
+<li><a href="/blog/email-open-rates-apple-mail-privacy/">Are email open rates still reliable?</a></li>
+<li><a href="/blog/klaviyo-vs-mailchimp-for-shopify/">Klaviyo vs Mailchimp for Shopify stores</a></li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<h3>What trigger should I use for an abandoned cart flow in Klaviyo?</h3>
+<p>Use the Started Checkout metric for an abandoned checkout flow. If your store sends an Added to Cart event, you can build a separate, earlier flow for shoppers who add to cart but never reach checkout.</p>
+<h3>How many emails should an abandoned cart flow have?</h3>
+<p>Three emails is a strong starting point: a reminder after 2 to 4 hours, a reassurance email after about 24 hours, and a last nudge after 48 to 72 hours.</p>
+<h3>Should I offer a discount in abandoned cart emails?</h3>
+<p>Not in the first email. If you use one, put it in the last email and limit it with conditional splits, for example to first-time buyers or high-value carts.</p>
+<h3>Why is my abandoned cart flow not sending?</h3>
+<p>Check that the flow and each email are set to Live, that Started Checkout events are arriving, and that filters or smart sending are not excluding everyone.</p>
+<h3>Can I send SMS in the same flow?</h3>
+<p>Yes, Klaviyo lets you add SMS steps to a flow for subscribers who gave SMS consent. Keep SMS short and avoid sending it at the same time as an email.</p>
+<h3>Can MailStora set up my Klaviyo abandoned cart flow?</h3>
+<p>Yes. MailStora builds Klaviyo flows end to end, including triggers, filters, timing, splits and custom-coded templates, and can run your ongoing sends through our <a href="/klaviyo-campaign-management/">Klaviyo campaign management</a>. <a href="/quote/">Request a free quote</a> to get a price within 24 hours.</p>

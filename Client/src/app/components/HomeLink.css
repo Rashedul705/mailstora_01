@@ -1,0 +1,5 @@
+.home-link-wrap { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.home-link-note { margin: 1rem 0 0; font-size: 1rem; line-height: 1.7; color: #475569; }
+.home-link-note a { color: #ea580c; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(234, 88, 12, 0.35); text-underline-offset: 3px; }
+.home-link-note a:hover { text-decoration-color: #ea580c; }
+.home-link-wrap .home-link-note { margin: 0 auto; max-width: 820px; text-align: center; }

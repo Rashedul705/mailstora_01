@@ -1,0 +1,107 @@
+<p><strong>Short answer:</strong> in Mailchimp, go to <strong>Content, Email templates, Create template, Code your own</strong>, then choose <strong>Import HTML</strong> and upload your .html file or a .zip with the HTML and images. To let your team edit text and images later, the template needs Mailchimp's editable tags (such as <code>mc:edit</code>) added before import. Without them, every change means editing code.</p>
+
+<h2>Before You Import: Prepare the Template</h2>
+<ul>
+<li><strong>Host images online</strong> or include them in the .zip. Local paths like <code>C:/images/logo.png</code> will break.</li>
+<li><strong>Add editable regions:</strong> put <code>mc:edit="header_text"</code> on text blocks and images your team will change. Each name must be unique.</li>
+<li><strong>Add repeatable blocks</strong> with <code>mc:repeatable</code> and <code>mc:variant</code> if you want to add or swap sections, like product rows.</li>
+<li><strong>Keep required merge tags:</strong> the footer must include <code>*|UNSUB|*</code> and your address tags, or Mailchimp will warn you.</li>
+<li><strong>Keep code lean.</strong> Heavy code can trigger <a href="/blog/gmail-clipping-102kb-limit/">Gmail clipping at 102 KB</a>.</li>
+<li><strong>Inline your CSS.</strong> Mailchimp can inline CSS for you, but checking it yourself avoids surprises.</li>
+</ul>
+
+<h2>How Mailchimp's Template Language Works</h2>
+<p>Mailchimp reads special attributes in your HTML to decide what users can edit in the drag-and-drop editor. Here are the ones you will use most:</p>
+<table>
+<thead><tr><th>Attribute</th><th>What it does</th><th>Example use</th></tr></thead>
+<tbody>
+<tr><td><code>mc:edit</code></td><td>Makes text or an image editable</td><td>Headline, body copy, hero image</td></tr>
+<tr><td><code>mc:repeatable</code></td><td>Lets users duplicate or remove a block</td><td>Product rows, article blocks</td></tr>
+<tr><td><code>mc:variant</code></td><td>Offers alternative layouts for a repeatable block</td><td>Image left or image right</td></tr>
+<tr><td><code>mc:hideable</code></td><td>Lets users hide a block without deleting it</td><td>Optional banner</td></tr>
+</tbody>
+</table>
+
+<h3>Example: An Editable Text Block</h3>
+<p><code>&lt;td mc:edit="intro_text" style="font-family:Arial, sans-serif; font-size:16px;"&gt;Write your intro here.&lt;/td&gt;</code></p>
+<h3>Example: An Editable Image</h3>
+<p><code>&lt;img mc:edit="hero_image" src="https://example.com/hero.jpg" width="600" alt="Spring sale" style="display:block; max-width:100%; height:auto;"&gt;</code></p>
+<h3>Example: A Repeatable Product Row</h3>
+<p><code>&lt;table mc:repeatable="products" mc:variant="Image left"&gt; ... &lt;/table&gt;</code></p>
+<p>Put <code>mc:edit</code> on the elements inside the repeatable block too, so each copy can hold different content. Check Mailchimp's current template language docs, as supported attributes can change.</p>
+
+<h2>Step by Step: Import Into Mailchimp</h2>
+<ol>
+<li>Open <strong>Content</strong>, then <strong>Email templates</strong>.</li>
+<li>Click <strong>Create template</strong> and choose <strong>Code your own</strong>.</li>
+<li>Select <strong>Import HTML</strong> and upload the .html or .zip file.</li>
+<li>Name the template and save it.</li>
+<li>Create a new email campaign and choose the template under <strong>Saved templates</strong>.</li>
+<li>Click each editable area to confirm it can be changed without code.</li>
+<li>Send a test to Gmail and Outlook before using it for real.</li>
+</ol>
+<p>Mailchimp moves menu items from time to time. If a label has changed, look for the templates area and an option to code or upload your own.</p>
+
+<h2>Common Problems After Import</h2>
+<table>
+<thead><tr><th>Problem</th><th>Likely cause</th><th>Fix</th></tr></thead>
+<tbody>
+<tr><td>Can't edit anything</td><td>No mc:edit tags</td><td>Add editable regions and re-import</td></tr>
+<tr><td>Images missing</td><td>Local file paths</td><td>Host images or upload them in the .zip</td></tr>
+<tr><td>Layout breaks in Outlook</td><td>Div-based or modern CSS layout</td><td>Rebuild with tables and Outlook fixes</td></tr>
+<tr><td>Styles lost</td><td>CSS in an external file</td><td>Inline the CSS</td></tr>
+<tr><td>Columns do not stack on phones</td><td>Fixed widths</td><td>Use fluid tables and hybrid columns</td></tr>
+</tbody>
+</table>
+<p>If Outlook is the problem, read <a href="/blog/fix-html-emails-breaking-in-outlook/">how to fix HTML emails that break in Outlook</a>. For mobile issues, see <a href="/blog/responsive-email-not-working-mobile/">why responsive emails fail on mobile</a>, and for broken images, read <a href="/blog/email-images-not-showing/">why email images are not showing</a>.</p>
+
+<h2>Planning Editable Areas With Your Team</h2>
+<p>Before adding tags, sit down with the people who will build campaigns. Ask them which parts change every send and which parts should never move. A good template gives them freedom where they need it and locks everything else.</p>
+<ul>
+<li><strong>Usually editable:</strong> headline, intro text, hero image, button text and link, product blocks and article blocks.</li>
+<li><strong>Usually locked:</strong> the header logo, the main layout tables, the footer structure and legal text.</li>
+<li><strong>Optional:</strong> banners and promo strips, marked as hideable so they can be switched off.</li>
+</ul>
+<p>Give each <code>mc:edit</code> a clear name, such as <code>hero_headline</code> or <code>product_1_price</code>. Clear names make the template easier to maintain and easier to hand to a new team member. Also write a one-page guide that lists each editable area and its limits, such as the best image size or the maximum headline length. That guide prevents most of the layout problems that appear after launch.</p>
+<h3>Version Control</h3>
+<p>Keep the master HTML file outside Mailchimp, with a date in the file name. When you need a change, edit the master and re-import it as a new template. This way, you always have a clean copy to go back to.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Using the same <code>mc:edit</code> name twice, which makes Mailchimp mix up content.</li>
+<li>Placing <code>mc:edit</code> on a table that holds the layout, so users can delete the structure by accident.</li>
+<li>Editing the code after import without keeping a master copy outside Mailchimp.</li>
+<li>Forgetting the footer merge tags, which blocks sending.</li>
+<li>Uploading a .zip with images in nested folders that do not match the paths in the HTML.</li>
+</ul>
+
+<h2>Classic Builder vs New Builder</h2>
+<p>Mailchimp's newer email builder works best with its own drag-and-drop blocks, while custom-coded templates open in the classic editor. That is fine for most teams: the template keeps its exact design, and editable regions keep day-to-day changes simple. Our <a href="/mailchimp-email-templates/">Mailchimp email templates service</a> delivers templates already tagged, tested and imported into your account.</p>
+<p>Starting from a design file? See our <a href="/figma-to-html-email/">Figma to HTML email conversion</a> service and the <a href="/blog/figma-to-html-email-handoff-checklist/">handoff checklist</a>.</p>
+
+<h2>A Real-World Scenario</h2>
+<p>A team buys a newsletter template and uploads it to Mailchimp. It looks right, but the marketer cannot change a single word without opening the code. Every Monday, a developer has to edit the HTML by hand. The fix is to add <code>mc:edit</code> to the headline, intro, images and button text, and to make the article section <code>mc:repeatable</code>. After re-importing, the marketer builds each issue in minutes, and the design stays exactly the same. This is the setup we use for <a href="/newsletter-email-templates/">newsletter email templates</a>.</p>
+
+<h2>Pre-Import Checklist</h2>
+<ul>
+<li>All image URLs are absolute or included in the .zip.</li>
+<li>Every editable area has a unique <code>mc:edit</code> name.</li>
+<li>Footer includes <code>*|UNSUB|*</code> and address merge tags.</li>
+<li>CSS is inlined; the file is well under 102 KB.</li>
+<li>Tested in Gmail, Apple Mail, Outlook and on a phone. Our <a href="/blog/email-testing-checklist/">email testing checklist</a> lists the rest.</li>
+</ul>
+<p>Moving between platforms? The process for Klaviyo is similar but uses different tags; see <a href="/blog/klaviyo-custom-html-template/">how to use a custom HTML template in Klaviyo</a>. Agencies can also hand this work to us under their own brand through our <a href="/white-label-email-development/">white-label email development</a> service.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Can I upload my own HTML template to Mailchimp?</h3>
+<p>Yes. Use Content, Email templates, Create template, Code your own, then Import HTML. You can upload a single .html file or a .zip that includes images.</p>
+<h3>Why can’t I edit my imported Mailchimp template?</h3>
+<p>The template has no Mailchimp editable tags. Add mc:edit attributes to text and image areas, then import it again.</p>
+<h3>Does Mailchimp support responsive custom templates?</h3>
+<p>Yes. Mailchimp sends your HTML as it is, so a well-built responsive template stays responsive.</p>
+<h3>Can I use a custom template with Mailchimp's new builder?</h3>
+<p>At the time of writing, custom-coded templates open in the classic editor. Check Mailchimp's current help pages, as this may change.</p>
+<h3>Can I let my team add or remove sections?</h3>
+<p>Yes. Mark those sections with <code>mc:repeatable</code> and, if needed, <code>mc:variant</code> for different layouts.</p>
+<h3>Can MailStora build and import a Mailchimp template for me?</h3>
+<p>Yes. We code, tag, test and upload templates into your Mailchimp account. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

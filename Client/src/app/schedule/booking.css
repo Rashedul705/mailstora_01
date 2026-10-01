@@ -1,0 +1,46 @@
+/* Public booking calendar on /schedule/ */
+.bk-wrap { padding: 56px 0 24px; }
+.bk { max-width: 1040px; margin: 0 auto; }
+.bk-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; }
+.bk-panel { background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px -18px rgba(15, 23, 42, .25); }
+.bk-step { display: flex; align-items: center; gap: 10px; font-weight: 800; color: #0f172a; margin: 0 0 16px; font-size: 17px; }
+.bk-step span { width: 28px; height: 28px; border-radius: 50%; background: #f97316; color: #fff; display: grid; place-items: center; font-size: 14px; }
+.bk-month { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.bk-month strong { font-size: 16px; color: #0f172a; }
+.bk-month button { width: 36px; height: 36px; border-radius: 10px; border: 1px solid #e2e8f0; background: #fff; font-size: 20px; cursor: pointer; color: #0f172a; }
+.bk-month button:disabled { opacity: .35; cursor: default; }
+.bk-cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.bk-wd { text-align: center; font-size: 12px; font-weight: 700; color: #64748b; padding: 4px 0; }
+.bk-day { aspect-ratio: 1; border: 0; border-radius: 12px; background: #fff7ed; color: #9a3412; font-weight: 700; font-size: 15px; cursor: pointer; transition: background .15s; }
+.bk-day:hover:not(:disabled) { background: #fed7aa; }
+.bk-day:disabled { background: transparent; color: #cbd5e1; cursor: default; }
+.bk-day.is-today { outline: 2px solid #fdba74; }
+.bk-day.is-on { background: #f97316; color: #fff; }
+.bk-note { font-size: 13px; color: #64748b; margin: 14px 0 0; }
+.bk-empty { color: #64748b; font-size: 15px; margin: 8px 0; }
+.bk-slots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-height: 380px; overflow-y: auto; padding-right: 4px; }
+.bk-slot { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 12px 14px; border: 1.5px solid #e2e8f0; border-radius: 12px; background: #fff; cursor: pointer; text-align: left; }
+.bk-slot strong { font-size: 15px; color: #0f172a; }
+.bk-slot small { font-size: 12px; color: #64748b; }
+.bk-slot:hover { border-color: #fdba74; }
+.bk-slot.is-on { border-color: #f97316; background: #fff7ed; }
+.bk-form { margin-top: 24px; }
+.bk-summary { background: #f8fafc; border-radius: 12px; padding: 12px 14px; color: #334155; margin: 0 0 16px; }
+.bk-methods { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+.bk-methods label { border: 1.5px solid #e2e8f0; border-radius: 999px; padding: 8px 16px; cursor: pointer; font-weight: 600; font-size: 14px; color: #334155; }
+.bk-methods label.is-on { border-color: #f97316; background: #fff7ed; color: #9a3412; }
+.bk-methods input { accent-color: #f97316; margin-right: 4px; }
+.bk-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.bk-fields label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 700; color: #0f172a; }
+.bk-fields em { font-weight: 500; color: #94a3b8; font-style: normal; }
+.bk-fields input, .bk-fields textarea { border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 11px 14px; font: inherit; font-weight: 500; }
+.bk-fields input:focus, .bk-fields textarea:focus { outline: none; border-color: #f97316; }
+.bk-wide { grid-column: 1 / -1; }
+.bk-submit { margin-top: 18px; background: #f97316; color: #fff; border: 0; border-radius: 12px; padding: 14px 28px; font-weight: 800; font-size: 16px; cursor: pointer; }
+.bk-submit:disabled { opacity: .6; }
+.bk-error, .bk-alert { background: #fef2f2; color: #b91c1c; border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+.bk-alert { margin: 0 0 16px; }
+@media (max-width: 800px) {
+    .bk-grid, .bk-fields { grid-template-columns: 1fr; }
+    .bk-panel { padding: 18px; }
+}

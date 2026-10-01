@@ -1,0 +1,94 @@
+import './WhyChooseUs.css';
+
+export default function WhyChooseUs() {
+    const features = [
+        {
+            title: "Custom-Built & Optimized",
+            description: "No generic drag-and-drop. Whether it's hand-coded HTML emails or a custom Shopify theme, I build clean, scalable solutions from scratch.",
+            icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+            )
+        },
+        {
+            title: "Platform-Perfect Rendering",
+            description: "From Outlook dark-mode testing to mobile-first Shopify checkouts, I rigorously QA everything to ensure flawless cross-device performance.",
+            icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            )
+        },
+        {
+            title: "Data-Driven Strategies",
+            description: "I don't just design; I optimize. My Klaviyo automations and social media campaigns are engineered with A/B testing and analytics to drive revenue.",
+            icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            )
+        },
+        {
+            title: "Fast Turnaround",
+            description: "Get your coded email templates delivered within 24–48 hours. Even for larger e-commerce and marketing setups, I work efficiently without compromising quality.",
+            icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            )
+        },
+        {
+            title: "Agency Ready",
+            description: "White-label support available. I seamlessly integrate with your agency's workflow to deliver premium results directly to your clients under your banner.",
+            icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+            )
+        },
+        {
+            title: "Omnichannel Excellence",
+            description: "From your customer's inbox to your Shopify storefront and Instagram feed, I ensure your brand experience is cohesive, premium, and high-converting.",
+            icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+            )
+        }
+    ];
+
+    return (
+        <section className="why-choose-section section section-alt" id="why-choose">
+            <div className="container">
+                <div className="why-choose-header text-center">
+                    <h2 className="section-title">Why Work With Me?</h2>
+                    <p className="section-subtitle">
+                        I build robust, omnichannel digital solutions that look great and convert effortlessly, so you can focus on growing your business.
+                    </p>
+                </div>
+                
+                <div className="why-choose-grid">
+                    {features.map((feature, idx) => (
+                        <div key={idx} className="why-choose-card">
+                            <div className="why-choose-icon">
+                                {feature.icon}
+                            </div>
+                            <div className="why-choose-content">
+                                <h3>{feature.title}</h3>
+                                <p>{feature.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}

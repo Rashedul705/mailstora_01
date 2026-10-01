@@ -1,0 +1,119 @@
+<p><strong>Short answer:</strong> An accessible email can be read and used by people with low vision, colour blindness, or who use screen readers. The main changes are useful alt text on images, text contrast of at least 4.5:1, real headings, body text of 14 to 16 px or larger, clear link text, live text instead of text in images, and layout tables marked with <code>role="presentation"</code>.</p>
+
+<h2>Why Accessibility Matters</h2>
+<ul>
+<li>Millions of people use screen readers or zoom to read email.</li>
+<li>Accessible emails are easier for everyone to read, especially on phones, in bright sunlight or when images are blocked.</li>
+<li>In many regions, accessibility is a legal expectation for businesses. Check the rules that apply where you sell.</li>
+<li>Clear structure and live text also help your email survive image blocking and dark mode.</li>
+</ul>
+
+<h2>Content Checklist</h2>
+<ol>
+<li><strong>Alt text:</strong> describe the purpose, like "Free shipping on orders over $50". Use empty alt (<code>alt=""</code>) for decorative images, such as dividers and background shapes.</li>
+<li><strong>Link text:</strong> say where the link goes. "Read the dark mode guide" beats "click here".</li>
+<li><strong>Short paragraphs</strong> and plain language. One idea per paragraph.</li>
+<li><strong>Don't rely on colour alone</strong> to show meaning, such as sale prices; add words or icons, like "Now $30, was $45".</li>
+<li><strong>Clear subject line and preheader.</strong> Screen reader users hear these first, so make them useful.</li>
+<li><strong>Avoid emoji overload.</strong> Screen readers read each emoji's name aloud, which can get long.</li>
+</ol>
+
+<h3>Good and bad alt text</h3>
+<table>
+<thead><tr><th>Image</th><th>Weak alt text</th><th>Better alt text</th></tr></thead>
+<tbody>
+<tr><td>Hero banner with sale text</td><td>banner.jpg</td><td>Spring sale: 20% off all shoes this weekend</td></tr>
+<tr><td>Product photo</td><td>image</td><td>White leather trainer, side view</td></tr>
+<tr><td>Logo</td><td>logo</td><td>Your Store Name</td></tr>
+<tr><td>Decorative divider</td><td>divider line</td><td>(empty alt)</td></tr>
+</tbody>
+</table>
+
+<h2>Design Checklist</h2>
+<ol>
+<li><strong>Contrast:</strong> at least 4.5:1 for body text and 3:1 for large headings. Light grey text on white is a common failure.</li>
+<li><strong>Text size:</strong> 14 to 16 px body text, 1.5 line height.</li>
+<li><strong>Left-aligned text</strong> for long paragraphs; avoid long centered text blocks.</li>
+<li><strong>Buttons:</strong> large, high-contrast and coded as live text. Aim for a tap area of about 44px high. See <a href="/blog/bulletproof-email-buttons/">bulletproof buttons</a>.</li>
+<li><strong>Dark mode:</strong> check contrast in both modes. See our <a href="/blog/dark-mode-email-design/">dark mode guide</a>.</li>
+<li><strong>Spacing:</strong> leave room between links so they are easy to tap.</li>
+<li><strong>Motion:</strong> keep GIFs subtle and avoid fast flashing.</li>
+</ol>
+
+<h2>Code Checklist</h2>
+<ul>
+<li>Add <code>lang="en"</code> (or your language) on the <code>html</code> tag.</li>
+<li>Use real <code>h1</code>, <code>h2</code> and <code>p</code> tags, not styled spans.</li>
+<li>Add <code>role="presentation"</code> to layout tables so screen readers don't announce rows and columns.</li>
+<li>Keep reading order logical when columns stack on mobile.</li>
+<li>Set a <code>title</code> tag that matches the subject.</li>
+<li>Use real data tables with <code>th</code> headers only for actual data, like an order summary.</li>
+</ul>
+
+<h3>Code example</h3>
+<p>A layout table and heading done well:</p>
+<p><code>&lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"&gt;&lt;tr&gt;&lt;td style="padding:24px"&gt;&lt;h1 style="margin:0 0 12px; font-family:Arial,sans-serif; font-size:28px; line-height:34px; color:#1a1a1a"&gt;Your order is on its way&lt;/h1&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code></p>
+<p>Compare this with a <code>&lt;span style="font-size:28px"&gt;</code> used as a heading. It looks the same, but a screen reader user can't jump to it with heading navigation.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li><strong>The whole email as one image.</strong> Screen readers get almost nothing, and image blocking hides the message. See <a href="/blog/email-images-not-showing/">why email images don't show</a>.</li>
+<li><strong>Alt text that repeats the file name</strong> or says "image of".</li>
+<li><strong>Many "Shop now" links</strong> with the same text going to different pages. Make each one specific, such as "Shop trainers".</li>
+<li><strong>Tiny footer text</strong> in light grey. Legal text still needs to be readable.</li>
+<li><strong>Columns that stack in the wrong order</strong> on mobile, so the image appears after its description.</li>
+</ul>
+
+<h2>Test It</h2>
+<p>Turn images off, zoom to 200%, and listen to the email with a screen reader (VoiceOver on Mac and iPhone, or NVDA on Windows). Check contrast with any free contrast checker. Accessibility checks are part of our <a href="/blog/email-testing-checklist/">email testing checklist</a>.</p>
+<ol>
+<li>Images off: does the email still make sense?</li>
+<li>Zoom 200%: does text reflow without sideways scrolling?</li>
+<li>Screen reader: are headings, links and reading order clear?</li>
+<li>Dark mode: is every piece of text still readable?</li>
+</ol>
+
+<h2>A Real-World Scenario</h2>
+<p>A retailer sends a sale email where the main offer, the dates and the discount code are all inside one hero image. A customer using a screen reader only hears "sale banner" and a "Shop now" link. When the email was rebuilt, the headline, dates and code became live text on a solid background, the image got a short descriptive alt, and the button text became "Shop the spring sale". The email looked almost the same to sighted readers, but now worked with images off and with a screen reader.</p>
+
+<h2>Get Help</h2>
+<p>Every <a href="/html-email-template-development/">custom HTML email template</a> we build uses semantic, screen-reader-friendly code, and our <a href="/newsletter-email-templates/">newsletter templates</a> are designed for comfortable reading. Transactional emails matter too, since customers need to read order details clearly; see our <a href="/transactional-email-templates/">transactional email templates</a>. If your templates were made with AI, check them carefully, as they often skip this work; see <a href="/blog/ai-generated-email-templates/">AI-generated email templates</a>.</p>
+
+<h2>Accessibility in Your Email Platform</h2>
+<p>Most email platforms let you add alt text and use headings, but you need to use these features on purpose. A few tips:</p>
+<ul>
+<li><strong>Klaviyo, Mailchimp and HubSpot</strong> all have an alt text field on image blocks. Fill it every time, or leave it empty on purpose for decorative images.</li>
+<li><strong>Use the editor's heading styles</strong> instead of making normal text bigger and bold.</li>
+<li><strong>Check the button block's colours</strong> against a contrast checker before saving it as a brand default.</li>
+<li><strong>Save accessible sections as reusable blocks</strong> so every new campaign starts from a good base.</li>
+</ul>
+<p>If your template is custom-coded, the developer should set the <code>lang</code> attribute, heading tags and presentation roles once, so your team only needs to focus on alt text and link wording.</p>
+
+<h2>Quick Priority List</h2>
+<p>If you can only fix a few things this week, start here:</p>
+<ol>
+<li>Move key text out of images and into live text.</li>
+<li>Add meaningful alt text to every important image.</li>
+<li>Fix low-contrast text, especially grey text and footer text.</li>
+<li>Rewrite vague link text.</li>
+<li>Add <code>role="presentation"</code> to layout tables.</li>
+</ol>
+<p>These five changes cover most of the problems readers hit, and none of them change the look of your brand.</p>
+
+<h2>Accessibility in Email Signatures and Plain Text</h2>
+<p>Accessibility is not only for marketing emails. Staff email signatures are often a single image with the name, phone number and logo baked in. That means a screen reader hears nothing useful, and the phone number cannot be tapped. A better signature uses live text for contact details and a small logo with alt text. Our <a href="/html-email-signature-design/">HTML email signature design</a> service builds signatures this way.</p>
+<p>Also check the plain-text version of your emails. Some readers and some devices prefer it. Make sure it has clear line breaks, full link URLs and the same key message as the HTML version, not an empty or auto-generated mess.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>What makes an email accessible?</h3>
+<p>Useful alt text, good colour contrast, readable text size, real headings, clear link text and live text instead of text in images.</p>
+<h3>What is role="presentation" in email?</h3>
+<p>It tells screen readers that a table is used only for layout, so they read the content without announcing table rows and columns.</p>
+<h3>What contrast ratio should email text have?</h3>
+<p>At least 4.5:1 for normal text and 3:1 for large text, following WCAG guidelines.</p>
+<h3>Should decorative images have alt text?</h3>
+<p>No. Use an empty alt attribute, alt="", so screen readers skip them. Do not remove the attribute completely.</p>
+<h3>How do I test an email with a screen reader?</h3>
+<p>Use VoiceOver on a Mac or iPhone, or NVDA on Windows. Open the email in a real client and listen from top to bottom.</p>
+<h3>Can MailStora make my emails accessible?</h3>
+<p>Yes. We audit and rebuild templates with accessible design and code. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

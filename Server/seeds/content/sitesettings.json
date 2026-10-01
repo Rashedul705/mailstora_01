@@ -1,0 +1,101 @@
+[
+  {
+    "_id": {
+      "$oid": "6ab8f4f5d2645bf8af01eb55"
+    },
+    "key": "seo",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790506229437"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790612961980"
+      }
+    },
+    "value": {
+      "webmaster": {
+        "google": "",
+        "bing": "",
+        "yandex": "",
+        "pinterest": ""
+      },
+      "analytics": {
+        "ga4": "",
+        "gtm": "GTM-PD8M6KDN",
+        "clarity": "",
+        "metaPixel": ""
+      },
+      "robots": "# robots.txt for mailstora.com\n# Search engines and AI assistants are welcome on all public pages.\n# /Email_Template/ holds client email files: blocked here, and it also sends a \"noindex\" header.\n\nUser-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\nDisallow: /Email_Template/\nDisallow: /Email_Template_Index/\n\n# AI search and assistant crawlers (listed so they are clearly allowed)\nUser-agent: GPTBot\nUser-agent: OAI-SearchBot\nUser-agent: ChatGPT-User\nUser-agent: ClaudeBot\nUser-agent: Claude-SearchBot\nUser-agent: Claude-User\nUser-agent: PerplexityBot\nUser-agent: Perplexity-User\nUser-agent: Google-Extended\nUser-agent: Applebot-Extended\nUser-agent: Bingbot\nAllow: /\nDisallow: /admin/\nDisallow: /api/\nDisallow: /Email_Template/\nDisallow: /Email_Template_Index/\n\nSitemap: https://mailstora.com/sitemap.xml",
+      "titleSeparator": "|",
+      "templates": {
+        "blog": {
+          "title": "%title% %sep% %sitename%",
+          "description": "%excerpt%"
+        },
+        "portfolio": {
+          "title": "%title%: HTML Email Example %sep% %sitename%",
+          "description": "%title%: a custom %platform% email built by %sitename% for %client%, hand-coded and tested in 50+ email clients."
+        },
+        "caseStudy": {
+          "title": "%client% Case Study %sep% %sitename%",
+          "description": "%excerpt%"
+        }
+      },
+      "siteName": "MailStora",
+      "defaultOgImage": "/images/media/cropped/service-html-email-templates.webp",
+      "twitterHandle": "",
+      "organization": {
+        "type": "ProfessionalService",
+        "name": "MailStora",
+        "url": "https://mailstora.com/",
+        "logo": "https://mailstora.com/images/brand/mailstora-logo-2026.png",
+        "description": "Founder-led HTML email development agency: hand-coded, Outlook-tested HTML email templates, Klaviyo automation flows and HTML email signatures for brands and agencies.",
+        "email": "rashedulmr@gmail.com",
+        "phone": "",
+        "street": "",
+        "city": "",
+        "region": "",
+        "postalCode": "",
+        "country": "BD",
+        "priceRange": "$$",
+        "sameAs": [
+          "https://www.upwork.com/freelancers/rashedul705",
+          "https://www.linkedin.com/in/rislam05/",
+          "https://www.facebook.com/Rashedul7050",
+          "https://pro.fiverr.com/freelancers/rashedul_mr"
+        ],
+        "founderName": "Rashedul Islam",
+        "founderTitle": "Founder & Lead Email Developer",
+        "founderImage": "https://mailstora.com/images/brand/rashedul-islam-founder.webp",
+        "ratingValue": "4.8",
+        "ratingCount": "152"
+      },
+      "indexNowKey": "0595cdf30114699ca8b6e3fc3a09ac6c"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab8fa10d2645bf8af01eb57"
+    },
+    "key": "site",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790507536142"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790507743723"
+      }
+    },
+    "value": {}
+  }
+]

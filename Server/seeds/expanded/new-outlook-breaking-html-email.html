@@ -1,0 +1,102 @@
+<p><strong>Short answer:</strong> New Outlook processes your email before showing it. It can rename CSS classes, remove some head styles, change spacing and apply its own dark mode colours, so emails that depend on classes, embedded styles or tight spacing tricks are most at risk. The fix is to inline all important styles, avoid relying on class selectors, and test in new Outlook and Outlook on the web.</p>
+
+<h2>What Is New Outlook?</h2>
+<p>New Outlook for Windows is Microsoft's replacement for the classic desktop app. Unlike classic Outlook, which renders with Microsoft Word, new Outlook is built on the same web technology as Outlook on the web. That sounds like good news, and in many ways it is: modern CSS such as <code>border-radius</code> and <code>max-width</code> works much better. But it also means your email goes through a web-style sanitiser that rewrites the HTML before display. At the time of writing, many businesses run classic and new Outlook side by side, so you need to support both.</p>
+<p>For a side-by-side comparison of the two engines, read <a href="/blog/new-outlook-vs-classic-outlook-email-rendering/">new Outlook vs classic Outlook</a>.</p>
+
+<h2>What Commonly Breaks</h2>
+<ul>
+<li><strong>Head styles ignored or changed.</strong> Class names can be prefixed, so some selectors stop matching. A rule like <code>.hero-title { font-size:32px }</code> may never reach the element.</li>
+<li><strong>Media queries unreliable.</strong> Mobile layouts may not switch as expected, especially in narrow reading panes.</li>
+<li><strong>Spacing shifts.</strong> Default margins on paragraphs and headings can appear if you didn't reset them inline. Emails suddenly look loose or uneven.</li>
+<li><strong>Dark mode colours.</strong> Backgrounds and text can be adjusted, sometimes making logos or light text hard to see. See our <a href="/blog/dark-mode-email-design/">dark mode guide</a>.</li>
+<li><strong>Old MSO-only tricks.</strong> Layouts that only worked because of Word quirks can fall apart in the web engine, for example spacing done with empty paragraphs or <code>mso-line-height-rule</code> hacks without a proper fallback.</li>
+<li><strong>Unsupported selectors.</strong> Attribute selectors, sibling selectors and some pseudo-classes may be removed.</li>
+</ul>
+
+<h2>How to Fix It</h2>
+<ol>
+<li><strong>Inline critical styles:</strong> colours, fonts, widths, padding and margins on each element. Use an inliner as the last build step so you can still write clean CSS while working.</li>
+<li><strong>Reset margins inline</strong> on <code>p</code> and heading tags, for example <code>style="margin:0 0 16px"</code>.</li>
+<li><strong>Use the hybrid method</strong> for columns so layouts stack without media queries. See <a href="/blog/responsive-email-not-working-mobile/">responsive email fixes</a>.</li>
+<li><strong>Keep Outlook-only code in conditional comments</strong> so it only affects classic Outlook.</li>
+<li><strong>Test in three places:</strong> classic Outlook, new Outlook and Outlook on the web.</li>
+</ol>
+
+<h3>Example: before and after</h3>
+<p>This relies on a class and will often break:</p>
+<p><code>&lt;style&gt;.intro{font-size:18px;color:#333;margin:0}&lt;/style&gt; ... &lt;p class="intro"&gt;Welcome back&lt;/p&gt;</code></p>
+<p>This keeps working even if the head styles are changed:</p>
+<p><code>&lt;p style="font-family:Arial,Helvetica,sans-serif; font-size:18px; line-height:26px; color:#333333; margin:0 0 16px"&gt;Welcome back&lt;/p&gt;</code></p>
+<p>You can keep the class too, for media query overrides. But the default look should come from inline styles.</p>
+
+<h3>Example: Outlook-only code</h3>
+<p>Classic Outlook still needs ghost tables to hold columns. Wrap them so other clients skip them:</p>
+<p><code>&lt;!--[if mso]&gt;&lt;table role="presentation" width="600"&gt;&lt;tr&gt;&lt;td width="300"&gt;&lt;![endif]--&gt;</code></p>
+<p>New Outlook ignores this block, so it will not interfere with its web-based rendering.</p>
+
+<h2>Why It Looks Right, Then Changes</h2>
+<p>Some users report an email looking correct for a moment and then shifting. That happens when the client finishes processing styles after the first display. If your layout depends on head styles alone, the second pass can undo it. Inline styles solve most of these cases, because there is nothing left for the second pass to remove.</p>
+
+<h2>Quick Checklist</h2>
+<table>
+<thead><tr><th>Check</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>All fonts, colours and sizes inline</td><td>Survives class renaming</td></tr>
+<tr><td>Margins reset on every p and heading</td><td>Stops default spacing appearing</td></tr>
+<tr><td>Hybrid columns with max-width</td><td>Stacks without media queries</td></tr>
+<tr><td>MSO code in conditional comments</td><td>Keeps classic fixes separate</td></tr>
+<tr><td>Logos tested on dark backgrounds</td><td>Handles colour adjustment</td></tr>
+<tr><td>Buttons coded as live text</td><td>Works in both engines</td></tr>
+</tbody>
+</table>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li><strong>Deleting classic Outlook fixes.</strong> Classic Outlook is still widely used. Keep the fixes, just isolate them.</li>
+<li><strong>Testing only in Outlook on the web.</strong> It is close to new Outlook, but not always identical. Test both.</li>
+<li><strong>Using spacer paragraphs.</strong> Empty <code>&lt;p&gt;&amp;nbsp;&lt;/p&gt;</code> tags change height between clients. Use padding on table cells instead.</li>
+<li><strong>Relying on a template builder's preview.</strong> Real sends reveal processing that previews do not.</li>
+</ul>
+
+<h2>A Real-World Scenario</h2>
+<p>An agency sends a monthly newsletter for a client whose staff moved to new Outlook. The template was built with a big style block and short class names. After the switch, headings lost their size, paragraphs gained extra space and the two-column article section stayed side by side in a narrow reading pane. The fix was to inline all base styles, add margin resets and switch the columns to a hybrid layout. Classic Outlook ghost tables stayed in place inside conditional comments. The same template then looked consistent in classic Outlook, new Outlook, Gmail and Apple Mail.</p>
+<p>If you use Klaviyo, many of the same issues show up there. See <a href="/blog/klaviyo-email-looks-different-in-outlook/">why Klaviyo emails look different in Outlook</a>.</p>
+
+<h2>Get It Fixed</h2>
+<p>If you need fixes done for you, our <a href="/outlook-email-rendering-fix/">Outlook rendering fix service</a> sends before-and-after screenshots, and every <a href="/html-email-template-development/">custom HTML email template</a> we build is tested in all Outlook versions. Agencies can use our <a href="/white-label-email-development/">white-label email development</a> service to hand this work off. Before sending any update, run through our <a href="/blog/email-testing-checklist/">email testing checklist</a>.</p>
+
+<h2>Dark Mode in New Outlook</h2>
+<p>New Outlook can change colours when a reader uses a dark theme. Light backgrounds may turn dark and dark text may turn light. Usually this is fine, but some elements suffer:</p>
+<ul>
+<li><strong>Dark logos on transparent backgrounds</strong> can disappear on a dark background. Add a thin light outline or a light padded background around the logo.</li>
+<li><strong>Text inside images</strong> does not change colour, so it can look out of place next to inverted live text.</li>
+<li><strong>Brand colours</strong> may be shifted slightly. Check that buttons still have strong contrast.</li>
+</ul>
+<p>Test every template in dark mode in new Outlook, classic Outlook and Outlook on the web. They do not always apply the same changes.</p>
+
+<h2>A Simple Build Order</h2>
+<p>If you are building a new template that must work across all Outlook versions, this order keeps things simple:</p>
+<ol>
+<li>Build a single-column layout in tables with inline styles.</li>
+<li>Add hybrid columns where needed, using <code>display:inline-block</code> and <code>max-width</code>.</li>
+<li>Add ghost tables and VML for classic Outlook inside conditional comments.</li>
+<li>Add media queries last, only for polish.</li>
+<li>Inline, minify and check the file size.</li>
+<li>Test in all three Outlook versions, plus Gmail and Apple Mail.</li>
+</ol>
+<p>Building in this order means that if a client strips something, the email falls back to a layout that still works, rather than breaking completely.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Why does my email look different in new Outlook?</h3>
+<p>New Outlook processes email HTML before display and can change classes, head styles, spacing and dark mode colours.</p>
+<h3>Does new Outlook support media queries?</h3>
+<p>Support is limited and inconsistent. Use hybrid layouts that work without media queries, and treat media queries as an extra.</p>
+<h3>Should I remove my classic Outlook fixes for new Outlook?</h3>
+<p>No. Keep them in conditional comments. New Outlook ignores them, and classic Outlook still needs them.</p>
+<h3>Is new Outlook the same as Outlook on the web?</h3>
+<p>They are closely related and render in a similar way, but small differences can appear. Test in both.</p>
+<h3>Why is there extra space between paragraphs in new Outlook?</h3>
+<p>Default margins are applied when your head styles are removed or changed. Set margins inline on every paragraph and heading.</p>
+<h3>Can MailStora fix new Outlook issues?</h3>
+<p>Yes. We test and repair templates for new Outlook, classic Outlook and Outlook on the web. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

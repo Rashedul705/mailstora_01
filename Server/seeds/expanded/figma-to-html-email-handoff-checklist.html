@@ -1,0 +1,119 @@
+<p><strong>Short answer:</strong> a Figma email design is ready for HTML when it is 600 to 640 pixels wide, built from simple stacked sections, uses web-safe fallback fonts, has a mobile version, marks every link and piece of live text, and comes with exported images and a dark mode check. Missing any of these usually means rework, delays and an email that looks different in Outlook.</p>
+
+<p>We convert designs to code every day in our <a href="/figma-to-html-email/">Figma to HTML email service</a>. This is the checklist we wish every design file arrived with. It has 25 points grouped by topic, and you can hand it straight to your designer.</p>
+
+<h2>Why a Handoff Checklist Matters</h2>
+<p>Email is not a web page. Outlook for Windows uses Word to display email, Gmail strips some CSS, and phones stack everything into one column. A design that ignores these limits can still be coded, but the developer has to guess. Guesses lead to back-and-forth, and back-and-forth costs days. A clear file lets the developer code once and test once.</p>
+
+<h2>Layout and Size</h2>
+<ol>
+<li><strong>Frame width 600 to 640 px.</strong> Wider emails get cut off or shrunk in many inboxes.</li>
+<li><strong>Stacked sections.</strong> Design in horizontal bands (header, hero, content blocks, footer). Each band becomes one table row in code.</li>
+<li><strong>Two columns at most on desktop</strong>, three only for small items such as icons or products. Complex grids break in Outlook.</li>
+<li><strong>Consistent spacing</strong> in multiples of 8 or 10 px, so padding can be coded exactly.</li>
+<li><strong>No overlapping elements</strong> unless they are part of one flattened image. Email clients cannot position layers on top of each other reliably.</li>
+</ol>
+<p>A useful habit: use Figma auto layout for each section. Auto layout maps closely to how tables and padding work in email code, so the developer can read spacing straight from the file.</p>
+
+<h2>Typography</h2>
+<ol start="6">
+<li><strong>Name a fallback font</strong> for every custom font (for example Inter, then Arial). Outlook and many Android apps do not load web fonts.</li>
+<li><strong>Body text 14 to 16 px</strong>, headlines 22 px or larger, line height about 1.4 to 1.6.</li>
+<li><strong>Keep important text as live text</strong>, not inside images, so it shows when images are blocked, can be read by screen readers and helps deliverability.</li>
+<li><strong>Use text styles in Figma</strong> so the developer can reuse the same sizes throughout the email.</li>
+</ol>
+<p>In code, a font stack looks like <code>font-family:'Inter', Arial, sans-serif;</code>. Preview your design with the fallback font as well. If the headline wraps badly in Arial, adjust it now rather than after coding.</p>
+
+<h2>Images</h2>
+<ol start="10">
+<li><strong>Export images at 2x</strong> the displayed size (for example 1200 px wide for a 600 px image) so they are sharp on retina screens.</li>
+<li><strong>Keep file sizes small:</strong> under 200 KB per image where possible, and the whole email ideally under 1 MB.</li>
+<li><strong>Flatten decorative effects</strong> (shadows, blurs, masks) into the image, because email clients do not support them in CSS.</li>
+<li><strong>Write alt text</strong> for every image, or add it as a note next to each image in Figma.</li>
+<li><strong>Avoid text over background images</strong> if you can. It needs special code for Outlook. If you use it, pick a solid fallback colour.</li>
+</ol>
+<p>If a background image is essential to the design, the developer will use VML for Outlook. Our guide to <a href="/blog/outlook-background-images-vml/">Outlook background images with VML</a> explains what that involves and why a fallback colour matters.</p>
+
+<h2>Buttons and Links</h2>
+<ol start="15">
+<li><strong>Design buttons as simple rectangles</strong> with solid colours and live text. Gradients and complex shapes are harder to keep in Outlook.</li>
+<li><strong>Buttons at least 44 px tall</strong> so they are easy to tap on phones.</li>
+<li><strong>List every link</strong>: button URLs, image links, social icons, footer links and UTM parameters.</li>
+<li><strong>Include the legal footer:</strong> company address, unsubscribe link and preference link.</li>
+</ol>
+<p>Rounded corners are fine in most clients, but classic Outlook may show square corners unless the developer uses a VML button. See <a href="/blog/bulletproof-email-buttons/">how bulletproof email buttons are built</a> if your brand depends on a specific button shape.</p>
+
+<h2>Mobile and Dark Mode</h2>
+<ol start="19">
+<li><strong>Add a mobile frame</strong> (about 375 px wide) showing how columns stack and which elements are hidden or resized.</li>
+<li><strong>Check dark mode:</strong> avoid pure black text on transparent images and provide a light version of the logo if it is dark.</li>
+<li><strong>Keep enough colour contrast</strong> for readability (aim for WCAG AA).</li>
+</ol>
+<p>For dark mode, add a third frame on a dark grey background and drop in the logo and icons. Anything that disappears needs an outline or a light version. Our <a href="/blog/dark-mode-email-design/">dark mode email design guide</a> covers the details.</p>
+
+<h2>Platform Details</h2>
+<ol start="22">
+<li><strong>Name the email platform</strong> (Klaviyo, Mailchimp, HubSpot and so on). The code is set up differently for each one's editor.</li>
+<li><strong>Mark editable areas</strong>: which text, images and sections your team needs to change in the platform later.</li>
+<li><strong>Mark dynamic content</strong> such as first name, product feeds or order details.</li>
+<li><strong>Add preheader text</strong>, the short line shown after the subject in the inbox.</li>
+</ol>
+<p>For example, a template for Klaviyo can be coded so each section is a drag-and-drop block your team can reorder, with product blocks linked to your catalogue. That is how we build <a href="/klaviyo-email-templates/">custom Klaviyo email templates</a>. Telling the developer the platform up front avoids rebuilding the template later.</p>
+
+<h2>How to Share the File</h2>
+<ul>
+<li>Share a Figma link with <strong>view access and Dev Mode</strong> (or export access) so images and measurements can be taken directly.</li>
+<li>Put desktop and mobile frames side by side, clearly named.</li>
+<li>Add a notes frame with links, fonts, platform and deadlines.</li>
+</ul>
+
+<h3>Quick handoff summary table</h3>
+<table>
+<thead><tr><th>Item</th><th>Ready when</th></tr></thead>
+<tbody>
+<tr><td>Desktop frame</td><td>600 to 640 px, stacked sections</td></tr>
+<tr><td>Mobile frame</td><td>About 375 px, stacking shown</td></tr>
+<tr><td>Fonts</td><td>Fallback named for each custom font</td></tr>
+<tr><td>Images</td><td>Exported at 2x, alt text noted</td></tr>
+<tr><td>Links</td><td>Every URL and UTM listed</td></tr>
+<tr><td>Platform</td><td>Named, editable areas marked</td></tr>
+<tr><td>Dark mode</td><td>Logo and icons checked on dark</td></tr>
+</tbody>
+</table>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Designing at 1440 px wide and scaling down, which makes text too small.</li>
+<li>Only a desktop frame, leaving the developer to guess how the layout stacks.</li>
+<li>Headlines set in a brand font with no fallback, which then look wrong in Outlook.</li>
+<li>Links sent later in a separate chat, which delays delivery.</li>
+<li>Components detached from the design system halfway through, so similar blocks have slightly different spacing.</li>
+</ul>
+
+<h2>A Short Real-World Scenario</h2>
+<p>A brand team designs a new collection launch email. The first file has one 1200 px desktop frame, a headline over a photo, and a custom font with no fallback. After a short review, the designer resizes to 600 px, adds a mobile frame, names Arial as the fallback, flattens the photo headline into live text on a solid block and lists all links in a notes frame. The developer can now code it in one pass. You can see a similar layout in our <a href="/portfolio/fashion-new-collection-launch-email/">fashion new collection launch email</a>.</p>
+
+<h2>What Happens Next</h2>
+<p>With a complete file, a single email template is usually coded, tested in 50+ email clients and delivered within 24 to 48 hours. See the <a href="/pricing/">pricing page</a> for costs, or read <a href="/blog/html-email-template-cost/">how much a custom HTML email template costs</a>. Not sure your design will survive Outlook? Our guide to <a href="/blog/fix-html-emails-breaking-in-outlook/">fixing emails that break in Outlook</a> explains the common traps. Agencies that hand off designs for many clients can use our <a href="/white-label-email-development/">white-label email development</a> service.</p>
+
+<h2>Related Guides</h2>
+<p>Keep reading with these guides on related problems:</p>
+<ul>
+<li><a href="/blog/responsive-email-not-working-mobile/">Email not responsive on mobile? How to fix it</a></li>
+<li><a href="/blog/accessible-email-design/">Accessible email design for marketers</a></li>
+<li><a href="/blog/ai-generated-email-templates/">AI-generated email templates: do they work?</a></li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<h3>What width should an email be in Figma?</h3>
+<p>Design the desktop version at 600 to 640 pixels wide, with a separate mobile frame about 375 pixels wide showing how the layout stacks.</p>
+<h3>Can any Figma design be turned into an HTML email?</h3>
+<p>Most can, but overlapping layers, complex grids, custom fonts and effects like blur need to be simplified or flattened into images so the email works in Outlook and Gmail.</p>
+<h3>Do you also convert PSD and Adobe XD files?</h3>
+<p>Yes. MailStora converts Figma, Photoshop (PSD), Adobe XD and Illustrator designs into responsive HTML email.</p>
+<h3>Can I use custom fonts in email?</h3>
+<p>Yes, in clients that support web fonts, such as Apple Mail. Other clients, including Outlook for Windows, show the fallback font, so always name one.</p>
+<h3>Does the developer need edit access to the Figma file?</h3>
+<p>No. View access with Dev Mode or export permission is enough to take measurements and export images.</p>
+<h3>How long does Figma to HTML email conversion take?</h3>
+<p>A single email template is usually delivered within 24 to 48 hours once the design and assets are ready. <a href="/quote/">Request a free quote</a> with your Figma link.</p>

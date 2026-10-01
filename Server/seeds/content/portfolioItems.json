@@ -1,0 +1,832 @@
+[
+  {
+    "_id": {
+      "$oid": "6ab7c1c42c633ddf1462e8f9"
+    },
+    "title": "Canadian Choice Windows & Doors",
+    "slug": "canadian-choice-windows-doors",
+    "clientName": "Canadian Choice",
+    "type": "Email Template",
+    "esp": "Mailchimp",
+    "industry": "Home Improvement",
+    "year": "2024",
+    "shortDescription": "Fully responsive HTML email template for a seasonal campaign.",
+    "fullDescription": "Canadian Choice needed a responsive email template for their seasonal campaign. The old template was breaking in Outlook. We rebuilt it from scratch with hand-coded HTML and inline CSS.",
+    "whatWasIncluded": "Custom HTML + inline CSS\nMobile-first responsive layout\nTested in Gmail, Outlook 365, Apple Mail and iOS Mail",
+    "coverImage": "/images/media/portfolio/canadian-choice-responsive-email-template.webp",
+    "cardBackground": "navy",
+    "desktopImages": [],
+    "mobileImages": [],
+    "angleViews": [],
+    "compatibility": [
+      "Gmail",
+      "Outlook 365",
+      "Apple Mail",
+      "iOS Mail"
+    ],
+    "results": {
+      "openRate": "38%",
+      "clickRate": "2.4x",
+      "deliveryTime": "36 hours",
+      "customMetric": "100% Outlook OK"
+    },
+    "tags": [
+      "responsive",
+      "mailchimp",
+      "home improvement"
+    ],
+    "status": "published",
+    "featuredOnLanding": true,
+    "sortOrder": {
+      "$numberInt": "1"
+    },
+    "views": {
+      "$numberInt": "366"
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427588251"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790620852069"
+      }
+    },
+    "caseStudy": {
+      "seoTitle": "Canadian Choice Case Study: Outlook Email Fix | MailStora",
+      "enabled": true,
+      "testimonialQuote": "",
+      "testimonialAuthor": "",
+      "testimonialRole": "",
+      "headline": "How Canadian Choice Fixed a Campaign Email That Broke in Outlook",
+      "summary": "Canadian Choice's seasonal campaign template was breaking in Outlook. MailStora rebuilt it from scratch in 36 hours, and the campaign reached a 38% open rate with every Outlook version rendering correctly.",
+      "challenge": "Canadian Choice Windows & Doors was preparing a seasonal Mailchimp campaign, but its existing email template broke in Outlook. Layouts shifted, sections collapsed and the design no longer matched the brand, which put the campaign at risk.\nPatching the old template was not an option: every fix for Outlook risked breaking Gmail or mobile.",
+      "solution": "MailStora rebuilt the template from scratch with hand-coded, table-based HTML and inline CSS, the approach that renders reliably in every Outlook version. The layout was built mobile-first so it adapts cleanly from phones to desktop, and it was set up for editing in Mailchimp.",
+      "approach": "Reviewed the broken template and the campaign design\nRebuilt the layout in table-based HTML with inline CSS\nMade the design mobile-first and fully responsive\nTested in Gmail, Outlook 365, Apple Mail and iOS Mail\nDelivered the Mailchimp-ready template in 36 hours",
+      "results": "38% | Open rate\n2.4x | Click rate\n100% | Outlook versions rendering correctly\n36 hours | From brief to delivery",
+      "duration": "36 hours"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7c1c42c633ddf1462e8fa"
+    },
+    "title": "SaaS Onboarding Sequence",
+    "slug": "saas-onboarding-sequence",
+    "clientName": "TechFlow SaaS",
+    "type": "Case Study",
+    "esp": "Klaviyo",
+    "industry": "Software",
+    "year": "2023",
+    "shortDescription": "Increased onboarding completion by 121% through a targeted Klaviyo email flow redesign.",
+    "fullDescription": "We redesigned the 5-step onboarding sequence to focus on single actions per email.",
+    "whatWasIncluded": "5 Email Templates\nStrategy & Copywriting\nA/B Testing Setup",
+    "coverImage": "/images/media/cropped/service-klaviyo-automation-flows.webp",
+    "cardBackground": "dark-navy",
+    "desktopImages": [],
+    "mobileImages": [],
+    "angleViews": [],
+    "compatibility": [
+      "Gmail",
+      "Apple Mail"
+    ],
+    "results": {
+      "openRate": "42%",
+      "clickRate": "3x",
+      "deliveryTime": "5 days",
+      "customMetric": "+121% completion"
+    },
+    "tags": [
+      "saas",
+      "onboarding",
+      "klaviyo"
+    ],
+    "status": "published",
+    "featuredOnLanding": true,
+    "sortOrder": {
+      "$numberInt": "2"
+    },
+    "views": {
+      "$numberInt": "537"
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427588255"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790620859128"
+      }
+    },
+    "caseStudy": {
+      "seoTitle": "TechFlow Case Study: +121% Onboarding | MailStora",
+      "enabled": true,
+      "testimonialQuote": "MailStora transformed our email marketing. The hand-coded templates are pixel-perfect on every device we tested. Finally, a service that understands the nuances of email client rendering!",
+      "testimonialAuthor": "Sarah Jenkins",
+      "testimonialRole": "Marketing Lead at TechFlow",
+      "headline": "How TechFlow Increased Onboarding Completion by 121%",
+      "summary": "TechFlow's onboarding emails asked new users to do too much at once. MailStora redesigned the 5-email Klaviyo sequence around one action per email, raising onboarding completion by 121%.",
+      "challenge": "TechFlow, a SaaS company, relied on a 5-step onboarding email sequence to turn sign-ups into active users. Too many users were dropping off before finishing onboarding.",
+      "solution": "MailStora redesigned the sequence so each email focused on a single action. The project covered strategy and copywriting, five new email templates built for Klaviyo, and A/B testing setup to keep improving the flow.",
+      "approach": "Mapped the existing 5-step onboarding sequence\nRewrote each email around one clear action\nDesigned and coded 5 email templates in Klaviyo\nSet up A/B tests for subject lines and content\nTested in Gmail and Apple Mail before launch",
+      "results": "+121% | Onboarding completion\n42% | Open rate\n3x | Click rate\n5 days | Project delivery",
+      "duration": "5 days"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7c1c42c633ddf1462e8fb"
+    },
+    "title": "Corporate Email Signature",
+    "slug": "corporate-email-signature",
+    "clientName": "Apex Financial",
+    "type": "Email Signature",
+    "esp": "Other",
+    "industry": "Finance",
+    "year": "2024",
+    "shortDescription": "Clean, professional HTML signature with company banner.",
+    "fullDescription": "A standardized email signature for a team of 50+ employees.",
+    "whatWasIncluded": "HTML Signature\nInstallation Guide",
+    "coverImage": "/images/media/cropped/service-html-email-signatures.webp",
+    "cardBackground": "dark-green",
+    "desktopImages": [],
+    "mobileImages": [],
+    "angleViews": [],
+    "compatibility": [
+      "Outlook 365",
+      "Gmail"
+    ],
+    "results": {
+      "openRate": "",
+      "clickRate": "",
+      "deliveryTime": "24 hours",
+      "customMetric": ""
+    },
+    "tags": [
+      "signature",
+      "corporate"
+    ],
+    "status": "published",
+    "featuredOnLanding": true,
+    "sortOrder": {
+      "$numberInt": "3"
+    },
+    "views": {
+      "$numberInt": "211"
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427588255"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790575170131"
+      }
+    },
+    "caseStudy": {
+      "seoTitle": "Apex Financial Case Study: Team Signatures | MailStora",
+      "enabled": true,
+      "testimonialQuote": "",
+      "testimonialAuthor": "",
+      "testimonialRole": "",
+      "headline": "One Consistent Email Signature for Apex Financial's 50+ Person Team",
+      "summary": "Apex Financial needed every employee to send email with the same professional signature. MailStora delivered a standard HTML signature with a company banner and an installation guide in 24 hours.",
+      "challenge": "With more than 50 employees, Apex Financial had inconsistent email signatures across the team. For a finance company, that looked unprofessional and weakened the brand in every client email.",
+      "solution": "MailStora designed one clean, standard HTML signature with a company banner, built to render correctly in Outlook 365 and Gmail. A step-by-step installation guide let every employee set it up without help.",
+      "approach": "Agreed the signature layout and company banner\nCoded a lightweight, table-based HTML signature\nTested it in Outlook 365 and Gmail\nWrote an installation guide for the team\nDelivered everything in 24 hours",
+      "results": "50+ | Employees on one signature\n24 hours | Delivery\n2 | Email platforms supported",
+      "duration": "24 hours"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7c1c42c633ddf1462e8fc"
+    },
+    "title": "E-commerce Seasonal Promo",
+    "slug": "e-commerce-seasonal-promo",
+    "clientName": "Urban Vogue",
+    "type": "Email Template",
+    "esp": "Klaviyo",
+    "industry": "Fashion",
+    "year": "2024",
+    "shortDescription": "High-converting product grid template for fashion retailer.",
+    "fullDescription": "We created a dynamic, mobile-first product grid that gracefully degrades in older clients.",
+    "whatWasIncluded": "Custom HTML\nDark Mode Support\nDynamic Product Blocks",
+    "coverImage": "/images/media/cropped/service-klaviyo-mailchimp-campaigns.webp",
+    "cardBackground": "dark-red",
+    "desktopImages": [],
+    "mobileImages": [],
+    "angleViews": [],
+    "compatibility": [
+      "iOS Mail",
+      "Gmail",
+      "Apple Mail"
+    ],
+    "results": {
+      "openRate": "28%",
+      "clickRate": "1.5x",
+      "deliveryTime": "48 hours",
+      "customMetric": "$6.3k Revenue"
+    },
+    "tags": [
+      "ecommerce",
+      "promo",
+      "dark mode"
+    ],
+    "status": "published",
+    "featuredOnLanding": true,
+    "sortOrder": {
+      "$numberInt": "4"
+    },
+    "views": {
+      "$numberInt": "301"
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427588256"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790575168693"
+      }
+    },
+    "caseStudy": {
+      "seoTitle": "Urban Vogue Case Study: $6.3k Klaviyo Promo | MailStora",
+      "enabled": true,
+      "testimonialQuote": "",
+      "testimonialAuthor": "",
+      "testimonialRole": "",
+      "headline": "A Mobile-First Klaviyo Product Grid That Drove $6.3k in Revenue",
+      "summary": "Urban Vogue needed a seasonal promo email that sold on mobile. MailStora built a dynamic Klaviyo product grid with dark mode support, and the campaign generated $6.3k in revenue with a 28% open rate.",
+      "challenge": "Urban Vogue, a fashion retailer, wanted a seasonal promotion that showcased many products without becoming slow or cluttered on phones, where most of its customers read email.\nThe design also had to hold up in older email clients and in dark mode.",
+      "solution": "MailStora built a mobile-first product grid in Klaviyo with dynamic product blocks, so products could be updated without touching code. The layout degrades gracefully in older email clients, and colours and logos were set up for dark mode.",
+      "approach": "Planned a product grid that works on small screens first\nCoded the template in custom HTML for Klaviyo\nAdded dynamic product blocks for easy updates\nAdded dark mode support\nTested in iOS Mail, Gmail and Apple Mail",
+      "results": "$6.3k | Revenue from the campaign\n28% | Open rate\n1.5x | Click rate\n48 hours | Delivery",
+      "duration": "48 hours"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fab60d17a8e7ce160144"
+    },
+    "slug": "fashion-new-collection-launch-email",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "angleViews": [],
+    "cardBackground": "dark-red",
+    "clientName": "Concept Design",
+    "compatibility": [
+      "Gmail",
+      "Outlook",
+      "Apple Mail",
+      "iOS Mail"
+    ],
+    "coverImage": "/images/media/cropped/mailstora-fashion-email.webp",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790442166201"
+      }
+    },
+    "desktopImages": [],
+    "esp": "Klaviyo",
+    "featuredOnLanding": true,
+    "fullDescription": "A responsive new-collection announcement built for fashion ecommerce. The editorial hero leads into a three-product grid with prices, followed by shipping, returns and payment trust badges. Coded with bulletproof buttons and fluid images so it holds up in Outlook and on mobile.",
+    "industry": "Fashion",
+    "mobileImages": [],
+    "results": {
+      "deliveryTime": "48 hours"
+    },
+    "shortDescription": "Editorial product launch email with a lifestyle hero, product grid and trust badges.",
+    "sortOrder": {
+      "$numberInt": "1"
+    },
+    "status": "published",
+    "tags": [
+      "fashion",
+      "ecommerce",
+      "product launch"
+    ],
+    "title": "Fashion New Collection Launch Email",
+    "type": "Email Template",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790619178563"
+      }
+    },
+    "views": {
+      "$numberInt": "19"
+    },
+    "whatWasIncluded": "Custom HTML template\nKlaviyo editable blocks\nMobile responsive layout\nDark mode support",
+    "year": "2026"
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fab60d17a8e7ce160145"
+    },
+    "slug": "black-friday-sale-email",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "angleViews": [],
+    "cardBackground": "dark-navy",
+    "clientName": "Concept Design",
+    "compatibility": [
+      "Gmail",
+      "Outlook",
+      "Apple Mail",
+      "Yahoo Mail"
+    ],
+    "coverImage": "/images/media/cropped/mailstora-black-friday-email.webp",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790442166259"
+      }
+    },
+    "desktopImages": [],
+    "esp": "Mailchimp",
+    "featuredOnLanding": true,
+    "fullDescription": "A dark, high-contrast Black Friday campaign designed to stand out in a crowded inbox. Features a large discount badge, glowing product photography and a clear call to action, with dark mode colours locked so the design stays on-brand in every client.",
+    "industry": "Electronics",
+    "mobileImages": [],
+    "results": {
+      "deliveryTime": "24 hours"
+    },
+    "shortDescription": "High-contrast Black Friday promo with a bold discount badge and product highlights.",
+    "sortOrder": {
+      "$numberInt": "2"
+    },
+    "status": "published",
+    "tags": [
+      "black friday",
+      "sale",
+      "promo"
+    ],
+    "title": "Black Friday Sale Email",
+    "type": "Email Template",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790620861958"
+      }
+    },
+    "views": {
+      "$numberInt": "38"
+    },
+    "whatWasIncluded": "Custom HTML template\nMailchimp merge tags\nDark mode safe colours\nMobile responsive layout",
+    "year": "2026"
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fab60d17a8e7ce160146"
+    },
+    "slug": "christmas-holiday-greeting-email",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "angleViews": [],
+    "cardBackground": "dark-green",
+    "clientName": "Concept Design",
+    "compatibility": [
+      "Gmail",
+      "Outlook",
+      "Apple Mail",
+      "iOS Mail"
+    ],
+    "coverImage": "/images/media/cropped/mailstora-christmas-email.webp",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790442166264"
+      }
+    },
+    "desktopImages": [],
+    "esp": "Klaviyo",
+    "featuredOnLanding": true,
+    "fullDescription": "A warm Christmas greeting and holiday offer built for retail brands. An illustrated winter hero sets the mood, followed by a seasonal message, a shop-now button and quick links to gifts, decor, offers and new arrivals.",
+    "industry": "Retail",
+    "mobileImages": [],
+    "results": {
+      "deliveryTime": "48 hours"
+    },
+    "shortDescription": "Festive holiday email with an illustrated hero, seasonal offer and gift categories.",
+    "sortOrder": {
+      "$numberInt": "3"
+    },
+    "status": "published",
+    "tags": [
+      "holiday",
+      "christmas",
+      "seasonal"
+    ],
+    "title": "Christmas Holiday Greeting Email",
+    "type": "Email Template",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790575166693"
+      }
+    },
+    "views": {
+      "$numberInt": "13"
+    },
+    "whatWasIncluded": "Custom HTML template\nKlaviyo editable blocks\nSeasonal image optimisation\nMobile responsive layout",
+    "year": "2026"
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fab60d17a8e7ce160147"
+    },
+    "slug": "abandoned-cart-recovery-email",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "angleViews": [],
+    "cardBackground": "navy",
+    "clientName": "Concept Design",
+    "compatibility": [
+      "Gmail",
+      "Outlook",
+      "Apple Mail",
+      "Samsung Email"
+    ],
+    "coverImage": "/images/media/cropped/mailstora-abandoned-cart-email.webp",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790442166269"
+      }
+    },
+    "desktopImages": [],
+    "esp": "Klaviyo",
+    "featuredOnLanding": true,
+    "fullDescription": "An abandoned cart flow email that reminds shoppers exactly what they left behind. Dynamic product rows pull item name, quantity and price from Klaviyo, and trust badges for secure checkout, free shipping and easy returns help close the sale.",
+    "industry": "Ecommerce",
+    "mobileImages": [],
+    "results": {
+      "deliveryTime": "48 hours"
+    },
+    "shortDescription": "Klaviyo abandoned cart email with dynamic product rows and a clear checkout button.",
+    "sortOrder": {
+      "$numberInt": "4"
+    },
+    "status": "published",
+    "tags": [
+      "abandoned cart",
+      "klaviyo flow",
+      "automation"
+    ],
+    "title": "Abandoned Cart Recovery Email",
+    "type": "Email Template",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790619182139"
+      }
+    },
+    "views": {
+      "$numberInt": "17"
+    },
+    "whatWasIncluded": "Custom HTML template\nKlaviyo dynamic product blocks\nFlow setup support\nMobile responsive layout",
+    "year": "2026"
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fab60d17a8e7ce160148"
+    },
+    "slug": "weekly-marketing-newsletter-email",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "angleViews": [],
+    "cardBackground": "navy",
+    "clientName": "Concept Design",
+    "compatibility": [
+      "Gmail",
+      "Outlook",
+      "Apple Mail",
+      "Yahoo Mail"
+    ],
+    "coverImage": "/images/media/cropped/mailstora-weekly-newsletter-email.webp",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790442166275"
+      }
+    },
+    "desktopImages": [],
+    "esp": "HubSpot",
+    "featuredOnLanding": true,
+    "fullDescription": "A reusable weekly newsletter for content marketing teams. A featured article hero is followed by modular blog cards with read-more links and a social footer. Each module is editable in HubSpot, so the team can publish a new issue in minutes.",
+    "industry": "Marketing",
+    "mobileImages": [],
+    "results": {
+      "deliveryTime": "48 hours"
+    },
+    "shortDescription": "Content-led newsletter with a featured article, blog cards and social links.",
+    "sortOrder": {
+      "$numberInt": "5"
+    },
+    "status": "published",
+    "tags": [
+      "newsletter",
+      "content",
+      "hubspot"
+    ],
+    "title": "Weekly Marketing Newsletter Email",
+    "type": "Email Template",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790581250398"
+      }
+    },
+    "views": {
+      "$numberInt": "17"
+    },
+    "whatWasIncluded": "Custom HTML template\nHubSpot editable modules\nReusable article cards\nMobile responsive layout",
+    "year": "2026"
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fdcc0d17a8e7ce160150"
+    },
+    "slug": "real-estate-property-listing-email",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "angleViews": [],
+    "cardBackground": "navy",
+    "clientName": "Concept Design",
+    "compatibility": [
+      "Gmail",
+      "Outlook",
+      "Apple Mail",
+      "iOS Mail"
+    ],
+    "coverImage": "/images/media/cropped/mailstora-real-estate-email.webp",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790442955997"
+      }
+    },
+    "desktopImages": [],
+    "esp": "Mailchimp",
+    "featuredOnLanding": true,
+    "fullDescription": "A listing email for real estate agencies that leads with a large property hero, then a row of featured homes with prices and quick links to buy, sell, rent or get in touch. Built with fluid images so every photo stays sharp on mobile.",
+    "industry": "Real Estate",
+    "mobileImages": [],
+    "results": {
+      "deliveryTime": "48 hours"
+    },
+    "shortDescription": "Property showcase email with a hero listing, featured homes and quick buy, sell and rent links.",
+    "sortOrder": {
+      "$numberInt": "6"
+    },
+    "status": "published",
+    "tags": [
+      "real estate",
+      "listings",
+      "property"
+    ],
+    "title": "Real Estate Property Listing Email",
+    "type": "Email Template",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790575164509"
+      }
+    },
+    "views": {
+      "$numberInt": "17"
+    },
+    "whatWasIncluded": "Custom HTML template\nMailchimp editable blocks\nProperty card modules\nMobile responsive layout",
+    "year": "2026"
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fdcc0d17a8e7ce160151"
+    },
+    "slug": "saas-welcome-onboarding-email",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "angleViews": [],
+    "cardBackground": "navy",
+    "clientName": "Concept Design",
+    "compatibility": [
+      "Gmail",
+      "Outlook",
+      "Apple Mail",
+      "Yahoo Mail"
+    ],
+    "coverImage": "/images/media/cropped/mailstora-welcome-email.webp",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790442956003"
+      }
+    },
+    "desktopImages": [],
+    "esp": "HubSpot",
+    "featuredOnLanding": true,
+    "fullDescription": "A welcome email for SaaS sign-ups that greets new users, previews the product dashboard and guides them through three first steps: create, automate and grow. Designed to drive the first login and early activation.",
+    "industry": "SaaS",
+    "mobileImages": [],
+    "results": {
+      "deliveryTime": "48 hours"
+    },
+    "shortDescription": "Friendly welcome email with a product dashboard preview and three clear next steps.",
+    "sortOrder": {
+      "$numberInt": "7"
+    },
+    "status": "published",
+    "tags": [
+      "welcome",
+      "onboarding",
+      "saas"
+    ],
+    "title": "SaaS Welcome Onboarding Email",
+    "type": "Email Template",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790619184608"
+      }
+    },
+    "views": {
+      "$numberInt": "18"
+    },
+    "whatWasIncluded": "Custom HTML template\nHubSpot editable modules\nOnboarding step blocks\nMobile responsive layout",
+    "year": "2026"
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fdcc0d17a8e7ce160152"
+    },
+    "slug": "order-confirmation-transactional-email",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "angleViews": [],
+    "cardBackground": "dark-navy",
+    "clientName": "Concept Design",
+    "compatibility": [
+      "Gmail",
+      "Outlook",
+      "Apple Mail",
+      "Samsung Email"
+    ],
+    "coverImage": "/images/media/cropped/mailstora-order-confirmation-email.webp",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790442956010"
+      }
+    },
+    "desktopImages": [],
+    "esp": "Shopify",
+    "featuredOnLanding": true,
+    "fullDescription": "A transactional order confirmation for ecommerce stores. It confirms the purchase, shows order and delivery dates, the shipping address and an itemised summary with totals, and gives a clear link to view the order.",
+    "industry": "Ecommerce",
+    "mobileImages": [],
+    "results": {
+      "deliveryTime": "24 hours"
+    },
+    "shortDescription": "Clean transactional email with order details, delivery date and an itemised summary.",
+    "sortOrder": {
+      "$numberInt": "8"
+    },
+    "status": "published",
+    "tags": [
+      "transactional",
+      "order confirmation",
+      "shopify"
+    ],
+    "title": "Order Confirmation Transactional Email",
+    "type": "Email Template",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790581237563"
+      }
+    },
+    "views": {
+      "$numberInt": "19"
+    },
+    "whatWasIncluded": "Custom HTML template\nShopify notification setup\nDynamic order fields\nMobile responsive layout",
+    "year": "2026"
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fdcc0d17a8e7ce160153"
+    },
+    "slug": "event-invitation-email",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "angleViews": [],
+    "cardBackground": "dark-navy",
+    "clientName": "Concept Design",
+    "compatibility": [
+      "Gmail",
+      "Outlook",
+      "Apple Mail",
+      "iOS Mail"
+    ],
+    "coverImage": "/images/media/cropped/mailstora-event-invitation-email.webp",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790442956014"
+      }
+    },
+    "desktopImages": [],
+    "esp": "Klaviyo",
+    "featuredOnLanding": true,
+    "fullDescription": "An invitation email for a marketing conference with a bold event hero, date and location, a register button, event highlights and featured speaker cards. Built to drive registrations on desktop and mobile.",
+    "industry": "Events",
+    "mobileImages": [],
+    "results": {
+      "deliveryTime": "48 hours"
+    },
+    "shortDescription": "Conference invitation email with event details, highlights and featured speakers.",
+    "sortOrder": {
+      "$numberInt": "9"
+    },
+    "status": "published",
+    "tags": [
+      "event",
+      "invitation",
+      "conference"
+    ],
+    "title": "Event Invitation Email",
+    "type": "Email Template",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790575162124"
+      }
+    },
+    "views": {
+      "$numberInt": "23"
+    },
+    "whatWasIncluded": "Custom HTML template\nKlaviyo editable blocks\nSpeaker card modules\nMobile responsive layout",
+    "year": "2026"
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fdcc0d17a8e7ce160154"
+    },
+    "slug": "professional-html-email-signature",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "angleViews": [],
+    "cardBackground": "navy",
+    "clientName": "Concept Design",
+    "compatibility": [
+      "Gmail",
+      "Outlook",
+      "Apple Mail"
+    ],
+    "coverImage": "/images/media/cropped/mailstora-html-email-signature.webp",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790442956018"
+      }
+    },
+    "desktopImages": [],
+    "esp": "Gmail / Outlook",
+    "featuredOnLanding": true,
+    "fullDescription": "A professional HTML email signature with a round profile photo, title, clickable phone, email and website links, social icons and a promotional banner. Works in Gmail, Outlook and Apple Mail.",
+    "industry": "Marketing",
+    "mobileImages": [],
+    "results": {
+      "deliveryTime": "24 hours"
+    },
+    "shortDescription": "Clickable HTML email signature with photo, contact details, social icons and a promo banner.",
+    "sortOrder": {
+      "$numberInt": "10"
+    },
+    "status": "published",
+    "tags": [
+      "email signature",
+      "branding"
+    ],
+    "title": "Professional HTML Email Signature",
+    "type": "Email Signature",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790619145648"
+      }
+    },
+    "views": {
+      "$numberInt": "25"
+    },
+    "whatWasIncluded": "Custom HTML signature\nClickable links and social icons\nPromo banner\nInstall guide for Gmail and Outlook",
+    "year": "2026"
+  }
+]

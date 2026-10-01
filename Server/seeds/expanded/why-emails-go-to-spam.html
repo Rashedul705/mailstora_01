@@ -1,0 +1,98 @@
+<p><strong>Short answer:</strong> emails go to spam mainly because of three things: missing or broken authentication (SPF, DKIM and DMARC), low engagement from an old or bought list, and content signals such as image-only emails, broken HTML or a hidden unsubscribe link. Fix authentication first, then clean your list, then make sure your template is clean and balanced.</p>
+
+<p>Spam filters do not look at one thing. Gmail, Yahoo and Outlook each weigh many signals: who you are, how people react to your emails, and what the email itself looks like. The good news is that most spam problems come from a short list of causes, and you can check each one in an afternoon. This guide goes through them in the order that usually matters most.</p>
+
+<h2>1. Authentication</h2>
+<p>Gmail and Yahoo require bulk senders to authenticate their domain. Without it, many emails go to spam or are rejected.</p>
+<ul>
+<li><strong>SPF:</strong> a DNS record listing the services allowed to send for your domain.</li>
+<li><strong>DKIM:</strong> a signature that proves the email was not changed. Set it up in your email platform with your own domain.</li>
+<li><strong>DMARC:</strong> a policy that tells inboxes what to do when SPF or DKIM fail. Start with <code>p=none</code> and monitor.</li>
+<li><strong>Send from your own domain,</strong> not a free Gmail or Yahoo address.</li>
+</ul>
+
+<h3>What the records look like</h3>
+<p>You add these as TXT records at your domain host. Your email platform gives you the exact values, but the shape is simple. An SPF record looks like this:</p>
+<p><code>v=spf1 include:_spf.google.com include:sendgrid.net ~all</code></p>
+<p>A starter DMARC record, added at <code>_dmarc.yourdomain.com</code>, looks like this:</p>
+<p><code>v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.com</code></p>
+<p>Once reports show your real sending services all pass, you can move to <code>p=quarantine</code> and later <code>p=reject</code>.</p>
+
+<h3>Common authentication mistakes</h3>
+<ul>
+<li><strong>Two SPF records.</strong> A domain can only have one. Merge them into a single record.</li>
+<li><strong>Too many lookups.</strong> SPF allows a maximum of 10 DNS lookups. Old services left in the record can push you over.</li>
+<li><strong>Shared DKIM.</strong> Some platforms sign with their own domain by default. Set up a branded sending domain so DKIM aligns with your From address.</li>
+<li><strong>Forgetting other senders.</strong> Your help desk, invoicing tool and store platform may all send email as you. Each one needs to be covered.</li>
+</ul>
+<p>If you have just set up a new sending domain, send volume slowly at first. Our guide to <a href="/blog/klaviyo-sending-domain-warm-up/">warming up a Klaviyo sending domain</a> explains how to build reputation without a spam spike.</p>
+
+<h2>2. List Quality and Engagement</h2>
+<ul>
+<li>Never buy lists. Use double opt-in for pop-ups if spam sign-ups are a problem.</li>
+<li>Stop sending to people who have not opened or clicked in 6 to 12 months, after a win-back attempt.</li>
+<li>Keep spam complaints under 0.1%. Gmail's limit is 0.3%.</li>
+<li>Add one-click unsubscribe; Gmail and Yahoo require it for bulk senders.</li>
+</ul>
+<p>Inboxes watch how people treat your email. If many readers delete without opening, or mark you as spam, future emails are more likely to be filtered. Sending to fewer, more engaged people often gets more total opens than blasting the whole list.</p>
+<p>Bot sign-ups are a growing problem for online stores. Fake addresses bounce, hit spam traps and drag down your reputation. See <a href="/blog/klaviyo-fake-signups-bots/">how to stop fake sign-ups in Klaviyo</a> for form and list fixes.</p>
+<p>Be careful when judging engagement by opens alone. Apple Mail Privacy Protection can make opens look higher than they are, so a list may seem healthy when it is not. Our article on <a href="/blog/email-open-rates-apple-mail-privacy/">open rates and Apple Mail privacy</a> explains how to use clicks and orders as better signals.</p>
+
+<h2>3. Content and Template Signals</h2>
+<ul>
+<li><strong>Avoid image-only emails.</strong> Use live text with images, not one big image.</li>
+<li><strong>Keep HTML clean.</strong> Broken tags and code pasted from Word look suspicious. Stay under <a href="/blog/gmail-clipping-102kb-limit/">Gmail's 102 KB limit</a>.</li>
+<li><strong>Make the unsubscribe link easy to find.</strong> If readers can't find it, they click "Report spam".</li>
+<li><strong>Use real link domains</strong> that match your brand; avoid URL shorteners.</li>
+<li><strong>Write honest subject lines</strong> that match the content.</li>
+</ul>
+<p>Content is rarely the only cause, but it can tip a borderline sender into spam. A single large image with no text gives filters nothing to read and gives readers nothing when images are blocked. If your images also fail to load for some readers, see <a href="/blog/email-images-not-showing/">why email images are not showing</a>.</p>
+
+<h3>Template red flags</h3>
+<table>
+<thead><tr><th>Signal</th><th>Why it hurts</th><th>Fix</th></tr></thead>
+<tbody>
+<tr><td>One big image</td><td>No readable text, looks like classic spam</td><td>Live HTML text for headline, offer and button</td></tr>
+<tr><td>Heavy builder code</td><td>Large file, Gmail clipping, messy markup</td><td>Lean hand-coded template</td></tr>
+<tr><td>Tiny grey footer</td><td>Readers report spam instead of unsubscribing</td><td>Clear, readable unsubscribe link</td></tr>
+<tr><td>Mismatched link domains</td><td>Looks like phishing</td><td>Branded click tracking domain</td></tr>
+<tr><td>Misleading subject</td><td>Higher complaints</td><td>Subject that matches the body</td></tr>
+</tbody>
+</table>
+
+<h2>Quick Fix Checklist</h2>
+<ol>
+<li>Check SPF, DKIM and DMARC with a free DNS checker.</li>
+<li>Send a test to a Gmail inbox and use "Show original" to confirm SPF, DKIM and DMARC pass.</li>
+<li>Remove unengaged contacts and bounces.</li>
+<li>Review your template: text-to-image balance, code quality, footer.</li>
+<li>Run the <a href="/blog/email-testing-checklist/">25-point testing checklist</a> before each campaign.</li>
+</ol>
+<p>A clean, hand-coded template helps with the content side. Our <a href="/html-email-template-development/">custom HTML email templates</a> use lean code and live text, and our <a href="/klaviyo-campaign-management/">Klaviyo campaign management</a> service includes list hygiene and segmentation.</p>
+
+<h2>Gmail and Yahoo Bulk Sender Requirements</h2>
+<p>Since 2024, Gmail and Yahoo apply stricter rules to anyone sending around 5,000 or more emails a day to their users. In short, bulk senders must:</p>
+<ul>
+<li>Authenticate with <strong>SPF and DKIM</strong>, and publish a <strong>DMARC</strong> record (at least <code>p=none</code>) that aligns with the From domain.</li>
+<li>Offer <strong>one-click unsubscribe</strong> in the email headers and process unsubscribes within two days.</li>
+<li>Keep the <strong>spam complaint rate below 0.3%</strong>, and ideally under 0.1%.</li>
+<li>Have valid forward and reverse DNS for sending servers (your email platform handles this).</li>
+</ul>
+<p>Most platforms, including Klaviyo, Mailchimp and HubSpot, cover one-click unsubscribe for you. The part you must do is domain authentication. See our step-by-step <a href="/blog/dmarc-setup-klaviyo/">DMARC setup guide for Klaviyo</a>. Rules can change, so check Google's and Yahoo's current sender guidelines at the time you set things up.</p>
+
+<h2>A Real-World Scenario</h2>
+<p>A clothing store notices that its weekly campaign open rate has dropped sharply, and a few customers say the emails land in spam. The team checks "Show original" in Gmail and sees DKIM passing but signed with the platform's shared domain, and no DMARC record at all. They set up a branded sending domain, add DMARC with <code>p=none</code>, and send only to people who clicked or bought in the last 90 days for two weeks. They also replace a single-image sale banner with a coded headline and button. Over the next few sends, placement improves, and they slowly add the wider list back in. No single fix did it; the combination did.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Why do my emails go to spam in Gmail?</h3>
+<p>Usually missing authentication (SPF, DKIM, DMARC), low engagement or high complaint rates. Content issues like image-only emails add to the problem.</p>
+<h3>Do spam trigger words still matter?</h3>
+<p>Much less than before. Authentication, reputation and engagement matter far more than individual words, though misleading subject lines still hurt.</p>
+<h3>Does email design affect spam placement?</h3>
+<p>Yes. Image-only emails, broken HTML, hidden unsubscribe links and very heavy code are negative signals.</p>
+<h3>How long does it take to get out of spam?</h3>
+<p>It depends on the cause. Fixing authentication can help within days. Rebuilding a damaged sender reputation usually takes a few weeks of sending only to engaged readers.</p>
+<h3>Should I use a new domain if my emails go to spam?</h3>
+<p>Usually no. A new domain has no reputation and can perform worse. Fix the cause on your current domain first, then warm up volume slowly.</p>
+<h3>Can MailStora help my emails reach the inbox?</h3>
+<p>We build clean templates and manage campaigns with list hygiene and segmentation. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

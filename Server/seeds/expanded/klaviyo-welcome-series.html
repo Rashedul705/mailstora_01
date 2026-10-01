@@ -1,0 +1,103 @@
+<p><strong>Short answer:</strong> a Klaviyo welcome series is an automated flow that greets new subscribers. Trigger it when someone joins your newsletter list, send the first email right away, then follow with 3 or 4 more emails over about 10 days that introduce your brand, show best sellers, share reviews and give a reason to place the first order. Stop the flow for anyone who buys.</p>
+
+<p>New subscribers are at their most interested in the first few days. A good welcome series turns that interest into a first purchase. If you want it built for you, our <a href="/klaviyo-flow-setup/">Klaviyo flow setup service</a> handles the flow, the logic and the templates.</p>
+
+<p>Once it is live, a welcome series runs every day without any extra work. That makes it one of the first flows most stores set up, together with abandoned cart. The steps below walk through the trigger, the filters, the five emails and the small settings that often get missed.</p>
+
+<h2>Step 1: Choose the Trigger</h2>
+<ul>
+<li>In Klaviyo, go to <strong>Flows</strong> and create a flow (or start from the welcome series template).</li>
+<li>Choose a <strong>list trigger</strong>: "When someone is added to this list" and select your newsletter list. Your signup forms should add people to that list.</li>
+<li>If you run a discount pop-up, use the list that form feeds so the discount email matches the promise.</li>
+</ul>
+<p>Check that every signup form on your site points to the same list, including the footer form, the pop-up and any checkout opt-in you sync from Shopify. A form that feeds a different list means those subscribers never get the welcome series. If you see many strange sign-ups, add protection first; see <a href="/blog/klaviyo-fake-signups-bots/">how to stop fake sign-ups in Klaviyo</a>, because bots entering a welcome flow will bounce and hurt your sender reputation.</p>
+
+<h2>Step 2: Add Flow Filters</h2>
+<ul>
+<li><strong>Placed Order zero times since starting this flow,</strong> so buyers stop receiving "please buy" emails.</li>
+<li>Optionally, <strong>has not placed an order ever</strong> for emails with a first-order discount, so existing customers are not offered one.</li>
+</ul>
+<p>Flow filters are checked before every email, so a subscriber who buys on day 3 will not get the day 6 offer. This is the single most important setting in the flow. Without it, new customers keep receiving discount emails after paying full price, which leads to complaints and refund requests.</p>
+
+<h2>Step 3: The 5 Emails and When to Send Them</h2>
+<table>
+<thead><tr><th>Email</th><th>Timing</th><th>Goal</th></tr></thead>
+<tbody>
+<tr><td>1. Welcome and brand story</td><td>Right away</td><td>Say thanks, deliver any promised discount, set expectations</td></tr>
+<tr><td>2. Best sellers</td><td>Day 2</td><td>Show the products most people buy first</td></tr>
+<tr><td>3. Reviews and proof</td><td>Day 4</td><td>Build trust with customer reviews and photos</td></tr>
+<tr><td>4. First-order offer or reason to buy</td><td>Day 6</td><td>Make the first purchase easy: offer, free shipping or guarantee</td></tr>
+<tr><td>5. Last reminder</td><td>Day 9</td><td>Remind them the offer is ending, point to help and returns</td></tr>
+</tbody>
+</table>
+<p>In the flow builder, add a time delay between each email. For example: email 1, wait 2 days, email 2, wait 2 days, email 3, and so on. You can also set <strong>smart sending</strong> off for the first email so a new subscriber gets it even if they received a campaign recently.</p>
+
+<h2>What to Put in Each Email</h2>
+<h3>Email 1: Welcome</h3>
+<p>Keep it warm and short: a thank you, one sentence about why your brand exists, the discount code if you promised one, and a single clear button. This email usually has the highest open rate of anything you send.</p>
+<p>If you use unique coupon codes, Klaviyo adds them with a tag like this in the email body:</p>
+<p><code>{% coupon_code 'WELCOME10' %}</code></p>
+<p>Replace <code>WELCOME10</code> with the name of the coupon you set up in Klaviyo. Unique codes stop one code being shared across coupon sites.</p>
+<h3>Email 2: Best sellers</h3>
+<p>Use a product grid of 3 to 6 best sellers. A dynamic product block keeps it up to date automatically. Our <a href="/klaviyo-email-templates/">custom Klaviyo email templates</a> keep these blocks editable in Klaviyo's editor.</p>
+<h3>Email 3: Reviews</h3>
+<p>Show two or three short reviews with star ratings and real customer photos if you have them. Use real reviews only, and keep them short enough to read on a phone.</p>
+<h3>Email 4: The offer</h3>
+<p>Give a clear reason to buy now. If you do not want to discount, offer free shipping, a gift or a guarantee instead.</p>
+<h3>Email 5: Last reminder</h3>
+<p>Short reminder that the offer ends soon, plus links to shipping, returns and support.</p>
+
+<h2>Common Welcome Series Mistakes</h2>
+<ul>
+<li><strong>No purchase filter.</strong> Buyers keep getting "buy now" emails.</li>
+<li><strong>Discount not delivered.</strong> The pop-up promises 10% off but email 1 does not show a code.</li>
+<li><strong>Too many links.</strong> Email 1 with ten links and three buttons splits attention. One main action works better.</li>
+<li><strong>Flow left in draft or manual mode.</strong> Each email must be set to <strong>Live</strong>, not only the flow.</li>
+<li><strong>Judging success by opens alone.</strong> Apple Mail Privacy Protection can inflate opens. Watch clicks and placed orders instead; see <a href="/blog/email-open-rates-apple-mail-privacy/">open rates and Apple Mail privacy</a>.</li>
+<li><strong>Broken layout in Outlook.</strong> Drag-and-drop blocks mixed with pasted code often break. A clean <a href="/blog/klaviyo-custom-html-template/">custom HTML template in Klaviyo</a> avoids this.</li>
+</ul>
+
+<h2>Tips That Improve Results</h2>
+<ul>
+<li>Use a <strong>conditional split</strong> for people who joined through a discount form versus a footer signup.</li>
+<li>Keep the design consistent with your campaigns so subscribers recognise you.</li>
+<li>Test every email in Gmail, Outlook and on mobile. See our <a href="/blog/email-testing-checklist/">email testing checklist</a>.</li>
+<li>After the welcome series, a strong <a href="/blog/klaviyo-abandoned-cart-flow/">abandoned cart flow</a> catches shoppers who start checkout but do not finish.</li>
+<li>If your sending domain is new, launch the flow gradually and follow a <a href="/blog/klaviyo-sending-domain-warm-up/">sending domain warm-up plan</a>.</li>
+</ul>
+<p>For a real example of what a redesigned flow can do, read how TechFlow <a href="/case-studies/saas-onboarding-sequence/">raised onboarding completion by 121%</a>, or see our <a href="/portfolio/saas-welcome-onboarding-email/">welcome email design</a>.</p>
+
+<h2>Launch Checklist</h2>
+<ol>
+<li>All signup forms add people to the trigger list.</li>
+<li>Flow filter "Placed Order zero times since starting this flow" is set.</li>
+<li>Time delays match the plan.</li>
+<li>Coupon codes show correctly in a test send.</li>
+<li>Each email is tested on mobile, Gmail and Outlook.</li>
+<li>Every email is switched to Live.</li>
+<li>You have signed up with a fresh address to see the real experience.</li>
+</ol>
+
+<h2>A Real-World Scenario</h2>
+<p>A small homeware store has a pop-up offering 10% off, but the pop-up feeds a list that no flow uses. New subscribers get nothing until the next weekly campaign, and many forget why they signed up. The store connects the pop-up list to a five-email welcome series, adds the purchase filter and uses a unique coupon in email 1. They also point the footer form to the same list and use a conditional split so footer sign-ups get a free shipping message instead of a code. Now every new subscriber hears from the brand within minutes, and buyers leave the flow as soon as they order.</p>
+
+<h2>Related Guides</h2>
+<p>Keep reading with these guides on related problems:</p>
+<ul>
+<li><a href="/blog/dmarc-setup-klaviyo/">DMARC setup for Klaviyo, step by step</a></li>
+<li><a href="/blog/customize-shopify-order-confirmation-email/">How to customize Shopify order confirmation emails</a></li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<h3>How many emails should a Klaviyo welcome series have?</h3>
+<p>Three to five emails over about 7 to 10 days works well for most stores. Start with three and add more once you see how subscribers respond.</p>
+<h3>What trigger should I use for a welcome series in Klaviyo?</h3>
+<p>Use a list trigger for your newsletter list, so everyone added through your signup forms enters the flow.</p>
+<h3>Should the welcome series include a discount?</h3>
+<p>Only if you promised one at signup or your margins allow it. Free shipping, a gift or a guarantee can work as well as a discount.</p>
+<h3>Will existing subscribers get the welcome series when I turn it on?</h3>
+<p>No. A list-triggered flow only includes people added after it goes live, unless you choose to add past subscribers when you set it up. Most stores leave existing subscribers out.</p>
+<h3>How do I know if my welcome series is working?</h3>
+<p>Look at clicks, placed orders and revenue per recipient in the flow analytics, not only open rates. Compare each email to see where people drop off, then test changes one at a time.</p>
+<h3>Can MailStora build my welcome series?</h3>
+<p>Yes. MailStora sets up Klaviyo flows end to end with branded, hand-coded templates. <a href="/quote/">Request a free quote</a> to get a price within 24 hours.</p>

@@ -1,0 +1,216 @@
+[
+  {
+    "_id": {
+      "$oid": "6abab32a3917f62dec666cb4"
+    },
+    "title": "Canadian Choice Windows & Doors",
+    "slug": "canadian-choice-windows-doors",
+    "clientName": "Canadian Choice",
+    "industry": "Home Improvement",
+    "type": "Email Template",
+    "esp": "Mailchimp",
+    "year": "2024",
+    "coverImage": "/images/media/portfolio/canadian-choice-responsive-email-template.webp",
+    "portfolioSlug": "canadian-choice-windows-doors",
+    "whatWasIncluded": "Custom HTML + inline CSS\nMobile-first responsive layout\nTested in Gmail, Outlook 365, Apple Mail and iOS Mail",
+    "compatibility": [
+      "Gmail",
+      "Outlook 365",
+      "Apple Mail",
+      "iOS Mail"
+    ],
+    "tags": [
+      "responsive",
+      "mailchimp",
+      "home improvement"
+    ],
+    "status": "published",
+    "sortOrder": {
+      "$numberInt": "1"
+    },
+    "headline": "How Canadian Choice Fixed a Campaign Email That Broke in Outlook",
+    "seoTitle": "Canadian Choice Case Study: Outlook Email Fix | MailStora",
+    "seoDescription": "",
+    "summary": "Canadian Choice's seasonal campaign template was breaking in Outlook. MailStora rebuilt it from scratch in 36 hours, and the campaign reached a 38% open rate with every Outlook version rendering correctly.",
+    "challenge": "Canadian Choice Windows & Doors was preparing a seasonal Mailchimp campaign, but its existing email template broke in Outlook. Layouts shifted, sections collapsed and the design no longer matched the brand, which put the campaign at risk.\nPatching the old template was not an option: every fix for Outlook risked breaking Gmail or mobile.",
+    "solution": "MailStora rebuilt the template from scratch with hand-coded, table-based HTML and inline CSS, the approach that renders reliably in every Outlook version. The layout was built mobile-first so it adapts cleanly from phones to desktop, and it was set up for editing in Mailchimp.",
+    "approach": "Reviewed the broken template and the campaign design\nRebuilt the layout in table-based HTML with inline CSS\nMade the design mobile-first and fully responsive\nTested in Gmail, Outlook 365, Apple Mail and iOS Mail\nDelivered the Mailchimp-ready template in 36 hours",
+    "results": "38% | Open rate\n2.4x | Click rate\n100% | Outlook versions rendering correctly\n36 hours | From brief to delivery",
+    "duration": "36 hours",
+    "testimonialQuote": "",
+    "testimonialAuthor": "",
+    "testimonialRole": "",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427588251"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427588251"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6abab32a3917f62dec666cb8"
+    },
+    "title": "SaaS Onboarding Sequence",
+    "slug": "saas-onboarding-sequence",
+    "clientName": "TechFlow SaaS",
+    "industry": "Software",
+    "type": "Case Study",
+    "esp": "Klaviyo",
+    "year": "2023",
+    "coverImage": "/images/media/cropped/service-klaviyo-automation-flows.webp",
+    "portfolioSlug": "saas-onboarding-sequence",
+    "whatWasIncluded": "5 Email Templates\nStrategy & Copywriting\nA/B Testing Setup",
+    "compatibility": [
+      "Gmail",
+      "Apple Mail"
+    ],
+    "tags": [
+      "saas",
+      "onboarding",
+      "klaviyo"
+    ],
+    "status": "published",
+    "sortOrder": {
+      "$numberInt": "2"
+    },
+    "headline": "How TechFlow Increased Onboarding Completion by 121%",
+    "seoTitle": "TechFlow Case Study: +121% Onboarding | MailStora",
+    "seoDescription": "",
+    "summary": "TechFlow's onboarding emails asked new users to do too much at once. MailStora redesigned the 5-email Klaviyo sequence around one action per email, raising onboarding completion by 121%.",
+    "challenge": "TechFlow, a SaaS company, relied on a 5-step onboarding email sequence to turn sign-ups into active users. Too many users were dropping off before finishing onboarding.",
+    "solution": "MailStora redesigned the sequence so each email focused on a single action. The project covered strategy and copywriting, five new email templates built for Klaviyo, and A/B testing setup to keep improving the flow.",
+    "approach": "Mapped the existing 5-step onboarding sequence\nRewrote each email around one clear action\nDesigned and coded 5 email templates in Klaviyo\nSet up A/B tests for subject lines and content\nTested in Gmail and Apple Mail before launch",
+    "results": "+121% | Onboarding completion\n42% | Open rate\n3x | Click rate\n5 days | Project delivery",
+    "duration": "5 days",
+    "testimonialQuote": "MailStora transformed our email marketing. The hand-coded templates are pixel-perfect on every device we tested. Finally, a service that understands the nuances of email client rendering!",
+    "testimonialAuthor": "Sarah Jenkins",
+    "testimonialRole": "Marketing Lead at TechFlow",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427588255"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427588255"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6abab32a3917f62dec666cbb"
+    },
+    "title": "Corporate Email Signature",
+    "slug": "corporate-email-signature",
+    "clientName": "Apex Financial",
+    "industry": "Finance",
+    "type": "Email Signature",
+    "esp": "Other",
+    "year": "2024",
+    "coverImage": "/images/media/cropped/service-html-email-signatures.webp",
+    "portfolioSlug": "corporate-email-signature",
+    "whatWasIncluded": "HTML Signature\nInstallation Guide",
+    "compatibility": [
+      "Outlook 365",
+      "Gmail"
+    ],
+    "tags": [
+      "signature",
+      "corporate"
+    ],
+    "status": "published",
+    "sortOrder": {
+      "$numberInt": "3"
+    },
+    "headline": "One Consistent Email Signature for Apex Financial's 50+ Person Team",
+    "seoTitle": "Apex Financial Case Study: Team Signatures | MailStora",
+    "seoDescription": "",
+    "summary": "Apex Financial needed every employee to send email with the same professional signature. MailStora delivered a standard HTML signature with a company banner and an installation guide in 24 hours.",
+    "challenge": "With more than 50 employees, Apex Financial had inconsistent email signatures across the team. For a finance company, that looked unprofessional and weakened the brand in every client email.",
+    "solution": "MailStora designed one clean, standard HTML signature with a company banner, built to render correctly in Outlook 365 and Gmail. A step-by-step installation guide let every employee set it up without help.",
+    "approach": "Agreed the signature layout and company banner\nCoded a lightweight, table-based HTML signature\nTested it in Outlook 365 and Gmail\nWrote an installation guide for the team\nDelivered everything in 24 hours",
+    "results": "50+ | Employees on one signature\n24 hours | Delivery\n2 | Email platforms supported",
+    "duration": "24 hours",
+    "testimonialQuote": "",
+    "testimonialAuthor": "",
+    "testimonialRole": "",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427588255"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427588255"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6abab32a3917f62dec666cbe"
+    },
+    "title": "E-commerce Seasonal Promo",
+    "slug": "e-commerce-seasonal-promo",
+    "clientName": "Urban Vogue",
+    "industry": "Fashion",
+    "type": "Email Template",
+    "esp": "Klaviyo",
+    "year": "2024",
+    "coverImage": "/images/media/cropped/service-klaviyo-mailchimp-campaigns.webp",
+    "portfolioSlug": "e-commerce-seasonal-promo",
+    "whatWasIncluded": "Custom HTML\nDark Mode Support\nDynamic Product Blocks",
+    "compatibility": [
+      "iOS Mail",
+      "Gmail",
+      "Apple Mail"
+    ],
+    "tags": [
+      "ecommerce",
+      "promo",
+      "dark mode"
+    ],
+    "status": "published",
+    "sortOrder": {
+      "$numberInt": "4"
+    },
+    "headline": "A Mobile-First Klaviyo Product Grid That Drove $6.3k in Revenue",
+    "seoTitle": "Urban Vogue Case Study: $6.3k Klaviyo Promo | MailStora",
+    "seoDescription": "",
+    "summary": "Urban Vogue needed a seasonal promo email that sold on mobile. MailStora built a dynamic Klaviyo product grid with dark mode support, and the campaign generated $6.3k in revenue with a 28% open rate.",
+    "challenge": "Urban Vogue, a fashion retailer, wanted a seasonal promotion that showcased many products without becoming slow or cluttered on phones, where most of its customers read email.\nThe design also had to hold up in older email clients and in dark mode.",
+    "solution": "MailStora built a mobile-first product grid in Klaviyo with dynamic product blocks, so products could be updated without touching code. The layout degrades gracefully in older email clients, and colours and logos were set up for dark mode.",
+    "approach": "Planned a product grid that works on small screens first\nCoded the template in custom HTML for Klaviyo\nAdded dynamic product blocks for easy updates\nAdded dark mode support\nTested in iOS Mail, Gmail and Apple Mail",
+    "results": "$6.3k | Revenue from the campaign\n28% | Open rate\n1.5x | Click rate\n48 hours | Delivery",
+    "duration": "48 hours",
+    "testimonialQuote": "",
+    "testimonialAuthor": "",
+    "testimonialRole": "",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427588256"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427588256"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

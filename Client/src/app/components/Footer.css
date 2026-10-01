@@ -1,0 +1,198 @@
+/* ── Site footer ───────────────────────────────────────────── */
+.site-footer {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding: 4rem 0 2rem;
+    background: linear-gradient(135deg, #04291f 0%, #062e22 45%, #1f1a0e 80%, #4a1d08 100%);
+    color: rgba(255, 255, 255, 0.78);
+}
+
+/* Faint large icons in the background */
+.site-footer-deco {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.site-footer-deco svg {
+    position: absolute;
+    color: #fff;
+    opacity: 0.06;
+}
+
+.site-footer-deco .fd1 { top: 6%; left: -30px; width: 190px; transform: rotate(-14deg); }
+.site-footer-deco .fd2 { top: 10%; right: 6%; width: 130px; transform: rotate(12deg); }
+.site-footer-deco .fd3 { bottom: 14%; left: 38%; width: 110px; opacity: 0.05; }
+.site-footer-deco .fd4 { bottom: -40px; right: -30px; width: 210px; }
+
+/* Columns */
+.site-footer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.5fr) minmax(0, 0.9fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site-footer-logo {
+    display: inline-flex;
+    margin-bottom: 1rem;
+}
+
+.site-footer-logo img {
+    width: 190px;
+    height: auto;
+}
+
+.site-footer-brand > p {
+    margin-bottom: 1.25rem;
+    font-size: 0.925rem;
+    line-height: 1.7;
+}
+
+.site-footer-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    list-style: none;
+}
+
+.site-footer-stats li {
+    padding: 0.35rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    font-size: 0.8rem;
+}
+
+.site-footer-stats strong {
+    color: #fdba74;
+}
+
+.site-footer-socials {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+}
+
+.site-footer-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transition: background-color 0.2s ease;
+}
+
+.site-footer-socials a:hover {
+    background: #f97316;
+}
+
+.site-footer-col h3 {
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.site-footer-col ul {
+    display: grid;
+    gap: 0.6rem;
+    list-style: none;
+}
+
+/* Services: one per line, never wrapping */
+.site-footer-col--wide a {
+    white-space: nowrap;
+}
+
+.site-footer-col a,
+.site-footer-bottom a {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.72);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.site-footer-col a:hover,
+.site-footer-bottom a:hover {
+    color: #fdba74;
+}
+
+.site-footer a:focus-visible {
+    outline: 3px solid #f97316;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+.site-footer-contact a {
+    word-break: break-word;
+}
+
+.site-footer-reply {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: #4ade80;
+}
+
+.site-footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.75rem;
+    font-size: 0.85rem;
+}
+
+.site-footer-bottom ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+@media (max-width: 1024px) {
+    .site-footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .site-footer {
+        padding-top: 3rem;
+    }
+
+    .site-footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .site-footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.site-footer-all {
+    display: inline-block;
+    margin-top: 1.1rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(253, 186, 116, 0.5);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #fdba74 !important;
+    text-decoration: none;
+}
+
+.site-footer-all:hover {
+    background: #f97316;
+    color: #fff !important;
+}

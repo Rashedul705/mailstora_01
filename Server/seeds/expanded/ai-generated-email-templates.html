@@ -1,0 +1,87 @@
+<p><strong>Short answer:</strong> AI tools can give you a good starting point, but the HTML often breaks in real inboxes. Common problems are div and flexbox layouts, missing Outlook code, styles left in the head instead of inline, large file sizes and no dark mode handling. Use AI output for ideas and drafts; production templates still need email-specific coding and testing.</p>
+
+<h2>Why AI Email Code Breaks</h2>
+<p>Most AI models learned HTML from websites. Email is a different world. Email clients use older, stricter and very different rendering engines, and each one strips or rewrites code in its own way. So an AI tool will often produce code that looks perfect in a browser preview and then falls apart in an inbox. Here are the most common reasons.</p>
+<ul>
+<li><strong>Web layouts, not email layouts.</strong> Flexbox and grid work in browsers but not in classic Outlook, which uses Microsoft Word to render HTML. Columns collapse, widths are ignored and elements stack in odd ways.</li>
+<li><strong>No MSO fixes.</strong> Ghost tables, VML backgrounds and bulletproof buttons are usually missing. See <a href="/blog/outlook-background-images-vml/">background images in Outlook</a> and <a href="/blog/bulletproof-email-buttons/">bulletproof email buttons</a>.</li>
+<li><strong>Styles not inlined.</strong> Some clients strip or change head styles. AI tools often write a neat <code>&lt;style&gt;</code> block and a few classes, which is exactly what gets lost. See <a href="/blog/new-outlook-breaking-html-email/">new Outlook issues</a>.</li>
+<li><strong>Heavy code</strong> that pushes past <a href="/blog/gmail-clipping-102kb-limit/">Gmail's 102 KB limit</a>. Repeated wrappers, comments and unused CSS add up fast.</li>
+<li><strong>No dark mode or accessibility work.</strong> Logos disappear on dark backgrounds, and images have empty or missing alt text. See <a href="/blog/dark-mode-email-design/">dark mode</a> and <a href="/blog/accessible-email-design/">accessible email design</a>.</li>
+<li><strong>Not platform-ready.</strong> Missing Klaviyo, Mailchimp or HubSpot editable tags, so your marketing team cannot change text or images without touching code.</li>
+</ul>
+
+<h3>A typical example</h3>
+<p>Ask a chatbot for a two-column product email and you may get something like this:</p>
+<p><code>&lt;div style="display:flex; gap:20px"&gt;&lt;div class="col"&gt;...&lt;/div&gt;&lt;div class="col"&gt;...&lt;/div&gt;&lt;/div&gt;</code></p>
+<p>It looks fine in Chrome. In classic Outlook, <code>display:flex</code> and <code>gap</code> are ignored, so the two columns stack at full width. In some webmail clients the <code>.col</code> class is renamed and its styles never apply. An email-safe version uses a table with fixed widths and inline styles:</p>
+<p><code>&lt;table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"&gt;&lt;tr&gt;&lt;td width="290" valign="top" style="padding:0 10px 0 0"&gt;...&lt;/td&gt;&lt;td width="290" valign="top"&gt;...&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code></p>
+<p>For mobile stacking you then add a hybrid or media query approach, plus an Outlook ghost table. That extra layer is what most AI drafts leave out.</p>
+
+<h2>How to Use AI Well</h2>
+<p>AI is not useless for email. It is fast, and it is good at some parts of the job. The trick is to use it where it is strong and check it where it is weak.</p>
+<ol>
+<li>Ask for <strong>table-based HTML with inline styles</strong> and Outlook conditional comments. Say it plainly in your prompt: "Use nested tables, no flexbox or grid, inline all CSS, max width 600px, include MSO conditional comments."</li>
+<li>Use AI for <strong>copy, subject lines and layout ideas</strong>, where it helps most. It can give you ten subject lines or three hero headline options in seconds.</li>
+<li>Run the output through an inliner and check the file size. Remove comments and unused styles before you send.</li>
+<li>Test in classic Outlook, Gmail, Apple Mail and on mobile with our <a href="/blog/email-testing-checklist/">testing checklist</a>.</li>
+<li>Add your platform's editable tags so the team can edit it later. In Klaviyo, see <a href="/blog/klaviyo-custom-html-template/">custom HTML templates in Klaviyo</a>.</li>
+</ol>
+
+<h3>Prompt template you can reuse</h3>
+<p>A clear prompt gives a cleaner first draft. Something like: "Write an HTML email for a 600px layout. Use only tables for layout with <code>role="presentation"</code>. Inline all CSS. Use web-safe fonts with fallbacks. Add alt text for every image. Include a bulletproof button that works in Outlook. Keep the file under 60 KB." This will not make the code perfect, but it avoids many basic mistakes.</p>
+
+<h2>Common Mistakes When Shipping AI Templates</h2>
+<ul>
+<li><strong>Trusting the browser preview.</strong> A browser is not an email client. Always send real tests.</li>
+<li><strong>Copying text into images.</strong> Some AI design tools output the whole email as one image. It will be blocked by default in some clients, is bad for accessibility and can hurt deliverability.</li>
+<li><strong>Forgetting the plain-text part.</strong> Many platforms create it for you, but check it reads well.</li>
+<li><strong>Pasting code into a drag-and-drop text block.</strong> The editor may rewrite it and break the layout.</li>
+<li><strong>Skipping links and tracking checks.</strong> AI often leaves placeholder links like <code>href="#"</code>.</li>
+</ul>
+
+<h2>AI Draft vs Production Template</h2>
+<table>
+<thead><tr><th></th><th>AI draft</th><th>Production template</th></tr></thead>
+<tbody>
+<tr><td>Speed</td><td>Seconds</td><td>24 to 48 hours</td></tr>
+<tr><td>Layout method</td><td>Often divs and flexbox</td><td>Tables with hybrid stacking</td></tr>
+<tr><td>Outlook support</td><td>Rare</td><td>Tested</td></tr>
+<tr><td>Editable in your platform</td><td>No</td><td>Yes</td></tr>
+<tr><td>Dark mode and accessibility</td><td>Not usually</td><td>Built in</td></tr>
+<tr><td>File size control</td><td>Not checked</td><td>Kept under Gmail's clipping limit</td></tr>
+</tbody>
+</table>
+
+<h2>Quick Checklist Before You Send an AI-Made Email</h2>
+<ul>
+<li>No <code>display:flex</code>, <code>grid</code> or <code>position</code> in layout code.</li>
+<li>All key styles are inline on each element.</li>
+<li>Every image has a width, height and useful alt text.</li>
+<li>Buttons are live text, not images.</li>
+<li>File size is well under 102 KB.</li>
+<li>Tested in classic Outlook, new Outlook, Gmail app, Apple Mail and one Android client.</li>
+<li>Dark mode checked for logos and text colours.</li>
+<li>Editable regions added for your email platform.</li>
+</ul>
+
+<h2>A Real-World Scenario</h2>
+<p>A small Shopify brand uses an AI tool to build a Black Friday email. It looks great in the browser, so they paste it into their email platform and send a test to Gmail. It looks fine there too. On launch day, their customer service team, who use Outlook at work, reply that the email is a mess: the product grid is a single long column, the button is plain blue text and the hero image is huge. The fix was not a small tweak. The layout had to be rebuilt in tables, the button coded for Outlook and the images given fixed widths. This is the kind of work our <a href="/outlook-email-rendering-fix/">email rendering fix service</a> handles, usually with before-and-after screenshots.</p>
+<p>If you want to see what a tested version of that kind of email looks like, browse our <a href="/portfolio/black-friday-sale-email/">Black Friday sale email</a> example.</p>
+
+<h2>When to Rebuild Instead of Patch</h2>
+<p>If the AI draft uses flexbox or grid for the main layout, patching is usually slower than a clean rebuild. If it already uses tables and just needs inlining, Outlook buttons and testing, a fix is often enough. We can rebuild it as a <a href="/html-email-template-development/">custom HTML email template</a> that your team can edit. Deciding who should build it? Read <a href="/blog/hire-email-developer-vs-agency/">email developer vs agency</a>.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Can ChatGPT or other AI tools make HTML email templates?</h3>
+<p>They can create a draft, but the code often lacks Outlook support, inline styles and platform tags, so it needs fixing and testing before you send it to customers.</p>
+<h3>Why does my AI-generated email break in Outlook?</h3>
+<p>It usually uses divs, flexbox or modern CSS that classic Outlook's Word engine does not support. Tables, fixed widths and conditional comments are needed.</p>
+<h3>Is AI going to replace email developers?</h3>
+<p>AI speeds up drafts and copy, but reliable rendering across clients still needs email-specific knowledge and testing in real inboxes.</p>
+<h3>How can I make AI produce better email code?</h3>
+<p>Ask for table-based layouts, inline CSS, a 600px width, alt text and Outlook conditional comments. Then inline, check the file size and test anyway.</p>
+<h3>Is it safe to send an email that is one big image?</h3>
+<p>It is not a good idea. Images can be blocked, screen readers cannot read them, and image-only emails can look like spam. Use live text for key messages.</p>
+<h3>Can MailStora fix an AI-made email template?</h3>
+<p>Yes. We repair or rebuild it with tested, editable code, tested in 50+ email clients. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

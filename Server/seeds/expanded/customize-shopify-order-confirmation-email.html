@@ -1,0 +1,102 @@
+<p><strong>Short answer:</strong> in Shopify admin, go to <strong>Settings, Notifications, Customer notifications</strong>, open <strong>Order confirmation</strong> and click <strong>Edit code</strong>. You can change the HTML and CSS, but keep the Liquid tags (like <code>{{ order_name }}</code> and the line-item loop) that pull in order data. Add your logo and colours first under <strong>Customize email templates</strong>, then preview and send a test.</p>
+
+<h2>Why Order Emails Matter</h2>
+<p>Order confirmations are among the most opened emails a store sends. They reassure the customer, cut "where is my order?" support tickets and are a chance to show your brand and recommend the next purchase.</p>
+<p>Shopify's default template is clean and works, but it looks the same as thousands of other stores. A few careful changes make it feel like part of your brand, without risking the data that customers rely on.</p>
+
+<h2>Step by Step</h2>
+<ol>
+<li><strong>Brand settings:</strong> in Notifications, click <strong>Customize email templates</strong> to set your logo, logo width and accent colour. This updates all notifications.</li>
+<li><strong>Open the template:</strong> Customer notifications, Order confirmation, <strong>Edit code</strong>.</li>
+<li><strong>Back up the code</strong> by copying it into a text file before changing anything.</li>
+<li><strong>Edit the HTML and CSS</strong> for layout, fonts and spacing. Keep all Liquid tags and loops.</li>
+<li><strong>Preview</strong> with Shopify's sample data, then place a real test order to check discounts, shipping and taxes.</li>
+<li><strong>Repeat for the shipping,</strong> delivery and refund notifications so all emails match.</li>
+</ol>
+<p>Menu names in Shopify admin change from time to time. If you cannot find a label, search "notifications" in the admin search bar.</p>
+
+<h2>Understanding Liquid in Two Minutes</h2>
+<p>Shopify notifications use Liquid, a simple template language. There are two kinds of tags:</p>
+<ul>
+<li><strong>Output tags</strong> use double curly braces, such as <code>{{ order_name }}</code>. They print a value, like "#1042".</li>
+<li><strong>Logic tags</strong> use curly braces with percent signs, such as <code>{% if %}</code> and <code>{% for %}</code>. They decide what shows and repeat blocks.</li>
+</ul>
+<p>Filters change how a value looks. For example, <code>{{ total_price | money }}</code> formats a number as currency. You can freely change the HTML around these tags. Problems start when a tag is deleted, or when an opening tag like <code>{% if %}</code> loses its closing <code>{% endif %}</code>.</p>
+
+<h2>Liquid Tags You Must Keep</h2>
+<ul>
+<li><code>{% for line in subtotal_line_items %}</code> and its closing tag, which lists the products.</li>
+<li><code>{{ order_name }}</code>, <code>{{ subtotal_price | money }}</code>, <code>{{ total_price | money }}</code>.</li>
+<li>Shipping and billing address blocks, and the order status link <code>{{ order_status_url }}</code>.</li>
+<li>Conditions like <code>{% if discounts %}</code> that show discounts only when they apply.</li>
+</ul>
+
+<h3>Example: Restyling a Product Row</h3>
+<p>Inside the line-item loop, you can change the table markup around each product while keeping the data tags. A simple row might be:</p>
+<p><code>&lt;tr&gt;&lt;td width="80"&gt;&lt;img src="{{ line.image | img_url: 'compact_cropped' }}" width="64" alt="{{ line.title }}"&gt;&lt;/td&gt;&lt;td&gt;{{ line.title }} × {{ line.quantity }}&lt;/td&gt;&lt;td align="right"&gt;{{ line.final_line_price | money }}&lt;/td&gt;&lt;/tr&gt;</code></p>
+<p>Copy the exact variable names from your existing template rather than from this example. Shopify's default code may use slightly different names or filters, and those are the ones that are known to work in your store.</p>
+
+<h2>Keeping the Whole Set Consistent</h2>
+<p>Customers see more than one email after they buy. A typical order sends a confirmation, a shipping update, sometimes a delivery notice and, now and then, a refund or cancellation email. If only the first one is branded, the others feel like they come from a different company.</p>
+<p>A good way to keep them consistent is to build one shared header and footer and paste the same code into each notification. Keep a single master file with those pieces. When your logo or address changes, update the master file first, then copy it into each notification. Write down which notifications you have changed, so nothing is missed.</p>
+<h3>Which Notifications to Prioritise</h3>
+<ul>
+<li><strong>Order confirmation:</strong> sent for every order, so start here.</li>
+<li><strong>Shipping confirmation:</strong> the second most seen, and it holds the tracking link.</li>
+<li><strong>Order cancelled and refund:</strong> sent less often, but tone matters when something goes wrong.</li>
+<li><strong>Abandoned checkout:</strong> if you use Shopify's version instead of a separate email platform.</li>
+</ul>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Deleting an <code>{% endif %}</code> or <code>{% endfor %}</code>, which can break the whole email.</li>
+<li>Testing only with sample data. Real orders with discounts, gift cards or local pickup can show blocks you never saw.</li>
+<li>Using CSS that email clients do not support, such as flexbox for the main layout.</li>
+<li>Adding large images that load slowly or fail. See <a href="/blog/email-images-not-showing/">why email images are not showing</a>.</li>
+<li>Putting a big promotion above the order details, which confuses customers.</li>
+<li>Updating the order confirmation but leaving shipping and refund emails in the old style.</li>
+</ul>
+
+<h2>Ideas to Improve Them</h2>
+<ul>
+<li>A clear order summary with product images.</li>
+<li>Help links: shipping times, returns, contact.</li>
+<li>A small upsell or "complete the look" block, kept below the order details.</li>
+<li>A dark mode friendly logo. See our <a href="/blog/dark-mode-email-design/">dark mode guide</a>.</li>
+<li>A short thank-you line in your brand voice.</li>
+<li>A large, easy-to-tap "View your order" button linked to the order status page.</li>
+</ul>
+
+<h2>Pre-Launch Checklist</h2>
+<table>
+<thead><tr><th>Check</th><th>How</th></tr></thead>
+<tbody>
+<tr><td>Original code backed up</td><td>Saved in a text file with the date</td></tr>
+<tr><td>Liquid tags intact</td><td>Every if and for has a closing tag</td></tr>
+<tr><td>Real test order</td><td>With a discount code and shipping</td></tr>
+<tr><td>Mobile view</td><td>Readable on a phone, no sideways scroll</td></tr>
+<tr><td>Outlook and Gmail</td><td>Layout holds, nothing clipped</td></tr>
+<tr><td>Other notifications</td><td>Shipping, delivery and refund match</td></tr>
+</tbody>
+</table>
+<p>Shopify notifications are coded like other HTML emails, so Outlook and mobile rules apply. Use our <a href="/blog/email-testing-checklist/">testing checklist</a>. If the layout falls apart on phones, read <a href="/blog/responsive-email-not-working-mobile/">why responsive emails fail on mobile</a>, and for desktop problems see <a href="/blog/fix-html-emails-breaking-in-outlook/">how to fix emails that break in Outlook</a>. Long orders with many products can also hit <a href="/blog/gmail-clipping-102kb-limit/">Gmail's 102 KB clipping limit</a>, so keep the code lean.</p>
+
+<h2>A Real-World Scenario</h2>
+<p>A small clothing store edits its order confirmation to add a new header and a "you might also like" block. The preview looks good. A week later, a customer who used a discount code writes in: the email showed no total. The developer finds that an <code>{% endif %}</code> was removed during the edit, which hid the totals block for discounted orders. They restore the tag from the backup, move the upsell below the totals, and place real test orders with and without discounts before saving. This is why backups and real test orders matter.</p>
+
+<h2>Where MailStora Fits</h2>
+<p>For a finished example, see our <a href="/portfolio/order-confirmation-transactional-email/">order confirmation email design</a>. Our <a href="/transactional-email-templates/">transactional email templates</a> service redesigns the full set, and our <a href="/shopify-development/">Shopify development</a> team can handle the rest of the store. If you send post-purchase emails from Klaviyo, our <a href="/klaviyo-flow-setup/">Klaviyo flow setup</a> service keeps those emails in the same style as your Shopify notifications.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Can I edit Shopify order confirmation emails?</h3>
+<p>Yes. Go to Settings, Notifications, open the notification and click Edit code. You can change the HTML and CSS freely.</p>
+<h3>Will editing the code break my order emails?</h3>
+<p>Not if you keep the Liquid tags and loops. Back up the original code and test with a real order after changes.</p>
+<h3>Can I use Klaviyo instead of Shopify notifications?</h3>
+<p>Klaviyo can send some order-related emails, but Shopify notifications are still used for core confirmations unless you set up a full replacement. Our comparison of <a href="/blog/klaviyo-vs-mailchimp-for-shopify/">Klaviyo vs Mailchimp for Shopify</a> covers the wider choice.</p>
+<h3>How do I restore the default Shopify template?</h3>
+<p>Paste back the code you saved before editing. Shopify has also offered a revert option in the code editor; check the current admin for it.</p>
+<h3>Can I add product recommendations to the order email?</h3>
+<p>Yes, but keep them below the order details and keep them simple. The main job of this email is to confirm the order.</p>
+<h3>Can MailStora design my Shopify notification emails?</h3>
+<p>Yes. We design and code the full set of Shopify notifications with your branding. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

@@ -1,0 +1,98 @@
+<p><strong>Short answer:</strong> not on their own. Apple Mail Privacy Protection loads images, including tracking pixels, for many Apple Mail users whether they read the email or not, and some security scanners do the same. That inflates opens. Use click rate, conversion rate, revenue per recipient and unsubscribe rate as your main measures, and use opens only as a rough trend.</p>
+
+<p>Open rate used to be the first number every marketer checked. Today it is one of the least trustworthy. This guide explains why, which metrics to use instead, and how to update your segments, tests and flows so they are not built on bad data.</p>
+
+<h2>How Open Tracking Works</h2>
+<p>An "open" is not really a read. Your email platform adds a tiny, invisible image to each email, often called a tracking pixel. It looks something like this:</p>
+<p><code>&lt;img src="https://track.example.com/o/abc123.gif" width="1" height="1" alt=""&gt;</code></p>
+<p>When the email client downloads that image, the platform logs an open. So an open only means "the image was requested". Anything that loads images without a person reading the email counts as an open. Anything that blocks images hides a real read.</p>
+
+<h2>Why Open Rates Are Inflated</h2>
+<ul>
+<li><strong>Apple Mail Privacy Protection</strong> preloads images, counting an open even if the email was never read. It applies to Apple Mail on iPhone, iPad and Mac when the user turns it on, and many do.</li>
+<li><strong>Security scanners</strong> in company inboxes open links and images to check them. B2B lists are often hit hardest.</li>
+<li><strong>Image blocking</strong> in some clients does the opposite, hiding real opens. Some Outlook setups block images by default. See <a href="/blog/email-images-not-showing/">why email images are not showing</a>.</li>
+</ul>
+<p>The result is noise in both directions. Your open rate can go up while real reading stays flat, and it can hide real readers too. Many platforms now try to flag machine opens, but at the time of writing none can separate them perfectly.</p>
+
+<h2>Better Metrics</h2>
+<table>
+<thead><tr><th>Metric</th><th>What it tells you</th></tr></thead>
+<tbody>
+<tr><td>Click rate</td><td>Real interest in the content</td></tr>
+<tr><td>Placed order rate</td><td>Whether the email drives sales</td></tr>
+<tr><td>Revenue per recipient</td><td>Value of each send, comparable across campaigns</td></tr>
+<tr><td>Unsubscribe and spam rate</td><td>Whether you are sending too often or to the wrong people</td></tr>
+<tr><td>Bounce rate</td><td>List quality and whether addresses still exist</td></tr>
+</tbody>
+</table>
+<p>Clicks can also be triggered by scanners, but far less often than opens. Revenue and orders are the hardest to fake. For ecommerce, revenue per recipient is often the single most useful number, because it lets you compare a big campaign with a small one fairly.</p>
+
+<h3>How to calculate revenue per recipient</h3>
+<p>Divide attributed revenue by the number of people the email was delivered to. If a campaign reached 20,000 people and your platform attributes a given amount of revenue to it, divide that amount by 20,000. Track this per campaign and per flow message over time. Keep your attribution window the same when comparing, or the numbers will not line up.</p>
+
+<h2>What to Change</h2>
+<ol>
+<li><strong>Segments:</strong> define "engaged" by clicks, site visits or orders, not only opens.</li>
+<li><strong>A/B tests:</strong> judge subject line tests by clicks or revenue, not opens.</li>
+<li><strong>Sunset flows:</strong> include click and order activity so Apple users aren't kept forever.</li>
+<li><strong>Design for clicks:</strong> clear buttons and one main action per email. See <a href="/blog/bulletproof-email-buttons/">bulletproof email buttons</a>.</li>
+<li><strong>Reporting:</strong> put click rate and revenue first in your dashboards, with opens as a secondary line.</li>
+</ol>
+
+<h3>Rebuilding an engaged segment</h3>
+<p>A common old segment was "opened at least once in the last 90 days". With inflated opens, that segment includes many people who never really read anything. A safer version combines signals:</p>
+<ul>
+<li>Clicked an email in the last 90 days, <strong>or</strong></li>
+<li>Viewed a product or visited the site in the last 90 days, <strong>or</strong></li>
+<li>Placed an order in the last 180 days, <strong>or</strong></li>
+<li>Joined the list in the last 30 days.</li>
+</ul>
+<p>You can still include opens for very recent activity, such as the last 30 days, if your platform filters out obvious machine opens. The key is not to rely on opens alone.</p>
+
+<h3>Fixing subject line tests</h3>
+<p>If you test two subject lines and pick the winner by opens, Apple preloads can make the result random. Pick by click rate or placed order rate. You may need larger test groups or longer test windows, because clicks are rarer than opens. That is fine. A slower, accurate result beats a fast, wrong one.</p>
+
+<p>Better templates improve the metrics that matter. Our <a href="/html-email-template-development/">custom HTML email templates</a> and <a href="/klaviyo-campaign-management/">Klaviyo campaign management</a> focus on clicks and revenue. For warm-up segments that use these signals, see <a href="/blog/klaviyo-sending-domain-warm-up/">Klaviyo domain warm-up</a>.</p>
+
+<h2>Where Opens Are Still Useful</h2>
+<ul>
+<li><strong>Spotting deliverability drops.</strong> If open rate falls sharply at one mailbox provider, such as Gmail, it can mean you are landing in spam. Read <a href="/blog/why-emails-go-to-spam/">why emails go to spam</a>.</li>
+<li><strong>Long-term trends.</strong> A slow decline across months still says something, even if the exact number is inflated.</li>
+<li><strong>Non-Apple segments.</strong> Some platforms let you filter by client, so you can look at opens for non-Apple users only.</li>
+</ul>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Celebrating a jump in open rate that came from a change in the audience's device mix.</li>
+<li>Keeping unengaged subscribers forever because Apple preloads mark them as "openers".</li>
+<li>Sending "we miss you" winback emails to people who are actually active buyers, because the rules only looked at opens.</li>
+<li>Judging a <a href="/blog/klaviyo-welcome-series/">welcome series</a> by opens when the real goal is first purchase.</li>
+<li>Letting bots stay on the list. Fake signups can add machine opens and clicks. See <a href="/blog/klaviyo-fake-signups-bots/">stopping fake signups in Klaviyo</a>.</li>
+</ul>
+
+<h2>A Real-World Scenario</h2>
+<p>A fashion brand notices its open rate looks strong and steady, yet sales from email are slipping. When it looks closer, much of the list uses Apple Mail. The sunset flow only removes people with no opens in 180 days, so almost nobody is ever removed. The team changes the engaged definition to clicks, site visits and orders, and rebuilds the sunset flow around those signals. The list gets smaller, but sends now go to people who actually buy, which is better for deliverability and for cost on contact-based pricing.</p>
+
+<h2>Quick Checklist</h2>
+<ul>
+<li>Dashboards lead with click rate and revenue per recipient.</li>
+<li>Engaged segments use clicks, visits and orders.</li>
+<li>A/B tests pick winners by clicks or revenue.</li>
+<li>Sunset and winback flows use more than opens. Our <a href="/klaviyo-flow-setup/">Klaviyo flow setup</a> service builds them this way.</li>
+<li>Each email has one clear call to action.</li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Why are my email open rates so high?</h3>
+<p>Apple Mail Privacy Protection and security scanners load tracking pixels automatically, which counts as opens even without a real read.</p>
+<h3>What is a good click rate for email?</h3>
+<p>It varies by industry, but ecommerce campaigns often see 1 to 3%, and flows usually higher. Compare against your own history rather than a general benchmark.</p>
+<h3>Should I still track open rates?</h3>
+<p>Yes, as a trend and for spotting deliverability drops, but don't use them as your main success measure.</p>
+<h3>Can I tell which opens are from Apple Mail?</h3>
+<p>Some platforms flag or filter likely machine opens. It is not perfect, so treat those filters as a helpful estimate, not an exact count.</p>
+<h3>Do inflated opens hurt deliverability?</h3>
+<p>Not directly. The harm comes when you use them to decide who to email, which can keep unengaged people on your list and lower real engagement.</p>
+<h3>Can MailStora help improve my click rates?</h3>
+<p>Yes. We design and code emails built around one clear action and test them across clients. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

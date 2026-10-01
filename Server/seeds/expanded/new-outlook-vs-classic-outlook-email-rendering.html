@@ -1,0 +1,110 @@
+<p><strong>Short answer:</strong> classic Outlook for Windows renders emails with the Microsoft Word engine, which supports very little modern CSS. New Outlook for Windows uses the same web-based engine as Outlook on the web, so it handles modern CSS much better. Microsoft is moving people to new Outlook, but many businesses will keep classic Outlook for years. For now, every email must work in both.</p>
+
+<h2>How the Two Engines Differ</h2>
+<table>
+<thead><tr><th></th><th>Classic Outlook (Windows)</th><th>New Outlook / Outlook on the web</th></tr></thead>
+<tbody>
+<tr><td>Rendering engine</td><td>Microsoft Word</td><td>Web browser engine</td></tr>
+<tr><td>CSS background images</td><td>No (needs VML)</td><td>Yes</td></tr>
+<tr><td>border-radius, max-width</td><td>No</td><td>Yes</td></tr>
+<tr><td>Media queries</td><td>No</td><td>Partial</td></tr>
+<tr><td>MSO conditional comments</td><td>Yes</td><td>Ignored</td></tr>
+<tr><td>Dark mode</td><td>Inverts colours</td><td>Adjusts colours</td></tr>
+</tbody>
+</table>
+<p>The simple way to think about it: classic Outlook is a word processor pretending to be a browser. New Outlook is a browser with some email-specific limits. Code that is valid in one can look very different in the other.</p>
+
+<h2>What Breaks Most Often in Classic Outlook</h2>
+<ul>
+<li><strong>Width:</strong> <code>max-width</code> is ignored, so fluid layouts can stretch across the whole window unless you add a fixed-width ghost table.</li>
+<li><strong>Background images:</strong> CSS backgrounds disappear. You need VML, covered in our guide to <a href="/blog/outlook-background-images-vml/">Outlook background images with VML</a>.</li>
+<li><strong>Rounded corners:</strong> buttons show as square boxes. See <a href="/blog/bulletproof-email-buttons/">bulletproof email buttons</a> for the VML roundrect method.</li>
+<li><strong>Spacing:</strong> <code>margin</code> and padding on some elements are ignored, and line height can add extra gaps.</li>
+<li><strong>Fonts:</strong> web fonts often fall back to Times New Roman unless you set a web-safe fallback in an MSO-specific style.</li>
+<li><strong>DPI scaling:</strong> on high-resolution screens, images and widths can scale unevenly.</li>
+</ul>
+
+<h2>What to Watch in New Outlook</h2>
+<p>New Outlook fixes most of the problems above, but it is not a normal browser. It filters some CSS and rewrites parts of your code, like other webmail clients. Some things to check:</p>
+<ul>
+<li>Certain CSS properties and selectors may be stripped or rewritten.</li>
+<li>Its dark mode adjusts colours on its own, which can change brand colours and logos. Our <a href="/blog/dark-mode-email-design/">dark mode email design guide</a> covers safe choices.</li>
+<li>Your MSO conditional code is ignored, so the non-Outlook version of each element must look right on its own.</li>
+</ul>
+<p>For a full list, read <a href="/blog/new-outlook-breaking-html-email/">why new Outlook breaks some HTML emails</a>.</p>
+
+<h2>What Is Happening to Classic Outlook?</h2>
+<p>Microsoft is making new Outlook the default for Windows and Microsoft 365 users, and older standalone Office versions have already left support. Classic Outlook in Microsoft 365 is still available, and large companies often delay switching. So the Word engine will stay in your audience for some time, even as its share falls. Check your own email platform's client report to see how many readers still use it. Timelines can change, so check Microsoft's current announcements before planning around a date.</p>
+
+<h2>How to Code for Both</h2>
+<ol>
+<li><strong>Keep table-based layouts.</strong> They work in both engines.</li>
+<li><strong>Keep MSO fixes</strong> (ghost tables, VML backgrounds and buttons) inside conditional comments. New Outlook ignores them, so they cause no harm.</li>
+<li><strong>Use progressive enhancement:</strong> rounded corners and modern CSS for new Outlook, with a clean square fallback for classic.</li>
+<li><strong>Test both versions</strong> separately. They can look very different. New Outlook also has its own quirks; see <a href="/blog/new-outlook-breaking-html-email/">why new Outlook breaks some HTML emails</a>.</li>
+</ol>
+
+<h3>Example: One Button, Two Engines</h3>
+<p>A button can carry both versions in one block:</p>
+<p><code>&lt;!--[if mso]&gt; VML roundrect for classic Outlook &lt;![endif]--&gt;</code></p>
+<p><code>&lt;!--[if !mso]&gt;&lt;!--&gt; HTML link with border-radius for everyone else &lt;!--&lt;![endif]--&gt;</code></p>
+<p>Classic Outlook reads the first part only. New Outlook, Gmail and Apple Mail read the second part only. Each engine gets code it understands.</p>
+
+<h3>Example: Width Control</h3>
+<p>Wrap your fluid container in a fixed ghost table:</p>
+<p><code>&lt;!--[if mso]&gt;&lt;table role="presentation" width="600"&gt;&lt;tr&gt;&lt;td&gt;&lt;![endif]--&gt;</code> ... content ... <code>&lt;!--[if mso]&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;![endif]--&gt;</code></p>
+<p>Classic Outlook holds the email at 600 px. New Outlook and phones use the fluid table inside. This also keeps your layout safe on mobile; see <a href="/blog/responsive-email-not-working-mobile/">why responsive emails fail on mobile</a>.</p>
+
+<h2>A Simple Plan for Teams</h2>
+<p>If you manage many templates, you do not need to fix everything at once. A step-by-step plan keeps the work under control:</p>
+<ol>
+<li><strong>Check your data.</strong> Look at the email client report for the last few months. Note how many opens come from classic Outlook, new Outlook and Outlook on the web.</li>
+<li><strong>List your templates.</strong> Start with the ones you send most: the newsletter, the welcome email and key transactional emails.</li>
+<li><strong>Test each one in both versions.</strong> Take screenshots side by side and mark what breaks.</li>
+<li><strong>Fix shared parts first.</strong> Headers, footers and buttons appear in every email, so one fix helps everywhere.</li>
+<li><strong>Review again every few months.</strong> As more users move to new Outlook, your balance of fixes may change.</li>
+</ol>
+<p>This approach avoids two extremes: dropping Outlook support too early, or spending hours on fixes that almost nobody sees.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Testing only in Outlook on the web and assuming classic Outlook looks the same.</li>
+<li>Removing all MSO code after seeing a clean new Outlook preview.</li>
+<li>Designing a hero that only works with a CSS background image.</li>
+<li>Relying on a web font with no fallback.</li>
+<li>Letting an email builder strip conditional comments on import.</li>
+</ul>
+
+<h2>Testing Checklist for Both Versions</h2>
+<table>
+<thead><tr><th>Check</th><th>Classic Outlook</th><th>New Outlook</th></tr></thead>
+<tbody>
+<tr><td>Layout width</td><td>Fixed at 600 px</td><td>Fluid, centered</td></tr>
+<tr><td>Hero image</td><td>VML shows, fallback colour set</td><td>CSS background shows</td></tr>
+<tr><td>Buttons</td><td>VML or square, fully clickable</td><td>Rounded, fully clickable</td></tr>
+<tr><td>Fonts</td><td>Web-safe fallback</td><td>Web font or fallback</td></tr>
+<tr><td>Dark mode</td><td>Text readable, logo visible</td><td>Brand colours acceptable</td></tr>
+</tbody>
+</table>
+<p>The full process is in our <a href="/blog/email-testing-checklist/">email testing checklist</a>.</p>
+
+<h2>A Real-World Scenario</h2>
+<p>A B2B company redesigns its newsletter and checks it in Outlook on the web. It looks perfect. After sending, the sales team, who still use classic Outlook, report a stretched layout, square buttons and a missing header photo. The fix is not a new design. The developer adds a ghost table, a VML hero and VML buttons inside conditional comments. The new Outlook view stays the same, and the classic view now matches. If your emails come from Klaviyo, the same issues appear; see <a href="/blog/klaviyo-email-looks-different-in-outlook/">why Klaviyo emails look different in Outlook</a>.</p>
+<p>Email signatures face the same split between engines. Our <a href="/outlook-email-signature/">Outlook email signature</a> service builds signatures that hold up in both.</p>
+
+<h2>When Can You Drop Classic Outlook Fixes?</h2>
+<p>Only when your own data says so. If classic Outlook is under 1 to 2% of opens and your audience is consumers, you can simplify. B2B senders should keep the fixes longer. Our <a href="/outlook-email-rendering-fix/">Outlook email rendering fix service</a> tests in every Outlook version, and our guide to <a href="/blog/fix-html-emails-breaking-in-outlook/">fixing emails that break in Outlook</a> covers classic Outlook in detail. The <a href="/case-studies/canadian-choice-windows-doors/">Canadian Choice case study</a> shows a template rebuilt to work across Outlook versions.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>What is the difference between new Outlook and classic Outlook for emails?</h3>
+<p>Classic Outlook renders emails with Microsoft Word, which ignores most modern CSS. New Outlook uses a web engine like Outlook on the web and supports much more CSS.</p>
+<h3>Do I still need Outlook fixes in my email code?</h3>
+<p>Yes, as long as part of your audience uses classic Outlook. The fixes sit in conditional comments that new Outlook ignores.</p>
+<h3>Is classic Outlook going away?</h3>
+<p>Microsoft is moving users to new Outlook, but classic Outlook remains in use, especially in businesses. Check your own client data before dropping support.</p>
+<h3>How can I tell which Outlook my readers use?</h3>
+<p>Check the email client report in your sending platform. Some platforms group Outlook versions together, so a testing tool that separates them can help.</p>
+<h3>Does new Outlook on Mac use the same engine?</h3>
+<p>Outlook for Mac has its own engine and has never used Word for rendering. Test it as a separate client.</p>
+<h3>Can MailStora make my emails work in both versions?</h3>
+<p>Yes. We build and fix templates for classic Outlook, new Outlook and 50+ other clients. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

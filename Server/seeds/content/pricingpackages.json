@@ -1,0 +1,494 @@
+[
+  {
+    "_id": {
+      "$oid": "6ab7c21e09a9915fcb6eb8dd"
+    },
+    "serviceType": "template",
+    "name": "Single Template",
+    "label": "Starter",
+    "icon": "📄",
+    "description": "Perfect for a one-off newsletter or automated welcome email.",
+    "price": "40",
+    "priceUnit": "/project",
+    "currency": "USD",
+    "features": [
+      {
+        "text": "1 Custom HTML Email Template",
+        "included": true,
+        "order": {
+          "$numberInt": "1"
+        }
+      },
+      {
+        "text": "Mobile Responsive Design",
+        "included": true,
+        "order": {
+          "$numberInt": "2"
+        }
+      },
+      {
+        "text": "Tested in 20+ Email Clients",
+        "included": true,
+        "order": {
+          "$numberInt": "3"
+        }
+      },
+      {
+        "text": "Gmail & Outlook Compatible",
+        "included": true,
+        "order": {
+          "$numberInt": "4"
+        }
+      },
+      {
+        "text": "1 Revision Round",
+        "included": true,
+        "order": {
+          "$numberInt": "5"
+        }
+      },
+      {
+        "text": "2-Day Turnaround",
+        "included": true,
+        "order": {
+          "$numberInt": "6"
+        }
+      },
+      {
+        "text": "ESP Integration",
+        "included": false,
+        "order": {
+          "$numberInt": "7"
+        }
+      },
+      {
+        "text": "Priority Support",
+        "included": false,
+        "order": {
+          "$numberInt": "8"
+        }
+      }
+    ],
+    "ctaText": "Get Started →",
+    "ctaStyle": "outline",
+    "isPopular": false,
+    "isVisible": true,
+    "sortOrder": {
+      "$numberInt": "1"
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427678947"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427678947"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7c21e09a9915fcb6eb8de"
+    },
+    "serviceType": "template",
+    "name": "Standard Package",
+    "label": "Best Value",
+    "badgeText": "Most Popular",
+    "icon": "🚀",
+    "description": "The most popular choice for growing businesses and agencies.",
+    "price": "149",
+    "priceUnit": "/project",
+    "currency": "USD",
+    "features": [
+      {
+        "text": "3 Custom HTML Email Templates",
+        "included": true,
+        "order": {
+          "$numberInt": "1"
+        }
+      },
+      {
+        "text": "1 Professional HTML Signature",
+        "included": true,
+        "order": {
+          "$numberInt": "2"
+        }
+      },
+      {
+        "text": "Mobile Responsive Design",
+        "included": true,
+        "order": {
+          "$numberInt": "3"
+        }
+      },
+      {
+        "text": "Tested in 90+ Email Clients",
+        "included": true,
+        "order": {
+          "$numberInt": "4"
+        }
+      },
+      {
+        "text": "Platform Integration (Klaviyo/Mailchimp)",
+        "included": true,
+        "order": {
+          "$numberInt": "5"
+        }
+      },
+      {
+        "text": "3 Revision Rounds",
+        "included": true,
+        "order": {
+          "$numberInt": "6"
+        }
+      },
+      {
+        "text": "Premium Support",
+        "included": true,
+        "order": {
+          "$numberInt": "7"
+        }
+      },
+      {
+        "text": "48hr Turnaround",
+        "included": true,
+        "order": {
+          "$numberInt": "8"
+        }
+      }
+    ],
+    "ctaText": "Get Started →",
+    "ctaStyle": "primary",
+    "isPopular": true,
+    "isVisible": true,
+    "sortOrder": {
+      "$numberInt": "2"
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427678950"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427678950"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7c21e09a9915fcb6eb8df"
+    },
+    "serviceType": "template",
+    "name": "Enterprise Custom",
+    "label": "Enterprise",
+    "icon": "🏢",
+    "description": "Full service email architecture for complex design systems and agencies.",
+    "price": "Custom",
+    "priceUnit": "",
+    "currency": "USD",
+    "features": [
+      {
+        "text": "Unlimited Custom Templates",
+        "included": true,
+        "order": {
+          "$numberInt": "1"
+        }
+      },
+      {
+        "text": "Modular Email Design System",
+        "included": true,
+        "order": {
+          "$numberInt": "2"
+        }
+      },
+      {
+        "text": "Dedicated Account Manager",
+        "included": true,
+        "order": {
+          "$numberInt": "3"
+        }
+      },
+      {
+        "text": "Unlimited Revisions",
+        "included": true,
+        "order": {
+          "$numberInt": "4"
+        }
+      },
+      {
+        "text": "All ESPs Supported",
+        "included": true,
+        "order": {
+          "$numberInt": "5"
+        }
+      },
+      {
+        "text": "Priority Support",
+        "included": true,
+        "order": {
+          "$numberInt": "6"
+        }
+      },
+      {
+        "text": "Custom Turnaround SLA",
+        "included": true,
+        "order": {
+          "$numberInt": "7"
+        }
+      },
+      {
+        "text": "Ongoing Maintenance Option",
+        "included": true,
+        "order": {
+          "$numberInt": "8"
+        }
+      }
+    ],
+    "ctaText": "Contact Us →",
+    "ctaStyle": "custom",
+    "isPopular": false,
+    "isVisible": true,
+    "sortOrder": {
+      "$numberInt": "3"
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427678950"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427678950"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7c21e09a9915fcb6eb8e0"
+    },
+    "serviceType": "signature",
+    "name": "Simple Signature",
+    "label": "Basic",
+    "icon": "✍",
+    "description": "Clean professional signature with logo, contact details and social links.",
+    "price": "25",
+    "priceUnit": "/project",
+    "currency": "USD",
+    "features": [
+      {
+        "text": "Logo + Contact Info",
+        "included": true,
+        "order": {
+          "$numberInt": "1"
+        }
+      },
+      {
+        "text": "Social Media Icons",
+        "included": true,
+        "order": {
+          "$numberInt": "2"
+        }
+      },
+      {
+        "text": "Gmail & Outlook Compatible",
+        "included": true,
+        "order": {
+          "$numberInt": "3"
+        }
+      },
+      {
+        "text": "1 Revision Round",
+        "included": true,
+        "order": {
+          "$numberInt": "4"
+        }
+      },
+      {
+        "text": "Clickable Banner",
+        "included": false,
+        "order": {
+          "$numberInt": "5"
+        }
+      }
+    ],
+    "ctaText": "Get Started →",
+    "ctaStyle": "outline",
+    "isPopular": false,
+    "isVisible": true,
+    "sortOrder": {
+      "$numberInt": "1"
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427678951"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427678951"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7c21e09a9915fcb6eb8e1"
+    },
+    "serviceType": "signature",
+    "name": "Banner Signature",
+    "label": "Professional",
+    "badgeText": "Most Popular",
+    "icon": "⚡",
+    "description": "Full signature with clickable promotional banner and social proof.",
+    "price": "65",
+    "priceUnit": "/project",
+    "currency": "USD",
+    "features": [
+      {
+        "text": "Logo + Contact + Social",
+        "included": true,
+        "order": {
+          "$numberInt": "1"
+        }
+      },
+      {
+        "text": "Clickable Promotional Banner",
+        "included": true,
+        "order": {
+          "$numberInt": "2"
+        }
+      },
+      {
+        "text": "Gmail, Outlook, Apple Mail",
+        "included": true,
+        "order": {
+          "$numberInt": "3"
+        }
+      },
+      {
+        "text": "Mobile Responsive",
+        "included": true,
+        "order": {
+          "$numberInt": "4"
+        }
+      },
+      {
+        "text": "3 Revision Rounds",
+        "included": true,
+        "order": {
+          "$numberInt": "5"
+        }
+      },
+      {
+        "text": "24hr Delivery",
+        "included": true,
+        "order": {
+          "$numberInt": "6"
+        }
+      }
+    ],
+    "ctaText": "Get Started →",
+    "ctaStyle": "primary",
+    "isPopular": true,
+    "isVisible": true,
+    "sortOrder": {
+      "$numberInt": "2"
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427678951"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427678951"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7c21e09a9915fcb6eb8e2"
+    },
+    "serviceType": "signature",
+    "name": "Team Package",
+    "label": "Enterprise",
+    "icon": "🏢",
+    "description": "Consistent branded signatures for your entire team or company.",
+    "price": "Custom",
+    "priceUnit": "",
+    "currency": "USD",
+    "features": [
+      {
+        "text": "5+ Signatures",
+        "included": true,
+        "order": {
+          "$numberInt": "1"
+        }
+      },
+      {
+        "text": "Consistent Brand Template",
+        "included": true,
+        "order": {
+          "$numberInt": "2"
+        }
+      },
+      {
+        "text": "All Email Clients",
+        "included": true,
+        "order": {
+          "$numberInt": "3"
+        }
+      },
+      {
+        "text": "Unlimited Revisions",
+        "included": true,
+        "order": {
+          "$numberInt": "4"
+        }
+      },
+      {
+        "text": "Priority Support",
+        "included": true,
+        "order": {
+          "$numberInt": "5"
+        }
+      }
+    ],
+    "ctaText": "Contact Us →",
+    "ctaStyle": "custom",
+    "isPopular": false,
+    "isVisible": true,
+    "sortOrder": {
+      "$numberInt": "3"
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427678951"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427678951"
+      }
+    }
+  }
+]

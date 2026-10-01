@@ -1,0 +1,268 @@
+.booking-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100svh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.booking-modal-content {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    border: 1px solid rgba(0,0,0,0.1);
+    color: #333;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.booking-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s;
+}
+
+.booking-modal-close:hover {
+    color: #333;
+}
+
+.booking-modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.step-info {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.scrollable-form {
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.scrollable-form::-webkit-scrollbar {
+    width: 6px;
+}
+.scrollable-form::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.half {
+    flex: 1;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #444;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    color: #333;
+    font-size: 15px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus, 
+.form-group select:focus, 
+.form-group textarea:focus {
+    outline: none;
+    border-color: #f97316; /* primary orange */
+}
+
+.form-group small {
+    color: #888;
+    font-size: 12px;
+}
+
+.full-width {
+    width: 100%;
+    justify-content: center;
+    padding: 14px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #888;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
+}
+
+.btn-link:hover {
+    color: #333;
+}
+
+.mt-2 { margin-top: 10px; }
+.mt-4 { margin-top: 20px; }
+
+.booking-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.booking-success {
+    text-align: center;
+    padding: 30px 10px;
+}
+
+.success-icon {
+    color: #22c55e;
+    margin-bottom: 20px;
+}
+
+.booking-success p {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* Remove dropdown icons from inputs that might accidentally inherit them */
+.form-group input.text-input-clean {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: none !important;
+}
+
+.full-width-group {
+    width: 100%;
+}
+
+.time-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.time-btn {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    color: #333;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.time-btn:hover {
+    border-color: #f97316;
+}
+
+.time-btn.selected {
+    background: #f97316;
+    color: #fff;
+    border-color: #f97316;
+    font-weight: 500;
+}
+
+.method-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.method-btn {
+    padding: 12px 10px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    color: #444;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.method-btn:hover {
+    border-color: #f97316;
+    color: #f97316;
+}
+
+.method-btn.selected {
+    background: rgba(249, 115, 22, 0.1);
+    color: #f97316;
+    border-color: #f97316;
+    font-weight: 600;
+}
+
+.trust-text {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #888;
+}
+
+.trust-text span {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 500px) {
+    .method-grid {
+        grid-template-columns: 1fr;
+    }
+    .form-row {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "_id": {
+      "$oid": "6ab8f4e19c5e28ebe1c1117b"
+    },
+    "availability": [],
+    "timezone": "America/New_York",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790506209248"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790506209248"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

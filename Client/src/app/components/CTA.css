@@ -1,0 +1,121 @@
+.cta-section {
+    background: linear-gradient(135deg, #4338CA 0%, #1E1B4B 100%);
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding: 90px 24px;
+    box-sizing: border-box;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.18) 0%, transparent 70%);
+    top: -250px;
+    right: -150px;
+    pointer-events: none;
+}
+
+.cta-section::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+    bottom: -150px;
+    left: -100px;
+    pointer-events: none;
+}
+
+.cta-content {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.cta-badge {
+    display: inline-block;
+    background: rgba(249, 115, 22, 0.2);
+    border: 1px solid rgba(249, 115, 22, 0.4);
+    color: #fb923c;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.35rem 1.1rem;
+    border-radius: 100px;
+}
+
+.cta-title {
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.cta-subtitle {
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.7;
+    max-width: 580px;
+    margin: 0;
+}
+
+.cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.cta-button {
+    min-width: 180px;
+    justify-content: center;
+}
+
+.cta-note {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 0.25rem;
+    letter-spacing: 0.03em;
+}
+
+/* ── Tablet ── */
+@media (max-width: 1024px) {
+    .cta-section {
+        padding: 72px 32px;
+    }
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+    .cta-section {
+        padding: 56px 20px;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .cta-button {
+        width: 100%;
+        max-width: 320px;
+        text-align: center;
+    }
+}

@@ -1,0 +1,104 @@
+<p><strong>Short answer:</strong> Klaviyo is usually the better choice for Shopify stores that want advanced automation, deep segmentation and revenue reporting, because it syncs Shopify data in detail. Mailchimp can be simpler and cheaper for small stores with basic needs, or for businesses that also sell outside Shopify. Both charge by contacts, so check current pricing for your list size before you decide.</p>
+
+<p>This guide compares the two platforms from the point of view of a Shopify store owner. It covers data, automation, segmentation, templates, cost and what it takes to switch. It does not try to crown a winner for everyone. The right tool depends on how much of your revenue comes from email and how much time you can spend on it.</p>
+
+<h2>Side-by-Side Comparison</h2>
+<table>
+<thead><tr><th></th><th>Klaviyo</th><th>Mailchimp</th></tr></thead>
+<tbody>
+<tr><td>Shopify data</td><td>Deep: products, orders, browsing, catalog</td><td>Available via integration, less detailed</td></tr>
+<tr><td>Automation</td><td>Advanced flows with many triggers and splits</td><td>Customer journeys, simpler</td></tr>
+<tr><td>Segmentation</td><td>Very detailed, predictive data</td><td>Good for basics</td></tr>
+<tr><td>Templates</td><td>Drag-and-drop, hybrid and HTML</td><td>Drag-and-drop and custom HTML</td></tr>
+<tr><td>SMS</td><td>Built in</td><td>Available in some regions</td></tr>
+<tr><td>Best for</td><td>Growing ecommerce brands</td><td>Small stores, mixed businesses</td></tr>
+</tbody>
+</table>
+<p>Features and plans change often. Treat this table as a starting point and confirm details on each vendor's site at the time you compare.</p>
+
+<h2>How Each Platform Uses Shopify Data</h2>
+<p>The biggest practical difference is data. Klaviyo pulls Shopify events such as Viewed Product, Added to Cart, Started Checkout and Placed Order, along with product details like title, image, price and URL. You can use those events as flow triggers and as filters in segments. You can also drop product data straight into emails. For example, an abandoned cart email can loop over the items in the cart:</p>
+<p><code>{% for item in event.extra.line_items %} {{ item.product.title }} {% endfor %}</code></p>
+<p>Mailchimp connects to Shopify too and can sync customers, orders and products. It supports product blocks and abandoned cart automations. For many small stores that is enough. The gap shows up when you want very specific rules, such as "bought product A, has not bought product B, and viewed category C twice in 14 days".</p>
+
+<h2>Automation and Flows</h2>
+<p>Klaviyo flows can branch on almost any profile property or event. You can add time delays, conditional splits, trigger splits and A/B tests inside a flow. Common Shopify flows include:</p>
+<ul>
+<li>Welcome series for new subscribers</li>
+<li>Abandoned cart and abandoned checkout</li>
+<li>Browse abandonment</li>
+<li>Post-purchase thank you and review requests</li>
+<li>Winback for lapsed customers</li>
+<li>Sunset for people who stopped engaging</li>
+</ul>
+<p>Mailchimp's customer journeys cover the basics, such as welcome and abandoned cart. The builder is friendly, but branching and data depth are more limited. If you only need two or three simple automations, that may not matter. If flows are a big revenue source, it will. Our <a href="/klaviyo-flow-setup/">Klaviyo flow setup</a> service builds these core flows with tested templates.</p>
+
+<h2>Segmentation and Reporting</h2>
+<p>Klaviyo segments update in real time and can use predictive fields such as expected next order date and predicted lifetime value, where available for your account. Reporting ties revenue to each campaign and flow using an attribution window you can adjust.</p>
+<p>Mailchimp offers tags, groups and segments, plus ecommerce reporting when the store is connected. It is fine for "customers who bought in the last 90 days" style segments. It is less suited to many layered conditions.</p>
+
+<h2>Templates and Design</h2>
+<p>Both platforms have drag-and-drop editors and accept custom HTML. The way editable regions work is different, so a template built for one will not simply work in the other.</p>
+<ul>
+<li><strong>Klaviyo</strong> uses its own template tags and editable regions. A custom HTML template can be made editable with <code>&lt;div class="klaviyo-editable"&gt;</code> style markup or built as a hybrid template. See our guide to the <a href="/blog/klaviyo-custom-html-template/">Klaviyo custom HTML template</a>.</li>
+<li><strong>Mailchimp</strong> uses <code>mc:edit</code> attributes, such as <code>&lt;td mc:edit="body"&gt;</code>, to mark editable areas, plus merge tags like <code>*|FNAME|*</code>.</li>
+</ul>
+<p>Rendering is the same problem on both. Outlook, Gmail and dark mode do not care which platform sent the email. A well-coded, table-based template works on either one.</p>
+
+<h2>Cost</h2>
+<p>Both charge mostly by the number of contacts, with extra cost for SMS. At the same list size, Klaviyo is often more expensive. That said, cost should be judged against what the platform earns. A tool that costs more but runs flows that recover abandoned carts may still be the cheaper option in real terms. Price your actual contact count on both sites, and remember that unengaged contacts still cost money. Cleaning your list helps on either platform.</p>
+
+<h2>Choose Klaviyo If</h2>
+<ul>
+<li>Email drives a big part of your revenue.</li>
+<li>You need flows like <a href="/blog/klaviyo-abandoned-cart-flow/">abandoned cart</a>, browse abandonment and <a href="/blog/klaviyo-welcome-series/">welcome series</a> with product data.</li>
+<li>You want revenue attribution per email and flow.</li>
+<li>You plan to add SMS alongside email in one tool.</li>
+</ul>
+
+<h2>Choose Mailchimp If</h2>
+<ul>
+<li>You have a small list and simple newsletters.</li>
+<li>You sell on several platforms, not only Shopify.</li>
+<li>Budget matters more than advanced automation.</li>
+<li>Your team wants the simplest possible editor.</li>
+</ul>
+
+<h2>A Real-World Scenario</h2>
+<p>Picture a Shopify store selling skincare. It started on Mailchimp with a monthly newsletter and a basic welcome email. Two years later, the list has grown, the catalog has dozens of products and the owner wants replenishment reminders timed to when a bottle runs out. They also want different welcome emails for people who signed up through a quiz. That kind of logic needs order data, product data and branching. This is the point where many stores move to Klaviyo. A store that only sends a monthly update and a few promos, on the other hand, may never need to move.</p>
+
+<h2>Switching Platforms</h2>
+<p>Moving from Mailchimp to Klaviyo means exporting contacts with consent status, rebuilding flows and recreating templates. Plan a <a href="/blog/klaviyo-sending-domain-warm-up/">domain warm-up</a> for the new platform. We rebuild templates for both: <a href="/klaviyo-email-templates/">Klaviyo email templates</a> and <a href="/mailchimp-email-templates/">Mailchimp email templates</a>. To bring your own design into Mailchimp, see <a href="/blog/import-custom-html-template-mailchimp/">importing a custom template</a>.</p>
+<h3>Migration checklist</h3>
+<ol>
+<li>Export all contacts with consent fields and suppression lists. Never re-import unsubscribed people as subscribed.</li>
+<li>Connect Shopify to Klaviyo and let historical data sync.</li>
+<li>Authenticate your sending domain with SPF, DKIM and DMARC. See <a href="/blog/dmarc-setup-klaviyo/">DMARC setup for Klaviyo</a>.</li>
+<li>Rebuild flows first, starting with welcome and abandoned cart.</li>
+<li>Recreate templates and test them in Outlook, Gmail, Apple Mail and dark mode.</li>
+<li>Warm up the domain with your most engaged segment before large campaigns.</li>
+<li>Run both platforms briefly in parallel, then turn Mailchimp automations off so nobody gets duplicates.</li>
+</ol>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Choosing a platform on price alone, then outgrowing it within a year.</li>
+<li>Importing old, unengaged contacts and sending them a big campaign on day one.</li>
+<li>Copying template HTML across platforms without changing editable tags.</li>
+<li>Forgetting to switch off old automations, so customers get two welcome emails.</li>
+<li>Ignoring theme or checkout changes. If your store also needs work, our <a href="/shopify-development/">Shopify development</a> team can help alongside email.</li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Is Klaviyo better than Mailchimp for Shopify?</h3>
+<p>For most growing Shopify stores, yes, because of its deeper Shopify data, flows and segmentation. Mailchimp suits smaller or simpler setups.</p>
+<h3>Is Klaviyo more expensive than Mailchimp?</h3>
+<p>Often, at the same list size. Compare current pricing for your contact count and expected email volume, and weigh it against the revenue your flows can drive.</p>
+<h3>Can I move my templates from Mailchimp to Klaviyo?</h3>
+<p>The design can be moved, but templates need to be rebuilt or adapted for Klaviyo's editor and tags. Mailchimp's <code>mc:edit</code> areas do not work in Klaviyo.</p>
+<h3>Will I lose my subscribers if I switch?</h3>
+<p>No, as long as you export them with their consent status. Keep unsubscribed and bounced contacts suppressed on the new platform.</p>
+<h3>Can I use both platforms at once?</h3>
+<p>You can for a short transition, but running both long term usually means double cost and a risk of duplicate emails. Pick one as your main platform.</p>
+<h3>Can MailStora help me switch platforms?</h3>
+<p>Yes. We rebuild templates and flows on the new platform and test everything. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

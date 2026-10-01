@@ -1,0 +1,93 @@
+<p><strong>Short answer:</strong> Gmail does not accept raw HTML code in its signature box. To add an HTML signature, open the signature in a web browser, select it, copy it, and paste it into <strong>Settings &gt; See all settings &gt; General &gt; Signature</strong>. Images must be hosted online (not attached), and the signature must be under Gmail's 10,000-character limit.</p>
+
+<p>If you do not have an HTML signature yet, our <a href="/gmail-email-signature/">Gmail email signature service</a> designs one that is built to paste into Gmail cleanly. If you already have one, the steps below take about five minutes.</p>
+
+<h2>Before You Start</h2>
+<ul>
+<li>Have your signature as an <strong>.html file</strong> or a web page link.</li>
+<li>Make sure every image (logo, photo, icons) is hosted on a public URL, not embedded or attached. Gmail removes embedded images.</li>
+<li>Use Gmail on a <strong>computer</strong>. The Gmail mobile apps only support plain text signatures.</li>
+<li>Check which account you are in. If you use several Gmail or Google Workspace accounts, each one has its own signature settings.</li>
+</ul>
+
+<h3>How to check that images are hosted</h3>
+<p>Open the .html file in a text editor and look at each image tag. A hosted image looks like <code>&lt;img src="https://example.com/logo.png" width="120" alt="Company logo"&gt;</code>. If the <code>src</code> starts with <code>data:image</code>, <code>cid:</code> or a local path such as <code>C:\</code>, the image will not survive in Gmail. Upload it to your website or another public host and update the link.</p>
+
+<h2>Step-by-Step: Add the Signature in Gmail</h2>
+<ol>
+<li><strong>Open the signature file</strong> in Chrome or another browser (double-click the .html file, or open the link you were given).</li>
+<li><strong>Select the whole signature</strong> with your mouse, or press <code>Ctrl+A</code> (Windows) or <code>Cmd+A</code> (Mac).</li>
+<li><strong>Copy it</strong> with <code>Ctrl+C</code> or <code>Cmd+C</code>.</li>
+<li>In Gmail, click the <strong>gear icon</strong>, then <strong>See all settings</strong>.</li>
+<li>On the <strong>General</strong> tab, scroll to <strong>Signature</strong> and click <strong>Create new</strong>. Give it a name.</li>
+<li><strong>Paste</strong> the signature into the box with <code>Ctrl+V</code> or <code>Cmd+V</code>.</li>
+<li>Under <strong>Signature defaults</strong>, choose it for new emails and for replies and forwards.</li>
+<li>Scroll to the bottom and click <strong>Save Changes</strong>.</li>
+<li>Send a test email to yourself and to a colleague who uses Outlook, and check it on a phone.</li>
+</ol>
+<p>Tip: if the file opens with a white page and lots of empty space, select only the signature area by dragging from the top-left corner of the signature to the bottom-right. Selecting the whole page sometimes copies extra blank lines.</p>
+
+<h3>Optional: turn off the dashes</h3>
+<p>Gmail can insert "--" above your signature. If you do not want it, find the option in the same Signature section to place the signature before quoted text and adjust how it appears in replies. The exact wording of these settings can change, so look for it near the signature defaults.</p>
+
+<h2>Fixing Common Gmail Signature Problems</h2>
+<h3>Images do not show</h3>
+<p>The images are probably embedded or attached. Host them online (your website, or a storage service with public links) and make sure the signature's HTML points to those URLs. If the links are correct but images still do not load for some recipients, their email client may block images by default. Our guide on <a href="/blog/email-images-not-showing/">why email images are not showing</a> covers the other causes.</p>
+<h3>"Signature is too long" error</h3>
+<p>Gmail limits signatures to 10,000 characters of code. Remove unused styles, shorten tracking links, and avoid copying extra page content. A well-coded signature is far under the limit.</p>
+<h3>The layout changes or spacing collapses</h3>
+<p>Gmail strips some CSS. Signatures should be built with tables and inline styles, which Gmail keeps. If yours was made in a word processor, it will not paste reliably.</p>
+<h3>Images look blurry</h3>
+<p>Use images exported at twice their displayed size and set a fixed width in the HTML, so they look sharp on retina screens.</p>
+<h3>The signature looks different in Outlook</h3>
+<p>Your recipients' email client renders the signature, not Gmail. A signature built only for Gmail can break in Outlook. See our guide on <a href="/blog/add-html-signature-outlook/">adding an HTML signature in Outlook</a> and how <a href="/html-email-signature-design/">cross-client HTML signatures</a> are built.</p>
+<h3>Icons or logo vanish in dark mode</h3>
+<p>Dark logos and black social icons can disappear when the recipient uses dark mode. Use icons with a light outline or a coloured background. Our <a href="/blog/dark-mode-email-design/">dark mode email design guide</a> explains the options.</p>
+
+<h2>What a Gmail-Safe Signature Looks Like in Code</h2>
+<p>A reliable signature uses a simple table, inline styles and hosted images with fixed widths. A trimmed example:</p>
+<p><code>&lt;table cellpadding="0" cellspacing="0" border="0"&gt;&lt;tr&gt;&lt;td style="padding-right:12px;"&gt;&lt;img src="https://example.com/photo.png" width="80" alt="Jane Doe"&gt;&lt;/td&gt;&lt;td style="font:14px/20px Arial,sans-serif;color:#333333;"&gt;&lt;strong&gt;Jane Doe&lt;/strong&gt;&lt;br&gt;Head of Sales&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code></p>
+<p>No external stylesheet, no <code>div</code>-based layout, no background images and no web fonts. Those are the features Gmail and Outlook handle poorly in signatures.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Pasting the HTML code itself into the signature box, which shows the code as text.</li>
+<li>Using a signature image (one big picture of the whole signature). It looks blank when images are off and the text cannot be clicked.</li>
+<li>Forgetting to set the default for replies, so replies go out without a signature.</li>
+<li>Linking images from a private folder, such as a Google Drive file that needs a login.</li>
+<li>Adding too many social icons and banners, which pushes the signature past the character limit.</li>
+</ul>
+
+<h2>Rolling Out Signatures for a Google Workspace Team</h2>
+<p>For a team, installing signatures one by one gets messy. Options:</p>
+<ul>
+<li><strong>Admin console:</strong> Google Workspace admins can add a simple footer for all outgoing mail under <em>Apps &gt; Google Workspace &gt; Gmail &gt; Compliance &gt; Append footer</em>. It is appended below each email, separately from personal signatures.</li>
+<li><strong>Per-person installs:</strong> give each person their personal signature file and a one-page guide, like the steps above.</li>
+<li><strong>Signature tools:</strong> dedicated signature management tools can push signatures to everyone automatically.</li>
+</ul>
+<p>We designed one consistent signature for <a href="/case-studies/corporate-email-signature/">Apex Financial's 50+ person team</a>, with an installation guide so every employee could set it up in minutes.</p>
+
+<h3>A short real-world scenario</h3>
+<p>A ten-person agency moves to Google Workspace. Each person copies an old signature from Outlook, and the results look different: some have the logo, some have broken images, and one has the logo at full size. The fix is one master design, coded once, with a personal .html file per team member and images hosted on the company website. Each person follows the nine steps above, and a manager checks one test email from everyone. You can see a finished example in our <a href="/portfolio/professional-html-email-signature/">professional HTML email signature</a> project.</p>
+
+<h2>Related Guides</h2>
+<p>Keep reading with these guides on related problems:</p>
+<ul>
+<li><a href="/blog/why-emails-go-to-spam/">Why your emails go to spam and how to fix it</a></li>
+<li><a href="/blog/accessible-email-design/">Accessible email design for marketers</a></li>
+<li><a href="/blog/new-outlook-vs-classic-outlook-email-rendering/">New Outlook vs classic Outlook: what changes for your emails</a></li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Can I paste HTML code into a Gmail signature?</h3>
+<p>No. Gmail's signature box does not accept code. Open the HTML signature in a browser, copy the rendered signature, and paste it into Gmail.</p>
+<h3>Why are the images missing from my Gmail signature?</h3>
+<p>Gmail removes embedded and attached images. Host each image online and make sure the signature points to those public image URLs.</p>
+<h3>Can I use an HTML signature in the Gmail mobile app?</h3>
+<p>The Gmail app only supports plain text signatures. If no mobile signature is set, it can use your desktop signature depending on your settings, so always check how emails sent from your phone look.</p>
+<h3>Can I have different signatures for new emails and replies?</h3>
+<p>Yes. Create two signatures in the Signature section and choose one for new emails and a shorter one for replies and forwards under Signature defaults.</p>
+<h3>Will the same signature work in Outlook?</h3>
+<p>Only if it is coded for both. If your team also uses Outlook, our <a href="/outlook-email-signature/">Outlook email signature service</a> covers classic and new Outlook as well.</p>
+<h3>How much does a professional Gmail signature cost?</h3>
+<p>At MailStora, an HTML email signature starts at $25, with install instructions for Gmail, Outlook and Apple Mail. See <a href="/pricing/">pricing</a> or <a href="/quote/">get a free quote</a>.</p>

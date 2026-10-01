@@ -1,0 +1,62 @@
+[
+  {
+    "_id": {
+      "$oid": "6ab8fd9fd2645bf8af01eb5a"
+    },
+    "path": "/",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790508447892"
+      }
+    },
+    "edits": [],
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790508643984"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab8fe05d2645bf8af01eb5b"
+    },
+    "path": "*",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790508549123"
+      }
+    },
+    "edits": [],
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790508644473"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab8ffd9d2645bf8af01eb5d"
+    },
+    "path": "/faq/",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790509017498"
+      }
+    },
+    "edits": [],
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790509019477"
+      }
+    }
+  }
+]

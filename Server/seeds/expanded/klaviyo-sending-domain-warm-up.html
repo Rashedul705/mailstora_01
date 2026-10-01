@@ -1,0 +1,111 @@
+<p><strong>Short answer:</strong> warm up a new Klaviyo sending domain by sending first to your most engaged subscribers only, then growing volume step by step over about 4 to 6 weeks. Keep flows on, because they go to active people, and slowly widen campaign segments from "engaged in the last 30 days" to 60, 90 and 180 days. Watch click, bounce and spam rates, and slow down if they get worse.</p>
+
+<p>A warm-up is needed when you move to a new branded sending domain in Klaviyo, switch from another platform, or start sending again after a long break. This guide gives you a practical plan, the segments to build, the numbers to watch and the mistakes that most often cause trouble.</p>
+
+<h2>Why Warm-Up Matters</h2>
+<p>Inbox providers don't trust a new domain yet. A sudden large send looks like spam. Positive engagement early on builds a good reputation, which decides whether future emails reach the inbox.</p>
+<p>Gmail, Yahoo, Outlook and Apple each watch how people react to your mail. Opens, clicks, replies and moving emails out of spam are good signals. Deletes without reading, spam complaints and bounces are bad ones. When your domain is new, the providers have little history, so the first few weeks carry a lot of weight.</p>
+
+<h2>Before You Start</h2>
+<ol>
+<li><strong>Authenticate the domain.</strong> Set up a branded sending domain in Klaviyo and add the DNS records it gives you. Make sure SPF, DKIM and DMARC are in place. A basic DMARC record looks like <code>v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.com</code>. See <a href="/blog/dmarc-setup-klaviyo/">SPF, DKIM and DMARC for Klaviyo</a>.</li>
+<li><strong>Clean the list.</strong> Remove hard bounces, known bots and very old contacts with no activity.</li>
+<li><strong>Build your segments</strong> (see below) before the first send.</li>
+<li><strong>Check your templates.</strong> Light code, real text, working links and a clear unsubscribe link. Keep HTML under the <a href="/blog/gmail-clipping-102kb-limit/">Gmail 102 KB clipping limit</a>.</li>
+<li><strong>Set up Google Postmaster Tools</strong> for your domain so you can see Gmail's view of your reputation.</li>
+</ol>
+
+<h2>Segments to Build</h2>
+<p>Create a set of engaged segments with growing windows. Because Apple Mail can inflate opens, give weight to clicks, site activity and orders. For example, the 30-day segment could be:</p>
+<ul>
+<li>Clicked email in the last 30 days, <strong>or</strong></li>
+<li>Opened email in the last 30 days, <strong>or</strong></li>
+<li>Active on site in the last 30 days, <strong>or</strong></li>
+<li>Placed order in the last 30 days, <strong>or</strong></li>
+<li>Created (joined the list) in the last 14 days.</li>
+</ul>
+<p>Then duplicate it for 60, 90, 120 and 180 days. Exclude anyone who is suppressed or has bounced. Name them clearly, such as <code>Warm-up | Engaged 30d</code>, so nobody picks the wrong one mid-plan.</p>
+
+<h2>A 6-Week Plan</h2>
+<table>
+<thead><tr><th>Week</th><th>Who to send to</th><th>Campaigns</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Engaged in last 30 days</td><td>2 to 3 sends</td></tr>
+<tr><td>2</td><td>Engaged in last 30 to 60 days</td><td>3 sends</td></tr>
+<tr><td>3</td><td>Engaged in last 90 days</td><td>3 sends</td></tr>
+<tr><td>4</td><td>Engaged in last 120 days</td><td>3 to 4 sends</td></tr>
+<tr><td>5</td><td>Engaged in last 180 days</td><td>Normal schedule</td></tr>
+<tr><td>6</td><td>Full engaged list</td><td>Normal schedule</td></tr>
+</tbody>
+</table>
+<p>Klaviyo can also run a guided warm-up for new domains. Either way, the principle is the same: engaged people first.</p>
+<p>Treat the plan as a guide, not a fixed rule. A small list with strong engagement may move faster. A large list, or one with many older contacts, may need more time. If a week goes badly, repeat it instead of moving on.</p>
+
+<h2>What to Send During Warm-Up</h2>
+<ul>
+<li>Your best content: new arrivals, bestsellers, helpful guides.</li>
+<li>Clear subject lines that match the content. Avoid tricks.</li>
+<li>One main call to action per email.</li>
+<li>A balance of text and images. Avoid emails that are one big image.</li>
+</ul>
+<p>Do not use the warm-up for your hardest-selling or most discount-heavy messages to your oldest contacts. Save those for when your reputation is steady.</p>
+
+<h2>Keep Flows Running</h2>
+<p>Flows such as the <a href="/blog/klaviyo-welcome-series/">welcome series</a> and <a href="/blog/klaviyo-abandoned-cart-flow/">abandoned cart flow</a> are triggered by recent actions. These people are highly engaged, so flow emails usually help your reputation. Leave them on. Pause or tighten winback flows that email long-lapsed customers until the warm-up is done.</p>
+
+<h2>Signals to Watch</h2>
+<ul>
+<li><strong>Bounce rate</strong> under 1%.</li>
+<li><strong>Spam complaints</strong> under 0.1%.</li>
+<li><strong>Click rate</strong> steady or rising. Open rates are less reliable; see <a href="/blog/email-open-rates-apple-mail-privacy/">are open rates still reliable</a>.</li>
+<li><strong>Gmail placement</strong> using Google Postmaster Tools.</li>
+</ul>
+<h3>What to do when numbers get worse</h3>
+<ol>
+<li>Stop widening the segment. Go back to the last window that performed well.</li>
+<li>Check the last email for broken links, heavy images or a misleading subject line.</li>
+<li>Look for a bad source of contacts, such as a recent import or a form hit by bots.</li>
+<li>Check that your DNS records still pass authentication.</li>
+<li>Resume growth only after two or three healthy sends.</li>
+</ol>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Sending to old or imported lists early. Clean them first; see <a href="/blog/klaviyo-fake-signups-bots/">stopping fake signups</a>.</li>
+<li>Skipping authentication. Set up <a href="/blog/dmarc-setup-klaviyo/">SPF, DKIM and DMARC</a> before warm-up.</li>
+<li>Sending image-heavy or broken emails. Use a clean <a href="/klaviyo-email-templates/">Klaviyo email template</a>.</li>
+<li>Jumping to the full list after one good week.</li>
+<li>Building engaged segments on opens alone.</li>
+</ul>
+
+<h2>A Real-World Scenario</h2>
+<p>A home goods store moves from Mailchimp to Klaviyo in early autumn and wants to be ready for holiday sales. It sets up a branded domain, adds DNS records and builds the engaged segments. In week one it sends two campaigns to the 30-day group, while the welcome and cart flows run as normal. In week three, one send shows a jump in bounces. The team traces it to an old imported list that slipped into the 90-day segment, removes it and repeats the week. By the time the holiday calendar starts, the domain has several weeks of steady history. If you are still choosing a platform, see <a href="/blog/klaviyo-vs-mailchimp-for-shopify/">Klaviyo vs Mailchimp for Shopify</a>.</p>
+
+<p>Need a hand? Our <a href="/klaviyo-campaign-management/">Klaviyo campaign management</a> service plans and runs warm-up with the right segments. For wider inbox problems, read <a href="/blog/why-emails-go-to-spam/">why emails go to spam</a>.</p>
+
+<h2>Warm-Up Checklist</h2>
+<ul>
+<li>Branded sending domain verified in Klaviyo.</li>
+<li>SPF, DKIM and DMARC passing.</li>
+<li>Google Postmaster Tools set up.</li>
+<li>Hard bounces, bots and very old imports removed or suppressed.</li>
+<li>Engaged segments for 30, 60, 90, 120 and 180 days built and named clearly.</li>
+<li>Welcome, cart and post-purchase flows running; old winback flows paused.</li>
+<li>Templates tested, light in code and free of broken links.</li>
+<li>A simple sheet to log each send: segment, size, clicks, bounces and complaints.</li>
+</ul>
+<p>Logging each send matters more than it seems. When something goes wrong in week three, a record of what changed makes the cause much easier to find. After the warm-up, keep sending mostly to engaged segments. Reputation is not built once and then kept forever. It moves with every send.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>How long does it take to warm up a Klaviyo domain?</h3>
+<p>Usually 4 to 6 weeks, depending on list size and engagement.</p>
+<h3>Can I keep my flows running during warm-up?</h3>
+<p>Yes. Flows go to people who just took an action, so they are highly engaged and help build reputation.</p>
+<h3>What happens if I skip warm-up?</h3>
+<p>Large sends from a new domain can land in spam or be throttled, and a poor early reputation takes time to repair.</p>
+<h3>Do I need to warm up if I change templates but keep the same domain?</h3>
+<p>No. Warm-up is about the sending domain and volume. A new template does not need one, but test it well before sending.</p>
+<h3>Should I send a big sale during warm-up?</h3>
+<p>Send it only to your engaged segments for the current week. Avoid emailing your full list until the warm-up is done.</p>
+<h3>Can MailStora manage my warm-up?</h3>
+<p>Yes. We set up the domain, build segments and run the warm-up schedule. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

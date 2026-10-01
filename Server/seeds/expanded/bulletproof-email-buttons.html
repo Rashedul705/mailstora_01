@@ -1,0 +1,102 @@
+<p><strong>Short answer:</strong> a bulletproof email button is made from HTML and CSS, not an image, so it shows even when images are blocked. The most reliable method is a table cell with a background colour and a link inside it with padding. For rounded corners in Outlook, add a VML version inside Outlook-only comments. Make buttons at least 44 px tall so they are easy to tap.</p>
+
+<h2>Why Image Buttons Fail</h2>
+<p>Many email builders still let you drop in a picture of a button. It looks fine in the editor, but it causes real problems in the inbox.</p>
+<ul>
+<li>When images are blocked, the button disappears and so does your click. Some Outlook setups and corporate filters block images by default.</li>
+<li>Text inside an image cannot be recoloured in <a href="/blog/dark-mode-email-design/">dark mode</a> and is not read by screen readers.</li>
+<li>Image buttons can look blurry on high-resolution screens.</li>
+<li>Changing the wording means exporting a new image, which slows down every campaign.</li>
+<li>Extra images add download weight and can hurt load time on slow mobile connections.</li>
+</ul>
+<p>A live-text button avoids all of this. The text stays sharp, it can be translated or edited in seconds, and it works with <a href="/blog/accessible-email-design/">accessible email design</a> because screen readers announce it as a link.</p>
+
+<h2>Three Coding Methods</h2>
+<table>
+<thead><tr><th>Method</th><th>How it works</th><th>Pros and cons</th></tr></thead>
+<tbody>
+<tr><td>Padding on the cell</td><td>Colour and padding on the <code>td</code>, link inside</td><td>Works everywhere; only the text is clickable in some Outlook versions</td></tr>
+<tr><td>Padding on the link</td><td>Link set to <code>display:inline-block</code> with padding</td><td>Whole button clickable; Outlook ignores the padding</td></tr>
+<tr><td>VML button</td><td><code>v:roundrect</code> in conditional comments</td><td>Rounded corners in Outlook; more code</td></tr>
+</tbody>
+</table>
+<p>Many developers combine them: a padded cell for the shape, border on the link to fill the clickable area, and VML for Outlook rounding.</p>
+
+<h3>Method 1: Padding on the Cell</h3>
+<p>This is the simplest and most stable pattern. The table cell holds the colour, and the link sits inside it.</p>
+<p><code>&lt;table role="presentation" cellpadding="0" cellspacing="0" border="0"&gt;&lt;tr&gt;&lt;td bgcolor="#1a73e8" style="padding:14px 28px; border-radius:6px;"&gt;&lt;a href="https://example.com" style="color:#ffffff; font-family:Arial, sans-serif; font-size:16px; text-decoration:none;"&gt;Shop the sale&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code></p>
+<p>The weak point is that only the words are clickable in some clients. A tap on the coloured edge does nothing.</p>
+
+<h3>Method 2: Border on the Link</h3>
+<p>To make the whole shape clickable, move the size onto the link. Outlook ignores padding on inline elements, but it does respect borders. So developers use a thick border in the same colour as the button.</p>
+<p><code>&lt;a href="https://example.com" style="background:#1a73e8; border:14px solid #1a73e8; border-left-width:28px; border-right-width:28px; display:inline-block; color:#ffffff; text-decoration:none;"&gt;Shop the sale&lt;/a&gt;</code></p>
+<p>This gives a fully clickable area in most clients, including classic Outlook, though line height can still vary slightly.</p>
+
+<h3>Method 3: VML for Rounded Outlook Buttons</h3>
+<p>Classic Outlook for Windows uses the Word engine, which ignores <code>border-radius</code>. If rounded corners are part of your brand, wrap a VML shape in conditional comments:</p>
+<p><code>&lt;!--[if mso]&gt;&lt;v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="https://example.com" style="height:48px; v-text-anchor:middle; width:200px;" arcsize="12%" stroke="f" fillcolor="#1a73e8"&gt;&lt;center style="color:#ffffff; font-family:Arial, sans-serif; font-size:16px;"&gt;Shop the sale&lt;/center&gt;&lt;/v:roundrect&gt;&lt;![endif]--&gt;</code></p>
+<p>Then wrap the normal HTML button in <code>&lt;!--[if !mso]&gt;&lt;!--&gt;</code> and <code>&lt;!--&lt;![endif]--&gt;</code> so Outlook shows only the VML version. The same VML approach is used for hero images; see our guide to <a href="/blog/outlook-background-images-vml/">Outlook background images with VML</a>.</p>
+
+<h2>Button Design Rules</h2>
+<ol>
+<li><strong>Size:</strong> at least 44 px tall and 150 px wide; full width on mobile.</li>
+<li><strong>Text:</strong> short and clear: "Shop the sale", "Book a call", "Track order".</li>
+<li><strong>Contrast:</strong> at least 4.5:1 between text and button colour.</li>
+<li><strong>One main button</strong> per email section, with a text link as a backup.</li>
+<li><strong>Font:</strong> use a web-safe fallback so Outlook does not switch to Times New Roman.</li>
+</ol>
+<p>On phones, a full-width button is easier to hit with a thumb. Use a media query to set the button table to <code>width:100%</code> under 600 px. If your layout does not adapt at all, start with our guide on <a href="/blog/responsive-email-not-working-mobile/">why responsive emails fail on mobile</a>.</p>
+
+<h2>Dark Mode and Buttons</h2>
+<p>Some clients invert or darken colours in dark mode. A light grey button with white text can end up nearly invisible. Pick a strong, mid-tone button colour that holds contrast on both white and dark backgrounds. Avoid pure black buttons, which can blend into a dark background. Test the button in Apple Mail, the Gmail app and Outlook with dark mode turned on.</p>
+
+<h2>Writing Button Text That Gets Clicks</h2>
+<p>The code makes a button work. The words make people want to press it. Good button text tells the reader exactly what happens next. "Shop the sale" is better than "Learn more", because the reader knows where they will land. Start with a verb, keep it to two to four words, and match the page the button opens. If the button says "Track order", the page should show the tracking details, not the home page.</p>
+<p>Keep the label on one line on both desktop and mobile. Long labels wrap on small screens and make the button look broken. If you need extra context, put it in a short line of text above the button instead.</p>
+<h3>Accessibility Tips</h3>
+<ul>
+<li>Use real link text, not an empty link with a background image.</li>
+<li>Do not rely on colour alone. The label should make sense on its own.</li>
+<li>Keep enough space between two buttons so people do not tap the wrong one.</li>
+<li>Add <code>role="presentation"</code> to layout tables so screen readers skip them and read only the link.</li>
+</ul>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Using <code>margin</code> for spacing, which Outlook ignores.</li>
+<li>Setting only <code>border-radius</code> and expecting Outlook to show rounded corners.</li>
+<li>Putting the link only on the text, leaving the rest of the button dead.</li>
+<li>Forgetting to update the link in both the VML and HTML versions, so Outlook users go to an old URL.</li>
+<li>Setting a VML width too narrow, which wraps the text onto two lines.</li>
+<li>Using vague labels like "Click here" that tell the reader nothing.</li>
+</ul>
+
+<h2>Quick Button Checklist</h2>
+<table>
+<thead><tr><th>Check</th><th>Pass when</th></tr></thead>
+<tbody>
+<tr><td>Images off</td><td>Button still shows with colour and text</td></tr>
+<tr><td>Classic Outlook</td><td>Correct shape, font and full click area</td></tr>
+<tr><td>Mobile</td><td>At least 44 px tall, easy to tap</td></tr>
+<tr><td>Dark mode</td><td>Text still readable</td></tr>
+<tr><td>Links</td><td>VML and HTML links match and are tracked</td></tr>
+</tbody>
+</table>
+
+<h2>A Real-World Scenario</h2>
+<p>A store sends a sale email with a rounded image button. In testing, the Outlook preview shows a blank space where the button should be, because images are off by default for that recipient. The team swaps the image for a padded-cell button with a VML fallback. Now the button shows in every client, the wording can change per campaign without a designer, and dark mode no longer hides it. This is the kind of button we use in our <a href="/portfolio/black-friday-sale-email/">Black Friday sale email</a> design.</p>
+<p>Buttons are one item on our <a href="/blog/email-testing-checklist/">testing checklist</a>. For other Outlook problems, read <a href="/blog/fix-html-emails-breaking-in-outlook/">how to fix emails that break in Outlook</a>. Every <a href="/html-email-template-development/">custom HTML email template</a> we build uses bulletproof buttons, tested in 50+ clients. If you already have a template with broken buttons, our <a href="/outlook-email-rendering-fix/">Outlook email rendering fix</a> service can repair it.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>What is a bulletproof button in email?</h3>
+<p>A button built from HTML and CSS instead of an image, so it displays and works even when images are blocked.</p>
+<h3>How do I make rounded buttons in Outlook?</h3>
+<p>Use a VML roundrect inside Outlook conditional comments. Classic Outlook ignores CSS border-radius. New Outlook uses a web engine and shows border-radius normally; see <a href="/blog/new-outlook-vs-classic-outlook-email-rendering/">new Outlook vs classic Outlook</a>.</p>
+<h3>How big should an email button be?</h3>
+<p>At least 44 px tall so it is easy to tap on a phone, with enough padding around the text.</p>
+<h3>Why is only the text of my button clickable?</h3>
+<p>The padding is on the table cell, not the link. Move the size onto the link using matching borders so the whole area is clickable.</p>
+<h3>Can I use a custom font on a button?</h3>
+<p>Yes, in clients that support web fonts. Always list a web-safe fallback like Arial, because classic Outlook will not load most web fonts.</p>
+<h3>Can MailStora fix my email buttons?</h3>
+<p>Yes. We rebuild buttons and other Outlook problems in existing templates. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

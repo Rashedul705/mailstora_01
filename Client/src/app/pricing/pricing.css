@@ -1,0 +1,434 @@
+/* ── Pricing page ──────────────────────────────────────────── */
+.pr-section {
+    --pr-ink: #0b1b2b;
+    --pr-muted: #5b6474;
+    --pr-orange: #f97316;
+    --pr-green: #16a34a;
+    --pr-line: #eceef3;
+
+    padding: 4.5rem 0 !important;
+    background: #fff;
+}
+
+.pr-alt {
+    background: #fdfaf7;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* Tabs */
+.pr-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 2.75rem;
+    padding: 0.4rem;
+    border: 1px solid var(--pr-line);
+    border-radius: 999px;
+    background: #f6f7f9;
+}
+
+.pr-tabs button {
+    padding: 0.7rem 1.3rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    font: inherit;
+    font-size: 0.925rem;
+    font-weight: 700;
+    color: var(--pr-muted);
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.pr-tabs button:hover {
+    color: var(--pr-ink);
+}
+
+.pr-tabs button.is-active {
+    background: var(--pr-ink);
+    color: #fff;
+}
+
+.pr-tabs button:focus-visible {
+    outline: 3px solid var(--pr-orange);
+    outline-offset: 2px;
+}
+
+/* Plan cards */
+.pr-plans {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 1120px;
+    margin: 0 auto;
+    list-style: none;
+    align-items: stretch;
+}
+
+.pr-plans--1 { grid-template-columns: minmax(0, 420px); justify-content: center; }
+.pr-plans--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 780px; }
+.pr-plans--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.pr-plan {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 2.25rem 2rem 2rem;
+    border: 1px solid var(--pr-line);
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 18px 40px -32px rgba(15, 23, 42, 0.35);
+}
+
+.pr-plan--popular {
+    border: 0;
+    background: linear-gradient(160deg, #064e3b 0%, #0b3b2c 55%, #7c2d12 100%);
+    box-shadow: 0 30px 60px -28px rgba(6, 78, 59, 0.75);
+    color: rgba(255, 255, 255, 0.85);
+    transform: translateY(-10px);
+}
+
+.pr-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    background: var(--pr-orange);
+    font-size: 0.75rem;
+    font-weight: 800;
+    white-space: nowrap;
+    color: #fff;
+    transform: translateX(-50%);
+}
+
+.pr-label {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--pr-orange);
+}
+
+.pr-plan--popular .pr-label {
+    color: #4ade80;
+}
+
+.pr-plan h3 {
+    margin: 0.35rem 0 0.5rem;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--pr-ink);
+}
+
+.pr-plan--popular h3 {
+    color: #fff;
+}
+
+.pr-desc {
+    min-height: 3.2em;
+    font-size: 0.925rem;
+    line-height: 1.6;
+    color: var(--pr-muted);
+}
+
+.pr-plan--popular .pr-desc {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.pr-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    margin: 1.25rem 0 1.5rem;
+    font-size: 3.25rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--pr-ink);
+}
+
+.pr-price sup {
+    font-size: 1.4rem;
+    align-self: flex-start;
+    margin-top: 0.35rem;
+}
+
+.pr-price span {
+    margin-left: 0.3rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--pr-muted);
+}
+
+.pr-plan--popular .pr-price {
+    color: #fff;
+}
+
+.pr-plan--popular .pr-price span {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Buttons */
+.pr-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.4rem;
+    border: 2px solid var(--pr-ink);
+    border-radius: 10px;
+    font-weight: 700;
+    color: var(--pr-ink);
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.pr-cta:hover {
+    background: var(--pr-ink);
+    color: #fff;
+}
+
+.pr-cta--solid {
+    border-color: var(--pr-orange);
+    background: var(--pr-orange);
+    color: #fff;
+}
+
+.pr-cta--solid:hover {
+    border-color: #ea580c;
+    background: #ea580c;
+}
+
+.pr-plan > .pr-cta {
+    width: 100%;
+}
+
+/* Feature list */
+.pr-features {
+    display: grid;
+    gap: 0.65rem;
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--pr-line);
+    list-style: none;
+}
+
+.pr-plan--popular .pr-features {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.pr-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.925rem;
+    line-height: 1.45;
+    color: var(--pr-ink);
+}
+
+.pr-plan--popular .pr-features li {
+    color: #fff;
+}
+
+.pr-features li > span:first-child {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #dcfce7;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--pr-green);
+}
+
+.pr-features li.is-off {
+    color: #9aa1ad;
+    text-decoration: line-through;
+}
+
+.pr-features li.is-off > span:first-child {
+    background: #f1f5f9;
+    color: #9aa1ad;
+}
+
+.pr-plan--popular .pr-features li.is-off {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* Custom quote panel for services without fixed plans */
+.pr-custom {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem;
+    border: 1px dashed #fdba74;
+    border-radius: 22px;
+    background: #fffaf5;
+    text-align: center;
+}
+
+.pr-custom h3 {
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--pr-ink);
+}
+
+.pr-custom p {
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    color: var(--pr-muted);
+}
+
+.pr-custom > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.pr-note {
+    margin-top: 2.25rem;
+    font-size: 0.925rem;
+    text-align: center;
+    color: var(--pr-muted);
+}
+
+.pr-note a {
+    font-weight: 700;
+    color: var(--pr-orange);
+}
+
+/* Included in every package */
+.pr-included {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    list-style: none;
+}
+
+.pr-included li {
+    display: flex;
+    gap: 0.9rem;
+    padding: 1.4rem;
+    border: 1px solid #efe9e3;
+    border-radius: 16px;
+    background: #fff;
+}
+
+.pr-included li > span {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #16a34a, #f97316);
+    font-weight: 800;
+    color: #fff;
+}
+
+.pr-included strong {
+    display: block;
+    margin-bottom: 0.2rem;
+    color: var(--pr-ink);
+}
+
+.pr-included p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--pr-muted);
+}
+
+/* Comparison table */
+.pr-compare-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    overflow-x: auto;
+    border: 1px solid var(--pr-line);
+    border-radius: 18px;
+}
+
+.pr-compare {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.pr-compare th,
+.pr-compare td {
+    padding: 1rem 1.1rem;
+    border-bottom: 1px solid var(--pr-line);
+    text-align: center;
+    color: var(--pr-muted);
+}
+
+.pr-compare thead th {
+    background: #f6f7f9;
+    font-weight: 800;
+    color: var(--pr-ink);
+}
+
+.pr-compare tbody th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--pr-ink);
+}
+
+.pr-compare .is-us {
+    background: #fff7ed;
+    font-weight: 800;
+    color: #c2410c;
+}
+
+.pr-compare thead .is-us {
+    background: var(--pr-orange);
+    color: #fff;
+}
+
+.pr-compare tr:last-child th,
+.pr-compare tr:last-child td {
+    border-bottom: 0;
+}
+
+@media (max-width: 1024px) {
+    .pr-plans--3,
+    .pr-included {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pr-plan--popular {
+        transform: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .pr-plans--2,
+    .pr-plans--3,
+    .pr-included {
+        grid-template-columns: 1fr;
+    }
+
+    .pr-tabs {
+        border-radius: 16px;
+    }
+
+    .pr-section {
+        padding: 3.5rem 0 !important;
+    }
+}

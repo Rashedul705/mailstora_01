@@ -1,0 +1,114 @@
+<p><strong>Short answer:</strong> in the new Outlook and Outlook on the web, go to <strong>Settings &gt; Accounts &gt; Signatures</strong>, paste the signature you copied from a browser, and save. In classic Outlook for Windows, go to <strong>File &gt; Options &gt; Mail &gt; Signatures</strong>, or copy the signature's .htm file into the Signatures folder for a pixel-perfect result. Each Outlook app keeps its own signature, so set it up in every version you use.</p>
+
+<p>Need a signature that works everywhere? Our <a href="/outlook-email-signature/">Outlook email signature service</a> builds signatures for classic and new Outlook, Mac and mobile. If you already have a signature file, follow the steps for your version below.</p>
+
+<h2>Before You Start</h2>
+<ul>
+<li>Have the signature as an <strong>.html or .htm file</strong>, with all images hosted online.</li>
+<li>Know which Outlook you use: <strong>new Outlook for Windows</strong>, <strong>classic Outlook for Windows</strong>, <strong>Outlook on the web</strong> (outlook.com or Microsoft 365 in a browser), or <strong>Outlook for Mac</strong>.</li>
+<li>Back up any existing signature you want to keep. Replacing files in the Signatures folder overwrites them.</li>
+</ul>
+
+<h3>How to tell which Outlook you have</h3>
+<table>
+<thead><tr><th>If you see</th><th>You are using</th></tr></thead>
+<tbody>
+<tr><td>A <strong>File</strong> tab at the top left</td><td>Classic Outlook for Windows</td></tr>
+<tr><td>A "New Outlook" toggle and a gear icon, no File tab</td><td>New Outlook for Windows</td></tr>
+<tr><td>Outlook open in a browser tab</td><td>Outlook on the web</td></tr>
+<tr><td>An <strong>Outlook</strong> menu in the Mac menu bar</td><td>Outlook for Mac</td></tr>
+</tbody>
+</table>
+<p>Menu names can change between updates, so if a label looks slightly different, look for the closest match. The two Windows apps render email differently, which is explained in <a href="/blog/new-outlook-vs-classic-outlook-email-rendering/">new Outlook vs classic Outlook rendering</a>.</p>
+
+<h2>New Outlook for Windows and Outlook on the Web</h2>
+<ol>
+<li>Open the signature file in a web browser, select it all and copy it.</li>
+<li>In Outlook, open <strong>Settings</strong> (gear icon) &gt; <strong>Accounts</strong> &gt; <strong>Signatures</strong>.</li>
+<li>Click <strong>New signature</strong>, name it and paste the signature into the box.</li>
+<li>Choose it as the default for new messages and for replies and forwards.</li>
+<li>Click <strong>Save</strong> and send yourself a test email.</li>
+</ol>
+<p>In Microsoft 365, signatures set in Outlook on the web and the new Outlook can sync between the two when roaming signatures are turned on for your account.</p>
+
+<h2>Classic Outlook for Windows</h2>
+<h3>Method 1: Copy and paste</h3>
+<ol>
+<li>Open the signature in a browser, select it all and copy it.</li>
+<li>In Outlook, go to <strong>File &gt; Options &gt; Mail &gt; Signatures</strong>.</li>
+<li>Click <strong>New</strong>, name the signature and paste it into the editing box.</li>
+<li>Choose the default signature for new messages and replies, then click <strong>OK</strong>.</li>
+</ol>
+<p>Pasting works for simple signatures, but Outlook's Word editor can change spacing and image sizes.</p>
+<h3>Method 2: Install the .htm file (most accurate)</h3>
+<ol>
+<li>Create a signature in Outlook with any placeholder text and give it a name, for example "Company". Close Outlook.</li>
+<li>Press <code>Windows + R</code>, type <code>%APPDATA%\Microsoft\Signatures</code> and press Enter.</li>
+<li>Replace the file <code>Company.htm</code> with your signature file, keeping exactly the same name.</li>
+<li>Open Outlook again and select the signature as your default.</li>
+</ol>
+<p>This keeps the original code, so the signature looks exactly as designed.</p>
+<p>A tip for Method 2: do not open and re-save the signature in Outlook's editor afterwards. Editing it there rewrites the .htm file with Word's own markup, and you lose the clean code. If you need to change something, edit the file and replace it again.</p>
+
+<h2>Outlook for Mac</h2>
+<ol>
+<li>Open the signature in Safari or Chrome, select it and copy it.</li>
+<li>In Outlook, go to <strong>Outlook &gt; Settings &gt; Signatures</strong>.</li>
+<li>Click <strong>+</strong> to add a signature, paste it, name it and close the window to save.</li>
+<li>Set the default signature for each account under <strong>Default signatures</strong>.</li>
+</ol>
+
+<h2>Outlook for iPhone and Android</h2>
+<p>The Outlook mobile apps support a simpler signature, set under <strong>Settings &gt; Signature</strong>. Keep it to your name, role and phone number, or ask for a mobile-friendly version of your signature.</p>
+
+<h2>What an Outlook-Safe Signature Looks Like</h2>
+<p>Classic Outlook ignores many modern CSS features. A signature that survives uses tables for layout, inline styles and fixed image widths set as attributes, not only in CSS:</p>
+<p><code>&lt;img src="https://example.com/logo.png" width="140" height="40" alt="Company" style="display:block;border:0;"&gt;</code></p>
+<p>Avoid <code>div</code> layouts, background images, web fonts and margins. Use padding on table cells instead. This is how our <a href="/html-email-signature-design/">HTML email signature designs</a> are coded, so the same file works in Outlook, Gmail and Apple Mail.</p>
+
+<h2>Fixing Common Outlook Signature Problems</h2>
+<h3>Images show as attachments or red crosses</h3>
+<p>Images must be hosted online and linked in the HTML. Embedded images often turn into attachments. Hosted images display as long as the recipient allows images.</p>
+<h3>Spacing is too big or the layout breaks</h3>
+<p>Classic Outlook uses Word to display email, so signatures must be built with tables, inline styles and fixed image widths. Read <a href="/blog/fix-html-emails-breaking-in-outlook/">why emails break in Outlook</a> to understand the cause.</p>
+<h3>Images look huge or blurry</h3>
+<p>Set a fixed <code>width</code> attribute on each image in the HTML, and use images exported at twice the displayed size.</p>
+<h3>The signature is different on each device</h3>
+<p>Each Outlook app stores its own signature. Install it in every app you use, or use Microsoft 365 roaming signatures between Outlook on the web and the new Outlook.</p>
+<h3>The logo disappears for some recipients</h3>
+<p>Recipients using dark mode may not see a dark logo on a transparent background. Add a light outline or a solid background behind the logo. Our <a href="/blog/dark-mode-email-design/">dark mode email design guide</a> shows how.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Setting up the signature in one Outlook app and assuming it appears in the others.</li>
+<li>Replacing the .htm file while Outlook is still open, so the change does not load.</li>
+<li>Renaming the file, so Outlook no longer finds it.</li>
+<li>Using a single large image as the whole signature, which shows as blank or as an attachment.</li>
+<li>Forgetting to set the default for replies and forwards.</li>
+</ul>
+
+<h2>Rolling Out Signatures Across a Company</h2>
+<p>For teams on Microsoft 365, admins can add organisation-wide disclaimers with Exchange mail flow rules, or use a signature management tool. For smaller teams, a standard signature file per person and a simple install guide work well. That is how we delivered one consistent signature for <a href="/case-studies/corporate-email-signature/">Apex Financial's 50+ person team</a>. Using Gmail too? See <a href="/blog/add-html-signature-gmail/">how to add an HTML signature in Gmail</a>, or our <a href="/gmail-email-signature/">Gmail email signature service</a>.</p>
+
+<h3>A short real-world scenario</h3>
+<p>An office manager pastes the new company signature into classic Outlook. The logo doubles in size and the lines have large gaps. Switching to Method 2, the manager creates a placeholder called "Company", closes Outlook, drops in the supplied Company.htm and reopens Outlook. The signature now matches the design. The same file, copied from a browser, is then pasted into new Outlook on two laptops. A test email from each app confirms they match. See a finished example in our <a href="/portfolio/professional-html-email-signature/">professional HTML email signature</a> project.</p>
+
+<h2>Related Guides</h2>
+<p>Keep reading with these guides on related problems:</p>
+<ul>
+<li><a href="/blog/new-outlook-breaking-html-email/">Why new Outlook breaks some HTML emails</a></li>
+<li><a href="/blog/email-images-not-showing/">Email images not showing: 7 causes and fixes</a></li>
+<li><a href="/blog/outlook-background-images-vml/">Background images in Outlook with VML</a></li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Where are Outlook signature files stored on Windows?</h3>
+<p>Classic Outlook for Windows stores signatures in the folder <code>%APPDATA%\Microsoft\Signatures</code>. Each signature has an .htm, .rtf and .txt version.</p>
+<h3>Why does my signature look different in new Outlook and classic Outlook?</h3>
+<p>They store signatures separately and render them differently. The new Outlook uses a browser engine, while classic Outlook uses Word. A signature built with tables and inline styles looks the same in both.</p>
+<h3>Can I paste HTML code directly into Outlook?</h3>
+<p>Not into the signature editor. Open the file in a browser and copy the rendered signature, or use the .htm file method in classic Outlook.</p>
+<h3>Can I use one HTML signature for Outlook and Gmail?</h3>
+<p>Yes, if it is coded for both. MailStora signatures are tested in Outlook, Gmail and Apple Mail and come with install guides for each.</p>
+<h3>How much does a professional Outlook signature cost?</h3>
+<p>At MailStora, HTML email signatures start at $25, including installation instructions. Company-wide rollouts are quoted per project. See <a href="/pricing/">pricing</a> or <a href="/quote/">request a free quote</a>.</p>

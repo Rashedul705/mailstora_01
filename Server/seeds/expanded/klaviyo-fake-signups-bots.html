@@ -1,0 +1,112 @@
+<p><strong>Short answer:</strong> stop fake signups in Klaviyo by turning on double opt-in for your forms, adding form protection, and suppressing profiles that bounce or never engage. For low-quality real signups from big discount pop-ups, improve the offer and targeting rather than only raising the discount. Clean lists protect deliverability for everyone else on your list.</p>
+
+<p>Fake signups are more than a nuisance. They cost money on contact-based pricing, they bounce, and they can include spam traps that hurt your sender reputation. This guide shows how to spot them, how to block them, how to clean up what already got in, and how to handle real people who join only for a code.</p>
+
+<h2>Why Bots Fill In Your Forms</h2>
+<ul>
+<li><strong>List bombing:</strong> attackers sign a victim's address up to many lists at once to flood their inbox and hide other alerts.</li>
+<li><strong>Testing emails:</strong> bots check which stolen addresses are real.</li>
+<li><strong>Spam:</strong> scripts fill in any open form they find.</li>
+</ul>
+<p>Whatever the reason, the result is the same for you: addresses that never engage, and sometimes complaints from people who never asked to join.</p>
+
+<h2>How to Spot Fake Signups</h2>
+<ul>
+<li>Sudden spikes in signups at odd hours.</li>
+<li>Random strings as names, or the same pattern repeated.</li>
+<li>Emails that bounce immediately or never open and never click.</li>
+<li>Signups from countries you don't ship to.</li>
+<li>Many signups from one form in a short time with no site browsing.</li>
+</ul>
+<h3>A quick check in Klaviyo</h3>
+<p>Open the list, sort by date added and look at the last few days. If you see a block of profiles added within minutes, with odd names like <code>xkqjwpd</code> and no Active on Site activity, that is almost certainly bots. Check the source field to see which form or integration added them.</p>
+
+<h2>Fixes for Bots</h2>
+<ol>
+<li><strong>Double opt-in:</strong> subscribers confirm by email before joining. Bots rarely confirm.</li>
+<li><strong>Form protection:</strong> use Klaviyo's form settings and spam protection options; embedded forms on custom pages can add a CAPTCHA.</li>
+<li><strong>Suppress bad profiles:</strong> build a segment of profiles with bounces or no engagement since joining, then suppress them.</li>
+<li><strong>Check integrations:</strong> some fake signups come from checkout or third-party apps, not forms.</li>
+<li><strong>Add a hidden honeypot field</strong> to custom-coded forms. Real people never see it, but simple bots fill it in.</li>
+</ol>
+<p>A honeypot on a custom HTML form can be as simple as a field hidden with CSS:</p>
+<p><code>&lt;input type="text" name="website" tabindex="-1" autocomplete="off" class="hp-field"&gt;</code></p>
+<p>Your form handler then rejects any submission where that field is not empty. Klaviyo's own sign-up forms have built-in protection, so this is mainly for custom forms that post to Klaviyo's API.</p>
+
+<h3>Setting up double opt-in</h3>
+<ol>
+<li>In Klaviyo, open the list's settings and turn on double opt-in.</li>
+<li>Edit the confirmation email so it looks like your brand and has one clear "Confirm" button.</li>
+<li>Update the form's success message to say "Check your inbox to confirm."</li>
+<li>Start your welcome flow on confirmation, so only real people get it.</li>
+</ol>
+
+<h2>Cleaning Up What Already Got In</h2>
+<p>Build a segment such as:</p>
+<ul>
+<li>Added to list in the last 90 days, <strong>and</strong></li>
+<li>Has not clicked any email since joining, <strong>and</strong></li>
+<li>Has not been active on site, <strong>and</strong></li>
+<li>Has not placed an order.</li>
+</ul>
+<p>Review a sample by hand. If it is clearly bots, suppress the segment. Also suppress any profile that has hard bounced. Suppression keeps the history but stops sending, and in many cases suppressed profiles do not count toward billing. Check Klaviyo's current billing rules for your plan.</p>
+
+<h2>Fixes for Low-Quality Real Signups</h2>
+<p>Big "get 30% off" pop-ups attract people who only want the code. Some never buy or open again. Try:</p>
+<ul>
+<li>A smaller offer plus a clear promise about content: new drops, guides, early access.</li>
+<li>Showing pop-ups after engagement (time on site or scroll), not on arrival.</li>
+<li>A strong <a href="/blog/klaviyo-welcome-series/">welcome series</a> that sorts engaged subscribers from code hunters.</li>
+<li>A sunset flow that removes people who never engage after 90 to 180 days.</li>
+</ul>
+<p>When judging engagement, remember that Apple Mail can make people look like openers when they are not. Use clicks, visits and orders too. See <a href="/blog/email-open-rates-apple-mail-privacy/">are open rates still reliable</a>.</p>
+
+<h2>Why This Matters for Deliverability</h2>
+<p>Unengaged and fake addresses lower your engagement rates and raise bounces and complaints. That drags down inbox placement for your real customers. Pair list hygiene with <a href="/blog/dmarc-setup-klaviyo/">proper authentication</a> and read <a href="/blog/why-emails-go-to-spam/">why emails go to spam</a>. Our <a href="/klaviyo-flow-setup/">Klaviyo flow setup</a> includes welcome and sunset flows that keep your list healthy.</p>
+<p>If bots got into your list before a domain change, clean it first and then follow a <a href="/blog/klaviyo-sending-domain-warm-up/">Klaviyo domain warm-up</a> plan with engaged people only.</p>
+
+<h2>Build a Sunset Flow</h2>
+<p>A sunset flow is your long-term defense. It catches both bots that slipped through and real people who lost interest. A simple version:</p>
+<ol>
+<li>Trigger: profile enters a segment such as "no clicks, site visits or orders in 120 days".</li>
+<li>Email 1: a friendly check-in with your best content or a small offer.</li>
+<li>Wait 5 to 7 days.</li>
+<li>Email 2: a clear "Do you still want to hear from us?" with a single button to stay subscribed.</li>
+<li>Wait 7 days, then suppress anyone who still has not clicked or visited.</li>
+</ol>
+<p>Keep these emails light, with a clear button and plain text that works with images off. The goal is to give real people one last easy way to stay, and to quietly remove everyone else. Run the flow all the time, not as a one-off clean-up, so bad profiles never build up again. If your store runs on Shopify and you are still comparing platforms, see <a href="/blog/klaviyo-vs-mailchimp-for-shopify/">Klaviyo vs Mailchimp for Shopify</a>.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Deleting profiles in bulk without checking a sample first.</li>
+<li>Sending a winback campaign to the bot segment "just in case".</li>
+<li>Turning on double opt-in but leaving the welcome flow triggered by list join, so bots still get emails.</li>
+<li>Only fixing the pop-up and forgetting a footer form or checkout integration.</li>
+</ul>
+
+<h2>A Real-World Scenario</h2>
+<p>A beauty brand sees its list jump by a few thousand overnight. Revenue does not move, and the next campaign shows a spike in bounces. The source field points to an embedded footer form on an old landing page. The team removes the form, adds double opt-in to the main list, suppresses the new profiles with no activity and moves the welcome flow trigger to confirmation. The next campaign goes only to engaged segments while numbers settle.</p>
+
+<h2>Quick Checklist</h2>
+<ul>
+<li>Double opt-in on for public forms.</li>
+<li>Honeypot or CAPTCHA on custom forms.</li>
+<li>Welcome flow starts on confirmation.</li>
+<li>Bounced and bot profiles suppressed.</li>
+<li>Sunset flow running every month.</li>
+<li>Clean, tested <a href="/klaviyo-email-templates/">Klaviyo email templates</a> for the confirmation and welcome emails.</li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Why am I getting fake signups in Klaviyo?</h3>
+<p>Bots fill in exposed forms, sometimes to test stolen emails or to spam. Double opt-in and form protection stop most of them.</p>
+<h3>Does double opt-in reduce my list growth?</h3>
+<p>It lowers raw signup numbers, but the list is cleaner and more engaged, which usually improves revenue per subscriber.</p>
+<h3>Should I delete unengaged subscribers?</h3>
+<p>Suppress them after a win-back attempt. Suppressed profiles stop receiving emails but keep their history.</p>
+<h3>Do fake profiles cost me money in Klaviyo?</h3>
+<p>They can, because pricing is based on contacts. Suppressing them may help. Check Klaviyo's current billing rules for your plan.</p>
+<h3>Can bots get past double opt-in?</h3>
+<p>Rarely. They would need access to the inbox to click the confirmation link. Most bot signups simply never confirm.</p>
+<h3>Can MailStora clean up my Klaviyo list?</h3>
+<p>Yes. We set up forms, welcome and sunset flows and suppression segments. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

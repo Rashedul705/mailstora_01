@@ -1,0 +1,105 @@
+<p><strong>Short answer:</strong> Gmail clips any email whose HTML code is larger than about 102 KB. Everything after that point is hidden behind a "[Message clipped] View entire message" link, which often hides your footer, unsubscribe link and tracking pixel. Images do not count, because they are hosted separately. The fix is to make the HTML itself smaller: remove unused code, repeated inline styles and heavy builder markup.</p>
+
+<p>We see this problem constantly in templates made with drag-and-drop builders. It is one of the first things we check in our <a href="/outlook-email-rendering-fix/">email testing and QA service</a>. This guide explains what the limit is, what counts toward it, how to measure your email and how to bring the size down without changing the design.</p>
+
+<h2>Why Gmail Clipping Hurts Your Results</h2>
+<ul>
+<li><strong>Hidden content:</strong> offers, products and calls to action below the cut are never seen by most readers. Few people click "View entire message".</li>
+<li><strong>Missing unsubscribe link:</strong> readers who cannot find it may mark you as spam instead, which damages deliverability.</li>
+<li><strong>Broken open tracking:</strong> the tracking pixel usually sits at the bottom, so clipped emails can under-report opens.</li>
+<li><strong>Legal footer out of sight:</strong> your company address and preference links sit in the footer, which is exactly the part that gets cut.</li>
+</ul>
+<p>The worst part is that clipping is silent. Your email platform reports a normal send, and nothing warns you. You only find out if you open a real test in Gmail and scroll to the end.</p>
+
+<h2>What Counts Toward the 102 KB Limit</h2>
+<p>Only the HTML file size counts: tags, inline styles, comments, whitespace, hidden text and any code your email platform adds. Hosted images, fonts loaded from a URL and linked files do not count. Remember that your email platform (Klaviyo, Mailchimp, HubSpot) adds its own tracking and wrapper code when it sends, so aim for <strong>80 to 90 KB</strong> of HTML to leave a safety margin.</p>
+<table>
+<thead><tr><th>Counts toward the limit</th><th>Does not count</th></tr></thead>
+<tbody>
+<tr><td>HTML tags and attributes</td><td>Images hosted on a server</td></tr>
+<tr><td>Inline <code>style</code> attributes</td><td>Web fonts loaded from a URL</td></tr>
+<tr><td>CSS in the <code>&lt;style&gt;</code> block</td><td>Landing pages you link to</td></tr>
+<tr><td>Comments, spaces and line breaks</td><td>Attachments (not used in marketing email)</td></tr>
+<tr><td>Hidden sections and preheader padding</td><td></td></tr>
+<tr><td>Tracking links your platform rewrites</td><td></td></tr>
+</tbody>
+</table>
+<p>Special characters matter too. Characters such as emoji or accented letters can take more than one byte each, and some platforms convert them to longer entity codes. This is rarely the main problem, but it adds up in long emails.</p>
+
+<h2>How to Check Your Email's Size</h2>
+<ol>
+<li>Export or copy the final HTML from your email platform (the version it actually sends).</li>
+<li>Save it as a .html file and check the file size, or paste it into an HTML size checker.</li>
+<li>Send a real test to a Gmail inbox and scroll to the bottom. If you see "[Message clipped]", you are over the limit.</li>
+</ol>
+<p>A quick way to see the size from a terminal is to save the file and run a byte count, for example <code>wc -c email.html</code> on Mac or Linux. The number is in bytes, so 102,000 bytes is roughly the limit. Always measure the sent version, not the file from your code editor, because the platform adds code on the way out.</p>
+
+<h2>8 Ways to Stay Under the Limit</h2>
+<ol>
+<li><strong>Minify the HTML</strong> before sending: remove line breaks, indentation and comments. This alone often saves 10 to 20%.</li>
+<li><strong>Remove repeated inline styles.</strong> Builders repeat the same long style attribute on every element. Put shared styles in the head for clients that support them and keep inline styles short.</li>
+<li><strong>Delete unused sections</strong> that are hidden with display:none. Hidden code still counts.</li>
+<li><strong>Avoid pasting from Word or Google Docs,</strong> which adds large amounts of invisible markup.</li>
+<li><strong>Keep Outlook fixes lean.</strong> MSO conditional code and VML are necessary, but only where they are needed.</li>
+<li><strong>Use fewer, simpler tables.</strong> Deeply nested tables multiply code size quickly.</li>
+<li><strong>Shorten long tracking links</strong> or use your platform's link tracking instead of adding many parameters by hand.</li>
+<li><strong>Split very long emails</strong> into a shorter email plus a link to a landing page or blog post.</li>
+</ol>
+
+<h3>Example: trimming a repeated style</h3>
+<p>A builder might output this on every paragraph:</p>
+<p><code>&lt;td style="font-family:Arial, Helvetica, sans-serif; font-size:16px; line-height:24px; color:#333333; mso-line-height-rule:exactly; text-align:left; padding:0px 0px 0px 0px;"&gt;</code></p>
+<p>A hand-coded version keeps only what the element needs and drops zero values:</p>
+<p><code>&lt;td style="font:16px/24px Arial,sans-serif;color:#333333;"&gt;</code></p>
+<p>Across 60 or 80 cells, that difference is several kilobytes. Test shorthand in Outlook before relying on it everywhere, and keep the longer form where a client needs it.</p>
+
+<h3>Example: Outlook code only where needed</h3>
+<p>Wrap Outlook-only code in a conditional comment, such as <code>&lt;!--[if mso]&gt; ... &lt;![endif]--&gt;</code>, and use it once per section, not once per element. If you use background images, our guide to <a href="/blog/outlook-background-images-vml/">Outlook background images with VML</a> shows a compact pattern.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li><strong>Measuring the wrong file.</strong> The editor preview is smaller than what the platform sends.</li>
+<li><strong>Hiding a desktop and a mobile version of the same block.</strong> Both versions are in the code, so the size doubles.</li>
+<li><strong>Stacking product grids.</strong> Long product feeds with many columns grow fast. Show fewer items and link to the collection.</li>
+<li><strong>Leaving old sections in saved templates.</strong> Each campaign copied from the last one can carry dead code forward.</li>
+<li><strong>Base64 images.</strong> Images embedded as data in the HTML count toward the limit and can push an email over by themselves.</li>
+</ul>
+
+<h2>Builder Templates vs Hand-Coded Templates</h2>
+<p>A drag-and-drop template often reaches 120 to 200 KB because of wrapper code and repeated styles. A hand-coded template with the same design is usually 40 to 70 KB. That is why our <a href="/html-email-template-development/">custom HTML email templates</a> are built lean from the start, and why they stay editable in <a href="/klaviyo-email-templates/">Klaviyo</a> and <a href="/mailchimp-email-templates/">Mailchimp</a> without growing out of control. If you already have a coded template, see <a href="/blog/klaviyo-custom-html-template/">how to use a custom HTML template in Klaviyo</a> so the platform does not add extra wrappers.</p>
+
+<h2>A Short Real-World Scenario</h2>
+<p>A store sends a weekly newsletter with a hero, three editorial blocks and a twelve-product grid. The email looks fine in the builder. In Gmail, the last four products and the whole footer vanish behind "[Message clipped]". Checking the sent HTML shows it is well over the limit, mostly from repeated styles and a hidden mobile copy of the product grid. The fix is to rebuild the grid once with responsive stacking, trim the styles and cut the grid to eight products with a "Shop all" button. The email drops comfortably under 90 KB, and the footer is visible again. Long, content-heavy sends like this are where lean <a href="/newsletter-email-templates/">newsletter email templates</a> pay off.</p>
+
+<h2>Mini Checklist Before Every Send</h2>
+<ul>
+<li>Sent HTML is under 90 KB.</li>
+<li>No base64 images and no hidden duplicate blocks.</li>
+<li>Comments and whitespace removed.</li>
+<li>Test opened in Gmail web and the Gmail app, scrolled to the end.</li>
+<li>Unsubscribe link and address visible without clicking "View entire message".</li>
+</ul>
+<p>Clipping is only one of the checks every email should pass. See our <a href="/blog/email-testing-checklist/">25-point email testing checklist</a>, and if your layout also breaks in Outlook, read <a href="/blog/fix-html-emails-breaking-in-outlook/">how to fix HTML emails that break in Outlook</a>.</p>
+
+<h2>Related Guides</h2>
+<p>Keep reading with these guides on related problems:</p>
+<ul>
+<li><a href="/blog/why-emails-go-to-spam/">Why your emails go to spam and how to fix it</a></li>
+<li><a href="/blog/email-images-not-showing/">Email images not showing: 7 causes and fixes</a></li>
+<li><a href="/blog/responsive-email-not-working-mobile/">Email not responsive on mobile? How to fix it</a></li>
+<li><a href="/blog/ai-generated-email-templates/">AI-generated email templates: do they work?</a></li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<h3>What is Gmail's email size limit?</h3>
+<p>Gmail clips messages when the HTML code exceeds about 102 KB. The rest of the message is hidden behind a "View entire message" link.</p>
+<h3>Do images count toward Gmail clipping?</h3>
+<p>No. Images hosted on a server are loaded separately and do not count. Only the HTML code, including inline styles and hidden content, counts. Images embedded as base64 data inside the HTML do count.</p>
+<h3>How do I stop Gmail from clipping my emails?</h3>
+<p>Reduce the HTML size: minify the code, remove repeated inline styles and hidden sections, and simplify nested tables. Aim for 80 to 90 KB to leave room for code your email platform adds.</p>
+<h3>Does clipping affect deliverability?</h3>
+<p>Indirectly, yes. If readers cannot find the unsubscribe link, some will click "Report spam" instead, and spam complaints hurt your sender reputation over time.</p>
+<h3>Does the Gmail app clip emails too?</h3>
+<p>Yes. Clipping applies in Gmail on the web and in the Gmail mobile apps, so check both when you test.</p>
+<h3>Can MailStora fix a template that gets clipped?</h3>
+<p>Yes. We rebuild or optimise templates so they stay under Gmail's limit and still work in Outlook. Templates start from $40; see <a href="/pricing/">pricing</a> or <a href="/quote/">request a free quote</a>.</p>

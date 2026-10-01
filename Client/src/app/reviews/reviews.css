@@ -1,0 +1,269 @@
+/* ── Client reviews page ───────────────────────────────────── */
+.rv-hero,
+.rv-list,
+.rv-featured-wrap {
+    --rv-ink: #0b1b2b;
+    --rv-muted: #5b6474;
+    --rv-orange: #f97316;
+}
+
+.rv-stars {
+    display: inline-flex;
+    gap: 2px;
+}
+
+.rv-hero {
+    padding: 1.25rem 0 4rem !important;
+    background: linear-gradient(180deg, #fff 0%, #fdfaf7 100%);
+}
+
+.rv-hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 3.5rem;
+    margin-top: 2rem;
+}
+
+.rv-eyebrow {
+    margin-bottom: 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rv-orange);
+}
+
+.rv-hero h1 {
+    margin-bottom: 1.1rem;
+    font-size: clamp(2rem, 1.3rem + 2.6vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--rv-ink);
+}
+
+.rv-hero h1 span {
+    color: var(--rv-orange);
+}
+
+.rv-lead {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--rv-muted);
+}
+
+.rv-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+}
+
+.rv-btn-upwork {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.85rem 1.5rem;
+    border: 2px solid #14a800;
+    border-radius: 8px;
+    font-weight: 700;
+    color: #108a00;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.rv-btn-upwork:hover {
+    background: #14a800;
+    color: #fff;
+}
+
+/* Rating scorecard on the brand gradient */
+.rv-score {
+    padding: 2.25rem;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #064e3b 0%, #0b3b2c 45%, #3a2a12 78%, #c2410c 100%);
+    box-shadow: 0 30px 60px -30px rgba(6, 78, 59, 0.7);
+    text-align: center;
+    color: #fff;
+}
+
+.rv-score-num {
+    font-size: 4.5rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.rv-score-label {
+    margin: 0.6rem 0 1.5rem;
+    font-size: 0.925rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.rv-score-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    list-style: none;
+}
+
+.rv-score-stats li {
+    padding: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.rv-score-stats strong {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+.rv-score-stats span {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Featured review */
+.rv-featured-wrap {
+    padding: 0 0 4rem !important;
+    background: #fdfaf7;
+}
+
+.rv-featured {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 3.5rem;
+    border: 1px solid #efe9e3;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 30px 60px -36px rgba(15, 23, 42, 0.35);
+    text-align: center;
+}
+
+.rv-featured-quote {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    padding: 12px;
+    border-radius: 50%;
+    background: var(--rv-orange);
+    color: #fff;
+    transform: translateX(-50%);
+}
+
+.rv-featured blockquote {
+    margin: 1rem 0 1.5rem;
+    font-size: clamp(1.25rem, 1rem + 0.8vw, 1.6rem);
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--rv-ink);
+}
+
+.rv-featured figcaption strong {
+    display: block;
+    font-size: 1.05rem;
+    color: var(--rv-ink);
+}
+
+.rv-featured figcaption span {
+    font-size: 0.9rem;
+    color: var(--rv-muted);
+}
+
+/* Review grid (masonry columns so long and short reviews pack neatly) */
+.rv-list {
+    padding: 5rem 0 !important;
+    background: #fff;
+}
+
+.rv-grid {
+    columns: 3 300px;
+    column-gap: 1.5rem;
+    list-style: none;
+}
+
+.rv-card {
+    margin-bottom: 1.5rem;
+    padding: 1.75rem;
+    border: 1px solid #eef0f4;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 14px 34px -26px rgba(15, 23, 42, 0.35);
+    break-inside: avoid;
+}
+
+.rv-card-top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.9rem;
+    font-weight: 700;
+    color: var(--rv-ink);
+}
+
+.rv-card h3 {
+    margin-bottom: 0.6rem;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--rv-ink);
+}
+
+.rv-card blockquote {
+    margin: 0 0 1.25rem;
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.65;
+    color: #334155;
+}
+
+.rv-card footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f1f2f5;
+    font-size: 0.875rem;
+    color: var(--rv-muted);
+}
+
+.rv-card footer strong {
+    color: var(--rv-ink);
+}
+
+.rv-card footer em {
+    margin-left: auto;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: #e8f7e6;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 700;
+    color: #108a00;
+}
+
+.rv-more {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+@media (max-width: 1024px) {
+    .rv-hero-inner {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .rv-featured {
+        padding: 2.5rem 1.4rem 2rem;
+    }
+
+    .rv-list {
+        padding: 3.5rem 0 !important;
+    }
+}

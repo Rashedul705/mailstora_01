@@ -1,0 +1,98 @@
+<p><strong>Short answer:</strong> classic Outlook for Windows uses Microsoft Word to display emails, and Word ignores CSS background images. To show a background image there, add VML (Vector Markup Language) code inside Outlook-only conditional comments. Always set a solid background colour as a fallback and keep the text on top as live HTML text.</p>
+
+<h2>Why Outlook Drops Background Images</h2>
+<p>Outlook 2007 to 2021 and Microsoft 365 for Windows render HTML with the Word engine. It does not support <code>background-image</code> in CSS, so hero images with text on top show as a plain colour or a blank area. Apple Mail, Gmail, new Outlook and Outlook on the web show them normally.</p>
+<p>This matters most for hero sections: a photo with a headline and a button on top. In classic Outlook, the photo vanishes. If the text is white and the fallback colour is also white, the headline disappears too. The reader sees an empty block at the top of your email. The <a href="/blog/new-outlook-vs-classic-outlook-email-rendering/">difference between new and classic Outlook</a> explains why the two versions behave so differently.</p>
+
+<h2>How the VML Fix Works</h2>
+<ol>
+<li>Set the background image in CSS and with the <code>background</code> attribute on the table cell, for most clients.</li>
+<li>Inside <code>&lt;!--[if gte mso 9]&gt;</code> comments, add a <code>v:rect</code> with a <code>v:fill</code> that uses the same image, and a <code>v:textbox</code> to hold the content.</li>
+<li>Set the VML width and height in pixels; VML does not understand percentages well.</li>
+<li>Close the VML elements inside a matching <code>&lt;![endif]--&gt;</code> block after your content.</li>
+<li>Add the VML namespace to the <code>&lt;html&gt;</code> tag: <code>xmlns:v="urn:schemas-microsoft-com:vml"</code>.</li>
+</ol>
+
+<h3>A Working Code Example</h3>
+<p>Here is the basic pattern for a 600 by 300 px hero. First, the table cell for most clients:</p>
+<p><code>&lt;td background="https://example.com/hero.jpg" bgcolor="#2b3a55" width="600" height="300" valign="top" style="background:url('https://example.com/hero.jpg') center / cover no-repeat #2b3a55;"&gt;</code></p>
+<p>Then the Outlook-only VML that opens right inside the cell:</p>
+<p><code>&lt;!--[if gte mso 9]&gt;&lt;v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:300px;"&gt;&lt;v:fill type="frame" src="https://example.com/hero.jpg" color="#2b3a55" /&gt;&lt;v:textbox inset="0,0,0,0"&gt;&lt;![endif]--&gt;</code></p>
+<p>Next comes your normal HTML content: the headline, text and button. Finally, close the VML before the cell ends:</p>
+<p><code>&lt;!--[if gte mso 9]&gt;&lt;/v:textbox&gt;&lt;/v:rect&gt;&lt;![endif]--&gt;&lt;/td&gt;</code></p>
+<p>The <code>color</code> on <code>v:fill</code> is the Outlook fallback colour. The <code>bgcolor</code> and CSS colour are the fallback for everyone else.</p>
+
+<h3>Choosing the Fill Type</h3>
+<table>
+<thead><tr><th>type value</th><th>What it does</th><th>Best for</th></tr></thead>
+<tbody>
+<tr><td><code>frame</code></td><td>Stretches the image to fill the shape</td><td>Hero images sized to match the shape</td></tr>
+<tr><td><code>tile</code></td><td>Repeats the image</td><td>Patterns and textures</td></tr>
+</tbody>
+</table>
+<p>With <code>frame</code>, export the image at the same ratio as the VML shape, or it will look stretched.</p>
+
+<h2>Rules for Safe Background Images</h2>
+<ul>
+<li><strong>Always set a background colour</strong> close to the image's main colour, so text stays readable if the image fails.</li>
+<li><strong>Keep text as live text,</strong> not baked into the image.</li>
+<li><strong>Use fixed heights carefully:</strong> too little height cuts content off in Outlook.</li>
+<li><strong>Use it only where it matters,</strong> like the hero. VML adds code weight and counts toward the <a href="/blog/gmail-clipping-102kb-limit/">102 KB Gmail limit</a>.</li>
+<li><strong>Use absolute image URLs.</strong> Relative paths break once the email leaves your server.</li>
+<li><strong>Keep the image file small.</strong> A large hero slows loading on mobile data.</li>
+</ul>
+
+<h2>When Not to Use a Background Image</h2>
+<p>VML works, but it is not always the best answer. Sometimes a simpler layout gives the same result with less risk. Consider these options first:</p>
+<ul>
+<li><strong>Stack the image and text.</strong> Put the photo as a normal image and the headline below it on a solid colour. This works in every client with no VML at all.</li>
+<li><strong>Use a solid colour block.</strong> A strong brand colour behind the headline can look just as good and loads faster.</li>
+<li><strong>Use the image only on wider screens.</strong> On phones, a background image with text on top often gets cramped. Many teams hide it on mobile and show a plain colour instead.</li>
+</ul>
+<p>Use a VML background when the design truly needs text over a photo, and when Outlook is a meaningful part of your audience. If your reports show very few classic Outlook opens, a clean fallback colour may be enough.</p>
+<h3>Working With Email Builders</h3>
+<p>Some platforms clean up code on import and may remove conditional comments or the VML namespace. After you paste or upload your template, send a test to classic Outlook straight away. If the image is missing, check whether the VML survived in the saved version of the code.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Forgetting the namespace on the <code>&lt;html&gt;</code> tag, so Outlook ignores the VML.</li>
+<li>Opening the VML in one conditional block and never closing it, which can break the rest of the email in Outlook.</li>
+<li>Using different image URLs in the CSS and VML, then updating only one.</li>
+<li>Setting a VML height smaller than the content, so text is cut off.</li>
+<li>Choosing a light fallback colour behind white text.</li>
+<li>Letting an email builder strip the conditional comments when you paste the code in.</li>
+</ul>
+
+<h2>DPI Scaling and Dark Mode</h2>
+<p>On Windows laptops with display scaling above 100%, classic Outlook can scale VML shapes differently from the HTML around them. This can leave small gaps or a shifted image. Adding the Office settings block with <code>o:PixelsPerInch</code> set to 96 in the head helps keep sizes consistent. Dark mode is another risk: Outlook may change the fallback colour and text colour. Check the hero with dark mode on, and read our <a href="/blog/dark-mode-email-design/">dark mode email design guide</a> for safe colour choices.</p>
+
+<h2>Quick Checklist</h2>
+<ul>
+<li>VML namespace added to the html tag.</li>
+<li>Image URL is absolute and the same in CSS and VML.</li>
+<li>Fallback colour set in three places: bgcolor, CSS and v:fill.</li>
+<li>Width and height in pixels, tall enough for all content.</li>
+<li>Tested in Outlook 2016, 2019, Microsoft 365 and new Outlook.</li>
+<li>Tested with images off.</li>
+</ul>
+<p>These checks also appear in our full <a href="/blog/email-testing-checklist/">email testing checklist</a>.</p>
+
+<h2>A Real-World Scenario</h2>
+<p>A retailer sends a seasonal promo with a lifestyle photo behind the sale headline. Their reports show a good share of opens on desktop Outlook, mostly from business addresses. In those inboxes, the hero shows as a plain white block with white text, so the offer is invisible. The developer adds VML with a dark navy fallback colour that matches the photo. Now Outlook users see the photo, and if images are off, they still see white text on navy. The <a href="/case-studies/e-commerce-seasonal-promo/">e-commerce seasonal promo case study</a> and our <a href="/portfolio/black-friday-sale-email/">Black Friday sale email</a> use this kind of hero.</p>
+
+<h2>Other Outlook Problems to Check</h2>
+<p>Background images are one of many Outlook quirks. Rounded buttons, spacing, fonts and DPI scaling also break. See <a href="/blog/fix-html-emails-breaking-in-outlook/">how to fix HTML emails that break in Outlook</a> and <a href="/blog/bulletproof-email-buttons/">bulletproof buttons</a>. If you need it done for you, our <a href="/outlook-email-rendering-fix/">Outlook email rendering fix</a> service repairs templates and returns before-and-after screenshots. The <a href="/case-studies/canadian-choice-windows-doors/">Canadian Choice case study</a> shows a full Outlook rebuild. For new designs, our <a href="/html-email-template-development/">HTML email template development</a> includes VML heroes where they are needed.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Does Outlook support background images in emails?</h3>
+<p>Classic Outlook for Windows does not support CSS background images. Use VML inside conditional comments. New Outlook and Outlook on the web support CSS backgrounds.</p>
+<h3>What is VML in email?</h3>
+<p>VML is an old Microsoft vector format that the Word rendering engine understands. Email developers use it for background images and rounded buttons in Outlook.</p>
+<h3>Will VML affect other email clients?</h3>
+<p>No. VML sits inside Outlook-only conditional comments, so other clients ignore it.</p>
+<h3>Why is my VML background image stretched?</h3>
+<p>With <code>type="frame"</code>, the image stretches to the shape size. Export the image at the same width-to-height ratio as the VML shape.</p>
+<h3>Can I use a background image on the whole email?</h3>
+<p>You can, but it is risky. Full-body VML is harder to control and adds weight. Most teams limit background images to the hero or one banner.</p>
+<h3>Can MailStora add Outlook background images to my template?</h3>
+<p>Yes. We add VML backgrounds with fallbacks and test in every Outlook version. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

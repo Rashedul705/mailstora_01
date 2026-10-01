@@ -1,0 +1,82 @@
+<p><strong>Short answer:</strong> email images usually fail to show for one of seven reasons: the reader's client blocks images by default, the image path is local or broken, the image is on an insecure (HTTP) server, the file is too large, the format is not supported, Outlook ignores the size or a background image, or a firewall blocks your image host. Most of these are fixed in the template code.</p>
+
+<p>Missing images make an email look broken, even when everything else is fine. The reader sees empty boxes, a red cross or a long line of alt text where your product photo should be. The tricky part is that images often work for you and fail only for some readers. This guide explains each cause, how to spot it, and how to fix it.</p>
+
+<h2>7 Causes and Fixes</h2>
+<ol>
+<li><strong>Images blocked by default.</strong> Some Outlook setups and company inboxes block images until the reader allows them. Fix: never put key text only inside images, and always write useful alt text.</li>
+<li><strong>Local or broken image paths.</strong> A path like <code>file:///</code> or <code>C:/</code> only works on your computer. Fix: host images online and use full <code>https://</code> URLs.</li>
+<li><strong>HTTP instead of HTTPS.</strong> Many clients block images from insecure servers. Fix: host every image on HTTPS.</li>
+<li><strong>Files too large.</strong> Heavy images load slowly or time out on mobile. Fix: keep most images under 200 KB and size them at twice the display width for sharp screens.</li>
+<li><strong>Unsupported formats.</strong> SVG and WebP do not work everywhere. Fix: use JPG, PNG or GIF for email.</li>
+<li><strong>Outlook sizing and background images.</strong> Outlook ignores CSS width on images and CSS background images. Fix: set the <code>width</code> attribute on the image and use VML for backgrounds. See <a href="/blog/outlook-background-images-vml/">background images in Outlook</a>.</li>
+<li><strong>Blocked image hosts.</strong> Company firewalls can block some file-sharing services. Fix: host images on your email platform or your own domain, not on Google Drive or Dropbox.</li>
+</ol>
+
+<h2>How to Find the Cause</h2>
+<p>Before changing code, work out which cause you have. A few quick checks narrow it down:</p>
+<table>
+<thead><tr><th>What you see</th><th>Likely cause</th><th>First check</th></tr></thead>
+<tbody>
+<tr><td>Images missing for everyone</td><td>Broken or local path</td><td>Open the image URL in a private browser window</td></tr>
+<tr><td>Images missing only in some work inboxes</td><td>Images blocked or host blocked by firewall</td><td>Ask one reader if a "download pictures" bar shows</td></tr>
+<tr><td>Images missing in some clients only</td><td>HTTP, SVG or WebP</td><td>Check the URL starts with https and the file type</td></tr>
+<tr><td>Images slow or cut off on mobile</td><td>File too large</td><td>Check the file size of each image</td></tr>
+<tr><td>Image huge in classic Outlook</td><td>No width attribute</td><td>Look for <code>width="..."</code> on the img tag</td></tr>
+<tr><td>Background missing in Outlook</td><td>CSS background only</td><td>Check for a VML fallback</td></tr>
+</tbody>
+</table>
+<p>To see the real image paths, open the sent email, view its source (in Gmail, "Show original"), and search for <code>src=</code>. Every path should start with <code>https://</code> and point to a public server.</p>
+
+<h2>A Well-Built Image Tag</h2>
+<p>Most image problems disappear when every image in the template follows the same pattern. A safe image tag for email looks like this:</p>
+<p><code>&lt;img src="https://cdn.yourbrand.com/email/hero.jpg" width="600" alt="20% off all boots this weekend" style="display:block; width:100%; max-width:600px; height:auto; border:0;"&gt;</code></p>
+<ul>
+<li><strong>Full HTTPS URL</strong> on a reliable host.</li>
+<li><strong><code>width</code> attribute</strong> so classic Outlook uses the right size.</li>
+<li><strong>Useful alt text</strong> that carries the message if the image is blocked.</li>
+<li><strong><code>display:block</code></strong> to remove the small gap some clients add under images.</li>
+<li><strong><code>max-width</code> and <code>height:auto</code></strong> so the image scales on phones.</li>
+</ul>
+<p>If Outlook breaks more than your images, our guide on <a href="/blog/fix-html-emails-breaking-in-outlook/">fixing HTML emails that break in Outlook</a> covers tables, spacing and fonts too.</p>
+
+<h2>Design for Images Off</h2>
+<ul>
+<li>Use live HTML text for headlines, offers and buttons.</li>
+<li>Give images a background colour so the layout still holds its shape.</li>
+<li>Write alt text that tells the story: "20% off all boots this weekend", not "banner1.jpg".</li>
+<li>Make buttons from code, not images. See <a href="/blog/bulletproof-email-buttons/">bulletproof email buttons</a>.</li>
+</ul>
+<p>Designing for images off also helps screen reader users and people on slow connections. Our <a href="/blog/accessible-email-design/">accessible email design guide</a> explains how to write alt text that works for both. Image-only emails can also hurt inbox placement, which we cover in <a href="/blog/why-emails-go-to-spam/">why emails go to spam</a>.</p>
+
+<h3>Common mistakes</h3>
+<ul>
+<li>Putting the whole email, including the offer and button, in one image.</li>
+<li>Leaving the file name as alt text, or no alt text at all.</li>
+<li>Linking to images in a shared Drive folder that needs a login.</li>
+<li>Deleting old images from the server, which breaks past emails still in inboxes.</li>
+<li>Using a dark logo on a transparent PNG, which can vanish in <a href="/blog/dark-mode-email-design/">dark mode</a>.</li>
+</ul>
+
+<h2>Test Before You Send</h2>
+<p>Check every email with images off, in Outlook, Gmail and Apple Mail. It is part of our <a href="/blog/email-testing-checklist/">25-point email testing checklist</a>. If images keep breaking, our <a href="/outlook-email-rendering-fix/">email rendering fix service</a> finds and fixes the cause, and our <a href="/html-email-template-development/">custom HTML email templates</a> are built to work with images on or off.</p>
+
+<h2>Why Images Look Huge in Outlook</h2>
+<p>A related complaint: an image looks right everywhere except classic Outlook for Windows, where it appears at its full original size, for example a small headshot turning into a giant 2000 px photo. Outlook ignores CSS <code>width</code> and <code>max-width</code> on images and uses the file's real size instead. The fix is to always set the HTML <code>width</code> attribute (for example <code>width="80"</code>) on every image, and to resize the file close to twice its display size. On high-DPI Windows screens, Outlook can also scale images unexpectedly; adding the Office DPI settings in the head (<code>o:PixelsPerInch</code> set to 96) keeps sizes stable.</p>
+
+<h2>A Real-World Scenario</h2>
+<p>A B2B software company sends a product update. Marketing sees every image in Gmail, but sales reps report that clients see empty boxes. The images were linked from a cloud storage share, which many corporate firewalls block, and the main headline was part of the hero image. The team moves all images to the email platform's own image library, adds width attributes and real alt text, and turns the headline into live text. The next send reads clearly in the same client inboxes, even for readers who never click "download pictures".</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Why are my email images not showing in Outlook?</h3>
+<p>Outlook may block images by default, ignore CSS image sizes or ignore CSS background images. Use width attributes, VML backgrounds and alt text.</p>
+<h3>Why do my images show in Gmail but not for some readers?</h3>
+<p>Those readers may have images turned off, or a company firewall may block your image host. Host images on HTTPS on your own domain or email platform.</p>
+<h3>What image format is best for email?</h3>
+<p>JPG for photos, PNG for logos and graphics with transparency, and GIF for simple animation. Avoid SVG and WebP in email.</p>
+<h3>Do large images cause Gmail clipping?</h3>
+<p>No. Gmail's 102 KB limit counts the HTML code, not image files. Large images slow loading, but clipping comes from heavy code. See our guide to <a href="/blog/gmail-clipping-102kb-limit/">Gmail clipping</a>.</p>
+<h3>Why do old emails suddenly show broken images?</h3>
+<p>The images were probably deleted or moved on the server. Keep email images at stable URLs for as long as the emails may be opened.</p>
+<h3>Can MailStora fix images that don't load?</h3>
+<p>Yes. We fix image paths, sizing, Outlook backgrounds and alt text in existing templates. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

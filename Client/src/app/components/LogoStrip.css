@@ -1,0 +1,213 @@
+/* ── Logo strip (below home hero) ─────────────────────────── */
+.logo-strip {
+    /* globals.css forces `section { padding: 80px 0 !important }` */
+    padding: 4.5rem 0 !important;
+    background: #fff;
+    border-top: 1px solid #eef0f4;
+    border-bottom: 1px solid #eef0f4;
+}
+
+.logo-strip-title {
+    margin-bottom: 2.5rem;
+    font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.3rem);
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+    color: #0b1b2b;
+}
+
+/* Auto-sliding marquee: two identical halves, shifted by -50% for a seamless loop */
+.logo-strip-marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+
+.logo-strip-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    list-style: none;
+    animation: logoStripScroll linear infinite;
+}
+
+.logo-strip-marquee:hover .logo-strip-track {
+    animation-play-state: paused;
+}
+
+@keyframes logoStripScroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.logo-strip-item {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 2.25rem;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+}
+
+.logo-strip-item:hover {
+    opacity: 1;
+}
+
+/* Client logos come from the admin panel in mixed sizes, so cap the box */
+.logo-strip-client-img {
+    display: block;
+    width: auto;
+    max-width: 170px;
+    height: 44px;
+    object-fit: contain;
+}
+
+.logo-strip-client-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #0b1b2b;
+    white-space: nowrap;
+}
+
+.logo-strip-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+/* Wordmarks styled to echo each brand */
+.logo-strip-mark--shopify {
+    font-size: 1.55rem;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: -0.02em;
+    color: #000;
+}
+
+.logo-strip-mark--hubspot {
+    gap: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #33475b;
+}
+
+.logo-strip-mark--hubspot svg {
+    margin: 0 1px;
+    transform: translateY(-1px);
+}
+
+.logo-strip-mark--klaviyo {
+    gap: 0.15rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: #1a1a1a;
+}
+
+.logo-strip-flag {
+    width: 9px;
+    height: 7px;
+    background: #1a1a1a;
+    transform: translateY(-9px);
+}
+
+.logo-strip-mark--mailchimp {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #241c15;
+}
+
+.logo-strip-mark--brevo {
+    font-size: 1.85rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #0b996e;
+}
+
+.logo-strip-mark--activecampaign {
+    gap: 0.35rem;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #356ae6;
+}
+
+.logo-strip-mark--omnisend {
+    gap: 0.5rem;
+    font-size: 1.45rem;
+    font-weight: 500;
+    color: #2f3a4c;
+}
+
+/* Phone: tighter spacing and smaller marks */
+@media (max-width: 600px) {
+    .logo-strip {
+        padding: 3rem 0 !important;
+    }
+
+    .logo-strip-title {
+        margin-bottom: 1.75rem;
+    }
+
+    .logo-strip-item {
+        min-height: 40px;
+        padding: 0 1.5rem;
+        font-size: 0.8rem;
+    }
+
+    .logo-strip-mark,
+    .logo-strip-client-name {
+        font-size: 1.25em !important;
+    }
+
+    .logo-strip-mark svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .logo-strip-mark--activecampaign svg {
+        width: 8px;
+        height: 11px;
+    }
+
+    .logo-strip-client-img {
+        max-width: 130px;
+        height: 34px;
+    }
+}
+
+/* No motion: show one static, wrapped set instead of scrolling */
+@media (prefers-reduced-motion: reduce) {
+    .logo-strip-marquee {
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
+
+    .logo-strip-track {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: auto;
+        row-gap: 1rem;
+        animation: none;
+    }
+
+    .logo-strip-item[aria-hidden="true"] {
+        display: none;
+    }
+
+    .logo-strip-item {
+        transition: none;
+    }
+}

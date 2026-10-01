@@ -1,0 +1,103 @@
+<p><strong>Short answer:</strong> Klaviyo supports three kinds of templates: drag-and-drop, full HTML, and hybrid. A full HTML template gives total design control, but only people who can code can change it. The best option for most stores is a <strong>hybrid template</strong> or HTML with <strong>editable regions</strong>: the layout is custom-coded, while text, images and buttons stay editable in Klaviyo's editor.</p>
+
+<h2>The Three Template Options in Klaviyo</h2>
+<table>
+<thead><tr><th>Type</th><th>Design control</th><th>Easy editing</th><th>Best for</th></tr></thead>
+<tbody>
+<tr><td>Drag-and-drop</td><td>Limited</td><td>Yes</td><td>Simple campaigns</td></tr>
+<tr><td>Full HTML</td><td>Total</td><td>Only with code</td><td>Fixed flow emails</td></tr>
+<tr><td>Hybrid / editable HTML</td><td>High</td><td>Yes</td><td>Most brands</td></tr>
+</tbody>
+</table>
+<p><strong>Drag-and-drop</strong> is fast and friendly, but you are limited to Klaviyo's blocks and settings. <strong>Full HTML</strong> lets you build anything, but every text change means editing code. <strong>Hybrid</strong> sits in the middle: a developer codes the structure, and marketers edit content visually. Klaviyo's features and names change over time, so check the current help centre for the exact options in your account.</p>
+
+<h2>How to Add a Custom HTML Template</h2>
+<ol>
+<li>Go to <strong>Content, Templates</strong> in Klaviyo and create a new template.</li>
+<li>Choose the option to start from HTML (or code), then paste or upload your HTML.</li>
+<li>Upload images to Klaviyo's image library or host them on a stable CDN, and use full <code>https://</code> URLs.</li>
+<li>Save, preview, and send tests to real inboxes.</li>
+<li>Use the template in a campaign or flow email.</li>
+</ol>
+<p>Make sure your HTML is already email-safe before you import: table-based layout, inline styles, Outlook conditional comments and alt text on images. If it was built from a Figma design, our <a href="/blog/figma-to-html-email-handoff-checklist/">Figma to HTML email handoff checklist</a> helps avoid surprises.</p>
+
+<h2>How to Make a Custom Template Editable</h2>
+<ol>
+<li><strong>Use editable regions:</strong> mark text and images with Klaviyo's editable attributes so they open in the visual editor. For example, a text area can be marked with <code>&lt;div class="editable" data-klaviyo-region="true"&gt;...&lt;/div&gt;</code>-style markup; check Klaviyo's docs for the exact current syntax.</li>
+<li><strong>Build reusable sections:</strong> header, hero, product grid, testimonial and footer as separate blocks.</li>
+<li><strong>Save universal blocks</strong> for the header and footer so one change updates every email.</li>
+<li><strong>Use dynamic product feeds</strong> instead of hard-coded products, so best sellers and recommendations stay current.</li>
+<li><strong>Add fallbacks for personalisation,</strong> for example <code>{{ first_name|default:'there' }}</code>.</li>
+</ol>
+
+<h3>Using event data in flows</h3>
+<p>In flows, the trigger event carries data you can loop over. In an abandoned cart email, for example, you can show each item with a loop like <code>{% for item in event.Items %} ... {{ item.ProductName }} ... {% endfor %}</code>. The exact field names depend on your integration, so check a preview with a real test profile. Always design a fallback for when an image or price is missing.</p>
+
+<h2>Common Problems</h2>
+<ul>
+<li><strong>The editor changes your code:</strong> editing HTML in the drag-and-drop editor can rewrite it. Keep code edits in the HTML editor.</li>
+<li><strong>Layout breaks in Outlook:</strong> the template needs table-based code and Outlook fixes. See <a href="/blog/fix-html-emails-breaking-in-outlook/">why emails break in Outlook</a> and <a href="/blog/klaviyo-email-looks-different-in-outlook/">Klaviyo emails in Outlook</a>.</li>
+<li><strong>Emails get clipped in Gmail:</strong> keep the HTML under 102 KB. See <a href="/blog/gmail-clipping-102kb-limit/">how to fix Gmail clipping</a>.</li>
+<li><strong>Images look wrong in dark mode:</strong> see our <a href="/blog/dark-mode-email-design/">dark mode email design guide</a>.</li>
+<li><strong>Template tags show as raw text:</strong> a typo in <code>{{ }}</code> or <code>{% %}</code> syntax, or smart quotes pasted from a document. Retype quotes as plain straight quotes.</li>
+<li><strong>Broken images after import:</strong> relative image paths. Use absolute URLs.</li>
+</ul>
+
+<h2>Build Checklist</h2>
+<ul>
+<li>Max width 600 to 640px, table-based, <code>role="presentation"</code> on layout tables.</li>
+<li>All key styles inline; media queries only as an extra.</li>
+<li>Web-safe fallback fonts in every font stack.</li>
+<li>Bulletproof buttons coded as live text.</li>
+<li>Editable regions on every text, image and button that marketers will change.</li>
+<li>Header and footer as universal blocks.</li>
+<li>Personalisation tags with defaults.</li>
+<li>Unsubscribe and address tags present in the footer.</li>
+<li>Tested in Outlook, Gmail, Apple Mail and mobile. See our <a href="/blog/email-testing-checklist/">email testing checklist</a>.</li>
+</ul>
+
+<h2>A Real-World Scenario</h2>
+<p>A fashion brand had a designer build a beautiful full HTML template. It worked well, but every weekly campaign needed a developer to change headlines and product images, which slowed launches. The template was rebuilt as a hybrid: the same design, split into coded sections with editable regions, plus a universal header and footer. The marketing team could now swap images, rewrite text and reorder sections in the visual editor, while the coded layout kept it stable in Outlook. You can see a similar layout in our <a href="/portfolio/fashion-new-collection-launch-email/">fashion new collection launch email</a>.</p>
+
+<h2>Where Custom Templates Pay Off</h2>
+<p>A branded system used across campaigns and flows keeps every email consistent: <a href="/blog/klaviyo-welcome-series/">welcome series</a>, <a href="/blog/klaviyo-abandoned-cart-flow/">abandoned cart</a>, browse abandonment and post-purchase. Our <a href="/klaviyo-email-templates/">custom Klaviyo email templates</a> are built as editable modular systems, and our <a href="/klaviyo-flow-setup/">Klaviyo flow setup</a> service puts them to work.</p>
+
+<h2>How to Plan a Modular Template System</h2>
+<p>Before any code is written, list the emails you send and the sections they share. Most ecommerce brands need a small set of sections that can be mixed and matched:</p>
+<table>
+<thead><tr><th>Section</th><th>Used in</th><th>Editable parts</th></tr></thead>
+<tbody>
+<tr><td>Header with logo and nav</td><td>All emails</td><td>Links, logo (universal block)</td></tr>
+<tr><td>Hero image and headline</td><td>Campaigns, welcome</td><td>Image, headline, button</td></tr>
+<tr><td>Text block</td><td>All emails</td><td>Heading, body text</td></tr>
+<tr><td>Product grid (2 or 3 columns)</td><td>Campaigns, flows</td><td>Products via feed or event data</td></tr>
+<tr><td>Review or testimonial</td><td>Welcome, post-purchase</td><td>Quote text, name</td></tr>
+<tr><td>Footer</td><td>All emails</td><td>Social links, legal text (universal block)</td></tr>
+</tbody>
+</table>
+<p>With six to ten well-built sections, a team can create most campaigns without new code. It also keeps file size lower, because each section is lean and tested once.</p>
+<p>Keep a short guide for the marketing team explaining which section to use for what, the recommended image sizes and the character limits for headlines. That small document saves many broken layouts later.</p>
+
+<h2>Maintaining the Template Over Time</h2>
+<p>A template is not finished on launch day. Email clients change, your brand evolves and new sections are needed. A few habits keep it healthy:</p>
+<ul>
+<li><strong>Keep a master copy of the HTML</strong> outside Klaviyo, in a shared folder or code repository, so you can always roll back.</li>
+<li><strong>Change universal blocks with care.</strong> An edit to the footer updates every email that uses it, including live flows.</li>
+<li><strong>Retest after big client updates,</strong> such as changes to new Outlook or Gmail, and after adding any new section.</li>
+<li><strong>Review flow emails every few months</strong> so old designs and expired offers do not keep sending.</li>
+</ul>
+<p>Small, regular checks are far cheaper than a full rebuild when something breaks during a busy sale week.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Can I use custom HTML in Klaviyo?</h3>
+<p>Yes. You can create a template from HTML in Klaviyo, or build a hybrid template with custom-coded sections that remain editable.</p>
+<h3>Will a custom HTML template work with Klaviyo's drag-and-drop editor?</h3>
+<p>Only if it is built for it. Templates with editable regions or hybrid blocks open in the visual editor; plain HTML templates only open in the code editor.</p>
+<h3>Can dynamic product blocks be used in a custom template?</h3>
+<p>Yes. Custom templates can include Klaviyo product feeds and event data, for example the items left in a cart.</p>
+<h3>Why do my personalisation tags show as raw text?</h3>
+<p>Usually a syntax error or curly quotes pasted from a document. Check the brackets and retype quotes as straight quotes.</p>
+<h3>Should flows and campaigns use the same template?</h3>
+<p>They should share the same design system, header and footer, so every email feels consistent, even if the sections differ.</p>
+<h3>Can MailStora build my Klaviyo templates?</h3>
+<p>Yes. We build editable Klaviyo template systems and test them in 50+ email clients. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

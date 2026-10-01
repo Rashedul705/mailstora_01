@@ -1,0 +1,161 @@
+process.env.TZ = 'Asia/Dhaka';
+
+const express      = require('express');
+const cors         = require('cors');
+const cookieParser = require('cookie-parser');
+const morgan       = require('morgan');
+const dotenv       = require('dotenv');
+const connectDB    = require('./config/db');
+const { connectRedis, client: redisClient } = require('./config/redis');
+const mongoose     = require('mongoose');
+const path         = require('path');
+
+// Load env vars (only in non-production; Render/Netlify inject via dashboard)
+if (process.env.NODE_ENV !== 'production') {
+    dotenv.config();
+}
+
+if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+    console.error('JWT_SECRET is not set. Refusing to start: admin tokens would be forgeable.');
+    process.exit(1);
+}
+
+// Connect to Database
+connectDB();
+
+// Connect to Redis
+connectRedis();
+
+// Import Routes
+const apiRoutes = require('./routes/api');
+const adminGuard = require('./middleware/adminGuard');
+
+const app = express();
+app.set('trust proxy', 1);
+const setupReminders = require('./jobs/reminders');
+setupReminders();
+
+// View Engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// ── CORS ────────────────────────────────────────────────────
+// In production, only allow requests from your Netlify frontend.
+// Set FRONTEND_URL env var in Render dashboard, e.g.:
+//   https://your-site.netlify.app
+const allowedOrigins = [
+    'https://mailstora.com',
+    'https://www.mailstora.com',
+    'https://mailstora01.netlify.app',
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:3002',
+];
+if (process.env.FRONTEND_URL) {
+    allowedOrigins.push(process.env.FRONTEND_URL);
+}
+// Also support comma-separated list: FRONTEND_URL=https://a.netlify.app,https://b.com
+if (process.env.EXTRA_ORIGINS) {
+    process.env.EXTRA_ORIGINS.split(',').forEach(o => allowedOrigins.push(o.trim()));
+}
+
+const corsOptions = {
+    origin: true,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+// Handle preflight requests for all routes
+app.options(/.*/, cors(corsOptions));
+app.use(cors(corsOptions));
+
+// ── Core Middleware ──────────────────────────────────────────
+app.use(cookieParser());
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+// ── Email Template Image Proxy Route ────────────────────────
+const EmailTemplateImage = require('./models/EmailTemplateImage');
+app.use('/Email_Template', async (req, res, next) => {
+    // Template assets are for emails, not search results
+    res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive, noimageindex');
+    // Only handle GET requests
+    if (req.method !== 'GET') return next();
+
+    try {
+        // req.path will be something like "/patric/2nd_batch/600px_1.png"
+        const fullPath = req.path.replace(/^\//, ''); // remove leading slash
+        const parts = fullPath.split('/');
+        const fileName = parts.pop();
+        const folderName = parts.join('/');
+
+        const image = await EmailTemplateImage.findOne({ folderName, fileName });
+        if (image && image.imgbbUrl) {
+            // Stream the image from ImgBB to hide the ImgBB URL completely
+            const axios = require('axios');
+            const imgRes = await axios({
+                url: image.imgbbUrl,
+                method: 'GET',
+                responseType: 'stream'
+            });
+            // Forward the content type and add cache headers
+            res.set('Content-Type', imgRes.headers['content-type'] || 'image/png');
+            res.set('Cache-Control', 'public, max-age=31536000'); // Cache for 1 year
+            return imgRes.data.pipe(res);
+        }
+    } catch (err) {
+        console.error('Email_Template Proxy Error:', err);
+    }
+    // Fallback to local disk (express.static)
+    next();
+});
+
+app.use(express.static(path.join(__dirname, '../public')));
+
+// ── API Routes ───────────────────────────────────────────────
+app.use('/api', adminGuard, apiRoutes);
+
+// ── Health Check (required by Render) ───────────────────────
+app.get('/api/health', (req, res) => {
+    res.json({
+        status:       'ok',
+        env:          process.env.NODE_ENV || 'development',
+        db:           mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+        redis:        redisClient.isOpen ? 'connected' : 'disconnected',
+        uptime:       Math.floor(process.uptime()),
+        timestamp:    new Date().toISOString(),
+    });
+});
+
+// ── Root (status page) ──────────────────────────────────────
+app.get('/', async (req, res) => {
+    const uptimeInSeconds = Math.floor(process.uptime());
+    const hours   = Math.floor(uptimeInSeconds / 3600);
+    const minutes = Math.floor((uptimeInSeconds % 3600) / 60);
+    const seconds = uptimeInSeconds % 60;
+
+    res.render('index', {
+        env:          process.env.NODE_ENV || 'development',
+        port:         PORT,
+        uptime:       `${hours}h ${minutes}m ${seconds}s`,
+        dbConnected:  mongoose.connection.readyState === 1,
+        redisConnected: redisClient.isOpen,
+    });
+});
+
+// ── Global Error Handler ─────────────────────────────────────
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(err.status || 500).json({
+        message: err.message || 'Internal Server Error',
+        error:   process.env.NODE_ENV === 'development' ? err : {},
+    });
+});
+
+// ── Start ────────────────────────────────────────────────────
+const PORT = process.env.PORT || 5001;
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`✅ Server running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
+});

@@ -1,0 +1,26 @@
+[
+  {
+    "_id": {
+      "$oid": "6ab7c21e09a9915fcb6eb8e7"
+    },
+    "showTemplateTab": true,
+    "showSignatureTab": true,
+    "currency": "USD",
+    "defaultTab": "template",
+    "sectionTitle": "Simple, Transparent Pricing",
+    "sectionSubtitle": "One-time project pricing. No subscriptions, no hidden fees. Pay per project and get a pixel-perfect result every time.",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427678993"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427678993"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

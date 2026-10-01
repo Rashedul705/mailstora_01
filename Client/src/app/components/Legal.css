@@ -1,0 +1,38 @@
+.legal-section {
+    background-color: #FFFFFF;
+    padding: 100px 0;
+}
+
+.legal-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.legal-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #0F172A;
+    margin-bottom: 3rem;
+    letter-spacing: -0.02em;
+}
+
+.legal-content {
+    color: #334155;
+    line-height: 1.8;
+}
+
+.legal-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1.125rem;
+}
+
+.legal-content h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 3rem 0 1rem 0;
+}
+
+.legal-content strong {
+    color: #4338CA;
+}

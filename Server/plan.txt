@@ -1,0 +1,13 @@
+crate ana expresss node js server with mongodb atlas with file managemet using Buffer/Binary to collect file and accss file from mongodb 
+use nodemailer to send mail with attachment
+use imgbb to upload image and get image url
+use firebase auth  for user authentication
+use middleware to check user authentication
+use dotenv to hide sensitive information
+use cors to allow cross origin requests
+make server for multipel user handeling more then 100k 
+use redis for caching
+use redis for session management
+use async await for handling promises
+use try catch for error handling
+

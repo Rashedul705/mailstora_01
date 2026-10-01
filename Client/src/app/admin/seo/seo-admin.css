@@ -1,0 +1,283 @@
+/* ── SEO admin screens ─────────────────────────────────────── */
+.seo-page {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 1200px;
+}
+
+.seo-head h1 {
+    margin-bottom: 0.3rem;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #0b1b2b;
+}
+
+.seo-head p {
+    color: #5b6474;
+}
+
+.seo-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.seo-stat {
+    padding: 1.25rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: #fff;
+}
+
+.seo-stat span {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6b7280;
+}
+
+.seo-stat strong {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #0b1b2b;
+}
+
+.seo-card {
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: #fff;
+}
+
+.seo-card h2 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #0b1b2b;
+}
+
+.seo-card > p.seo-help {
+    margin: -0.5rem 0 1rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.seo-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.seo-field {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.seo-field label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.seo-field small {
+    font-size: 0.78rem;
+    color: #6b7280;
+}
+
+.seo-field input,
+.seo-field select,
+.seo-field textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    font: inherit;
+    font-size: 0.9rem;
+}
+
+.seo-field textarea {
+    min-height: 220px;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.85rem;
+}
+
+.seo-field input:focus,
+.seo-field select:focus,
+.seo-field textarea:focus {
+    border-color: #f97316;
+    outline: 3px solid rgba(249, 115, 22, 0.15);
+}
+
+.seo-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.75rem;
+}
+
+.seo-row > .seo-field {
+    flex: 1 1 200px;
+}
+
+.seo-btn {
+    padding: 0.65rem 1.2rem;
+    border: 0;
+    border-radius: 8px;
+    background: #f97316;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+}
+
+.seo-btn:hover {
+    background: #ea580c;
+}
+
+.seo-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.seo-btn--ghost {
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #111827;
+}
+
+.seo-btn--ghost:hover {
+    background: #f3f4f6;
+}
+
+.seo-btn--danger {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.seo-btn--danger:hover {
+    background: #fecaca;
+}
+
+.seo-msg {
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.seo-msg--ok {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.seo-msg--err {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.seo-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.seo-table th,
+.seo-table td {
+    padding: 0.7rem 0.6rem;
+    border-bottom: 1px solid #f1f2f5;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.seo-table th {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6b7280;
+}
+
+.seo-table code {
+    padding: 0.1rem 0.4rem;
+    border-radius: 6px;
+    background: #f3f4f6;
+    font-size: 0.85rem;
+    word-break: break-all;
+}
+
+.seo-pill {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: #f3f4f6;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+.seo-pill--on {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.seo-pill--off {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.seo-actions {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.seo-actions button {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+}
+
+.seo-empty {
+    padding: 2rem;
+    text-align: center;
+    color: #6b7280;
+}
+
+.seo-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.seo-links a {
+    display: block;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    color: #0b1b2b;
+    text-decoration: none;
+}
+
+.seo-links a strong {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.seo-links a span {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.seo-links a:hover {
+    border-color: #f97316;
+}
+
+@media (max-width: 900px) {
+    .seo-stats,
+    .seo-links,
+    .seo-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}

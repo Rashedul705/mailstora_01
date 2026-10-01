@@ -1,0 +1,26 @@
+[
+  {
+    "_id": {
+      "$oid": "6ab7c1c11ce62c451e118773"
+    },
+    "title": "Custom HTML Email Templates That Work",
+    "subtitle": "Looking for a Professional Email Developer?",
+    "cta_text": "Get Started",
+    "cta_link": "/contact",
+    "background_image": "",
+    "is_active": true,
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427585363"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427585363"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

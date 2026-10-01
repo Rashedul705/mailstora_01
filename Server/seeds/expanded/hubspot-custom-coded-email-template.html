@@ -1,0 +1,96 @@
+<p><strong>Short answer:</strong> in HubSpot, open <strong>Marketing, Files and Templates, Design Tools</strong>, create a new file and choose <strong>Email template</strong> (coded). Build the layout in table-based HTML, then add HubL modules or a drag-and-drop area so marketers can edit content in the email editor. Include HubSpot's required tags for the unsubscribe link and company address, then test before publishing.</p>
+
+<p>HubSpot's built-in email themes are quick to start with, but they limit how far you can go with brand design. A custom coded template gives you full control over the HTML while keeping the editor friendly for your team. This guide covers when to build one, the exact steps, sample HubL, common errors and how to keep the template easy to maintain. Menu names can change, so check HubSpot's current docs if a label looks different in your portal.</p>
+
+<h2>When You Need a Custom Coded Template</h2>
+<ul>
+<li>Your brand design cannot be built with the default themes.</li>
+<li>You need exact control over Outlook and mobile rendering.</li>
+<li>You want a set of reusable, locked brand modules for your team.</li>
+<li>You send many email types (newsletter, product update, event invite) and want them to share one system.</li>
+</ul>
+
+<h2>Step by Step</h2>
+<ol>
+<li>Open Design Tools and create a new <strong>coded email template</strong>.</li>
+<li>Paste your tested, table-based HTML layout.</li>
+<li>Add editable modules with HubL, for example <code>{% module "hero_text" path="@hubspot/rich_text" %}</code>.</li>
+<li>Or add a <code>{% dnd_area %}</code> so marketers can drag, drop and reorder sections.</li>
+<li>Build custom modules for repeated sections such as product cards or event details.</li>
+<li>Add required tags such as <code>{{ unsubscribe_link }}</code> and the company address.</li>
+<li>Publish, create a test email from the template and send tests to Outlook, Gmail and mobile.</li>
+</ol>
+
+<h2>A Minimal Template Skeleton</h2>
+<p>Here is the basic shape of a coded template. It starts with template annotations that tell HubSpot this is an email template:</p>
+<p><code>&lt;!-- templateType: email isAvailableForNewContent: true label: Brand Newsletter --&gt;</code></p>
+<p>Then a table-based wrapper, with modules in the editable spots:</p>
+<p><code>&lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt; &lt;tr&gt;&lt;td align="center"&gt; &lt;table role="presentation" width="600"&gt; &lt;tr&gt;&lt;td&gt;{% module "logo" path="@hubspot/image_email" label="Logo" %}&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;{% module "hero_text" path="@hubspot/rich_text" label="Hero text" %}&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;{{ site_settings.company_name }} {{ unsubscribe_link }}&lt;/td&gt;&lt;/tr&gt; &lt;/table&gt; &lt;/td&gt;&lt;/tr&gt; &lt;/table&gt;</code></p>
+<p>Check the current HubSpot documentation for the exact names of required tags and default modules in your portal, as these are updated from time to time.</p>
+
+<h2>Fixed Modules vs a Drag-and-Drop Area</h2>
+<table>
+<thead><tr><th></th><th>Fixed modules</th><th>dnd_area</th></tr></thead>
+<tbody>
+<tr><td>Layout control</td><td>Developer decides the order</td><td>Marketers can reorder sections</td></tr>
+<tr><td>Risk of broken layouts</td><td>Low</td><td>Higher if modules are not tested together</td></tr>
+<tr><td>Best for</td><td>Strict brand emails, transactional-style sends</td><td>Newsletters and campaigns that change often</td></tr>
+</tbody>
+</table>
+<p>Many teams mix both: a locked header and footer as fixed modules, with a drag-and-drop area in the middle for content.</p>
+
+<h2>Building Custom Modules</h2>
+<p>Custom modules are reusable blocks with their own fields. A product card module might have fields for image, title, price, and button text and URL. In the module's HTML you reference fields like <code>{{ module.title }}</code> and <code>{{ module.button_url }}</code>. Keep the HTML inside each module table-based and inline-styled, just like the main template, so it renders in Outlook. Our <a href="/hubspot-email-templates/">HubSpot email templates service</a> builds this kind of module library for teams that send often.</p>
+
+<h2>Common Problems</h2>
+<ul>
+<li><strong>Template won't publish:</strong> required tags are missing.</li>
+<li><strong>Editor shows no editable content:</strong> the template has no modules or dnd area.</li>
+<li><strong>Outlook layout breaks:</strong> the HTML uses divs or flexbox. See <a href="/blog/fix-html-emails-breaking-in-outlook/">Outlook fixes</a>.</li>
+<li><strong>Gmail clips the email:</strong> modules add code; keep it under 102 KB. See <a href="/blog/gmail-clipping-102kb-limit/">Gmail clipping</a>.</li>
+<li><strong>Buttons look different in Outlook:</strong> use <a href="/blog/bulletproof-email-buttons/">bulletproof email buttons</a> rather than styled links alone.</li>
+<li><strong>Colors flip in dark mode:</strong> test and plan for it. See <a href="/blog/dark-mode-email-design/">dark mode email design</a>.</li>
+</ul>
+
+<h2>Adding Personalization and Logic</h2>
+<p>HubL also lets you personalize content and show or hide blocks. A greeting with a fallback might look like this:</p>
+<p><code>Hi {{ contact.firstname|default("there") }},</code></p>
+<p>You can also show a block only to certain contacts, for example:</p>
+<p><code>{% if contact.lifecyclestage == "customer" %} ... {% endif %}</code></p>
+<p>Use logic with care. Every condition is one more thing to test, and a typo can hide a whole section. Keep logic simple, give every personalization token a fallback, and send test emails as contacts with and without the data filled in. HubSpot's preview tool lets you view the email as a specific contact, which is a quick way to check this before you send.</p>
+<p>If your HubSpot emails also go out as automated confirmations or receipts, the same rules apply. See our <a href="/transactional-email-templates/">transactional email templates</a> service for those builds.</p>
+
+<h2>Testing Before You Go Live</h2>
+<ol>
+<li>Create a test email from the template and fill every module with realistic content, including long headlines.</li>
+<li>Send tests to classic Outlook for Windows, new Outlook, Gmail web and app, Apple Mail and iPhone.</li>
+<li>Check dark mode, images turned off and a narrow phone screen.</li>
+<li>Check the size of the sent HTML against the Gmail limit.</li>
+<li>Click every link, including the unsubscribe and preferences links.</li>
+</ol>
+<p>Our <a href="/blog/email-testing-checklist/">email testing checklist</a> covers each of these in more detail.</p>
+
+<h2>Keep It Maintainable</h2>
+<p>Name modules clearly, lock brand elements such as the header and footer, and document which modules to use for which email type. Our <a href="/hubspot-email-templates/">HubSpot email templates service</a> builds coded templates and custom modules, tested and uploaded to your portal. For design handoff, use our <a href="/blog/figma-to-html-email-handoff-checklist/">Figma handoff checklist</a>, and see what a custom build costs in <a href="/blog/html-email-template-cost/">our pricing guide</a>.</p>
+<ul>
+<li>Use labels that make sense to marketers, such as "Product card, 2 columns", not "module_7".</li>
+<li>Keep one master template and avoid many near-copies.</li>
+<li>Store the source HTML in version control or a shared folder so changes can be rolled back.</li>
+</ul>
+
+<h2>A Real-World Scenario</h2>
+<p>A B2B software company sends a monthly newsletter, product update emails and webinar invites from HubSpot. Each marketer has been cloning old emails and editing them, and the designs have drifted. Outlook users report broken columns. The team moves to one coded template with a locked header and footer, a drag-and-drop area in the middle, and a small set of custom modules: article card, feature highlight, event details and speaker row. New emails now start from the same template, and each module has already been tested in Outlook and dark mode. This kind of setup is similar to what we built in our <a href="/case-studies/saas-onboarding-sequence/">SaaS onboarding sequence case study</a>.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Can I use custom HTML templates in HubSpot?</h3>
+<p>Yes. Create a coded email template in Design Tools. Add modules or a drag-and-drop area so it stays editable.</p>
+<h3>What is HubL?</h3>
+<p>HubL is HubSpot's template language. It adds modules, variables and logic to HTML templates.</p>
+<h3>Why won't my HubSpot email template publish?</h3>
+<p>Usually required tags are missing, such as the unsubscribe link or company address.</p>
+<h3>Can I convert a Figma design into a HubSpot template?</h3>
+<p>Yes. The design is first coded as tested, table-based HTML, then split into HubL modules. Share the Figma file with notes on which parts should be editable.</p>
+<h3>Do I need a paid HubSpot plan for coded templates?</h3>
+<p>Design Tools access depends on your HubSpot plan. Check HubSpot's current plan details for your portal.</p>
+<h3>Can MailStora build HubSpot templates?</h3>
+<p>Yes. We build coded HubSpot templates and custom modules and test them in 50+ clients. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

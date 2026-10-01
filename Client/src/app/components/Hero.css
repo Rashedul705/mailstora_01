@@ -1,0 +1,248 @@
+/* ── Home Hero ─────────────────────────────────────────────── */
+.home-hero {
+    --hh-height: clamp(560px, 36vw, 640px);
+    --hh-ink: #0b1b2b;
+    --hh-muted: #475569;
+    --hh-green: #16a34a;
+    --hh-orange: var(--accent-orange, #f97316);
+    --hh-orange-hover: var(--accent-orange-hover, #ea580c);
+
+    position: relative;
+    overflow: hidden;
+    /* globals.css forces `section { padding: 80px 0 !important }` */
+    padding: 0 !important;
+    background: #f8f6f3;
+    color: var(--hh-ink);
+    isolation: isolate;
+}
+
+/* Background image keeps its native ratio and hugs the right edge,
+   so the laptop never slides under the copy */
+.home-hero-media {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: var(--hh-height);
+    aspect-ratio: 1983 / 793;
+    z-index: -1;
+}
+
+.home-hero-img {
+    object-fit: cover;
+    object-position: right center;
+}
+
+/* Soft fades on the left and top edges blend the image into the background
+   and keep the copy readable */
+.home-hero-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, #f8f6f3 0%, rgba(248, 246, 243, 0) 12%),
+        linear-gradient(90deg,
+            #f8f6f3 0%,
+            rgba(248, 246, 243, 0.85) 18%,
+            rgba(248, 246, 243, 0) 40%);
+}
+
+.home-hero-inner {
+    display: flex;
+    align-items: center;
+    min-height: var(--hh-height);
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.home-hero-content {
+    max-width: 570px;
+}
+
+.home-hero-eyebrow {
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--hh-green);
+}
+
+.home-hero-title {
+    margin-bottom: 1.25rem;
+    font-size: clamp(2rem, 1.2rem + 2.6vw, 3.1rem);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    color: var(--hh-ink);
+    text-wrap: balance;
+}
+
+.home-hero-accent {
+    color: var(--hh-orange);
+}
+
+.home-hero-subtitle {
+    max-width: 500px;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--hh-muted);
+}
+
+/* ── Buttons ── */
+.home-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.home-hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-width: 190px;
+    padding: 0.95rem 1.75rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home-hero-btn:focus-visible {
+    outline: 3px solid var(--hh-orange);
+    outline-offset: 3px;
+}
+
+.home-hero-btn--primary {
+    background: var(--hh-orange);
+    color: #fff;
+    box-shadow: 0 10px 20px -8px rgba(249, 115, 22, 0.55);
+}
+
+.home-hero-btn--primary:hover {
+    background: var(--hh-orange-hover);
+    transform: translateY(-2px);
+}
+
+.home-hero-btn--primary svg {
+    transition: transform 0.2s ease;
+}
+
+.home-hero-btn--primary:hover svg {
+    transform: translateX(3px);
+}
+
+.home-hero-btn--ghost {
+    border: 2px solid var(--hh-ink);
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--hh-ink);
+}
+
+.home-hero-btn--ghost:hover {
+    background: var(--hh-ink);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* ── Feature checks ── */
+.home-hero-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    list-style: none;
+}
+
+.home-hero-features li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--hh-ink);
+}
+
+.home-hero-features svg {
+    flex-shrink: 0;
+    color: var(--hh-green);
+}
+
+/* ── Tablet / mobile: stack copy above the image ── */
+@media (max-width: 1319px) {
+    .home-hero {
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+    }
+
+    .home-hero-media {
+        position: relative;
+        right: auto;
+        height: auto;
+        order: 2;
+        width: 100%;
+        max-height: 520px;
+        aspect-ratio: 16 / 9;
+        z-index: 0;
+    }
+
+    .home-hero-img {
+        object-position: 72% center;
+    }
+
+    .home-hero-media::after {
+        background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0) 22%);
+    }
+
+    .home-hero-content {
+        max-width: 680px;
+        margin-inline: auto;
+        text-align: center;
+    }
+
+    .home-hero-subtitle {
+        margin-inline: auto;
+    }
+
+    .home-hero-actions,
+    .home-hero-features {
+        justify-content: center;
+    }
+
+    .home-hero-inner {
+        order: 1;
+        justify-content: center;
+        min-height: 0;
+        padding-top: 2.5rem;
+        padding-bottom: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .home-hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .home-hero-actions {
+        flex-direction: column;
+    }
+
+    .home-hero-btn {
+        width: 100%;
+    }
+
+    .home-hero-features {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .home-hero-btn,
+    .home-hero-btn svg {
+        transition: none;
+    }
+}

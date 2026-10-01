@@ -1,0 +1,22 @@
+/* Admin: case studies list */
+.acs { padding: 2rem; max-width: 1200px; }
+.acs-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
+.acs-head h1 { font-size: 1.6rem; font-weight: 800; color: #0f172a; margin: 0 0 .25rem; }
+.acs-head p { color: #64748b; margin: 0; }
+.acs-btn { background: #f97316; color: #fff; padding: .7rem 1.2rem; border-radius: 10px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+.acs-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.25rem; }
+.acs-stat { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: .25rem; }
+.acs-stat span { color: #64748b; font-size: .85rem; font-weight: 600; }
+.acs-stat strong { font-size: 1.6rem; color: #0f172a; }
+.acs-filters { display: flex; gap: .75rem; margin-bottom: 1rem; }
+.acs-filters input, .acs-filters select { border: 1px solid #e2e8f0; border-radius: 10px; padding: .6rem .9rem; font: inherit; background: #fff; }
+.acs-filters input { flex: 1; }
+.acs-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
+.acs-table th { text-align: left; background: #f8fafc; color: #475569; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; padding: .8rem 1rem; }
+.acs-table td { padding: .9rem 1rem; border-top: 1px solid #f1f5f9; vertical-align: top; color: #334155; }
+.acs-table small { color: #94a3b8; }
+.acs-table a { color: #ea580c; font-weight: 600; text-decoration: none; }
+.acs-badge { padding: .2rem .6rem; border-radius: 999px; font-size: .78rem; font-weight: 700; text-transform: capitalize; }
+.acs-badge--published { background: #f0fdf4; color: #166534; }
+.acs-badge--draft { background: #f1f5f9; color: #475569; }
+.acs-del { background: none; border: 0; color: #dc2626; font-weight: 600; cursor: pointer; padding: 0; font: inherit; }

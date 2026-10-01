@@ -1,0 +1,100 @@
+<p><strong>Short answer:</strong> an email looks broken on mobile when it has a fixed width, no viewport meta tag, columns that do not stack, or text and buttons that are too small. The fix is a fluid layout: tables with <code>width="100%"</code> and a <code>max-width</code> of about 600 px, columns that stack with media queries or a hybrid method, text of at least 14 px and buttons at least 44 px tall.</p>
+
+<h2>Signs Your Email Is Not Responsive</h2>
+<ul>
+<li>The reader has to zoom or scroll sideways.</li>
+<li>Text is tiny and buttons are hard to tap.</li>
+<li>Two or three columns squeeze next to each other.</li>
+<li>Images spill past the screen edge.</li>
+<li>Spacing looks huge on one side and cramped on the other.</li>
+</ul>
+<p>Many people read email on a phone first. If the first view is hard to read, they often delete the email rather than zoom in. So mobile problems cost clicks even when the desktop version looks perfect.</p>
+
+<h2>Why It Happens</h2>
+<p>Email is not like a web page. There is no single browser. Each email client, such as Apple Mail, the Gmail app, Outlook for iOS and Samsung Mail, has its own rules about which CSS it supports. A layout that relies on one feature, such as media queries, may work in one app and fail in another. That is why good email code has more than one layer of protection.</p>
+
+<h2>6 Fixes</h2>
+<ol>
+<li><strong>Add the viewport tag:</strong> <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code>.</li>
+<li><strong>Use fluid tables:</strong> <code>width="100%"</code> with a centered container of <code>max-width:600px</code>. For Outlook, wrap it in a fixed 600 px ghost table.</li>
+<li><strong>Stack columns:</strong> use media queries to make columns full width under 600 px. For Gmail apps that ignore media queries, use the hybrid (fluid inline-block) method.</li>
+<li><strong>Make images fluid:</strong> set <code>width</code> attribute plus <code>max-width:100%; height:auto</code>.</li>
+<li><strong>Size text for phones:</strong> body text 14 to 16 px, headings 22 px or more.</li>
+<li><strong>Make buttons tappable:</strong> at least 44 px tall and full width on mobile. See <a href="/blog/bulletproof-email-buttons/">bulletproof email buttons</a>.</li>
+</ol>
+
+<h3>Fix 2 in Detail: The Fluid Container</h3>
+<p>A typical container looks like this:</p>
+<p><code>&lt;!--[if mso]&gt;&lt;table role="presentation" width="600" align="center"&gt;&lt;tr&gt;&lt;td&gt;&lt;![endif]--&gt;</code></p>
+<p>
+<code>&lt;table role="presentation" width="100%" style="max-width:600px; margin:0 auto;"&gt;...&lt;/table&gt;</code></p>
+<p>
+<code>&lt;!--[if mso]&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;![endif]--&gt;</code></p>
+<p>Phones get a table that shrinks to fit. Classic Outlook, which ignores <code>max-width</code>, gets the fixed 600 px ghost table instead. Without the ghost table, Outlook can stretch the email across the whole window. The <a href="/blog/new-outlook-vs-classic-outlook-email-rendering/">difference between new and classic Outlook</a> explains why this is still needed.</p>
+
+<h3>Fix 3 in Detail: Media Queries vs Hybrid</h3>
+<p>A media query stacks columns like this:</p>
+<p><code>@media screen and (max-width:600px) { .column { width:100% !important; display:block !important; } }</code></p>
+<p>This works in Apple Mail and many other apps. But some Gmail setups, such as certain third-party accounts in the Gmail app, may strip the style block. The hybrid method solves this. Each column is a <code>div</code> with <code>display:inline-block</code>, a <code>max-width</code> such as 300 px, and <code>width:100%</code>. When the screen is too narrow for two columns, the second one wraps below the first with no media query needed. Use media queries as an extra layer on top.</p>
+
+<h3>Fix 4 in Detail: Images</h3>
+<p>Write images like this: <code>&lt;img src="hero.jpg" width="600" alt="New spring range" style="display:block; width:100%; max-width:600px; height:auto;"&gt;</code>. The <code>width</code> attribute keeps Outlook from showing the image at its full file size. The inline CSS lets it shrink on phones.</p>
+
+<h2>Why Builders Sometimes Get This Wrong</h2>
+<p>Some editors lock widths in pixels or produce nested tables that do not stack. Pasting designs from Canva or a Word document as one large image also breaks on mobile. A hand-coded, mobile-first template avoids these problems. Our <a href="/html-email-template-development/">responsive HTML email templates</a> are tested on iPhone, Android and tablets, as well as desktop Outlook.</p>
+<p>Another common cause is heavy code. When an email passes about 102 KB of HTML, Gmail cuts it off with a "View entire message" link, and styles at the end may be lost. See our guide to <a href="/blog/gmail-clipping-102kb-limit/">Gmail clipping at 102 KB</a>.</p>
+
+<h2>Mobile-First Design Habits</h2>
+<p>Code can only do so much if the design itself does not fit a phone. A few habits at the design stage save a lot of fixing later:</p>
+<ul>
+<li><strong>Design the mobile view too.</strong> Ask for a mobile mockup, not only a desktop one, so the developer knows how each section should stack.</li>
+<li><strong>Keep the key message near the top.</strong> On a phone, the first screen shows only the header and a little more.</li>
+<li><strong>Avoid text inside images.</strong> It shrinks with the image and becomes hard to read.</li>
+<li><strong>Use generous line height.</strong> Around 1.4 to 1.6 makes body text easier to read on small screens.</li>
+<li><strong>Leave space around links.</strong> Links that sit too close together are easy to mis-tap.</li>
+</ul>
+<p>When the design already follows these habits, the code stays simpler and there are fewer surprises across clients.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li>Setting <code>width="600"</code> on every inner table, so nothing can shrink.</li>
+<li>Putting all layout CSS in the <code>&lt;style&gt;</code> block, so it fails when a client strips it.</li>
+<li>Using a single image for the whole email, which makes text unreadable on a phone.</li>
+<li>Forgetting <code>height:auto</code>, which stretches images out of shape.</li>
+<li>Placing two buttons side by side with no room between them on small screens.</li>
+<li>Testing only in a desktop browser preview instead of on a real phone.</li>
+</ul>
+
+<h2>Mobile Checklist</h2>
+<table>
+<thead><tr><th>Check</th><th>Target</th></tr></thead>
+<tbody>
+<tr><td>Viewport meta tag</td><td>Present in the head</td></tr>
+<tr><td>Container</td><td>100% wide, max 600 px, ghost table for Outlook</td></tr>
+<tr><td>Columns</td><td>Stack below 600 px, even without media queries</td></tr>
+<tr><td>Body text</td><td>14 to 16 px</td></tr>
+<tr><td>Buttons</td><td>At least 44 px tall</td></tr>
+<tr><td>Images</td><td>Fluid, with alt text</td></tr>
+</tbody>
+</table>
+
+<h2>A Real-World Scenario</h2>
+<p>A brand designs a two-column product grid in Figma and exports it through a drag-and-drop tool. On desktop it looks fine. On an iPhone, the two columns squeeze together and the prices wrap onto three lines. The developer rebuilds the grid with hybrid inline-block columns and a ghost table for Outlook. Now the products stack one per row on phones, keep two per row on desktop, and Outlook stays at 600 px. If you are starting from a design file, our <a href="/figma-to-html-email/">Figma to HTML email</a> service builds this stacking in from the start.</p>
+
+<h2>Test on Real Devices</h2>
+<p>Preview on at least one iPhone (Apple Mail and Gmail app) and one Android phone. Also check <a href="/blog/dark-mode-email-design/">dark mode</a>, since most phones use it. The full list is in our <a href="/blog/email-testing-checklist/">email testing checklist</a>. For an example, see the <a href="/portfolio/fashion-new-collection-launch-email/">fashion launch email</a> in our portfolio, which stacks cleanly on every screen. The <a href="/portfolio/weekly-marketing-newsletter-email/">weekly newsletter email</a> shows the same approach with multi-column content. If you also have Outlook problems, read <a href="/blog/fix-html-emails-breaking-in-outlook/">how to fix emails that break in Outlook</a>.</p>
+<p>If you send through Klaviyo, our <a href="/klaviyo-email-templates/">Klaviyo email templates</a> are coded to stay responsive inside Klaviyo's editor too.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Why does my email look tiny on my phone?</h3>
+<p>The email probably has a fixed width and no viewport meta tag, so the phone shrinks the whole desktop layout to fit.</p>
+<h3>Do media queries work in Gmail?</h3>
+<p>Gmail supports media queries in many cases, but not all Gmail apps and account types. The hybrid method stacks columns without media queries.</p>
+<h3>What width should an email be?</h3>
+<p>Around 600 to 640 px on desktop, and 100% width on mobile.</p>
+<h3>Why do my images overflow the screen on mobile?</h3>
+<p>They have a fixed pixel width in CSS and no <code>max-width:100%</code>. Keep the width attribute for Outlook, but add fluid CSS for phones.</p>
+<h3>Is a single-column layout better for mobile?</h3>
+<p>It is the simplest and safest choice. Multi-column layouts are fine if they stack cleanly on small screens.</p>
+<h3>Can MailStora make my emails responsive?</h3>
+<p>Yes. We rebuild templates to be mobile-first and test them on real devices and 50+ clients. <a href="/quote/">Request a free quote</a> and get a price within 24 hours.</p>

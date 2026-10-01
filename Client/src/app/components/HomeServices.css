@@ -1,0 +1,425 @@
+/* ── Home services grid ────────────────────────────────────── */
+.home-services {
+    --hs-ink: #0b1b2b;
+    --hs-muted: #5b6474;
+    --hs-orange: #f97316;
+    --hs-orange-soft: #fff1e6;
+    --hs-green: #16a34a;
+    --hs-green-soft: #e8f7ee;
+
+    /* globals.css forces `section { padding: 80px 0 !important }` */
+    padding: 5rem 0 !important;
+    background: #fdfaf7;
+}
+
+.home-services-header {
+    max-width: 900px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.home-services-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--hs-orange);
+}
+
+.home-services-eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+}
+
+.home-services-title {
+    margin-bottom: 1rem;
+    font-size: clamp(1.75rem, 1.2rem + 2vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--hs-ink);
+    text-wrap: balance;
+}
+
+.home-services-title span {
+    color: var(--hs-orange);
+}
+
+.home-services-subtitle {
+    max-width: 680px;
+    margin-inline: auto;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--hs-muted);
+}
+
+.home-services-subtitle strong {
+    font-weight: 600;
+    color: var(--hs-ink);
+}
+
+/* ── Grid ── */
+/* One column of sticky cards: each pins below the navbar and the next one
+   slides up over it, so every card (and its image) gets the full view */
+.home-services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1080px;
+    margin: 0 auto;
+    list-style: none;
+}
+
+.home-services-grid > li {
+    position: sticky;
+    top: calc(110px + var(--i, 0) * 14px);
+    display: flex;
+}
+
+/* Browsers with scroll-driven animations: cards slide up and settle as they arrive
+   (opaque throughout, so the card underneath never shows through) */
+@supports (animation-timeline: view()) {
+    .home-services-card {
+        animation: hsCardIn linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 35%;
+    }
+
+    @keyframes hsCardIn {
+        from {
+            transform: translateY(40px) scale(0.97);
+        }
+
+        to {
+            transform: none;
+        }
+    }
+}
+
+/* ── Card: text on the left, service image on the right ── */
+.home-services-card {
+    --accent: var(--hs-orange);
+    --accent-soft: var(--hs-orange-soft);
+    --card-bg: linear-gradient(160deg, #fff4ea 0%, #fffaf5 45%, #fff 100%);
+    --card-border: #fde3cc;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: stretch;
+    gap: 1rem;
+    width: 100%;
+    min-height: 0;
+    padding: 2rem 2rem 2rem 2.5rem;
+    gap: 2.5rem;
+    align-items: center;
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    background: var(--card-bg), #fff;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 -10px 40px -24px rgba(15, 23, 42, 0.35), 0 20px 40px -24px rgba(15, 23, 42, 0.18);
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.home-services-card--green {
+    --accent: var(--hs-green);
+    --accent-soft: var(--hs-green-soft);
+    --card-bg: linear-gradient(160deg, #eaf8ef 0%, #f5fcf7 45%, #fff 100%);
+    --card-border: #cdeed8;
+}
+
+.home-services-card:hover {
+    border-color: var(--accent);
+}
+
+
+
+.home-services-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.home-services-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0.9rem;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 6px 16px -8px var(--accent);
+    color: var(--accent);
+}
+
+.home-services-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.home-services-card-title {
+    margin-bottom: 0.75rem;
+    font-size: clamp(1.4rem, 1.1rem + 0.8vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--hs-ink);
+}
+
+.home-services-card-text {
+    margin-bottom: 1.25rem;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: var(--hs-muted);
+}
+
+/* Two columns of bullets keep the card short */
+.home-services-points {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem 1.25rem;
+    margin-bottom: 1.25rem;
+    list-style: none;
+}
+
+.home-services-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.975rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--hs-ink);
+}
+
+.home-services-points svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: var(--accent);
+}
+
+.home-services-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.home-services-card:hover .home-services-more svg {
+    transform: translateX(3px);
+}
+
+.home-services-more svg {
+    transition: transform 0.2s ease;
+}
+
+/* Two buttons, styled like the hero buttons */
+.home-services-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.home-services-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.4rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home-services-btn:focus-visible {
+    outline: 3px solid var(--hs-orange);
+    outline-offset: 3px;
+}
+
+.home-services-btn--primary {
+    background: var(--hs-orange);
+    color: #fff;
+    box-shadow: 0 10px 20px -10px rgba(249, 115, 22, 0.6);
+}
+
+.home-services-btn--primary:hover {
+    background: #ea580c;
+    transform: translateY(-2px);
+}
+
+.home-services-btn--primary svg {
+    transition: transform 0.2s ease;
+}
+
+.home-services-btn--primary:hover svg {
+    transform: translateX(3px);
+}
+
+.home-services-btn--ghost {
+    border: 2px solid var(--hs-ink);
+    background: rgba(255, 255, 255, 0.7);
+    color: var(--hs-ink);
+}
+
+.home-services-btn--ghost:hover {
+    background: var(--hs-ink);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.home-services-media {
+    position: relative;
+    align-self: center;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 10px 24px -14px rgba(15, 23, 42, 0.35);
+}
+
+.home-services-img {
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.4s ease;
+}
+
+.home-services-card:hover .home-services-img {
+    transform: scale(1.04);
+}
+
+/* ── Additional services: 2 compact cards side by side ── */
+.home-services-extra {
+    max-width: 1080px;
+    margin: 4rem auto 0;
+}
+
+.home-services-extra-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.35rem;
+    font-weight: 800;
+    text-align: center;
+    color: var(--hs-ink);
+}
+
+.home-services-extra-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem;
+    list-style: none;
+}
+
+.home-services-extra-grid > li {
+    display: flex;
+}
+
+.home-services-card.home-services-card--compact {
+    grid-template-columns: 1fr;
+    padding: 2rem;
+    /* Not part of the sticky stack, so no scroll-in animation */
+    animation: none;
+}
+
+.home-services-card--compact .home-services-points {
+    grid-template-columns: 1fr;
+}
+
+.home-services-card--compact .home-services-card-title {
+    font-size: 1.35rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+    .home-services-card {
+        grid-template-columns: minmax(0, 1fr) 260px;
+        padding: 1.75rem;
+        gap: 1.75rem;
+    }
+
+    .home-services-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .home-services-grid > li {
+        position: static;
+    }
+
+    .home-services-extra-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .home-services {
+        padding: 3.5rem 0 !important;
+    }
+
+    .home-services-header {
+        margin-bottom: 2rem;
+    }
+
+    .home-services-subtitle {
+        font-size: 1rem;
+    }
+
+    .home-services-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .home-services-points {
+        grid-template-columns: 1fr;
+    }
+
+    .home-services-card {
+        grid-template-columns: 1fr;
+        min-height: 0;
+        padding: 1.5rem;
+    }
+
+    .home-services-media {
+        order: -1;
+        aspect-ratio: 16 / 10;
+    }
+
+    .home-services-icon {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 1.25rem;
+    }
+
+    .home-services-icon svg {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-services-grid > li {
+        position: static;
+    }
+
+    .home-services-card {
+        animation: none !important;
+    }
+
+    .home-services-card,
+    .home-services-img,
+    .home-services-more svg {
+        transition: none;
+    }
+}

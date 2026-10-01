@@ -1,0 +1,310 @@
+[
+  {
+    "_id": {
+      "$oid": "6ab7c1c32c51a65092453cbf"
+    },
+    "name": "Sarah Jenkins",
+    "role": "Marketing Lead at TechFlow",
+    "text": "MailStora transformed our email marketing. The hand-coded templates are pixel-perfect on every device we tested. Finally, a service that understands the nuances of email client rendering!",
+    "rating": {
+      "$numberInt": "5"
+    },
+    "platform": "upwork",
+    "featured": true,
+    "status": "pending",
+    "avatarInitials": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427587066"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427587066"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7c1c32c51a65092453cc0"
+    },
+    "name": "Michael Chen",
+    "role": "Founder of ChenMedia",
+    "text": "Fastest turnaround I've ever experienced. Had my complex Outlook-compatible template ready in less than 24 hours. The code is clean and incredibly well-optimized.",
+    "rating": {
+      "$numberInt": "5"
+    },
+    "platform": "fiverr",
+    "featured": false,
+    "status": "pending",
+    "avatarInitials": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427587068"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427587068"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7c1c32c51a65092453cc1"
+    },
+    "name": "Elena Rodriguez",
+    "role": "Communications Director",
+    "text": "The attention to detail in the coding is top-notch. No more rendering issues in Outlook for our corporate newsletters. Their expertise in cross-client compatibility is unmatched.",
+    "rating": {
+      "$numberInt": "5"
+    },
+    "platform": "direct",
+    "featured": false,
+    "status": "pending",
+    "avatarInitials": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427587068"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427587068"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7c1c32c51a65092453cc2"
+    },
+    "name": "David Smith",
+    "role": "Agency Owner",
+    "text": "Highly recommend for any agency needing reliable white-label email development. A true partner for our growth. They integrate seamlessly into our existing agency workflow.",
+    "rating": {
+      "$numberInt": "5"
+    },
+    "platform": "direct",
+    "featured": false,
+    "status": "pending",
+    "avatarInitials": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1790427587068"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790427587068"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fd210d17a8e7ce160149"
+    },
+    "name": "Amit B.",
+    "text": "Job well done on time and as per expectations!",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "avatarInitials": "AM",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1774224000000"
+      }
+    },
+    "featured": true,
+    "platform": "upwork",
+    "rating": {
+      "$numberInt": "5"
+    },
+    "role": "HTML Email Signature Developer – Project-Based",
+    "status": "published",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790442785469"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fd210d17a8e7ce16014a"
+    },
+    "text": "Email templates were done very quickly and to a very high standard.",
+    "name": "Ryan H.",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "avatarInitials": "RY",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1756944000000"
+      }
+    },
+    "featured": true,
+    "platform": "upwork",
+    "rating": {
+      "$numberInt": "5"
+    },
+    "role": "Email Template Responsiveness Improvement",
+    "status": "published",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790442785488"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fd210d17a8e7ce16014b"
+    },
+    "text": "MD did an exceptional job, was able to follow all directions. Very pleased with work. Well done, look forward to working with again. Very pleased with work quality. Cheers",
+    "name": "Newton H.",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "avatarInitials": "NE",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1753315200000"
+      }
+    },
+    "featured": true,
+    "platform": "upwork",
+    "rating": {
+      "$numberInt": "5"
+    },
+    "role": "Need individual for email signatures",
+    "status": "published",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790442785494"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fd210d17a8e7ce16014c"
+    },
+    "text": "I had a pretty good experience. He's very professional, transparent and honest. I ended up get more followers",
+    "name": "Rebecca S.",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "avatarInitials": "RE",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1706832000000"
+      }
+    },
+    "featured": true,
+    "platform": "upwork",
+    "rating": {
+      "$numberInt": "5"
+    },
+    "role": "Instagram Account Growth",
+    "status": "published",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790442785497"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fd210d17a8e7ce16014d"
+    },
+    "text": "MD is capable, informative, responsive, hardworking, quick learning, and respectful. I have every confidence in him and his abilities. I also enjoyed working with him.",
+    "name": "Upwork Client",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "avatarInitials": "UP",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1700784000000"
+      }
+    },
+    "featured": true,
+    "platform": "upwork",
+    "rating": {
+      "$numberInt": "5"
+    },
+    "role": "Instagram Marketing & Management",
+    "status": "published",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790442785499"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fd210d17a8e7ce16014e"
+    },
+    "text": "Great job! We reached our organic growth goal of 10K+ followers. Thanks!",
+    "name": "Vince L.",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "avatarInitials": "VI",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1631491200000"
+      }
+    },
+    "featured": true,
+    "platform": "upwork",
+    "rating": {
+      "$numberInt": "5"
+    },
+    "role": "Instagram Expert 5K organic followers - Long-Term",
+    "status": "published",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790442785501"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab7fd210d17a8e7ce16014f"
+    },
+    "text": "Responds on time, does great work, great with communication! Gets the task done as asked! Great person to work with!",
+    "name": "Tabesteph M.",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "avatarInitials": "TA",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1630972800000"
+      }
+    },
+    "featured": true,
+    "platform": "upwork",
+    "rating": {
+      "$numberInt": "5"
+    },
+    "role": "Advertising contracting company over the internet",
+    "status": "published",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1790442785503"
+      }
+    }
+  }
+]

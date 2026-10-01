@@ -1,0 +1,106 @@
+<p><strong>Short answer:</strong> before sending any email, check that it renders correctly in Outlook, Gmail, Apple Mail and on mobile; that it stays under Gmail's 102 KB limit; that it looks right in dark mode; that every link, merge tag and image works; that it is readable and accessible; and that your platform settings (subject, preheader, audience, unsubscribe) are correct.</p>
+
+<p>This is the same checklist we use for every email in our <a href="/outlook-email-rendering-fix/">email testing and QA service</a>. Copy it into your own pre-send routine.</p>
+
+<p>Once an email is sent, you cannot take it back. A broken button, a wrong price or a layout that falls apart in Outlook reaches every subscriber at once. A short, repeatable checklist catches most of these problems in minutes. The 25 points below are grouped so you can work through them in order, from how the email looks to how it is sent.</p>
+
+<h2>Rendering (1–6)</h2>
+<ol>
+<li>Classic Outlook for Windows shows the layout correctly (columns, spacing, buttons).</li>
+<li>New Outlook and Outlook on the web look the same.</li>
+<li>Gmail on web, Android and iOS shows the full design.</li>
+<li>Apple Mail and iOS Mail render correctly.</li>
+<li>Yahoo Mail and other clients your audience uses are checked.</li>
+<li>Web fonts fall back to a clean system font where unsupported.</li>
+</ol>
+<p>Classic Outlook for Windows uses Microsoft Word to render HTML, which is why it breaks layouts other clients handle well. New Outlook uses a more modern engine, so the two can look quite different. See <a href="/blog/new-outlook-vs-classic-outlook-email-rendering/">new Outlook vs classic Outlook rendering</a> for what changes between them.</p>
+<p>For font fallback, always list a safe system font after your web font:</p>
+<p><code>font-family: 'Inter', Arial, Helvetica, sans-serif;</code></p>
+
+<h2>Mobile (7–9)</h2>
+<ol start="7">
+<li>Columns stack neatly on a phone.</li>
+<li>Text is at least 14 px and buttons at least 44 px tall.</li>
+<li>Images scale down without stretching or cropping key content.</li>
+</ol>
+<p>Most people read email on a phone, so mobile checks matter as much as desktop ones. Open the test on a real phone, not only a resized browser window. If columns refuse to stack, our guide on <a href="/blog/responsive-email-not-working-mobile/">responsive email not working on mobile</a> covers the usual causes, such as missing media queries or fixed widths.</p>
+
+<h2>Size and Dark Mode (10–12)</h2>
+<ol start="10">
+<li>The HTML is under 102 KB, so Gmail does not clip it. See <a href="/blog/gmail-clipping-102kb-limit/">how to fix Gmail clipping</a>.</li>
+<li>The email looks right in dark mode in Gmail, Outlook and Apple Mail. See our <a href="/blog/dark-mode-email-design/">dark mode email design guide</a>.</li>
+<li>Logos and icons stay visible on dark backgrounds.</li>
+</ol>
+<p>A quick way to check size is to save the final HTML as a file and look at its size on disk. Remember that your platform may add tracking code when it sends, so aim to stay well under the limit, not just under it. For dark mode, a dark logo on a transparent PNG is the most common problem; a thin light outline or a light background behind the logo usually fixes it.</p>
+
+<h2>Links and Content (13–18)</h2>
+<ol start="13">
+<li>Every link and button goes to the right page.</li>
+<li>UTM or tracking parameters are correct and consistent.</li>
+<li>Merge tags such as first name show real values, with a fallback if empty.</li>
+<li>Dynamic product or order blocks show the right items.</li>
+<li>Prices, dates, codes and offer terms are correct.</li>
+<li>Spelling and grammar are checked.</li>
+</ol>
+<p>Merge tags need a default so an empty field does not leave an awkward gap. In Klaviyo, for example, a first name with a fallback looks like this:</p>
+<p><code>{{ first_name|default:'there' }}</code></p>
+<p>Click every link in the real test email, not in the editor preview. Tracking wrappers are added at send time, and that is where broken links often show up. Buttons should be built from code so they still work when images are off; see <a href="/blog/bulletproof-email-buttons/">bulletproof email buttons</a>.</p>
+
+<h2>Images and Accessibility (19–22)</h2>
+<ol start="19">
+<li>Every image has meaningful alt text; decorative images have empty alt.</li>
+<li>The email still makes sense with images turned off.</li>
+<li>Text and button colours have enough contrast.</li>
+<li>Important text is live text, not only inside images.</li>
+</ol>
+<p>A decorative image should use an empty alt attribute, like <code>alt=""</code>, so screen readers skip it. A content image needs alt text that says what it shows or what it offers. For more on screen readers, heading order and contrast, read our <a href="/blog/accessible-email-design/">accessible email design guide</a>.</p>
+
+<h2>Platform and Deliverability (23–25)</h2>
+<ol start="23">
+<li>Subject line and preheader text are set and fit on mobile.</li>
+<li>The right list or segment is selected, and send time and time zone are correct.</li>
+<li>The unsubscribe link and company address are in the footer and work.</li>
+</ol>
+<p>These last three checks are easy to skip because they live in the platform settings, not the design. They also cause some of the most visible mistakes, such as sending a VIP offer to the whole list or sending at 3 a.m. in your main market.</p>
+
+<h2>Common Testing Mistakes</h2>
+<ul>
+<li><strong>Testing only in the editor preview.</strong> Previews are not real email clients. Always send real tests.</li>
+<li><strong>Checking one Outlook version.</strong> Classic Outlook, new Outlook and Outlook on the web behave differently.</li>
+<li><strong>Skipping images-off.</strong> Many work inboxes block images by default.</li>
+<li><strong>Retesting nothing after a small change.</strong> A last-minute text edit can push a file over the size limit or break a table.</li>
+<li><strong>One person doing everything.</strong> A second pair of eyes catches wrong prices and dates much more often.</li>
+</ul>
+
+<h2>Make Testing Faster</h2>
+<ul>
+<li>Use an email testing tool that shows screenshots across clients, then send a final real test to Gmail and Outlook.</li>
+<li>Start from a well-built template: most rendering problems come from the template, not the content. Our <a href="/html-email-template-development/">hand-coded email templates</a> are tested in 50+ clients before delivery.</li>
+<li>If you are handing designs to a developer, the <a href="/blog/figma-to-html-email-handoff-checklist/">Figma to HTML handoff checklist</a> prevents problems before coding starts.</li>
+</ul>
+<p>See what testing and a clean rebuild did for Canadian Choice: their campaign email <a href="/case-studies/canadian-choice-windows-doors/">now renders correctly in every Outlook version</a>.</p>
+
+<h2>A Real-World Scenario</h2>
+<p>A marketing manager is about to send a spring sale. The design looks great in the editor. She runs the checklist and finds three problems: the hero headline is baked into an image with no alt text, the discount code in the footer still shows last month's code, and the two-column product grid does not stack on her phone. Fixing all three takes twenty minutes. Without the check, every subscriber would have seen a wrong code, and phone readers would have seen tiny, squeezed products.</p>
+
+<h2>Related Guides</h2>
+<p>Keep reading with these guides on related problems:</p>
+<ul>
+<li><a href="/blog/email-images-not-showing/">Email images not showing: 7 causes and fixes</a></li>
+<li><a href="/blog/why-emails-go-to-spam/">Why your emails go to spam and how to fix it</a></li>
+<li><a href="/blog/customize-shopify-order-confirmation-email/">How to customize Shopify order confirmation emails</a></li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Which email clients should I test in?</h3>
+<p>At minimum: classic Outlook for Windows, Gmail (web and mobile), Apple Mail and iOS Mail. Then add the clients your own audience uses most, which you can see in your email platform's reports.</p>
+<h3>How do I test an email in Outlook without Windows?</h3>
+<p>Use an email testing tool that renders screenshots in real Outlook versions, or send a test to a colleague who uses classic Outlook for Windows.</p>
+<h3>How long does email testing take?</h3>
+<p>With a checklist and a testing tool, 15 to 30 minutes per email. A well-built template makes each new send faster to check.</p>
+<h3>Do I need to retest every campaign if I use the same template?</h3>
+<p>Yes, but it is faster. The layout is already proven, so focus on links, content, images, merge tags and platform settings. Do a full rendering check after any template change.</p>
+<h3>Is a testing tool enough on its own?</h3>
+<p>It is a big help, but also send a real test to Gmail and Outlook and open it on a phone. Real inboxes show tracking links, images-off views and dark mode more reliably.</p>
+<h3>Can MailStora test and fix my emails?</h3>
+<p>Yes. We test emails in 50+ clients, fix Outlook, Gmail and dark mode issues and send a before-and-after report. <a href="/quote/">Request a free quote</a>.</p>

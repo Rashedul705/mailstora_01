@@ -1,0 +1,46 @@
+/* Page-wide decoration layer: sits above section backgrounds, never catches clicks */
+.page-decor {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.page-decor-icon {
+    position: absolute;
+    opacity: 0.1;
+    animation: pageDecorFloat 8s ease-in-out infinite alternate;
+}
+
+.page-decor-icon--orange {
+    color: #f97316;
+}
+
+.page-decor-icon--green {
+    color: #16a34a;
+}
+
+@keyframes pageDecorFloat {
+    to {
+        translate: 0 -16px;
+    }
+}
+
+/* Less room at the edges on smaller screens: show half the icons, smaller and fainter */
+@media (max-width: 1024px) {
+    .page-decor-icon:nth-child(even) {
+        display: none;
+    }
+
+    .page-decor-icon {
+        opacity: 0.07;
+        scale: 0.75;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-decor-icon {
+        animation: none;
+    }
+}

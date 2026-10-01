@@ -1,0 +1,106 @@
+<p><strong>Short answer:</strong> in dark mode, some email clients leave your email alone, some darken only light backgrounds, and some invert almost every colour. You cannot fully control that, but you can design for it: use transparent logos with an outline or light version, avoid pure black and pure white, add dark mode styles for clients that support them, and test in each client before sending.</p>
+
+<p>Many readers now keep their phones and computers in dark mode all day, so your email is often seen that way first. This guide covers how clients behave, the problems you will see, and the design and code fixes that make an email hold up.</p>
+
+<h2>The Three Ways Email Clients Handle Dark Mode</h2>
+<table>
+<thead><tr><th>Behaviour</th><th>What happens</th><th>Where you see it</th></tr></thead>
+<tbody>
+<tr><td>No change</td><td>The email keeps its colours; only the app interface turns dark</td><td>Some webmail and desktop clients</td></tr>
+<tr><td>Partial inversion</td><td>Light backgrounds become dark and dark text becomes light; dark areas stay</td><td>For example Gmail on Android and Outlook.com</td></tr>
+<tr><td>Full inversion</td><td>Most colours are inverted, including dark areas</td><td>For example Outlook apps and Gmail on iOS</td></tr>
+</tbody>
+</table>
+<p>Behaviour changes as email apps update, so always check the current result in real clients rather than relying on a fixed list. There is also a fourth case worth knowing: clients such as Apple Mail respect your own dark mode styles if you provide them, which gives you the most control.</p>
+
+<h2>Common Dark Mode Problems</h2>
+<ul>
+<li>A dark logo on a transparent background disappears on a dark background.</li>
+<li>Brand colours shift to a different shade after inversion.</li>
+<li>Text inside images stays dark while the background around it turns dark.</li>
+<li>Buttons lose contrast, or borders appear where there were none.</li>
+<li>Product photos cut out on white look like floating white boxes on a dark page.</li>
+<li>Dividers and thin grey lines vanish or turn into bright stripes.</li>
+</ul>
+
+<h2>Design Fixes</h2>
+<ol>
+<li><strong>Logos:</strong> use a transparent PNG with a thin light outline or glow, or supply a light version to swap in with dark mode styles.</li>
+<li><strong>Avoid pure black (#000) and pure white (#fff)</strong> for large areas. Slightly off-white and off-black invert more gracefully.</li>
+<li><strong>Keep text as live text</strong>, not inside images, so the client can recolour it.</li>
+<li><strong>Give images a built-in background</strong> or padding so they do not look cut out on dark backgrounds.</li>
+<li><strong>Check button contrast</strong> in both modes; a solid brand-coloured button with white text usually survives.</li>
+</ol>
+<p>Buttons deserve special care. A coded button with live text and a background colour set on the table cell holds up better than an image button. Our guide to <a href="/blog/bulletproof-email-buttons/">bulletproof email buttons</a> shows the pattern that works in Outlook as well.</p>
+
+<h3>Design in both modes from the start</h3>
+<p>If your team designs in Figma, add a dark mode frame next to the light one. Place your logo, icons and key images on a dark grey background and see what disappears. This takes minutes at the design stage and saves a round of fixes after coding.</p>
+
+<h2>Code Fixes</h2>
+<ul>
+<li>Declare support in the head: <code>&lt;meta name="color-scheme" content="light dark"&gt;</code> and <code>&lt;meta name="supported-color-schemes" content="light dark"&gt;</code>.</li>
+<li>Add styles inside <code>@media (prefers-color-scheme: dark)</code> for clients that support it, such as Apple Mail and iOS Mail, to set your own dark colours and swap logos.</li>
+<li>For Outlook.com and the Outlook apps, dark mode attribute selectors (such as <code>[data-ogsc]</code>) can target text colours in some versions.</li>
+<li>Keep all key colours set inline as well, so clients that ignore the head styles still show a sensible result.</li>
+</ul>
+
+<h3>Example: a simple dark mode block</h3>
+<p>In the <code>&lt;style&gt;</code> block, add classes for dark mode and apply them to your elements:</p>
+<p><code>@media (prefers-color-scheme: dark) { .dm-bg { background-color:#1e1e1e !important; } .dm-text { color:#f2f2f2 !important; } .logo-light { display:block !important; } .logo-dark { display:none !important; } }</code></p>
+<p>Then give the body table <code>class="dm-bg"</code>, text cells <code>class="dm-text"</code>, and include two logo images: the normal one with <code>class="logo-dark"</code> and a light one hidden by default with <code>class="logo-light"</code> and <code>style="display:none;"</code>. Clients that do not support the media query simply show the normal logo. Keep the hidden logo small, since hidden code still adds to the email's size.</p>
+
+<h2>Common Mistakes</h2>
+<ul>
+<li><strong>Relying only on the media query.</strong> Gmail and the Outlook apps ignore it, so the email must still look acceptable without it.</li>
+<li><strong>Using a black logo with no outline.</strong> It is the number one cause of "missing logo" complaints.</li>
+<li><strong>Putting headlines inside images.</strong> They cannot be recoloured, and they also fail when images are blocked.</li>
+<li><strong>Testing only on your own phone.</strong> Your phone shows one client's behaviour, not your audience's.</li>
+<li><strong>Chasing perfect control.</strong> Aim for readable and on-brand in every client, not identical.</li>
+</ul>
+
+<h2>Test Before Every Send</h2>
+<p>Dark mode is where emails most often surprise people. Preview every email in dark mode in Gmail, Outlook and Apple Mail, on desktop and mobile. It is part of our <a href="/blog/email-testing-checklist/">25-point email testing checklist</a>, and dark mode repairs are included in our <a href="/outlook-email-rendering-fix/">Outlook and email rendering fix service</a>. Outlook has its own quirks too; see <a href="/blog/fix-html-emails-breaking-in-outlook/">how to fix emails that break in Outlook</a>, and note that the new and classic Outlook apps can differ, as explained in <a href="/blog/new-outlook-vs-classic-outlook-email-rendering/">new Outlook vs classic Outlook rendering</a>.</p>
+<p>For an example, our <a href="/portfolio/black-friday-sale-email/">Black Friday email</a> uses locked dark mode colours so the design stays on-brand in every client. Every <a href="/html-email-template-development/">custom HTML email template</a> we build is checked in light and dark mode before delivery, including templates we build for <a href="/klaviyo-email-templates/">Klaviyo</a>.</p>
+
+<h3>Mini dark mode checklist</h3>
+<ul>
+<li>Logo readable on dark grey and on white.</li>
+<li>All headlines and body copy are live text.</li>
+<li>Buttons have enough contrast in both modes.</li>
+<li>Product images have a background or padding.</li>
+<li>Colour-scheme meta tags are in the head.</li>
+<li>Tested in Gmail (Android and iOS), Outlook and Apple Mail in dark mode.</li>
+</ul>
+
+<h2>Why Your Logo Disappears in Dark Mode</h2>
+<p>This is the most common dark mode complaint. A black or dark-coloured logo saved as a transparent PNG sits on a white background in light mode. When the client turns that background dark, the logo blends in and seems to vanish. Three fixes work well:</p>
+<ul>
+<li><strong>Add a thin white outline or soft glow</strong> around the logo in the PNG. It is invisible on white and keeps the logo readable on dark.</li>
+<li><strong>Place the logo on a solid light shape</strong> such as a rounded white badge, so the colours behind it never change.</li>
+<li><strong>Swap in a light logo</strong> with <code>@media (prefers-color-scheme: dark)</code> for Apple Mail and iOS Mail, and keep the outline version as the default for other clients.</li>
+</ul>
+
+<h2>A Short Real-World Scenario</h2>
+<p>A fashion brand launches a new collection with a navy logo, black headline text in an image and a white product grid. In light mode it looks clean. In dark mode on an iPhone, the logo disappears, the headline image shows as a white rectangle, and the product photos float on bright squares. The fix: an outlined logo plus a light version for Apple Mail, the headline rebuilt as live text, and product photos placed on a soft grey background inside the image. The next send is readable in every client tested, even though each client still shows slightly different colours. Good contrast also helps readers with low vision; see our <a href="/blog/accessible-email-design/">accessible email design guide</a>.</p>
+
+<h2>Related Guides</h2>
+<p>Keep reading with these guides on related problems:</p>
+<ul>
+<li><a href="/blog/new-outlook-breaking-html-email/">Why new Outlook breaks some HTML emails</a></li>
+<li><a href="/blog/email-images-not-showing/">Email images not showing: 7 causes and fixes</a></li>
+<li><a href="/blog/outlook-background-images-vml/">Background images in Outlook with VML</a></li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Can I stop email clients from changing my colours in dark mode?</h3>
+<p>Not completely. Some clients invert colours regardless of your code. You can reduce the impact with careful colour choices, dark mode styles for supporting clients and testing.</p>
+<h3>Why does my logo disappear in dark mode?</h3>
+<p>A dark logo on a transparent background blends into a dark background. Add a light outline or glow, or swap in a light logo using dark mode styles.</p>
+<h3>Does Outlook support dark mode styles?</h3>
+<p>Support varies by version. Outlook apps and Outlook.com often apply their own inversion, so test the specific versions your audience uses.</p>
+<h3>Does Gmail support prefers-color-scheme?</h3>
+<p>At the time of writing, Gmail generally ignores the <code>prefers-color-scheme</code> media query and applies its own colour changes, so design choices matter most there.</p>
+<h3>Should I design a fully dark email instead?</h3>
+<p>You can, but some clients will invert it to light. A dark design still needs testing in both modes, just like a light one.</p>
+<h3>Can MailStora make my emails dark mode friendly?</h3>
+<p>Yes. We fix dark mode issues in existing templates and build new templates that are checked in light and dark mode. See <a href="/pricing/">pricing</a> or <a href="/quote/">request a free quote</a>.</p>

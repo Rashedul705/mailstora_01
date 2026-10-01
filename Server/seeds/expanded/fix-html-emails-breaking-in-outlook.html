@@ -1,0 +1,137 @@
+<p><strong>Short answer:</strong> classic Outlook for Windows (2007 to 2021, and Microsoft 365 desktop) renders HTML email with Microsoft Word's engine, not a browser. Word ignores much of modern CSS, so layouts built with divs, flexbox, margins or background images fall apart. The fix is to build emails the way Word understands them: nested tables, inline styles, fixed widths, and Outlook-only code wrapped in MSO conditional comments.</p>
+
+<p>This guide covers the most common Outlook problems we fix every week at MailStora, what causes each one and the exact change that solves it. If you would rather hand it over, our <a href="/outlook-email-rendering-fix/">Outlook email rendering fix service</a> tests your email in 50+ clients and fixes it, usually within 24 to 48 hours.</p>
+
+<h2>Why Outlook Breaks HTML Emails</h2>
+<p>Most email clients (Gmail, Apple Mail, iOS Mail, Outlook on the web and the new Outlook) use a browser engine to display email. Classic Outlook for Windows does not. It uses Word, which supports only a limited, older set of HTML and CSS. That causes the same symptoms again and again:</p>
+<ul>
+<li>Columns stacking or collapsing, and layouts stretching to full width</li>
+<li>Rounded buttons turning into plain links or square boxes</li>
+<li>Background images disappearing</li>
+<li>Extra gaps between images, or text lines that are too tall</li>
+<li>Images showing at their original, huge size</li>
+<li>Web fonts replaced by Times New Roman</li>
+</ul>
+<p>The new Outlook for Windows and Outlook on the web behave much more like a browser, but many companies still run classic Outlook, so your email has to work in both. If you are not sure which version your readers use, our comparison of <a href="/blog/new-outlook-vs-classic-outlook-email-rendering/">new Outlook vs classic Outlook rendering</a> explains the differences.</p>
+
+
+<h2>1. Use Tables for Layout, Not Divs</h2>
+<p>Word does not reliably support <code>float</code>, <code>flex</code>, <code>grid</code> or <code>max-width</code> on divs. Build the structure with tables instead:</p>
+<ul>
+<li>Wrap the email in a 100% width table, with a centred inner table 600 to 640 pixels wide.</li>
+<li>Put each section in its own table row, and each column in its own table cell.</li>
+<li>Set <code>width</code> as an HTML attribute as well as in CSS, because Word reads the attribute.</li>
+<li>Add <code>role="presentation"</code> so screen readers do not announce layout tables.</li>
+</ul>
+<p>For responsive multi-column layouts, the common pattern is a "ghost table": columns are inline-block divs for modern clients, and an Outlook-only table wrapped around them in conditional comments keeps them side by side in Word.</p>
+
+<h2>2. Target Outlook With MSO Conditional Comments</h2>
+<p>Outlook reads a special comment syntax that every other client ignores. It is the cleanest way to give Outlook its own code:</p>
+<pre><code>&lt;!--[if mso]&gt;
+  &lt;table role="presentation" width="600"&gt;&lt;tr&gt;&lt;td&gt;
+&lt;![endif]--&gt;
+  ...your normal HTML...
+&lt;!--[if mso]&gt;
+  &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;![endif]--&gt;</code></pre>
+<p>Use it for fixed-width wrappers, Outlook-only fonts, and the VML elements below. Use <code>&lt;!--[if !mso]&gt;&lt;!--&gt;</code> to hide code from Outlook.</p>
+<p>Watch out: some ESP editors and minifiers strip HTML comments, which silently removes your Outlook fixes. Check the final sent code, not just your source file.</p>
+
+<h2>3. Make Buttons Bulletproof</h2>
+<p>A button made from a padded link with <code>border-radius</code> becomes a plain text link in Outlook, because Word ignores padding on inline elements. Two reliable fixes:</p>
+<ul>
+<li><strong>Table-cell buttons:</strong> put the background colour and padding on a table cell, and the link inside it. It stays square in Outlook but always looks like a button.</li>
+<li><strong>VML buttons:</strong> use a <code>v:roundrect</code> element inside an MSO conditional comment for Outlook, and a normal styled link for every other client. This keeps rounded corners in Outlook too.</li>
+</ul>
+<p>A simple table-cell button:</p>
+<pre><code>&lt;table role="presentation" cellpadding="0" cellspacing="0" border="0"&gt;
+  &lt;tr&gt;&lt;td bgcolor="#1a73e8" style="padding:14px 28px; border-radius:6px;"&gt;
+    &lt;a href="https://example.com" style="color:#ffffff; text-decoration:none; font-weight:bold;"&gt;Shop now&lt;/a&gt;
+  &lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+<p>For a fuller walkthrough, see our guide to <a href="/blog/bulletproof-email-buttons/">bulletproof email buttons</a>.</p>
+
+<h2>4. Fix Background Images With VML</h2>
+<p>CSS background images do not display in classic Outlook. For hero sections with text over an image, add a VML <code>v:rect</code> with a <code>v:fill</code> of the image inside an MSO comment, and keep the CSS background for other clients. Always set a solid <code>bgcolor</code> fallback so the text stays readable if images are blocked.</p>
+<p>VML needs a fixed width and height in points or pixels, so plan the hero at a set size. If the design needs the image to scale fluidly, it is often simpler to use a plain image with live text below it. Our step-by-step post on <a href="/blog/outlook-background-images-vml/">Outlook background images with VML</a> has the full code.</p>
+
+<h2>5. Stop Images Rendering at Full Size</h2>
+<p>Outlook ignores CSS widths on images and uses the file's real size. A 1200-pixel image exported at 2x for retina screens will burst out of a 600-pixel layout.</p>
+<ul>
+<li>Always set the <code>width</code> attribute on every <code>img</code>, for example <code>width="600"</code>, as well as <code>style="width:100%; max-width:600px; height:auto;"</code>.</li>
+<li>Add <code>display:block</code> and <code>border:0</code> to remove the small gap Outlook adds under images.</li>
+<li>Write meaningful <code>alt</code> text, because Outlook blocks images by default for many users.</li>
+</ul>
+<p>Our post on <a href="/blog/email-images-not-showing/">email images not showing</a> covers blocking, hosting and file type issues.</p>
+
+<h2>6. Control Spacing and Line Height</h2>
+<ul>
+<li>Use <code>padding</code> on table cells for spacing. Word ignores margins on many elements and handles padding on divs badly.</li>
+<li>Add <code>mso-line-height-rule: exactly;</code> next to <code>line-height</code> so Outlook does not add extra space to lines of text.</li>
+<li>Reset paragraph margins with <code>margin:0</code> and add spacing through padding instead.</li>
+<li>Set <code>border-collapse: collapse</code> and <code>mso-table-lspace/rspace: 0pt</code> on tables to remove hairline gaps.</li>
+</ul>
+
+<h2>7. Fix Blurry or Oversized Layouts on High-DPI Screens</h2>
+<p>On Windows machines set to 120 DPI (125% scaling), Outlook can scale images and widths inconsistently. Add the Office settings block in the head so Outlook uses 96 DPI for layout:</p>
+<pre><code>&lt;!--[if mso]&gt;
+&lt;noscript&gt;&lt;xml&gt;&lt;o:OfficeDocumentSettings&gt;
+  &lt;o:PixelsPerInch&gt;96&lt;/o:PixelsPerInch&gt;
+&lt;/o:OfficeDocumentSettings&gt;&lt;/xml&gt;&lt;/noscript&gt;
+&lt;![endif]--&gt;</code></pre>
+
+<h2>8. Give Web Fonts a Safe Fallback</h2>
+<p>Classic Outlook does not load web fonts and may fall back to Times New Roman. List a system font in every font stack, for example <code>font-family: 'Inter', Arial, Helvetica, sans-serif;</code>, and add an Outlook-only rule that forces Arial on text elements inside an MSO conditional style block.</p>
+
+<h2>9. Check Dark Mode in Outlook</h2>
+<p>Outlook's dark mode can invert background and text colours. Avoid pure black and white where you can, use transparent PNG logos with a subtle outline or a light version, and test with real dark mode previews. Our guide to <a href="/outlook-email-rendering-fix/">email testing and Outlook fixes</a> explains how we test light and dark mode side by side, and our <a href="/blog/dark-mode-email-design/">dark mode email design</a> post covers the design side.</p>
+
+<h2>10. Test in Real Outlook Versions Before You Send</h2>
+<p>Fixing Outlook without testing is guesswork. Before every send, check the email in:</p>
+<ul>
+<li>Classic Outlook for Windows (Microsoft 365 desktop and older versions your audience uses)</li>
+<li>New Outlook for Windows and Outlook on the web</li>
+<li>Outlook for Mac, iOS and Android</li>
+<li>Gmail, Apple Mail and Yahoo Mail, to make sure the Outlook fixes did not break anything else</li>
+</ul>
+<p>Use an email testing tool that shows real screenshots, and send a live test to a real Outlook inbox for the final check. Our <a href="/blog/email-testing-checklist/">email testing checklist</a> lists everything we check before a template ships.</p>
+
+<h3>Mini checklist before you hit send</h3>
+<ul>
+<li>Every layout block is a table with a width attribute.</li>
+<li>Every image has a <code>width</code> attribute, <code>display:block</code> and alt text.</li>
+<li>Buttons are table-cell or VML buttons, not padded links.</li>
+<li>Background images have VML and a solid colour fallback.</li>
+<li>Line heights include <code>mso-line-height-rule: exactly</code>.</li>
+<li>The 96 DPI settings block and Office namespaces are present.</li>
+<li>Conditional comments survived your ESP's editor.</li>
+<li>The email was checked in classic Outlook, new Outlook and at least one browser-based client.</li>
+</ul>
+
+<h2>A Short Real-World Scenario</h2>
+<p>Here is a typical request. A Shopify brand designs a promo email in their ESP's drag-and-drop editor, then pastes in a custom hero block copied from their website. It looks great in Gmail. But in classic Outlook the hero image is missing, the button is a blue underlined link, and the product grid is one long column.</p>
+<p>The fix follows the table above. The hero gets a VML background with a dark colour fallback. The button becomes a table-cell button. The product grid is rebuilt as a ghost table so two columns sit side by side in Outlook and stack on mobile. After a test pass in classic Outlook, new Outlook, Gmail and iOS Mail, the email goes out. If the same brand sends many campaigns, the better long-term move is a proper coded master template. That is what our <a href="/html-email-template-development/">custom HTML email template development</a> service provides.</p>
+
+<h2>When to Rebuild Instead of Patch</h2>
+<p>If a template was built with a drag-and-drop builder or a web page framework, patching Outlook issues one by one often creates new ones in Gmail or mobile. In that case a clean rebuild is faster and cheaper over time. That is exactly what we did for Canadian Choice: their campaign template broke in Outlook, so we <a href="/case-studies/canadian-choice-windows-doors/">rebuilt it from scratch in 36 hours</a>, and the campaign reached a 38% open rate.</p>
+<p>If you are starting from a design file, our <a href="/blog/figma-to-html-email-handoff-checklist/">Figma to HTML email handoff checklist</a> helps you avoid Outlook problems before any code is written.</p>
+
+<h2>Related Guides</h2>
+<p>Keep reading with these guides on related problems:</p>
+<ul>
+<li><a href="/blog/new-outlook-breaking-html-email/">Why new Outlook breaks some HTML emails</a></li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Why does my email look fine in Gmail but broken in Outlook?</h3>
+<p>Gmail uses a browser engine to display email, while classic Outlook for Windows uses Microsoft Word, which supports far less HTML and CSS. Code that relies on divs, margins, flexbox or background images works in Gmail but breaks in Outlook.</p>
+<h3>Does the new Outlook still need these fixes?</h3>
+<p>The new Outlook for Windows and Outlook on the web render email much like a browser, so they need fewer fixes. Many people still use classic Outlook, so a well-built email should work in both.</p>
+<h3>What is VML in HTML email?</h3>
+<p>VML (Vector Markup Language) is an old Microsoft format that classic Outlook still understands. Email developers use it inside MSO conditional comments to show rounded buttons and background images in Outlook.</p>
+<h3>Why does my Klaviyo or Mailchimp email break only in Outlook?</h3>
+<p>Builder blocks and custom code pasted into them are not always written for Word's engine, and some editors strip conditional comments. Check the sent HTML, not just the editor preview. Our post on why a <a href="/blog/klaviyo-email-looks-different-in-outlook/">Klaviyo email looks different in Outlook</a> covers this in detail.</p>
+<h3>How much does it cost to fix an email for Outlook?</h3>
+<p>At MailStora, fixing or rebuilding a single template for Outlook starts from $40 and is usually done in 24 to 48 hours. See our <a href="/pricing/">pricing</a> for current rates.</p>
+<h3>How can MailStora help fix my Outlook emails?</h3>
+<p>Send us your HTML or ESP template and a screenshot of the problem. We find the cause, fix or rebuild the code with table-based HTML and Outlook-safe patterns, and test it in 50+ email clients including classic and new Outlook and dark mode. <a href="/quote/">Request a free quote</a> and we will reply within 24 hours.</p>
