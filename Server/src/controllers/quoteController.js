@@ -23,8 +23,14 @@ exports.getOne = async (req, res) => {
 // @route POST /api/quotes
 exports.create = async (req, res) => {
     try {
+        if (req.body.honeypot) {
+            return res.status(400).json({ error: 'Spam detected' });
+        }
+
         // Generate unique QT-timestamp ID
         const quoteId = "QT-" + Date.now();
+
+        const serviceName = req.body.service || 'Unknown Service';
 
         const newQuote = await Quote.create({
             quoteId,
@@ -33,70 +39,67 @@ exports.create = async (req, res) => {
             client: {
                 name: req.body.name,
                 email: req.body.email,
-                whatsapp: req.body.whatsapp,
-                company: req.body.company || ''
+                whatsapp: req.body.whatsapp || '',
+                company: ''
             },
-            services: Array.isArray(req.body.services) ? req.body.services : [],
-            serviceDetails: req.body.serviceDetails || {},
+            service: serviceName,
+            answers: req.body.answers || {},
+            deadline: req.body.deadline || '',
             budget: req.body.budget || '',
-            timeline: req.body.timeline || '',
-            overallProjectDetails: req.body.overallProjectDetails || '',
-            attachmentUrl: req.body.attachmentUrl || '',
+            attachments: Array.isArray(req.body.attachments) ? req.body.attachments : [],
+            sourcePage: req.body.sourcePage || '',
+            utm: req.body.utm || {},
+            // Legacy fields fallback
+            services: [serviceName],
+            serviceDetails: { [serviceName]: req.body.answers || {} },
+            budget: req.body.budget || '',
+            timeline: req.body.deadline || '',
+            overallProjectDetails: req.body.answers?.notes || '',
+            attachmentUrl: (req.body.attachments && req.body.attachments.length > 0) ? req.body.attachments[0] : '',
             conversation: []
         });
 
-        // Prepare template variables
-        const attachmentLink = newQuote.attachmentUrl ? `<a href="${newQuote.attachmentUrl}" target="_blank">View Attachment</a>` : 'None';
-        const adminReplyUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/admin/quotes/${quoteId}`;
+        const adminReplyUrl = `${process.env.FRONTEND_URL || 'https://mailstora.com'}/admin/quotes/${quoteId}`;
         const adminWhatsapp = '+8801744350705';
 
-        let servicesHtml = '';
-        newQuote.services.forEach(srv => {
-            servicesHtml += `<h4>${srv}</h4><ul>`;
-            const details = newQuote.serviceDetails[srv];
-            if (details) {
-                for (const [key, val] of Object.entries(details)) {
-                    // handle objects like social handles elegantly if needed
-                    let displayVal = val;
-                    if (Array.isArray(val)) {
-                        displayVal = val.join(', ');
-                    } else if (typeof val === 'object' && val !== null) {
-                        displayVal = Object.entries(val).map(([k, v]) => `${k}: ${v}`).join(', ');
-                    }
-                    // pretty print keys
-                    const prettyKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-                    servicesHtml += `<li><strong>${prettyKey}:</strong> ${displayVal || 'N/A'}</li>`;
-                }
-            } else {
-                servicesHtml += `<li>No specific details provided.</li>`;
+        let answersHtml = '';
+        for (const [k, v] of Object.entries(req.body.answers || {})) {
+            if (k === 'notes') continue;
+            let val = v;
+            if (Array.isArray(v)) val = v.join(', ');
+            if (val) {
+                const prettyKey = k.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                answersHtml += `<li><strong>${prettyKey}:</strong> ${val}</li>`;
             }
-            servicesHtml += `</ul>`;
-        });
+        }
+
+        const attachmentsHtml = newQuote.attachments.map(url => `<li><a href="${url}" target="_blank">View File</a></li>`).join('');
 
         // 1. Send Email to Admin
         const adminSubject = `New Quote Request — ${newQuote.client.name} — ${quoteId}`;
         const adminContent = `
             <h2>New Quote Request Received</h2>
             <p><strong>Quote ID:</strong> ${quoteId}</p>
-            <p><strong>Submitted At:</strong> ${newQuote.submittedAt.toLocaleString()}</p>
+            <p><strong>Service:</strong> ${serviceName}</p>
             <hr />
             <h3>Client Information</h3>
             <ul>
                 <li><strong>Name:</strong> ${newQuote.client.name}</li>
                 <li><strong>Email:</strong> ${newQuote.client.email}</li>
-                <li><strong>WhatsApp:</strong> ${newQuote.client.whatsapp}</li>
-                <li><strong>Company:</strong> ${newQuote.client.company || 'N/A'}</li>
+                <li><strong>WhatsApp:</strong> ${newQuote.client.whatsapp || 'N/A'}</li>
             </ul>
             <hr />
-            <h3>Requested Services</h3>
-            ${servicesHtml}
-            <hr />
-            <h4>Project Details</h4>
-            <p><strong>Budget:</strong> ${newQuote.budget || 'Not specified'}</p>
-            <p><strong>Timeline:</strong> ${newQuote.timeline || 'Not specified'}</p>
-            <h4>Overall Project Details:</h4>
-            <p style="background:#f3f4f6;padding:15px;border-radius:8px;">${newQuote.overallProjectDetails || 'N/A'}</p>
-            <p><strong>Attachment:</strong> ${attachmentLink}</p>
+            <h3>Project Details</h3>
+            <ul>${answersHtml}</ul>
+            <h4>Notes</h4>
+            <p style="background:#f3f4f6;padding:15px;border-radius:8px;">${req.body.answers?.notes || 'N/A'}</p>
+            <h4>Timeline & Budget</h4>
+            <ul>
+                <li><strong>Deadline:</strong> ${newQuote.deadline || 'N/A'}</li>
+                <li><strong>Budget:</strong> ${newQuote.budget || 'N/A'}</li>
+            </ul>
+            <h4>Attachments</h4>
+            <ul>${attachmentsHtml || '<li>None</li>'}</ul>
         `;
 
         sendEmail(
@@ -110,8 +113,10 @@ exports.create = async (req, res) => {
         // 2. Send Email to Client
         const clientSubject = `We received your quote request (ID: ${quoteId})`;
         const clientContent = `
-            <p>Hi ${newQuote.client.name},</p>
-            <p>Thank you for reaching out! We've received your quote request (<strong>${quoteId}</strong>) for <strong>${newQuote.services.join(', ')}</strong> and will get back to you within 2–4 hours on your email and WhatsApp.</p>
+            <p>Hi ${newQuote.client.name.split(' ')[0]},</p>
+            <p>Thank you for reaching out! We've received your quote request (<strong>${quoteId}</strong>) for <strong>${serviceName}</strong>.</p>
+            <p>We will review your details and get back to you with a clear price and timeline within 24 hours. If we have any quick questions, we might reach out via WhatsApp.</p>
+            <p>Best regards,<br>Mailstora</p>
         `;
 
         sendEmail(

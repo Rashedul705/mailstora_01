@@ -147,7 +147,10 @@ export default function QuotesAdmin() {
         return true;
     });
 
-    const uniqueServices = Array.from(new Set(quotes.flatMap(q => q.services || []).filter(Boolean)));
+    const uniqueServices = Array.from(new Set(quotes.flatMap(q => {
+        if (q.service) return [q.service];
+        return q.services || [];
+    }).filter(Boolean)));
 
     return (
         <div className="quotes-admin-container">
@@ -235,9 +238,13 @@ export default function QuotesAdmin() {
                                 </div>
                                 <div className="quote-badges">
                                     <span className={`badge badge-status-${quote.status}`}>{quote.status}</span>
-                                    {(quote.services || []).map((srv: string) => (
-                                        <span key={srv} className="badge badge-service" style={{ marginRight: '4px' }}>{srv}</span>
-                                    ))}
+                                    {quote.service ? (
+                                        <span className="badge badge-service" style={{ marginRight: '4px' }}>{quote.service}</span>
+                                    ) : (
+                                        (quote.services || []).map((srv: string) => (
+                                            <span key={srv} className="badge badge-service" style={{ marginRight: '4px' }}>{srv}</span>
+                                        ))
+                                    )}
                                     {quote.attachmentUrl && (
                                         <span className="badge badge-attachment">📎 Attachment</span>
                                     )}
@@ -305,51 +312,84 @@ export default function QuotesAdmin() {
                                     </div>
                                 </div>
 
-                                <h3 style={{ fontSize: '1rem', marginBottom: '1rem', color: '#1e293b' }}>Requested Services</h3>
-                                {(selectedQuoteDetail.services || []).map((srv: string) => {
-                                    const details = selectedQuoteDetail.serviceDetails?.[srv];
-                                    if (!details) return (
-                                        <div key={srv} style={{ marginBottom: '1rem', padding: '1rem', background: '#f8fafc', borderRadius: '8px' }}>
-                                            <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--primary-dark)' }}>{srv}</h4>
-                                            <p style={{ margin: 0, fontSize: '0.9rem', color: '#64748b' }}>No details provided.</p>
-                                        </div>
-                                    );
+                                <h3 style={{ fontSize: '1rem', marginBottom: '1rem', color: '#1e293b' }}>Project Details</h3>
+                                <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                                    <h4 style={{ margin: '0 0 1rem 0', color: 'var(--primary-dark)', borderBottom: '1px solid #cbd5e1', paddingBottom: '0.5rem' }}>
+                                        {selectedQuoteDetail.service || (selectedQuoteDetail.services && selectedQuoteDetail.services.length > 0 ? selectedQuoteDetail.services[0] : 'Unknown Service')}
+                                    </h4>
                                     
-                                    return (
-                                        <div key={srv} style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                                            <h4 style={{ margin: '0 0 1rem 0', color: 'var(--primary-dark)', borderBottom: '1px solid #cbd5e1', paddingBottom: '0.5rem' }}>{srv}</h4>
-                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                                                {Object.entries(details).map(([k, v]) => {
-                                                    if (k === 'projectDetails' || k === 'overallProjectDetails') return null;
-                                                    let displayV = v;
-                                                    if (Array.isArray(v)) displayV = v.join(', ');
-                                                    else if (typeof v === 'object' && v !== null) displayV = Object.entries(v).map(([sk, sv]) => `${sk}: ${sv}`).join(', ');
-                                                    return (
-                                                        <div key={k}>
-                                                            <strong style={{ fontSize: '0.85rem', color: '#64748b', textTransform: 'capitalize' }}>{k.replace(/([A-Z])/g, ' $1').trim()}</strong>
-                                                            <div style={{ fontSize: '0.95rem', color: '#0f172a', marginTop: '0.25rem' }}>{String(displayV || 'N/A')}</div>
-                                                        </div>
-                                                    );
-                                                })}
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                                        {selectedQuoteDetail.deadline && (
+                                            <div>
+                                                <strong style={{ fontSize: '0.85rem', color: '#64748b' }}>Deadline</strong>
+                                                <div style={{ fontSize: '0.95rem', color: '#0f172a', marginTop: '0.25rem' }}>{selectedQuoteDetail.deadline}</div>
                                             </div>
-                                            {details.projectDetails && (
-                                                <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #e2e8f0' }}>
-                                                    <strong style={{ fontSize: '0.85rem', color: '#64748b' }}>Specific Project Details</strong>
-                                                    <div style={{ fontSize: '0.95rem', color: '#0f172a', marginTop: '0.25rem', whiteSpace: 'pre-wrap' }}>{details.projectDetails}</div>
+                                        )}
+                                        {selectedQuoteDetail.budget && (
+                                            <div>
+                                                <strong style={{ fontSize: '0.85rem', color: '#64748b' }}>Budget</strong>
+                                                <div style={{ fontSize: '0.95rem', color: '#0f172a', marginTop: '0.25rem' }}>{selectedQuoteDetail.budget}</div>
+                                            </div>
+                                        )}
+                                        
+                                        {selectedQuoteDetail.answers && Object.entries(selectedQuoteDetail.answers).map(([k, v]) => {
+                                            if (k === 'notes' || k.endsWith('_file')) return null;
+                                            let displayV = v as any;
+                                            if (Array.isArray(v)) displayV = v.join(', ');
+                                            const prettyKey = k.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                                            return (
+                                                <div key={k}>
+                                                    <strong style={{ fontSize: '0.85rem', color: '#64748b' }}>{prettyKey}</strong>
+                                                    <div style={{ fontSize: '0.95rem', color: '#0f172a', marginTop: '0.25rem' }}>{String(displayV || 'N/A')}</div>
                                                 </div>
-                                            )}
+                                            );
+                                        })}
+                                        
+                                        {/* Legacy fallback */}
+                                        {!selectedQuoteDetail.answers && selectedQuoteDetail.serviceDetails && Object.entries(selectedQuoteDetail.serviceDetails).map(([srv, details]: [string, any]) => {
+                                            return Object.entries(details).map(([k, v]) => {
+                                                if (k === 'projectDetails' || k === 'overallProjectDetails') return null;
+                                                let displayV = v;
+                                                if (Array.isArray(v)) displayV = v.join(', ');
+                                                else if (typeof v === 'object' && v !== null) displayV = Object.entries(v).map(([sk, sv]) => `${sk}: ${sv}`).join(', ');
+                                                const prettyKey = k.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                                                return (
+                                                    <div key={`${srv}-${k}`}>
+                                                        <strong style={{ fontSize: '0.85rem', color: '#64748b' }}>{prettyKey}</strong>
+                                                        <div style={{ fontSize: '0.95rem', color: '#0f172a', marginTop: '0.25rem' }}>{String(displayV || 'N/A')}</div>
+                                                    </div>
+                                                );
+                                            });
+                                        })}
+                                    </div>
+                                    
+                                    {(selectedQuoteDetail.answers?.notes || selectedQuoteDetail.overallProjectDetails) && (
+                                        <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #e2e8f0' }}>
+                                            <strong style={{ fontSize: '0.85rem', color: '#64748b' }}>Notes & Details</strong>
+                                            <div style={{ fontSize: '0.95rem', color: '#0f172a', marginTop: '0.25rem', whiteSpace: 'pre-wrap' }}>
+                                                {selectedQuoteDetail.answers?.notes || selectedQuoteDetail.overallProjectDetails}
+                                            </div>
                                         </div>
-                                    );
-                                })}
-
-                                <h3 style={{ fontSize: '1rem', marginBottom: '1rem', color: '#1e293b' }}>Overall Project Description</h3>
-                                <div className="description-box">
-                                    {selectedQuoteDetail.overallProjectDetails || 'No overall details provided.'}
+                                    )}
                                 </div>
 
-                                <h3 style={{ fontSize: '1rem', marginBottom: '1rem', color: '#1e293b' }}>Attachment</h3>
-                                {selectedQuoteDetail.attachmentUrl ? (
-                                    <div className="attachment-card">
+                                <h3 style={{ fontSize: '1rem', marginBottom: '1rem', color: '#1e293b' }}>Attachments</h3>
+                                {(selectedQuoteDetail.attachments && selectedQuoteDetail.attachments.length > 0) ? (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '2rem' }}>
+                                        {selectedQuoteDetail.attachments.map((url: string, idx: number) => (
+                                            <div key={idx} className="attachment-card">
+                                                <div>
+                                                    <div style={{ fontWeight: 600, color: '#92400e' }}>File {idx + 1}</div>
+                                                    <div style={{ fontSize: '0.85rem', color: '#b45309' }}>URL: {url.split('/').pop()}</div>
+                                                </div>
+                                                <a href={url} target="_blank" rel="noopener noreferrer" className="btn-download">
+                                                    Open File ↗
+                                                </a>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : selectedQuoteDetail.attachmentUrl ? (
+                                    <div className="attachment-card" style={{ marginBottom: '2rem' }}>
                                         <div>
                                             <div style={{ fontWeight: 600, color: '#92400e' }}>Design File Provided</div>
                                             <div style={{ fontSize: '0.85rem', color: '#b45309' }}>URL: {selectedQuoteDetail.attachmentUrl.split('/').pop()}</div>
@@ -360,7 +400,7 @@ export default function QuotesAdmin() {
                                     </div>
                                 ) : (
                                     <div style={{ padding: '1rem', background: '#f8fafc', borderRadius: '8px', color: '#64748b', marginBottom: '2rem', fontStyle: 'italic' }}>
-                                        No attachment uploaded.
+                                        No attachments.
                                     </div>
                                 )}
 

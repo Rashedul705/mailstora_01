@@ -8,7 +8,8 @@ import PageDecor from "../components/PageDecor";
 import HomeContact from "../components/HomeContact";
 import HomeProcess from "../components/HomeProcess";
 import { siteConfig } from "../../utils/siteConfig";
-import HomeLink from "../components/HomeLink";
+import { Suspense } from "react";
+import QuoteClient from "./QuoteClient";
 
 const { upwork, stats } = siteConfig;
 
@@ -37,7 +38,9 @@ export default function Page() {
                         <li>Replies within 2 to 4 hours</li>
                     </ul>
                 </PageHero>
-                <HomeLink />
+                <Suspense fallback={null}>
+                    <QuoteClient />
+                </Suspense>
                 <HomeContact />
                 <HomeProcess />
             </main>
