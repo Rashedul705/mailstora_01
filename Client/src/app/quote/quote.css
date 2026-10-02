@@ -16,7 +16,6 @@
   --or-soft: #2a1b12; --or-line: #8a4a22; --err: #ff8a80;
 }
 
-/* Base styles are applied to .quote-page container to avoid overriding globals too heavily */
 .quote-page {
   background: var(--bg);
   color: var(--ink);
@@ -25,6 +24,7 @@
   min-height: 100vh;
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+.quote-page .ph { padding-bottom: 8.5rem !important; }
 .quote-page a { color: inherit; }
 .quote-page button, .quote-page input, .quote-page textarea { font: inherit; color: inherit; }
 .quote-page *:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
@@ -93,9 +93,10 @@
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .quote-group { color: #7fe0ad; } }
 .quote-page .quote-group:first-of-type { margin-top: 0; }
 .quote-page .quote-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
-.quote-page .quote-svc { position: relative; text-align: left; cursor: pointer; background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px; min-height: 116px; align-items: flex-start; justify-content: flex-start; white-space: normal; }
+.quote-page .quote-svc { position: relative; text-align: left; cursor: pointer; background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px; min-height: 116px; align-items: flex-start; justify-content: flex-start; white-space: normal; min-width: 0; overflow-wrap: break-word; word-wrap: break-word; }
+.quote-page .quote-svc * { white-space: normal; min-width: 0; }
 .quote-page .quote-svc:hover { border-color: var(--g500); }
-.quote-page .quote-svc .ic { width: 36px; height: 36px; border-radius: 10px; background: var(--chip); color: var(--g700); display: grid; place-items: center; }
+.quote-page .quote-svc .ic { width: 36px; height: 36px; min-width: 36px; flex-shrink: 0; border-radius: 10px; background: var(--chip); color: var(--g700); display: grid; place-items: center; }
 :root[data-theme="dark"] .quote-svc .ic { color: #7fe0ad; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .quote-svc .ic { color: #7fe0ad; } }
 .quote-page .quote-svc strong { font-size: 15px; line-height: 1.25; display: block; }
@@ -218,8 +219,8 @@
 .quote-page .quote-wa-float { padding: 14px; }
 }
 
-.quote-page .quote-form { padding: 0 !important; }
-.quote-page .quote-form-inner { box-sizing: border-box; padding: 40px 32px 48px; }
+.quote-page .quote-form { padding: 0 !important; min-width: 0; }
+.quote-page .quote-form-inner { box-sizing: border-box; padding: 40px 32px 48px; min-width: 0; }
 @media (min-width: 1024px) {
   .quote-page .quote-form-inner { padding-left: 32px; padding-right: 32px; }
 }

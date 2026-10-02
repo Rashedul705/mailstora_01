@@ -73,9 +73,7 @@ export default async function RootLayout({
       <body className={inter.variable} suppressHydrationWarning>
         {/^GTM-[A-Z0-9]{4,12}$/.test(analytics.gtm || "") && (
           // Google Tag Manager (noscript) for visitors with JavaScript turned off. The main GTM script loads in <Analytics> after cookie consent.
-          <noscript>
-            <iframe src={`https://www.googletagmanager.com/ns.html?id=${analytics.gtm}`} height="0" width="0" style={{ display: "none", visibility: "hidden" }} />
-          </noscript>
+          <noscript dangerouslySetInnerHTML={{ __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${analytics.gtm}" height="0" width="0" style="display:none;visibility:hidden"></iframe>` }} />
         )}
         <SiteConfigInit data={site} />
         {children}
