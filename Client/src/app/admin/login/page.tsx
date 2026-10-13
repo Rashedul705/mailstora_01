@@ -55,12 +55,12 @@ export default function AdminLogin() {
 
                 <form onSubmit={handleLogin} className="login-form">
                     <div className="form-group">
-                        <label>Username</label>
+                        <label>Username or Email</label>
                         <input
                             type="text"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Enter username"
+                            placeholder="admin or admin@mailstora.com"
                             required
                         />
                     </div>

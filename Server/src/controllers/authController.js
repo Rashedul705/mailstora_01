@@ -4,8 +4,15 @@ const jwt = require('jsonwebtoken');
 exports.login = async (req, res) => {
     try {
         const { username, password } = req.body;
+        const identifier = String(username || '').trim();
 
-        const admin = await Admin.findOne({ username });
+        const admin = await Admin.findOne({
+            $or: [
+                { username: identifier },
+                { username: identifier.toLowerCase() },
+                { email: identifier.toLowerCase() }
+            ]
+        });
         if (!admin) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
